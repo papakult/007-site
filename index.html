@@ -48,7 +48,7 @@ video{display:block}
 @keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
 
 .snap{height:100vh;scroll-snap-align:start}
-html.snapping{scroll-snap-type:y proximity}
+html.snapping{scroll-snap-type:y mandatory}
 .scene{position:relative;height:100vh;width:100%;overflow:hidden;display:flex;align-items:center}
 .scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .scene .veil{position:absolute;inset:0;z-index:1}
@@ -123,7 +123,7 @@ html.snapping{scroll-snap-type:y proximity}
 
 @media(max-width:768px){
   body{cursor:auto!important}.cur,.cur-r{display:none!important}
-  html.snapping{scroll-snap-type:none}
+  html.snapping{scroll-snap-type:y mandatory}
   /* GATE */
   #gate .scatter{width:90vw!important;height:220px!important}
   #gate .scatter span{font-size:clamp(16px,5vw,28px)!important}
@@ -198,7 +198,7 @@ html.snapping{scroll-snap-type:y proximity}
 
 <!-- SCENE 2 -->
 <section class="scene statement snap" id="s2">
-  <video src="corridor.mp4" muted autoplay loop playsinline></video>
+  <video data-src="corridor.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow">Философия</span>
@@ -209,7 +209,7 @@ html.snapping{scroll-snap-type:y proximity}
 <!-- SCENE 3 -->
 <section class="capabilities snap" id="s3">
   <div class="cap-wrap">
-    <div class="cap-visual"><video src="work.mp4" muted autoplay loop playsinline></video></div>
+    <div class="cap-visual"><video data-src="work.mp4" muted loop playsinline preload="none"></video></div>
     <div class="cap-list">
       <span class="eyebrow cap-eyebrow">Что делаем</span>
       <div class="cap-item"><span class="idx">01</span><div><h3>Лендинги</h3><p>Одностраничные сайты, которые продают</p></div></div>
@@ -235,7 +235,7 @@ html.snapping{scroll-snap-type:y proximity}
 
 <!-- SCENE 4 -->
 <section class="scene statement snap" id="s4">
-  <video src="city.mp4" muted autoplay loop playsinline></video>
+  <video data-src="city.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow">Подход</span>
@@ -245,7 +245,7 @@ html.snapping{scroll-snap-type:y proximity}
 
 <!-- SCENE 5 -->
 <section class="scene snap" id="final">
-  <video src="ocean.mp4" muted autoplay loop playsinline></video>
+  <video data-src="ocean.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow final-eyebrow">Готовы начать</span>
@@ -567,7 +567,7 @@ function initCloud(){
   planes.forEach((p,i)=>{
     gsap.to(p.material,{opacity:p.userData.baseOpacity,duration:1.6,delay:0.4+i*0.02,ease:'power2.out'});
   });
-  addEventListener('mousemove',e=>{tMouseX=(e.clientX/innerWidth-0.5);tMouseY=(e.clientY/innerHeight-0.5);});
+  addEventListener('mousemove',e=>{tMouseX=(e.clientX/innerWidth-0.5);tMouseY=(e.clientY/innerHeight-0.5);});addEventListener('touchmove',e=>{if(e.touches&&e.touches[0]){tMouseX=(e.touches[0].clientX/innerWidth-0.5);tMouseY=(e.touches[0].clientY/innerHeight-0.5);}},{passive:true});addEventListener('touchstart',e=>{if(e.touches&&e.touches[0]){tMouseX=(e.touches[0].clientX/innerWidth-0.5);tMouseY=(e.touches[0].clientY/innerHeight-0.5);}},{passive:true});
   addEventListener('resize',onResize);
   animate();
 }
@@ -626,7 +626,7 @@ function buildCSSFallback(){
 }
 /* ============ LENIS + GSAP ============ */
 const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0;
-const lenis=!isTouchDevice?new Lenis({duration:1.3,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))}):null;
+const lenis=!isTouchDevice?new Lenis({smoothWheel:false,syncTouch:false,duration:0.55,easing:t=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}):null;
 function raf(t){lenis&&lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);
 gsap.ticker.add(t=>{if(lenis)lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);
 gsap.registerPlugin(ScrollTrigger);
@@ -694,15 +694,99 @@ gsap.from('.final-sub, .final-btn, .final-meta',{opacity:0,y:20,duration:.8,stag
 document.querySelectorAll('.scene video').forEach(v=>{gsap.to(v,{yPercent:12,ease:'none',scrollTrigger:{trigger:v.parentElement,start:'top bottom',end:'bottom top',scrub:true}})});
 
 const scenes=[...document.querySelectorAll('.snap')];
-// smooth, gentle reveal for each scene as it enters — no hard black wipe
+
+/* ============ FULLPAGE PAGER ============ */
+// Index of current visible section
+let currentIdx=0;
+let pageScrollLocked=false;
+const PAGE_LOCK_MS=600; // lock duration after each page jump
+
+// Determine which section is most in view
+function getVisibleIdx(){
+  let best=0,bestRatio=0;
+  scenes.forEach((s,i)=>{
+    const r=s.getBoundingClientRect();
+    const vis=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));
+    const ratio=vis/window.innerHeight;
+    if(ratio>bestRatio){bestRatio=ratio;best=i;}
+  });
+  return best;
+}
+
+function goToPage(idx){
+  if(pageScrollLocked)return;
+  if(idx<0)idx=0;
+  if(idx>=scenes.length)idx=scenes.length-1;
+  if(idx===currentIdx&&Math.abs(scenes[idx].getBoundingClientRect().top)<5)return;
+  pageScrollLocked=true;
+  currentIdx=idx;
+  // On touch devices use instant snap; on desktop use lenis if available
+  if(lenis){
+    lenis.scrollTo(scenes[idx],{duration:0.55,easing:t=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2,lock:false,offset:0});
+  } else {
+    scenes[idx].scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  setTimeout(()=>{pageScrollLocked=false;},PAGE_LOCK_MS);
+}
+
+// Wheel: one event = one page
+let wheelAcc=0,wheelTimer=null;
+window.addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(pageScrollLocked)return;
+  wheelAcc+=e.deltaY;
+  clearTimeout(wheelTimer);
+  wheelTimer=setTimeout(()=>{
+    const dir=wheelAcc>0?1:-1;
+    wheelAcc=0;
+    currentIdx=getVisibleIdx();
+    goToPage(currentIdx+dir);
+  },40);
+},{passive:false});
+
+// Touch: swipe → page
+let tStart=0,tStartX=0;
+window.addEventListener('touchstart',e=>{
+  tStart=e.touches[0].clientY;
+  tStartX=e.touches[0].clientX;
+},{passive:true});
+window.addEventListener('touchend',e=>{
+  if(pageScrollLocked)return;
+  const dy=tStart-e.changedTouches[0].clientY;
+  const dx=tStartX-e.changedTouches[0].clientX;
+  if(Math.abs(dx)>Math.abs(dy)||Math.abs(dy)<40)return; // horizontal or tiny swipe — ignore
+  currentIdx=getVisibleIdx();
+  goToPage(currentIdx+(dy>0?1:-1));
+},{passive:true});
+
+/* ============ VIDEO LAZY LOAD + PLAY/PAUSE ============ */
+// Only load and play video when its section enters viewport
+const vidObs=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const vid=entry.target;
+    if(entry.isIntersecting){
+      if(vid.dataset.src&&!vid.src){
+        vid.src=vid.dataset.src;
+        vid.load();
+      }
+      vid.play().catch(()=>{});
+    } else {
+      vid.pause();
+    }
+  });
+},{threshold:0.3});
+
+document.querySelectorAll('video[data-src]').forEach(v=>vidObs.observe(v));
+
+// smooth, gentle reveal for each scene as it enters
 scenes.forEach((s)=>{
   if(s.id==='hero-cloud')return; // hero handled separately
   const inner=s.querySelector('.inner')||s.querySelector('.cap-wrap');
   gsap.set(s,{opacity:0});
-  gsap.to(s,{opacity:1,duration:1.1,ease:'power2.out',
-    scrollTrigger:{trigger:s,start:'top 82%',end:'top 45%',scrub:0.6}});
+  gsap.to(s,{opacity:1,duration:0.6,ease:'power2.out',
+    scrollTrigger:{trigger:s,start:'top 82%',end:'top 45%',scrub:0.3}});
   if(inner){
-    gsap.fromTo(inner,{opacity:0,y:24},{opacity:1,y:0,duration:1.1,ease:'power2.out',
+    gsap.fromTo(inner,{opacity:0,y:18},{opacity:1,y:0,duration:0.7,ease:'power2.out',
       scrollTrigger:{trigger:s,start:'top 72%'}});
   }
 });
