@@ -505,7 +505,7 @@ function initCloud(){
   const canvas=document.getElementById('cloud-canvas');
   // WebGL support check + fallback
   let gl=null;
-  try{gl=canvas.getContext('webgl')||canvas.getContext('experimental-webgl');}catch(e){}
+  try{gl=canvas.getContext('webgl',{failIfMajorPerformanceCaveat:false})||canvas.getContext('experimental-webgl',{failIfMajorPerformanceCaveat:false});}catch(e){}
   if(!gl||typeof THREE==='undefined'){buildCSSFallback();return;}
   scene=new THREE.Scene();
   scene.fog=new THREE.FogExp2(0x000000,0.032);
@@ -626,8 +626,11 @@ function buildCSSFallback(){
       host.appendChild(img);
     }
   });
-  // subtle cursor parallax
-  addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-0.5),y=(e.clientY/innerHeight-0.5);host.style.transform='translate('+(-x*20)+'px,'+(-y*20)+'px)';});
+  // subtle cursor/touch parallax
+  function moveHost(cx,cy){const x=(cx/innerWidth-0.5),y=(cy/innerHeight-0.5);host.style.transform='translate('+(-x*20)+'px,'+(-y*20)+'px)';}
+  addEventListener('mousemove',e=>{moveHost(e.clientX,e.clientY);});
+  addEventListener('touchmove',e=>{if(e.touches&&e.touches[0]){moveHost(e.touches[0].clientX,e.touches[0].clientY);}},{passive:true});
+  addEventListener('touchstart',e=>{if(e.touches&&e.touches[0]){moveHost(e.touches[0].clientX,e.touches[0].clientY);}},{passive:true});
 }
 /* ============ LENIS + GSAP ============ */
 const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0;
