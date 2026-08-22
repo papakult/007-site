@@ -190,8 +190,8 @@ html.snapping{scroll-snap-type:y mandatory}
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
     <div class="hero-name">007 — A</div>
-    <div class="hero-role">Кастомная веб-разработка</div>
-    <div class="hero-tag">Вы уже видели, что мы умеем. Этот сайт тоже наша работа.</div>
+    <div class="hero-role">Создаём то, чего ещё нет</div>
+    <div class="hero-tag">Кастомные digital-продукты для бизнеса. Дизайн. Разработка. Системы.</div>
   </div>
   <div class="scroll-cue">листайте</div>
 </section>
@@ -201,8 +201,8 @@ html.snapping{scroll-snap-type:y mandatory}
   <video data-src="corridor.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
-    <span class="eyebrow">Философия</span>
-    <h2 data-split><em>Дорого</em> это когда ничего лишнего. Только суть, только результат.</h2>
+    <span class="eyebrow">Доказательство</span>
+    <h2 data-split>Вы уже видели, что мы умеем. Этот сайт — тоже наша работа.</h2>
   </div>
 </section>
 
@@ -211,10 +211,10 @@ html.snapping{scroll-snap-type:y mandatory}
   <div class="cap-wrap">
     <div class="cap-visual"><video data-src="work.mp4" muted loop playsinline preload="none"></video></div>
     <div class="cap-list">
-      <span class="eyebrow cap-eyebrow">Что делаем</span>
-      <div class="cap-item"><span class="idx">01</span><div><h3>Лендинги</h3><p>Одностраничные сайты, которые продают</p></div></div>
-      <div class="cap-item"><span class="idx">02</span><div><h3>Корпоративные сайты</h3><p>Многостраничные решения под ключ</p></div></div>
-      <div class="cap-item"><span class="idx">03</span><div><h3>Веб-приложения</h3><p>Платформы и сервисы любой сложности</p></div></div>
+      <span class="eyebrow cap-eyebrow">Направления</span>
+      <div class="cap-item"><span class="idx">01</span><div><h3>Image — цифровой образ бизнеса</h3><p>Для компаний, которым digital-присутствие должно соответствовать масштабу бренда</p></div></div>
+      <div class="cap-item"><span class="idx">02</span><div><h3>Growth — цифровые продукты для роста</h3><p>Продажи, лидогенерация, SEO, аналитика и автоматизация</p></div></div>
+      <div class="cap-item"><span class="idx">03</span><div><h3>Systems — сложные digital-системы</h3><p>Платформы, личные кабинеты, API, интеграции, AI и нестандартная бизнес-логика</p></div></div>
     </div>
   </div>
 </section>
@@ -227,9 +227,9 @@ html.snapping{scroll-snap-type:y mandatory}
     <div class="stats-row">
       <div class="stat"><div class="stat-num" data-to="10">0</div><div class="stat-label">лет опыта</div></div>
       <div class="stat"><div class="stat-num" data-to="770" data-suf="+">0</div><div class="stat-label">проектов</div></div>
-      <div class="stat"><div class="stat-num" data-to="100" data-suf="%">0</div><div class="stat-label">под ключ</div></div>
+      <div class="stat"><div class="stat-num" data-to="100" data-suf="%">0</div><div class="stat-label">без шаблонов</div></div>
     </div>
-    <p class="stats-line">От простых лендингов до <em>кастомных решений.</em> От масс-маркета до ультра-премиум и банковских продуктов — <em>на уровне лучших мировых.</em></p>
+    <p class="stats-line">От лендингов до сложных digital-систем и AI-интеграций. <em>Уровень виден в каждом реализованном проекте.</em></p>
   </div>
 </section>
 
@@ -238,8 +238,8 @@ html.snapping{scroll-snap-type:y mandatory}
   <video data-src="city.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
-    <span class="eyebrow">Подход</span>
-    <h2 data-split>Каждый проект собирается <em>с нуля.</em> Никаких шаблонов.</h2>
+    <span class="eyebrow">Возможности</span>
+    <h2 data-split>Не ограничиваемся шаблонами. Если задачу можно реализовать в вебе — мы найдём способ.</h2>
   </div>
 </section>
 
@@ -248,9 +248,9 @@ html.snapping{scroll-snap-type:y mandatory}
   <video data-src="ocean.mp4" muted loop playsinline preload="none"></video>
   <div class="veil"></div>
   <div class="inner">
-    <span class="eyebrow final-eyebrow">Готовы начать</span>
-    <h2 class="final-big">Напишите <em>нам</em></h2>
-    <p class="final-sub">Расскажите о проекте. Ответим в течение часа.</p>
+    <span class="eyebrow final-eyebrow">Вызов</span>
+    <h2 class="final-big">Есть задача, которую другие <em>не берутся</em> реализовать?</h2>
+    <p class="final-sub">Обсудим.</p>
     <a href="https://t.me/ShelestF" class="final-btn" target="_blank"><span>Написать в Telegram</span></a>
     <div class="final-meta">
       <a href="https://wa.me/79952723614" target="_blank">WhatsApp</a>
@@ -668,7 +668,7 @@ document.querySelectorAll('[data-split]').forEach(h=>{
   const words=h.textContent.trim().split(' ');
   h.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(' ');
 });
-document.querySelectorAll('.statement h2 .w').forEach(w=>{const t=w.textContent;if(t==='Дорого'||t==='нуля.'){w.innerHTML=`<em>${t}</em>`}});
+document.querySelectorAll('.statement h2 .w').forEach(w=>{const t=w.textContent;if(t==='работа.'||t==='шаблонами.'){w.innerHTML=`<em>${t}</em>`}});
 document.querySelectorAll('.statement').forEach(sec=>{
   gsap.to(sec.querySelector('.eyebrow'),{opacity:1,duration:.8,scrollTrigger:{trigger:sec,start:'top 60%'}});
   gsap.to(sec.querySelectorAll('.w'),{opacity:1,y:0,duration:.7,stagger:.05,ease:'power2.out',scrollTrigger:{trigger:sec,start:'top 55%'}});
