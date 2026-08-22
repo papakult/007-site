@@ -37,7 +37,7 @@ video{display:block}
 #iris{position:fixed;inset:0;z-index:9990;pointer-events:none;background:#000;clip-path:circle(150% at 50% 50%);display:none}
 
 /* HERO WEBGL CLOUD */
-#hero-cloud{position:relative;height:100vh;width:100%;overflow:hidden;background:#000}
+#hero-cloud{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000}
 #cloud-canvas{position:absolute;inset:0;z-index:0;display:block}
 .hero-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
 .hero-name{font-size:clamp(2.4rem,6vw,5.5rem);letter-spacing:.28em;text-transform:uppercase;color:var(--f1);text-align:center;text-shadow:0 2px 40px rgba(0,0,0,.9);opacity:0}
@@ -47,9 +47,9 @@ video{display:block}
 .scroll-cue::after{content:'';width:1px;height:42px;background:linear-gradient(rgba(255,255,255,.6),transparent);animation:cue 2.4s ease-in-out infinite}
 @keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
 
-.snap{height:100vh;scroll-snap-align:start}
+.snap{height:100vh;height:100dvh;scroll-snap-align:start}
 html.snapping{scroll-snap-type:y mandatory}
-.scene{position:relative;height:100vh;width:100%;overflow:hidden;display:flex;align-items:center}
+.scene{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;display:flex;align-items:center}
 .scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .scene .veil{position:absolute;inset:0;z-index:1}
 .scene .inner{position:relative;z-index:2;width:100%;padding:0 clamp(28px,7vw,120px)}
@@ -75,7 +75,7 @@ html.snapping{scroll-snap-type:y mandatory}
 .stats-line em{font-style:normal;color:var(--f1)}
 @media(max-width:768px){.stats-row{gap:2rem}}
 .capabilities{background:#000}
-.cap-wrap{height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.cap-wrap{height:100vh;height:100dvh;display:grid;grid-template-columns:1fr 1fr}
 .cap-visual{position:relative;overflow:hidden}
 .cap-visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:none}
 .cap-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,0,0,.55))}
@@ -141,7 +141,7 @@ html.snapping{scroll-snap-type:y mandatory}
   .statement h2{font-size:clamp(22px,6.6vw,38px)!important;letter-spacing:.03em!important;line-height:1.35!important}
   .statement .eyebrow{font-size:9px!important;margin-bottom:1.6rem!important}
   /* CAPABILITIES */
-  .cap-wrap{grid-template-columns:1fr!important;height:auto!important;min-height:100vh!important}
+  .cap-wrap{grid-template-columns:1fr!important;height:auto!important;min-height:100vh!important;min-height:100dvh!important}
   .cap-visual{height:30vh!important}
   .cap-list{padding:1.6rem 6vw!important}
   .cap-eyebrow{margin-bottom:1.2rem!important}
@@ -256,7 +256,7 @@ html.snapping{scroll-snap-type:y mandatory}
     <span class="eyebrow final-eyebrow">Вызов</span>
     <h2 class="final-big">Есть задача, которую другие <em>не берутся</em> реализовать?</h2>
     <p class="final-sub">Обсудим.</p>
-    <a href="https://t.me/ShelestF" class="final-btn" target="_blank"><span>Написать в Telegram</span></a>
+    <a href="https://t.me/agent007z" class="final-btn" target="_blank"><span>Написать в Telegram</span></a>
     <div class="final-meta">
       <a href="https://wa.me/79952723614" target="_blank">WhatsApp</a>
       <a href="mailto:hello@007-a.ru">hello@007-a.ru</a>
@@ -769,7 +769,19 @@ window.addEventListener('touchend',e=>{
 },{passive:true});
 
 /* ============ VIDEO LAZY LOAD + PLAY/PAUSE ============ */
-// Only load and play video when its section enters viewport
+// Preload video source one screen-height early, before its section is actually visible,
+// so it has time to buffer on mobile before the user scrolls/snaps into it.
+const vidPreloadObs=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    const vid=entry.target;
+    if(entry.isIntersecting&&vid.dataset.src&&!vid.src){
+      vid.src=vid.dataset.src;
+      vid.load();
+    }
+  });
+},{rootMargin:'100% 0px 100% 0px',threshold:0});
+
+// Only play/pause video when its section actually enters viewport
 const vidObs=new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
     const vid=entry.target;
@@ -785,7 +797,7 @@ const vidObs=new IntersectionObserver((entries)=>{
   });
 },{threshold:0.3});
 
-document.querySelectorAll('video[data-src]').forEach(v=>vidObs.observe(v));
+document.querySelectorAll('video[data-src]').forEach(v=>{vidPreloadObs.observe(v);vidObs.observe(v);});
 
 // smooth, gentle reveal for each scene as it enters
 scenes.forEach((s)=>{
