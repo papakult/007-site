@@ -178,7 +178,7 @@ html.snapping{scroll-snap-type:y mandatory}
 
 <div id="gate">
   <div class="scatter">
-    <span class="w1">Цифровые</span><span class="w2">решения</span><span class="w3">для вашего</span><span class="w4">бизнеса</span>
+    <span class="w1">ИДЕЯ</span><span class="w2">СТАНОВИТСЯ</span><span class="w3">СИСТЕМОЙ</span>
   </div>
   <div class="ghint">нажмите в любом месте, чтобы войти · со звуком</div>
   <div class="without" id="without">войти без звука</div>
@@ -217,8 +217,8 @@ html.snapping{scroll-snap-type:y mandatory}
     <div class="cap-visual"><video data-src="work.mp4" muted loop playsinline preload="none"></video></div>
     <div class="cap-list">
       <span class="eyebrow cap-eyebrow">Направления</span>
-      <div class="cap-item"><span class="idx">01</span><div><h3>Image — цифровой образ бизнеса</h3><p>Для компаний, которым digital-присутствие должно соответствовать масштабу бренда</p></div></div>
-      <div class="cap-item"><span class="idx">02</span><div><h3>Growth — цифровые продукты для роста</h3><p>Продажи, лидогенерация, SEO, аналитика и автоматизация</p></div></div>
+      <div class="cap-item"><span class="idx">01</span><div><h3>Image — digital-присутствие</h3><p>Для компаний, чей digital должен соответствовать масштабу бизнеса</p></div></div>
+      <div class="cap-item"><span class="idx">02</span><div><h3>Growth — продукты для роста</h3><p>Продажи, лидогенерация, SEO, аналитика и автоматизация</p></div></div>
       <div class="cap-item"><span class="idx">03</span><div><h3>Systems — сложные digital-системы</h3><p>Платформы, личные кабинеты, API, интеграции, AI и нестандартная бизнес-логика</p></div></div>
     </div>
   </div>
@@ -230,11 +230,11 @@ html.snapping{scroll-snap-type:y mandatory}
   <div class="inner">
     <span class="eyebrow">Опыт</span>
     <div class="stats-row">
-      <div class="stat"><div class="stat-num" data-to="10">0</div><div class="stat-label">лет опыта</div></div>
-      <div class="stat"><div class="stat-num" data-to="770" data-suf="+">0</div><div class="stat-label">проектов</div></div>
-      <div class="stat"><div class="stat-num" data-to="100" data-suf="%">0</div><div class="stat-label">без шаблонов</div></div>
+      <div class="stat"><div class="stat-num" data-to="10">0</div><div class="stat-label">лет в digital</div></div>
+      <div class="stat"><div class="stat-num" data-to="770" data-suf="+">0</div><div class="stat-label">реализованных проектов</div></div>
+      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">вариантов реализации</div></div>
     </div>
-    <p class="stats-line">От лендингов до сложных digital-систем и AI-интеграций. <em>Уровень виден в каждом реализованном проекте.</em></p>
+    <p class="stats-line">От цифрового образа бренда до сложных систем и AI-интеграций.</p>
   </div>
 </section>
 
@@ -244,7 +244,7 @@ html.snapping{scroll-snap-type:y mandatory}
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow">Возможности</span>
-    <h2 data-split>Не ограничиваемся шаблонами. Если задачу можно реализовать в вебе — мы найдём способ.</h2>
+    <h2 data-split>Сложность — не ограничение. Если задачу можно реализовать в web — мы найдём способ.</h2>
   </div>
 </section>
 
@@ -259,7 +259,7 @@ html.snapping{scroll-snap-type:y mandatory}
     <a href="https://t.me/ShelestF" class="final-btn" target="_blank"><span>Написать в Telegram</span></a>
     <div class="final-meta">
       <a href="https://wa.me/79952723614" target="_blank">WhatsApp</a>
-      <a href="mailto:007-agent-s@mail.ru">007-agent-s@mail.ru</a>
+      <a href="mailto:hello@007-a.ru">hello@007-a.ru</a>
       <span id="clock"></span>
     </div>
   </div>
@@ -676,7 +676,7 @@ document.querySelectorAll('[data-split]').forEach(h=>{
   const words=h.textContent.trim().split(' ');
   h.innerHTML=words.map(w=>`<span class="w">${w}</span>`).join(' ');
 });
-document.querySelectorAll('.statement h2 .w').forEach(w=>{const t=w.textContent;if(t==='работа.'||t==='шаблонами.'){w.innerHTML=`<em>${t}</em>`}});
+document.querySelectorAll('.statement h2 .w').forEach(w=>{const t=w.textContent;if(t==='работа.'||t==='ограничение.'){w.innerHTML=`<em>${t}</em>`}});
 document.querySelectorAll('.statement').forEach(sec=>{
   gsap.to(sec.querySelector('.eyebrow'),{opacity:1,duration:.8,scrollTrigger:{trigger:sec,start:'top 60%'}});
   gsap.to(sec.querySelectorAll('.w'),{opacity:1,y:0,duration:.7,stagger:.05,ease:'power2.out',scrollTrigger:{trigger:sec,start:'top 55%'}});
@@ -685,6 +685,7 @@ gsap.from('.cap-item',{opacity:0,y:30,duration:.9,stagger:.12,ease:'power3.out',
 
 // STATS counters
 function countUp(el){
+  if(!el.dataset.to)return;
   const to=+el.dataset.to, suf=el.dataset.suf||'', dur=1700, t0=performance.now();
   function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);
     el.innerHTML=Math.round(to*e)+(p>=1&&suf?`<span class="s">${suf}</span>`:'');
