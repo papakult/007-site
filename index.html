@@ -24,7 +24,7 @@ video{display:block}
 .cur-r.on{width:66px;height:66px}
 
 /* ENTRY GATE */
-#gate{position:fixed;inset:0;z-index:10000;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:none}
+#gate{position:fixed;inset:0;z-index:10000;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 #gate .scatter{position:relative;width:min(720px,90vw);height:290px;margin:0 auto}
 #gate .scatter span{position:absolute;font-family:var(--serif);font-size:clamp(20px,3.1vw,40px);letter-spacing:.06em;color:var(--f2);white-space:nowrap;opacity:0;animation:gateIn .9s forwards}
 #gate .w1{top:0;left:2%}#gate .w2{top:56px;left:22%}#gate .w3{top:118px;left:42%;color:var(--f1)}#gate .w4{top:180px;left:66%;color:var(--f1)}
@@ -554,7 +554,7 @@ function initCloud(){
   const myWorks=[5,4,6,3,1,2,0].map(si=>MY_SITES[si]); // priority order, macesta last
   placeLine(myWorks,{zBase:-15,zSpread:4,ringR:24,ringV:4,w:5.0,op:0.82,sway:0.08,spin:0.07,orbit:0.5,par:1.1,hero:true,angOff:2.4,squashY:0.5});
   // LINE 5 (farthest): generated background mockups — many, small, dim
-  const N=96;
+  const N=window.innerWidth<768?32:96;
   for(let i=0;i<N;i++){
     let px,py,dist2d;
     do{px=(Math.random()-0.5)*56;py=(Math.random()-0.5)*34;dist2d=Math.sqrt(px*px+py*py);}while(dist2d<7);
@@ -637,18 +637,21 @@ const gate=document.getElementById('gate');
 let entered=false,soundOn=false;
 function enterSite(withSound){
   if(entered)return;entered=true;
+  setTimeout(()=>{if(gate.style.display!=='none')gate.style.display='none';},3000);
   if(withSound){amb.volume=0;amb.play().then(()=>{gsap.to(amb,{volume:.5,duration:2});document.getElementById('sound').classList.add('playing');document.getElementById('sound-label').textContent='Звук вкл';soundOn=true;}).catch(()=>{});}
   gate.classList.add('closing');setTimeout(()=>{gate.style.display='none'},1000);
   const ir=document.getElementById('iris');ir.style.display='block';
   gsap.fromTo(ir,{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(150% at 50% 50%)',duration:1.2,ease:'power3.inOut',onComplete(){ir.style.display='none';document.documentElement.classList.add('snapping')}});
   lenis.start();
-  initCloud();
+  try{initCloud();}catch(e){console.warn('cloud init error',e);}
   gsap.to('.hero-name',{opacity:1,duration:1.6,delay:1,ease:'power2.out'});
   gsap.to('.hero-role',{opacity:1,duration:1.2,delay:1.5,ease:'power2.out'});
   gsap.to('.hero-tag',{opacity:1,duration:1.2,delay:1.9,ease:'power2.out'});
 }
 gate.addEventListener('click',e=>{if(e.target.id!=='without')enterSite(true)});
+gate.addEventListener('touchend',e=>{e.preventDefault();if(e.target.id!=='without')enterSite(true)},{passive:false});
 document.getElementById('without').addEventListener('click',e=>{e.stopPropagation();enterSite(false)});
+document.getElementById('without').addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();enterSite(false)},{passive:false});
 
 const c=document.querySelector('.cur'),cr=document.querySelector('.cur-r');
 if(window.matchMedia('(pointer:fine)').matches){
