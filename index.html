@@ -60,9 +60,11 @@
 :root{
   --bg:#000;--f1:rgba(255,255,255,.92);--f2:rgba(255,255,255,.62);--f3:rgba(255,255,255,.35);--f4:rgba(255,255,255,.18);
   --serif:'Forum',Optima,'Segoe UI',serif;
+  --screen-h:100vh;
 }
+@supports(height:100dvh){:root{--screen-h:100dvh}}
 html{background:var(--bg);color:var(--f1)}
-body{font-family:var(--serif);font-weight:400;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+body{font-family:var(--serif);font-weight:400;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
 ::selection{background:rgba(255,255,255,.85);color:#000}
 a{color:inherit;text-decoration:none}
 video{display:block}
@@ -85,7 +87,7 @@ video{display:block}
 #iris{position:fixed;inset:0;z-index:9990;pointer-events:none;background:#000;clip-path:circle(150% at 50% 50%);display:none}
 
 /* HERO WEBGL CLOUD */
-#hero-cloud{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000}
+#hero-cloud{position:relative;height:var(--screen-h);width:100%;overflow:hidden;background:#000}
 #cloud-canvas{position:absolute;inset:0;z-index:0;display:block}
 .hero-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
 .hero-name{font-size:clamp(2.4rem,6vw,5.5rem);letter-spacing:.28em;text-transform:uppercase;color:var(--f1);text-align:center;text-shadow:0 2px 40px rgba(0,0,0,.9);opacity:0}
@@ -95,9 +97,9 @@ video{display:block}
 .scroll-cue::after{content:'';width:1px;height:42px;background:linear-gradient(rgba(255,255,255,.6),transparent);animation:cue 2.4s ease-in-out infinite}
 @keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
 
-.snap{height:100vh;height:100dvh;scroll-snap-align:start}
-html.snapping{scroll-snap-type:y mandatory}
-.scene{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;display:flex;align-items:center}
+.snap{height:var(--screen-h);min-height:var(--screen-h);overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always}
+html.snapping{scroll-snap-type:y mandatory;scroll-padding:0}
+.scene{position:relative;height:var(--screen-h);width:100%;overflow:hidden;display:flex;align-items:center}
 .scene video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .scene .veil{position:absolute;inset:0;z-index:1}
 .scene .inner{position:relative;z-index:2;width:100%;padding:0 clamp(28px,7vw,120px)}
@@ -123,7 +125,7 @@ html.snapping{scroll-snap-type:y mandatory}
 .stats-line em{font-style:normal;color:var(--f1)}
 @media(max-width:768px){.stats-row{gap:2rem}}
 .capabilities{background:#000}
-.cap-wrap{height:100vh;height:100dvh;display:grid;grid-template-columns:1fr 1fr}
+.cap-wrap{height:var(--screen-h);display:grid;grid-template-columns:1fr 1fr}
 .cap-visual{position:relative;overflow:hidden}
 .cap-visual video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:none}
 .cap-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,0,0,.55))}
@@ -174,7 +176,7 @@ html.snapping{scroll-snap-type:y mandatory}
 .grain svg{width:100%;height:100%}
 
 @media(max-width:768px){
-  body{cursor:auto!important}.cur,.cur-r{display:none!important}
+  body{cursor:auto!important;touch-action:pan-y}.cur,.cur-r{display:none!important}
   html.snapping{scroll-snap-type:y mandatory}
   /* GATE */
   #gate .scatter{width:90vw!important;height:220px!important;transform:scale(.82)}
@@ -190,16 +192,16 @@ html.snapping{scroll-snap-type:y mandatory}
   .scroll-cue{bottom:2vh!important;gap:.55rem!important}
   .scroll-cue::after{height:28px!important}
   /* SCENE INNER (statement + final share this) */
-  .scene .inner{padding:0 6vw!important}
+  .scene .inner{padding-left:max(6vw,env(safe-area-inset-left))!important;padding-right:max(6vw,env(safe-area-inset-right))!important}
   /* STATEMENT */
   .statement h2{font-size:clamp(22px,6.6vw,38px)!important;letter-spacing:.03em!important;line-height:1.35!important}
   .statement .eyebrow{font-size:9px!important;margin-bottom:1.6rem!important}
   /* CAPABILITIES */
-  .cap-wrap{grid-template-columns:1fr!important;height:auto!important;min-height:100vh!important;min-height:100dvh!important}
-  .cap-visual{height:30vh!important}
-  .cap-list{padding:1.6rem 6vw!important}
-  .cap-eyebrow{margin-bottom:1.2rem!important}
-  .cap-item{padding:1.3rem 0!important}
+  .cap-wrap{grid-template-columns:1fr!important;grid-template-rows:clamp(150px,28%,240px) minmax(0,1fr)!important;height:var(--screen-h)!important;min-height:0!important;overflow:hidden}
+  .cap-visual{height:auto!important;min-height:0}
+  .cap-list{padding:clamp(.8rem,2.4vh,1.6rem) 6vw!important;min-height:0;justify-content:center;overflow:hidden}
+  .cap-eyebrow{margin-bottom:clamp(.4rem,1.4vh,1.2rem)!important}
+  .cap-item{padding:clamp(.65rem,1.7vh,1.3rem) 0!important}
   .cap-item h3{font-size:clamp(18px,5vw,26px)!important}
   .cap-item p{font-size:11.5px!important}
   /* STATS */
@@ -215,7 +217,21 @@ html.snapping{scroll-snap-type:y mandatory}
   .privacy-link{right:16px;bottom:2.2vh;font-size:7px}
   .cookie-note{font-size:3px}
   /* SOUND BTN */
-  #sound{top:16px!important;right:16px!important;min-width:44px;min-height:44px;display:flex;align-items:center}
+  #sound{top:max(16px,env(safe-area-inset-top))!important;right:max(16px,env(safe-area-inset-right))!important;min-width:44px;min-height:44px;display:flex;align-items:center}
+}
+@media(max-width:380px),(max-height:700px){
+  .cap-wrap{grid-template-rows:24% minmax(0,1fr)!important}
+  .cap-list{padding:.65rem 5vw!important}
+  .cap-eyebrow{margin-bottom:.35rem!important}
+  .cap-item{padding:.55rem 0!important;gap:.7rem!important}
+  .cap-item h3{font-size:clamp(16px,4.6vw,20px)!important}
+  .cap-item p{font-size:10px!important;margin-top:.25rem!important;line-height:1.25}
+  .stats-row{gap:clamp(.8rem,2.2vh,1.3rem)!important;margin-bottom:clamp(1rem,2.5vh,1.6rem)!important}
+  .stat-label{margin-top:.45rem!important}
+  .final-eyebrow{margin-bottom:1.2rem!important}
+  .final-big{font-size:clamp(25px,7.6vw,36px)!important}
+  .final-sub{margin-bottom:1.2rem!important}
+  .final-meta{margin-top:1.2rem!important;gap:.6rem!important}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}

@@ -188,6 +188,14 @@ const REALTY=[
 ];
 const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobileViewport=window.matchMedia('(max-width: 767px), (pointer: coarse)').matches;
+if(!CSS.supports('height','100dvh')){
+  const setStableScreenHeight=()=>{
+    const height=Math.round(window.visualViewport?.height||window.innerHeight);
+    document.documentElement.style.setProperty('--screen-h',`${height}px`);
+  };
+  setStableScreenHeight();
+  addEventListener('orientationchange',()=>setTimeout(setStableScreenHeight,300),{passive:true});
+}
 let scene,camera,renderer,cloudGroup,planes=[],mouseX=0,mouseY=0,tMouseX=0,tMouseY=0,rafId;
 let threePromise;
 function loadThree(){
@@ -457,20 +465,8 @@ window.addEventListener('wheel',e=>{
   },40);
 },{passive:false});
 
-// Touch: swipe → page
-let tStart=0,tStartX=0;
-window.addEventListener('touchstart',e=>{
-  tStart=e.touches[0].clientY;
-  tStartX=e.touches[0].clientX;
-},{passive:true});
-window.addEventListener('touchend',e=>{
-  if(pageScrollLocked)return;
-  const dy=tStart-e.changedTouches[0].clientY;
-  const dx=tStartX-e.changedTouches[0].clientX;
-  if(Math.abs(dx)>Math.abs(dy)||Math.abs(dy)<40)return; // horizontal or tiny swipe — ignore
-  currentIdx=getVisibleIdx();
-  goToPage(currentIdx+(dy>0?1:-1));
-},{passive:true});
+// Touch devices use the browser's native scroll-snap. Avoid competing scripted
+// page jumps when mobile browser chrome changes the visual viewport height.
 
 /* ============ VIDEO LAZY LOAD + PLAY/PAUSE ============ */
 // Preload video source one screen-height early, before its section is actually visible,
@@ -523,7 +519,7 @@ scenes.forEach((s)=>{
   gsap.to(s,{opacity:1,duration:0.6,ease:'power2.out',
     scrollTrigger:{trigger:s,start:'top 82%',end:'top 45%',scrub:0.3}});
   if(inner){
-    gsap.fromTo(inner,{opacity:0,y:18},{opacity:1,y:0,duration:0.7,ease:'power2.out',
+    gsap.fromTo(inner,{opacity:0,y:isMobileViewport?0:18},{opacity:1,y:0,duration:0.7,ease:'power2.out',
       scrollTrigger:{trigger:s,start:'top 72%'}});
   }
 });

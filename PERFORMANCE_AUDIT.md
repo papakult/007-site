@@ -40,3 +40,18 @@ INP requires real-user field data and cannot be derived reliably from a single s
 - Produce WebM/AV1 versions and remove audio tracks from decorative videos at the encoding stage.
 - Serve immutable assets with long-lived cache headers via a CDN if the hosting setup expands beyond GitHub Pages.
 - Collect field Core Web Vitals (especially INP) through analytics or Chrome UX Report after deployment.
+
+## Mobile viewport regression matrix
+
+The full-screen layout was also verified after the performance changes. Each of the six snap sections must equal one dynamic viewport, start at the exact next viewport boundary, and contain no vertical overflow.
+
+- iPhone 11/12 Pro Max: 414 × 896
+- iPhone 12/13/14: 390 × 844
+- iPhone 13 mini: 375 × 812
+- iPhone 14 Pro Max: 430 × 932
+- Samsung Galaxy S8: 360 × 740
+- Samsung Galaxy S20/S22: 360 × 800
+- Samsung Galaxy A51/A54: 412 × 915
+- Samsung Galaxy Z Fold cover: 280 × 653
+
+All tested profiles passed. Mobile navigation now uses native CSS scroll snap only; the competing scripted touch pager was removed. Sections use the dynamic viewport unit, stop at every snap boundary, clip internal overflow, and include safe-area spacing.
