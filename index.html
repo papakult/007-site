@@ -145,8 +145,8 @@ html.snapping{scroll-snap-type:y mandatory}
 .final-domain{position:absolute;bottom:3.2vh;left:0;right:0;text-align:center;z-index:3;font-size:13px;letter-spacing:.42em;text-transform:uppercase;color:var(--f3)}
 .privacy-link{position:absolute;right:clamp(20px,3vw,38px);bottom:3.2vh;z-index:4;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.24);transition:color .35s}
 .privacy-link:hover,.privacy-link:focus-visible{color:var(--f1)}
-.cookie-note{position:fixed;left:clamp(14px,2vw,28px);bottom:clamp(14px,2vw,28px);z-index:9997;width:min(440px,calc(100vw - 28px));padding:14px 16px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.88);backdrop-filter:blur(14px);display:none;align-items:center;gap:14px;color:var(--f3);font-size:10px;line-height:1.45;letter-spacing:.05em}
-.cookie-note.show{display:flex}.cookie-note p{flex:1}.cookie-note a{color:var(--f2);text-decoration:underline;text-underline-offset:3px}.cookie-actions{display:flex;gap:10px;white-space:nowrap}.cookie-actions button{border:0;background:none;color:var(--f2);font:inherit;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;padding:4px}.cookie-actions button:hover,.cookie-actions button:focus-visible{color:var(--f1);outline:1px solid var(--f3);outline-offset:3px}
+.cookie-note{position:fixed;left:8px;bottom:8px;z-index:9997;width:max-content;max-width:calc(100vw - 16px);padding:4px 6px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;gap:7px;color:rgba(255,255,255,.38);font-size:6px;line-height:1;letter-spacing:.04em;white-space:nowrap}
+.cookie-note.show{display:flex}.cookie-note p{margin:0}.cookie-note a{color:rgba(255,255,255,.48);text-decoration:none}.cookie-actions{display:flex;gap:4px}.cookie-actions button{border:0;background:none;color:rgba(255,255,255,.48);font:inherit;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:2px}.cookie-actions button:hover,.cookie-actions button:focus-visible{color:var(--f1);outline:1px solid var(--f3);outline-offset:2px}
 
 #sound{position:fixed;top:clamp(20px,3vw,38px);right:clamp(20px,3vw,38px);z-index:9995;display:flex;align-items:center;gap:.65rem;cursor:none;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--f3);transition:color .4s;mix-blend-mode:difference}
 #sound:hover{color:var(--f1)}
@@ -203,7 +203,7 @@ html.snapping{scroll-snap-type:y mandatory}
   .final-meta{flex-direction:column!important;gap:1rem!important;margin-top:2.4rem!important}
   .final-domain{font-size:10px!important;letter-spacing:.28em!important}
   .privacy-link{right:16px;bottom:2.2vh;font-size:7px}
-  .cookie-note{align-items:flex-start;flex-direction:column}.cookie-actions{width:100%;justify-content:flex-end}
+  .cookie-note{font-size:5.5px;gap:5px;padding:3px 5px}.cookie-actions{gap:3px}
   /* SOUND BTN */
   #sound{top:16px!important;right:16px!important;min-width:44px;min-height:44px;display:flex;align-items:center}
 }
