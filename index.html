@@ -44,6 +44,26 @@
   ]
 }
 </script>
+<!-- Yandex.Metrika counter -->
+<script>
+(function(m,e,t,r,i,k,a){
+  m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
+})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111869181','ym');
+ym(111869181,'init',{
+  ssr:true,
+  webvisor:true,
+  clickmap:true,
+  ecommerce:'dataLayer',
+  referrer:document.referrer,
+  url:location.href,
+  accurateTrackBounce:true,
+  trackLinks:true
+});
+</script>
+<!-- /Yandex.Metrika counter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Forum&display=swap" rel="stylesheet">
@@ -209,6 +229,7 @@ html.snapping{scroll-snap-type:y mandatory}
 </style>
 </head>
 <body>
+<noscript><div><img src="https://mc.yandex.ru/watch/111869181" style="position:absolute;left:-9999px" alt=""></div></noscript>
 
 <div class="grain" aria-hidden="true"><svg><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg></div>
 
@@ -860,6 +881,17 @@ sBtn.addEventListener('click',()=>{if(!soundOn){amb.play().then(()=>{soundOn=tru
 
 function tick(){document.getElementById('clock').textContent='MSK '+new Date().toLocaleTimeString('ru-RU',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit'})}
 tick();setInterval(tick,30000);
+
+/* Yandex Metrika: explicit contact goals. Goal names are mirrored in the counter. */
+document.addEventListener('click',event=>{
+  const link=event.target.closest('a');
+  if(!link||typeof window.ym!=='function')return;
+  let goal='';
+  if(link.href.includes('t.me/'))goal='contact_telegram';
+  else if(link.href.includes('wa.me/'))goal='contact_whatsapp';
+  else if(link.protocol==='mailto:')goal='contact_email';
+  if(goal)ym(111869181,'reachGoal',goal,{placement:'final'});
+});
 </script>
 </body>
 </html>
