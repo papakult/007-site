@@ -755,7 +755,9 @@ gsap.from('.cap-eyebrow',{opacity:0,y:20,duration:.8,scrollTrigger:{trigger:'.ca
 gsap.to('.final-eyebrow',{opacity:1,duration:.8,scrollTrigger:{trigger:'#final',start:'top 55%'}});
 gsap.from('.final-big',{opacity:0,y:30,duration:1,scrollTrigger:{trigger:'#final',start:'top 55%'}});
 gsap.from('.final-sub, .final-btn, .final-meta',{opacity:0,y:20,duration:.8,stagger:.1,scrollTrigger:{trigger:'#final',start:'top 50%'}});
-document.querySelectorAll('.scene video').forEach(v=>{gsap.to(v,{yPercent:12,ease:'none',scrollTrigger:{trigger:v.parentElement,start:'top bottom',end:'bottom top',scrub:true}})});
+if(window.matchMedia('(pointer:fine)').matches){
+  document.querySelectorAll('.scene video').forEach(v=>{gsap.to(v,{yPercent:12,ease:'none',scrollTrigger:{trigger:v.parentElement,start:'top bottom',end:'bottom top',scrub:true}})});
+}
 
 const scenes=[...document.querySelectorAll('.snap')];
 
