@@ -354,11 +354,12 @@ const gate=document.getElementById('gate');
 let entered=false,soundOn=false;
 function enterSite(withSound){
   if(entered)return;entered=true;
+  document.documentElement.classList.add('snapping');
   setTimeout(()=>{if(gate.style.display!=='none')gate.style.display='none';},3000);
   if(withSound){amb.volume=0;amb.play().then(()=>{gsap.to(amb,{volume:.5,duration:2});document.getElementById('sound').classList.add('playing');document.getElementById('sound-label').textContent='Звук вкл';soundOn=true;}).catch(()=>{});}
   gate.classList.add('closing');setTimeout(()=>{gate.style.display='none'},1000);
   const ir=document.getElementById('iris');ir.style.display='block';
-  gsap.fromTo(ir,{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(150% at 50% 50%)',duration:1.2,ease:'power3.inOut',onComplete(){ir.style.display='none';document.documentElement.classList.add('snapping')}});
+  gsap.fromTo(ir,{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(150% at 50% 50%)',duration:1.2,ease:'power3.inOut',onComplete(){ir.style.display='none'}});
   if(lenis)lenis.start();
   if(isMobileViewport||prefersReducedMotion){initCloud();}
   else loadThree().then(initCloud).catch(()=>buildCSSFallback());
@@ -467,6 +468,29 @@ window.addEventListener('wheel',e=>{
 
 // Touch devices use the browser's native scroll-snap. Avoid competing scripted
 // page jumps when mobile browser chrome changes the visual viewport height.
+// Mobile Safari can finish the first swipe using the viewport height from before
+// its address bar collapsed. Once scrolling settles, align to the nearest section
+// using its freshly recalculated offset.
+let mobileSnapTimer=0,mobileSnapCorrecting=false;
+function correctMobileSnap(){
+  if(!isMobileViewport||!entered||mobileSnapCorrecting)return;
+  const nearest=scenes.reduce((best,scene)=>
+    Math.abs(scene.offsetTop-scrollY)<Math.abs(best.offsetTop-scrollY)?scene:best,scenes[0]);
+  const delta=nearest.offsetTop-scrollY;
+  if(Math.abs(delta)<=1)return;
+  mobileSnapCorrecting=true;
+  scrollTo({top:nearest.offsetTop,behavior:prefersReducedMotion?'auto':'smooth'});
+  setTimeout(()=>{mobileSnapCorrecting=false;},320);
+}
+function scheduleMobileSnapCorrection(delay=160){
+  if(!isMobileViewport||!entered)return;
+  clearTimeout(mobileSnapTimer);
+  mobileSnapTimer=setTimeout(correctMobileSnap,delay);
+}
+if(isMobileViewport){
+  addEventListener('scroll',()=>scheduleMobileSnapCorrection(180),{passive:true});
+  window.visualViewport?.addEventListener('resize',()=>scheduleMobileSnapCorrection(240),{passive:true});
+}
 
 /* ============ VIDEO LAZY LOAD + PLAY/PAUSE ============ */
 // Preload video source one screen-height early, before its section is actually visible,

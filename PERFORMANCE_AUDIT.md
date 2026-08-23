@@ -55,3 +55,5 @@ The full-screen layout was also verified after the performance changes. Each of 
 - Samsung Galaxy Z Fold cover: 280 × 653
 
 All tested profiles passed. Mobile navigation now uses native CSS scroll snap only; the competing scripted touch pager was removed. Sections use the dynamic viewport unit, stop at every snap boundary, clip internal overflow, and include safe-area spacing.
+
+An additional iOS first-swipe regression was covered: Safari may collapse its address bar during the first forward swipe and finish against the previous dynamic viewport height. Snap is now enabled immediately on entry, and after native scrolling or a visual-viewport resize settles, the page gently aligns to the nearest freshly calculated section boundary. A deliberately offset first forward stop was verified on every profile above.
