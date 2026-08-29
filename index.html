@@ -222,6 +222,13 @@ html.snapping{scroll-snap-type:y mandatory}
   #gate,#iris{display:none}
   .hero-name,.hero-role,.hero-tag,.eyebrow,.statement h2 .w,.final-eyebrow{opacity:1!important}
 }
+
+/* --- защита от случайного выделения и перетаскивания --- */
+#hero-cloud,#hero-cloud *{-webkit-user-select:none;-moz-user-select:none;user-select:none;-webkit-touch-callout:none}
+#css-cloud .ct{-webkit-user-drag:none;user-drag:none;pointer-events:none}
+#cloud-canvas{-webkit-user-drag:none;-webkit-touch-callout:none}
+img,video{-webkit-user-drag:none;user-drag:none}
+.scene h2,.scene .eyebrow,.hero-name,.hero-role,.hero-tag,.scroll-cue{-webkit-user-select:none;user-select:none}
 </style>
 </head>
 <body>
