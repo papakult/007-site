@@ -558,6 +558,33 @@ const REALTY=[
 'assets/sites/realty-009.webp',
 'assets/sites/realty-010.webp'
 ];
+const TPL_FRONT=[
+'assets/sites/tpl-wine.webp',
+'assets/sites/tpl-veterra-about.webp',
+'assets/sites/tpl-norden.webp',
+'assets/sites/tpl-aurum.webp',
+'assets/sites/tpl-norddent.webp',
+'assets/sites/tpl-nordhaus.webp'
+];
+const TPL_MID=[
+'assets/sites/tpl-vanter.webp',
+'assets/sites/tpl-veterra-serv.webp',
+'assets/sites/tpl-veterra-prices.webp',
+'assets/sites/tpl-norddent-serv.webp',
+'assets/sites/tpl-nordhaus-serv.webp',
+'assets/sites/tpl-nordhaus-villa.webp',
+'assets/sites/tpl-veterra-diag.webp',
+'assets/sites/tpl-veterra-contacts.webp'
+];
+const PHONE_TILES=[
+'assets/sites/app-watch.webp',
+'assets/sites/app-aurum.webp',
+'assets/sites/app-flowers.webp',
+'assets/sites/app-salon.webp',
+'assets/sites/app-vet.webp',
+'assets/sites/app-fitness.webp',
+'assets/sites/app-wash.webp'
+];
 let scene,camera,renderer,cloudGroup,planes=[],mouseX=0,mouseY=0,tMouseX=0,tMouseY=0,rafId;
 function initCloud(){
   const canvas=document.getElementById('cloud-canvas');
@@ -566,7 +593,7 @@ function initCloud(){
   try{gl=canvas.getContext('webgl',{failIfMajorPerformanceCaveat:false})||canvas.getContext('experimental-webgl',{failIfMajorPerformanceCaveat:false});}catch(e){}
   if(!gl||typeof THREE==='undefined'){buildCSSFallback();return;}
   scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x000000,0.032);
+  scene.fog=new THREE.FogExp2(0x000000,0.027);
   camera=new THREE.PerspectiveCamera(55,innerWidth/innerHeight,0.1,100);
   camera.position.z=17;
   renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
@@ -577,7 +604,7 @@ function initCloud(){
   const loader=new THREE.TextureLoader();
   function addTile(src,opt){
     const tex=loader.load(src);tex.minFilter=THREE.LinearFilter;
-    const w=opt.w,h=w*10/16;
+    const w=opt.w,h=w*(opt.ar||10/16);
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:0}));
     mesh.position.set(opt.px,opt.py,opt.pz);
     mesh.rotation.x=opt.rx;mesh.rotation.y=opt.ry;mesh.rotation.z=opt.rz;
@@ -590,7 +617,7 @@ function initCloud(){
     cloudGroup.add(mesh);planes.push(mesh);
   }
   // place a group of tiles on a ring "line" at a given depth band
-  function placeLine(list,{zBase,zSpread,ringR,ringV,w,op,sway,spin,orbit,par,hero,angOff,squashY}){
+  function placeLine(list,{zBase,zSpread,ringR,ringV,w,op,sway,spin,orbit,par,hero,angOff,squashY,ar}){
     list.forEach((src,k)=>{
       const ang=(k/list.length)*Math.PI*2 + (angOff||0) + (Math.random()-0.5)*0.15;
       const r=ringR + (Math.random()-0.5)*ringV;
@@ -598,7 +625,7 @@ function initCloud(){
       let py=Math.sin(ang)*r*(squashY||0.5) + (Math.random()-0.5)*3;
       let pz=zBase + Math.random()*zSpread;
       // keep clear-ish center for nearest lines
-      addTile(src,{px,py,pz,w,op,
+      addTile(src,{px,py,pz,w,op,ar,
         rx:(Math.random()-0.5)*0.3,
         ry:(px>0?-1:1)*(0.1+Math.random()*0.22),
         rz:(Math.random()-0.5)*0.1,
@@ -606,22 +633,28 @@ function initCloud(){
     });
   }
 
-  // ===== 5 DEPTH LINES (near -> far) =====
-  // LINE 1 (nearest): premium AUTO dealerships — biggest, most active
-  placeLine(AUTOS,{zBase:6,zSpread:2.5,ringR:14,ringV:3,w:6.6,op:0.99,sway:0.11,spin:0.14,orbit:0.8,par:2.2,hero:true,angOff:0.2,squashY:0.55});
-  // LINE 2: RESTAURANTS
-  placeLine(RESTOS,{zBase:0,zSpread:3,ringR:17,ringV:3,w:6.0,op:0.96,sway:0.10,spin:0.12,orbit:0.7,par:1.9,hero:true,angOff:0.9,squashY:0.55});
-  // LINE 3: REAL ESTATE
-  placeLine(REALTY,{zBase:-7,zSpread:3.5,ringR:20,ringV:3.5,w:5.6,op:0.9,sway:0.09,spin:0.10,orbit:0.6,par:1.5,hero:true,angOff:1.6,squashY:0.55});
+  // ===== DEPTH LINES (near -> far) =====
+  // LINE 0 (nearest): последние шаблоны — крупно, спокойно, читаемо
+  placeLine(TPL_FRONT,{zBase:6,zSpread:1.5,ringR:9.5,ringV:1.5,w:7.2,op:1,sway:0.045,spin:0.04,orbit:0.35,par:2.4,hero:true,angOff:0.5,squashY:0.5});
+  // LINE 0.5: вертикальные mini-apps между линиями
+  placeLine(PHONE_TILES,{zBase:2,zSpread:2,ringR:13,ringV:2,w:3.4,op:0.98,sway:0.06,spin:0.05,orbit:0.45,par:2.0,hero:true,angOff:1.7,squashY:0.65,ar:1.3});
+  // LINE 1: вторые экраны шаблонов
+  placeLine(TPL_MID,{zBase:-2,zSpread:2.5,ringR:15.5,ringV:3,w:6.2,op:0.96,sway:0.07,spin:0.07,orbit:0.5,par:1.9,hero:true,angOff:1.1,squashY:0.55});
+  // LINE 2: AUTO dealerships
+  placeLine(AUTOS,{zBase:-5,zSpread:2.5,ringR:18,ringV:3,w:6.0,op:0.92,sway:0.10,spin:0.10,orbit:0.7,par:1.7,hero:true,angOff:0.2,squashY:0.55});
+  // LINE 3: RESTAURANTS
+  placeLine(RESTOS,{zBase:-10,zSpread:3,ringR:20,ringV:3,w:5.6,op:0.88,sway:0.09,spin:0.09,orbit:0.6,par:1.4,hero:true,angOff:0.9,squashY:0.55});
+  // LINE 4: REAL ESTATE
+  placeLine(REALTY,{zBase:-15,zSpread:3.5,ringR:22,ringV:3.5,w:5.2,op:0.8,sway:0.08,spin:0.08,orbit:0.5,par:1.1,hero:true,angOff:1.6,squashY:0.55});
   // LINE 4: user's REAL works (pushed back) — macesta included here now, deepest of the "real" band
   const myWorks=[5,4,6,3,1,2,0].map(si=>MY_SITES[si]); // priority order, macesta last
-  placeLine(myWorks,{zBase:-15,zSpread:4,ringR:24,ringV:4,w:5.0,op:0.82,sway:0.08,spin:0.07,orbit:0.5,par:1.1,hero:true,angOff:2.4,squashY:0.5});
+  placeLine(myWorks,{zBase:-20,zSpread:4,ringR:25,ringV:4,w:5.0,op:0.72,sway:0.08,spin:0.07,orbit:0.5,par:0.9,hero:true,angOff:2.4,squashY:0.5});
   // LINE 5 (farthest): generated background mockups — many, small, dim
   const N=window.innerWidth<768?32:96;
   for(let i=0;i<N;i++){
     let px,py,dist2d;
     do{px=(Math.random()-0.5)*56;py=(Math.random()-0.5)*34;dist2d=Math.sqrt(px*px+py*py);}while(dist2d<7);
-    const pz=-24-Math.random()*40;
+    const pz=-28-Math.random()*40;
     addTile(TILE_FILES[i%TILE_FILES.length],{px,py,pz,w:4.0,op:0.42+Math.random()*0.22,
       rx:(Math.random()-0.5)*0.7,ry:(Math.random()-0.5)*0.9,rz:(Math.random()-0.5)*0.25,
       sway:0.05+Math.random()*0.10,spin:0,orbit:0,par:0.4});
