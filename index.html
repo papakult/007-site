@@ -176,13 +176,6 @@ html.snapping{scroll-snap-type:y mandatory}
 .final-domain{position:absolute;bottom:3.2vh;left:0;right:0;text-align:center;z-index:3;font-size:14px;letter-spacing:.42em;text-transform:uppercase;color:var(--f3)}
 .privacy-link{position:absolute;right:clamp(20px,3vw,38px);bottom:calc(3.2vh - 10px);z-index:4;padding:10px 4px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .35s}
 .privacy-link:hover,.privacy-link:focus-visible{color:var(--f1)}
-.cookie-note{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9997;width:max-content;max-width:calc(100vw - 32px);padding:12px 14px 12px 18px;border:1px solid var(--f4);background:rgba(0,0,0,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:none;align-items:center;gap:1.4rem;color:var(--f2);font-size:13px;line-height:1.4;letter-spacing:.04em}
-.cookie-note.show{display:flex}.cookie-note p{margin:0}.cookie-note a{color:var(--f1);text-decoration:underline;text-underline-offset:4px}
-.cookie-actions{display:flex;gap:8px;flex-shrink:0}
-.cookie-actions button{border:1px solid var(--f3);background:none;color:var(--f1);font-family:inherit;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;padding:9px 14px;min-height:36px;transition:background .3s,color .3s,border-color .3s}
-.cookie-actions button:hover{border-color:var(--f1)}
-#cookie-accept{background:rgba(255,255,255,.92);color:#000;border-color:transparent}#cookie-accept:hover{background:#fff}
-.cookie-actions button:focus-visible{outline:1px solid var(--f1);outline-offset:2px}
 
 #sound{position:fixed;top:clamp(12px,2vw,26px);right:clamp(12px,2vw,26px);z-index:9995;display:flex;align-items:center;gap:.65rem;padding:10px 12px;min-height:40px;background:none;border:0;font-family:inherit;cursor:none;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--f3);transition:color .4s;mix-blend-mode:difference}
 #sound:hover{color:var(--f1)}
@@ -191,7 +184,6 @@ html.snapping{scroll-snap-type:y mandatory}
 #sound.playing .bars i{animation:eq .8s ease-in-out infinite}
 #sound.playing .bars i:nth-child(2){animation-delay:.15s}#sound.playing .bars i:nth-child(3){animation-delay:.3s}#sound.playing .bars i:nth-child(4){animation-delay:.45s}
 @keyframes eq{0%,100%{height:3px}50%{height:13px}}
-
 
 /* CSS fallback grid if WebGL unavailable */
 #css-cloud{position:absolute;inset:0;z-index:0;display:none;overflow:hidden}
@@ -241,8 +233,6 @@ html.snapping{scroll-snap-type:y mandatory}
   .final-meta{flex-direction:column!important;gap:1rem!important;margin-top:2.4rem!important}
   .final-domain{font-size:12px!important;letter-spacing:.28em!important;bottom:7.5vh!important}
   .privacy-link{left:0;right:0;text-align:center;bottom:1.6vh;font-size:11px}
-  .cookie-note{left:16px;right:16px;bottom:12px;transform:none;width:auto;max-width:none;flex-wrap:wrap;gap:.8rem 1.2rem;padding:12px 14px}
-  .cookie-actions{width:100%}.cookie-actions button{flex:1}
   /* SOUND BTN */
   #sound{top:8px!important;right:8px!important;min-width:44px;min-height:44px;display:flex;align-items:center}
 }
@@ -370,11 +360,6 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
   <a class="privacy-link" href="/privacy/">Конфиденциальность</a>
 </section>
 </main>
-
-<aside class="cookie-note" id="cookie-note" aria-label="Настройки аналитики">
-  <p>Разрешить Яндекс Метрику для анонимной статистики посещений? <a href="/privacy/">Подробнее</a></p>
-  <div class="cookie-actions"><button type="button" id="cookie-reject">Без аналитики</button><button type="button" id="cookie-accept">Разрешить</button></div>
-</aside>
 
 <script src="assets/vendor-three.js"></script>
 <script src="assets/vendor-gsap.js"></script>
@@ -952,31 +937,6 @@ function tick(){document.getElementById('clock').textContent='MSK '+new Date().t
 tick();setInterval(tick,30000);
 
 if(reduceMotion)enterSite(false);
-
-/* Yandex Metrika loads only after an explicit analytics choice. */
-const cookieNote=document.getElementById('cookie-note');
-function loadMetrika(){
-  if(window.__metrikaLoaded)return;
-  window.__metrikaLoaded=true;
-  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for(let j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r)return;}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);})(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111869181','ym');
-  ym(111869181,'init',{ssr:true,webvisor:true,clickmap:true,ecommerce:'dataLayer',referrer:document.referrer,url:location.href,accurateTrackBounce:true,trackLinks:true});
-}
-const analyticsChoice=localStorage.getItem('007a_analytics_consent');
-if(analyticsChoice==='accepted')loadMetrika();
-else if(!analyticsChoice)cookieNote.classList.add('show');
-document.getElementById('cookie-accept').addEventListener('click',()=>{localStorage.setItem('007a_analytics_consent','accepted');cookieNote.classList.remove('show');loadMetrika();});
-document.getElementById('cookie-reject').addEventListener('click',()=>{localStorage.setItem('007a_analytics_consent','rejected');cookieNote.classList.remove('show');});
-
-/* Explicit contact goals. Goal names are mirrored in the counter. */
-document.addEventListener('click',event=>{
-  const link=event.target.closest('a');
-  if(!link||typeof window.ym!=='function')return;
-  let goal='';
-  if(link.href.includes('t.me/'))goal='contact_telegram';
-  else if(link.href.includes('wa.me/'))goal='contact_whatsapp';
-  else if(link.protocol==='mailto:')goal='contact_email';
-  if(goal)ym(111869181,'reachGoal',goal,{placement:'final'});
-});
 
 </script>
 </body>
