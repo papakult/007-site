@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>007-A: кастомная разработка сайтов и digital-систем премиум-класса</title>
-<meta name="description" content="007-A: индивидуальная разработка премиум-класса. Кастомные сайты, платформы, личные кабинеты, API и AI-интеграции для компаний, чей digital должен соответствовать масштабу бизнеса.">
+<meta name="description" content="007-A: кастомная разработка премиум-класса. Сайты, платформы, личные кабинеты, API и AI-интеграции для компаний, чей digital равен масштабу бизнеса.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta name="keywords" content="разработка сайта премиум класса, дорогой сайт на заказ, кастомная разработка сайта, индивидуальная разработка сайта под ключ, разработка сайта для люксового бренда, разработка корпоративного сайта для крупной компании, разработка веб-платформы на заказ, разработка личного кабинета, разработка B2B портала, AI-интеграции для бизнеса, кинематографичный сайт с 3D и WebGL, 007-A">
 <meta name="theme-color" content="#000000">
@@ -79,6 +79,10 @@
 }
 html{background:var(--bg);color:var(--f1)}
 body{font-family:var(--serif);font-weight:400;overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:1px solid rgba(255,255,255,.85);outline-offset:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:fixed;top:12px;left:12px;z-index:10001;padding:10px 14px;background:#000;color:var(--f1);border:1px solid var(--f3);font-size:12px;letter-spacing:.2em;text-transform:uppercase;transform:translateY(-200%);transition:transform .2s}
+.skip-link:focus{transform:none}
 ::selection{background:rgba(255,255,255,.85);color:#000}
 a{color:inherit;text-decoration:none}
 video{display:block}
@@ -95,7 +99,8 @@ video{display:block}
 #gate .scatter span:nth-child(1){animation-delay:.15s}#gate .scatter span:nth-child(2){animation-delay:.4s}#gate .scatter span:nth-child(3){animation-delay:.65s}#gate .scatter span:nth-child(4){animation-delay:.9s}
 @keyframes gateIn{to{opacity:1}}
 #gate .ghint{position:absolute;bottom:12vh;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--f3);opacity:0;animation:gateIn .8s 1.7s forwards}
-#gate .without{position:absolute;bottom:8vh;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--f2);text-decoration:underline;text-underline-offset:6px;opacity:0;animation:gateIn .8s 2.0s forwards;cursor:none}
+#gate .without{position:absolute;bottom:8vh;left:50%;transform:translateX(-50%);background:none;border:0;font-family:inherit;padding:12px 16px;text-align:center;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--f2);text-decoration:underline;text-underline-offset:6px;opacity:0;animation:gateIn .8s 2.0s forwards;cursor:none}
+#gate:focus-visible{outline:none}#gate:focus-visible .ghint{color:var(--f1)}
 #gate.closing{opacity:0;transition:opacity 1s ease}
 
 #iris{position:fixed;inset:0;z-index:9990;pointer-events:none;background:#000;clip-path:circle(150% at 50% 50%);display:none}
@@ -104,9 +109,11 @@ video{display:block}
 #hero-cloud{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000}
 #cloud-canvas{position:absolute;inset:0;z-index:0;display:block}
 .hero-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
+.hero-overlay::after{content:'';position:absolute;left:0;right:0;bottom:0;height:40vh;z-index:0;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.82) 42%,rgba(0,0,0,.94))}
+.hero-name,.hero-role,.hero-tag{position:relative;z-index:1}
 .hero-name{font-size:clamp(2.4rem,6vw,5.5rem);letter-spacing:.28em;text-transform:uppercase;color:var(--f1);text-align:center;text-shadow:0 2px 40px rgba(0,0,0,.9);opacity:0}
-.hero-role{font-size:clamp(11px,1.2vw,14px);letter-spacing:.5em;text-transform:uppercase;color:var(--f3);margin-top:1.4rem;opacity:0}
-.hero-tag{position:absolute;bottom:12vh;font-size:clamp(.85rem,1.1vw,1rem);letter-spacing:.04em;color:var(--f2);max-width:440px;text-align:center;line-height:1.7;opacity:0;padding:0 24px}
+.hero-role{font-size:clamp(12px,1.2vw,14px);letter-spacing:.5em;text-transform:uppercase;color:var(--f2);margin-top:1.4rem;opacity:0;text-shadow:0 1px 18px rgba(0,0,0,.95),0 0 2px rgba(0,0,0,.9)}
+.hero-tag{position:absolute;bottom:max(12vh,116px);font-size:clamp(.85rem,1.1vw,1rem);letter-spacing:.04em;color:var(--f2);max-width:440px;text-align:center;line-height:1.7;opacity:0;padding:0 24px;text-shadow:0 1px 14px rgba(0,0,0,.95)}
 .scroll-cue{position:absolute;bottom:3.2vh;left:50%;transform:translateX(-50%);z-index:3;font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--f3);display:flex;flex-direction:column;align-items:center;gap:.9rem;pointer-events:none}
 .scroll-cue::after{content:'';width:1px;height:42px;background:linear-gradient(rgba(255,255,255,.6),transparent);animation:cue 2.4s ease-in-out infinite}
 @keyframes cue{0%,100%{opacity:.25;transform:scaleY(.5)}50%{opacity:1;transform:scaleY(1)}}
@@ -145,9 +152,9 @@ html.snapping{scroll-snap-type:y mandatory}
 .cap-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,0,0,.55))}
 .cap-list{display:flex;flex-direction:column;justify-content:center;padding:clamp(40px,6vw,110px)}
 .cap-eyebrow{display:block;margin-bottom:3.2rem}
-.cap-item{padding:2.1rem 0;border-top:1px solid var(--f4);transition:padding-left .55s cubic-bezier(.22,.6,.2,1);display:flex;align-items:baseline;gap:1.4rem}
+.cap-item{padding:2.1rem 0;border-top:1px solid var(--f4);transition:transform .55s cubic-bezier(.22,.6,.2,1);display:flex;align-items:baseline;gap:1.4rem;will-change:transform}
 .cap-item:last-child{border-bottom:1px solid var(--f4)}
-.cap-item:hover{padding-left:1.2rem}
+.cap-item:hover{transform:translateX(1.2rem)}
 .cap-item:hover h3{color:#fff}
 .cap-item .idx{font-size:12px;color:var(--f3);letter-spacing:.15em}
 .cap-item h3{font-size:clamp(1.4rem,2.8vw,2.3rem);text-transform:uppercase;letter-spacing:.05em;color:var(--f2);transition:color .5s}
@@ -167,12 +174,17 @@ html.snapping{scroll-snap-type:y mandatory}
 .final-meta{margin-top:4rem;display:flex;justify-content:center;gap:2.6rem;font-size:13.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--f3)}
 .final-meta a{transition:color .35s}.final-meta a:hover{color:var(--f1)}
 .final-domain{position:absolute;bottom:3.2vh;left:0;right:0;text-align:center;z-index:3;font-size:14px;letter-spacing:.42em;text-transform:uppercase;color:var(--f3)}
-.privacy-link{position:absolute;right:clamp(20px,3vw,38px);bottom:3.2vh;z-index:4;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.24);transition:color .35s}
+.privacy-link{position:absolute;right:clamp(20px,3vw,38px);bottom:calc(3.2vh - 10px);z-index:4;padding:10px 4px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);transition:color .35s}
 .privacy-link:hover,.privacy-link:focus-visible{color:var(--f1)}
-.cookie-note{position:fixed;left:2px;bottom:2px;z-index:9997;width:max-content;max-width:calc(100vw - 4px);padding:1px 2px;border:0;background:rgba(0,0,0,.18);display:none;align-items:center;gap:3px;color:rgba(255,255,255,.12);font-size:3px;line-height:1;letter-spacing:0;white-space:nowrap}
-.cookie-note.show{display:flex}.cookie-note p{margin:0}.cookie-note a{color:inherit;text-decoration:none}.cookie-actions{display:flex;gap:2px}.cookie-actions button{border:0;background:none;color:inherit;font:inherit;letter-spacing:0;text-transform:uppercase;cursor:pointer;padding:1px}.cookie-note:hover,.cookie-note:focus-within{color:rgba(255,255,255,.5);background:rgba(0,0,0,.55)}.cookie-actions button:focus-visible{color:var(--f1);outline:1px solid var(--f3);outline-offset:1px}
+.cookie-note{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:9997;width:max-content;max-width:calc(100vw - 32px);padding:12px 14px 12px 18px;border:1px solid var(--f4);background:rgba(0,0,0,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:none;align-items:center;gap:1.4rem;color:var(--f2);font-size:13px;line-height:1.4;letter-spacing:.04em}
+.cookie-note.show{display:flex}.cookie-note p{margin:0}.cookie-note a{color:var(--f1);text-decoration:underline;text-underline-offset:4px}
+.cookie-actions{display:flex;gap:8px;flex-shrink:0}
+.cookie-actions button{border:1px solid var(--f3);background:none;color:var(--f1);font-family:inherit;font-size:11px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;padding:9px 14px;min-height:36px;transition:background .3s,color .3s,border-color .3s}
+.cookie-actions button:hover{border-color:var(--f1)}
+#cookie-accept{background:rgba(255,255,255,.92);color:#000;border-color:transparent}#cookie-accept:hover{background:#fff}
+.cookie-actions button:focus-visible{outline:1px solid var(--f1);outline-offset:2px}
 
-#sound{position:fixed;top:clamp(20px,3vw,38px);right:clamp(20px,3vw,38px);z-index:9995;display:flex;align-items:center;gap:.65rem;cursor:none;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--f3);transition:color .4s;mix-blend-mode:difference}
+#sound{position:fixed;top:clamp(12px,2vw,26px);right:clamp(12px,2vw,26px);z-index:9995;display:flex;align-items:center;gap:.65rem;padding:10px 12px;min-height:40px;background:none;border:0;font-family:inherit;cursor:none;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--f3);transition:color .4s;mix-blend-mode:difference}
 #sound:hover{color:var(--f1)}
 #sound .bars{display:flex;align-items:flex-end;gap:2px;height:13px}
 #sound .bars i{width:2px;background:rgba(255,255,255,.85);height:3px;transition:height .2s}
@@ -201,8 +213,8 @@ html.snapping{scroll-snap-type:y mandatory}
   #gate .without{font-size:11px!important}
   /* HERO */
   .hero-name{font-size:clamp(2rem,9vw,3rem)!important;letter-spacing:.16em!important}
-  .hero-role{font-size:clamp(9px,2.8vw,12px)!important;letter-spacing:.32em!important;margin-top:1rem!important}
-  .hero-tag{font-size:clamp(.88rem,3.6vw,1rem)!important;max-width:88vw!important;padding:0 20px!important;bottom:18vh!important;line-height:1.6!important}
+  .hero-role{font-size:clamp(11px,2.9vw,12px)!important;letter-spacing:.3em!important;margin-top:1rem!important}
+  .hero-tag{font-size:clamp(.88rem,3.6vw,1rem)!important;max-width:88vw!important;padding:0 20px!important;bottom:max(18vh,120px)!important;line-height:1.6!important}
   .scroll-cue{bottom:2vh!important;gap:.55rem!important}
   .scroll-cue::after{height:28px!important}
   /* SCENE INNER (statement + final share this) */
@@ -211,9 +223,9 @@ html.snapping{scroll-snap-type:y mandatory}
   .statement h2{font-size:clamp(22px,6.6vw,38px)!important;letter-spacing:.03em!important;line-height:1.35!important}
   .statement .eyebrow{font-size:11px!important;margin-bottom:1.6rem!important}
   /* CAPABILITIES */
-  .cap-wrap{grid-template-columns:1fr!important;height:auto!important;min-height:100vh!important;min-height:100dvh!important}
-  .cap-visual{height:30vh!important}
-  .cap-list{padding:1.6rem 6vw!important}
+  .cap-wrap{grid-template-columns:1fr!important;grid-template-rows:auto 1fr;height:auto!important;min-height:100vh!important;min-height:100dvh!important}
+  .cap-visual{height:38vh!important}
+  .cap-list{padding:2rem 6vw 2.4rem!important;justify-content:center!important}
   .cap-eyebrow{margin-bottom:1.2rem!important}
   .cap-item{padding:1.3rem 0!important}
   .cap-item h3{font-size:clamp(18px,5vw,26px)!important}
@@ -227,16 +239,19 @@ html.snapping{scroll-snap-type:y mandatory}
   .final-sub{padding:0 6vw!important;margin-bottom:2.4rem!important}
   .final-btn{padding:1rem 2rem!important;font-size:11px!important;width:100%!important;justify-content:center!important}
   .final-meta{flex-direction:column!important;gap:1rem!important;margin-top:2.4rem!important}
-  .final-domain{font-size:12px!important;letter-spacing:.28em!important}
-  .privacy-link{right:16px;bottom:2.2vh;font-size:9px}
-  .cookie-note{font-size:3px}
+  .final-domain{font-size:12px!important;letter-spacing:.28em!important;bottom:7.5vh!important}
+  .privacy-link{left:0;right:0;text-align:center;bottom:1.6vh;font-size:11px}
+  .cookie-note{left:16px;right:16px;bottom:12px;transform:none;width:auto;max-width:none;flex-wrap:wrap;gap:.8rem 1.2rem;padding:12px 14px}
+  .cookie-actions{width:100%}.cookie-actions button{flex:1}
   /* SOUND BTN */
-  #sound{top:16px!important;right:16px!important;min-width:44px;min-height:44px;display:flex;align-items:center}
+  #sound{top:8px!important;right:8px!important;min-width:44px;min-height:44px;display:flex;align-items:center}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   #gate,#iris{display:none}
-  .hero-name,.hero-role,.hero-tag,.eyebrow,.statement h2 .w,.final-eyebrow{opacity:1!important}
+  .hero-name,.hero-role,.hero-tag,.eyebrow,.statement h2 .w,.final-eyebrow,.stat,.stats-line,.scene,.scene .inner,.cap-wrap,.cap-item,.cap-eyebrow,.final-big,.final-sub,.final-btn,.final-meta{opacity:1!important;transform:none!important}
+  .scroll-cue::after{animation:none!important;opacity:.6}
+  html.snapping{scroll-snap-type:y proximity}
 }
 
 /* --- защита от случайного выделения и перетаскивания --- */
@@ -255,24 +270,25 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-heading">К содержанию</a>
 <div class="grain" aria-hidden="true"><svg><filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#g)"/></svg></div>
 
 <div class="cur"></div>
 <div class="cur-r"></div>
 <div id="iris"></div>
 
-<div id="gate">
+<div id="gate" role="button" tabindex="0" aria-label="Войти на сайт со звуком. Enter — со звуком, кнопка ниже — без звука">
   <div class="scatter">
     <span class="w1">ИДЕЯ</span><span class="w2">СТАНОВИТСЯ</span><span class="w3">СИСТЕМОЙ</span>
   </div>
   <div class="ghint">нажмите в любом месте, чтобы войти · со звуком</div>
-  <div class="without" id="without">войти без звука</div>
+  <button type="button" class="without" id="without">войти без звука</button>
 </div>
 
-<div id="sound" aria-label="Звук">
+<button type="button" id="sound" aria-pressed="false" aria-label="Фоновый звук">
   <div class="bars"><i></i><i></i><i></i><i></i></div>
   <span id="sound-label">Звук выкл</span>
-</div>
+</button>
 <audio id="amb" src="assets/amb.mp3" loop preload="none"></audio>
 
 <!-- HERO: WEBGL FLOATING CLOUD -->
@@ -280,16 +296,16 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 <section id="hero-cloud" class="snap" aria-labelledby="main-heading">
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
-    <h1 class="hero-name" id="main-heading">007-A</h1>
-    <div class="hero-role">Создаём то, чего ещё нет</div>
-    <div class="hero-tag">Кастомные digital-продукты для бизнеса. Дизайн. Разработка. Системы.</div>
+    <h1 class="hero-name" id="main-heading">007-A<span class="sr-only">: кастомная разработка сайтов и digital-систем премиум-класса</span></h1>
+    <p class="hero-role">Создаём то, чего ещё нет</p>
+    <p class="hero-tag">Кастомные digital-продукты для бизнеса. Дизайн. Разработка. Системы.</p>
   </div>
-  <div class="scroll-cue">листайте</div>
+  <div class="scroll-cue" aria-hidden="true">листайте</div>
 </section>
 
 <!-- SCENE 2 -->
 <section class="scene statement snap" id="s2">
-  <video poster="poster-corridor.jpg" data-src="corridor.mp4" muted loop playsinline preload="none"></video>
+  <video poster="poster-corridor.jpg" data-src="corridor.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow">Доказательство</span>
@@ -300,7 +316,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 <!-- SCENE 3 -->
 <section class="capabilities snap" id="s3">
   <div class="cap-wrap">
-    <div class="cap-visual"><video poster="poster-work.jpg" data-src="work.mp4" muted loop playsinline preload="none"></video></div>
+    <div class="cap-visual"><video poster="poster-work.jpg" data-src="work.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></div>
     <div class="cap-list">
       <span class="eyebrow cap-eyebrow">Направления</span>
       <div class="cap-item"><span class="idx">01</span><div><h3>Image. Digital-присутствие</h3><p>Для компаний, чей digital должен соответствовать масштабу бизнеса</p></div></div>
@@ -326,7 +342,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 
 <!-- SCENE 4 -->
 <section class="scene statement snap" id="s4">
-  <video poster="poster-city.jpg" data-src="city.mp4" muted loop playsinline preload="none"></video>
+  <video poster="poster-city.jpg" data-src="city.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow">Возможности</span>
@@ -336,19 +352,19 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 
 <!-- SCENE 5 -->
 <section class="scene snap" id="final">
-  <video poster="poster-ocean.jpg" data-src="ocean.mp4" muted loop playsinline preload="none"></video>
+  <video poster="poster-ocean.jpg" data-src="ocean.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow final-eyebrow">Вызов</span>
     <h2 class="final-big">Есть задача, которую другие <em>не берутся</em> реализовать?</h2>
     <p class="final-sub">Обсудим.</p>
-    <a href="https://t.me/agent007z" class="final-btn" target="_blank"><span>Написать в Telegram</span></a>
-    <div class="final-meta">
-      <a href="https://wa.me/79952723614" target="_blank">WhatsApp</a>
+    <a href="https://t.me/agent007z" class="final-btn" target="_blank" rel="noopener"><span>Написать в Telegram</span></a>
+    <nav class="final-meta" aria-label="Контакты и разделы">
+      <a href="https://wa.me/79952723614" target="_blank" rel="noopener">WhatsApp</a>
       <a href="mailto:hello@007-a.ru">hello@007-a.ru</a>
       <a href="/industrial-b2b/">Промышленность и B2B</a>
       <span id="clock"></span>
-    </div>
+    </nav>
   </div>
   <div class="final-domain">007-A.RU</div>
   <a class="privacy-link" href="/privacy/">Конфиденциальность</a>
@@ -356,8 +372,8 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </main>
 
 <aside class="cookie-note" id="cookie-note" aria-label="Настройки аналитики">
-  <p>Метрика · <a href="/privacy/">Подробнее</a></p>
-  <div class="cookie-actions"><button type="button" id="cookie-reject">Без аналитики</button><button type="button" id="cookie-accept">Принять</button></div>
+  <p>Разрешить Яндекс Метрику для анонимной статистики посещений? <a href="/privacy/">Подробнее</a></p>
+  <div class="cookie-actions"><button type="button" id="cookie-reject">Без аналитики</button><button type="button" id="cookie-accept">Разрешить</button></div>
 </aside>
 
 <script src="assets/vendor-three.js"></script>
@@ -669,8 +685,10 @@ function initCloud(){
 }
 function onResize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);}
 const clk={t:0};
+let frameNo=0;
 function animate(){
   rafId=requestAnimationFrame(animate);
+  if(reduceMotion){if(frameNo++%15)return;renderer.render(scene,camera);return;}
   clk.t+=0.01;
   mouseX+=(tMouseX-mouseX)*0.09;
   mouseY+=(tMouseY-mouseY)*0.09;
@@ -725,7 +743,8 @@ function buildCSSFallback(){
 }
 /* ============ LENIS + GSAP ============ */
 const isTouchDevice=('ontouchstart' in window)||navigator.maxTouchPoints>0;
-const lenis=!isTouchDevice?new Lenis({smoothWheel:false,syncTouch:false,duration:0.55,easing:t=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}):null;
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const lenis=(!isTouchDevice&&!reduceMotion)?new Lenis({smoothWheel:false,syncTouch:false,duration:0.55,easing:t=>t<0.5?2*t*t:1-Math.pow(-2*t+2,2)/2}):null;
 function raf(t){lenis&&lenis.raf(t);requestAnimationFrame(raf)}requestAnimationFrame(raf);
 gsap.ticker.add(t=>{if(lenis)lenis.raf(t*1000)});gsap.ticker.lagSmoothing(0);
 gsap.registerPlugin(ScrollTrigger);
@@ -737,8 +756,14 @@ let entered=false,soundOn=false;
 function enterSite(withSound){
   if(entered)return;entered=true;
   setTimeout(()=>{if(gate.style.display!=='none')gate.style.display='none';},3000);
-  if(withSound){amb.volume=0;amb.play().then(()=>{gsap.to(amb,{volume:.5,duration:2});document.getElementById('sound').classList.add('playing');document.getElementById('sound-label').textContent='Звук вкл';soundOn=true;}).catch(()=>{});}
+  if(withSound){amb.volume=0;amb.play().then(()=>{gsap.to(amb,{volume:.5,duration:2});document.getElementById('sound').classList.add('playing');document.getElementById('sound').setAttribute('aria-pressed','true');document.getElementById('sound-label').textContent='Звук вкл';soundOn=true;}).catch(()=>{});}
   gate.classList.add('closing');setTimeout(()=>{gate.style.display='none'},1000);
+  if(reduceMotion){
+    gate.style.display='none';document.documentElement.classList.add('snapping');
+    try{initCloud();}catch(e){console.warn('cloud init error',e);}
+    gsap.set(['.hero-name','.hero-role','.hero-tag'],{opacity:1});
+    return;
+  }
   const ir=document.getElementById('iris');ir.style.display='block';
   gsap.fromTo(ir,{clipPath:'circle(0% at 50% 50%)'},{clipPath:'circle(150% at 50% 50%)',duration:1.2,ease:'power3.inOut',onComplete(){ir.style.display='none';document.documentElement.classList.add('snapping')}});
   if(lenis)lenis.start();
@@ -751,6 +776,8 @@ gate.addEventListener('click',e=>{if(e.target.id!=='without')enterSite(true)});
 gate.addEventListener('touchend',e=>{e.preventDefault();if(e.target.id!=='without')enterSite(true)},{passive:false});
 document.getElementById('without').addEventListener('click',e=>{e.stopPropagation();enterSite(false)});
 document.getElementById('without').addEventListener('touchend',e=>{e.preventDefault();e.stopPropagation();enterSite(false)},{passive:false});
+gate.addEventListener('keydown',e=>{if(e.target.id==='without')return;if(e.key==='Enter'||e.key===' '){e.preventDefault();enterSite(true);}});
+if(!reduceMotion){try{gate.focus({preventScroll:true});}catch(e){}}
 
 const c=document.querySelector('.cur'),cr=document.querySelector('.cur-r');
 if(window.matchMedia('(pointer:fine)').matches){
@@ -831,9 +858,21 @@ function goToPage(idx){
   setTimeout(()=>{pageScrollLocked=false;},PAGE_LOCK_MS);
 }
 
+// Keyboard: arrows / PageUp-Down / Space / Home / End move between sections
+window.addEventListener('keydown',e=>{
+  if(!entered||reduceMotion||e.altKey||e.metaKey||e.ctrlKey)return;
+  const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+  const k=e.key;let dir=0;
+  if(k==='ArrowDown'||k==='PageDown'||(k===' '&&!e.shiftKey))dir=1;
+  else if(k==='ArrowUp'||k==='PageUp'||(k===' '&&e.shiftKey))dir=-1;
+  else if(k==='Home'){e.preventDefault();goToPage(0);return;}
+  else if(k==='End'){e.preventDefault();goToPage(scenes.length-1);return;}
+  if(!dir)return;e.preventDefault();currentIdx=getVisibleIdx();goToPage(currentIdx+dir);
+});
+
 // Wheel: one event = one page
 let wheelAcc=0,wheelTimer=null;
-window.addEventListener('wheel',e=>{
+if(!reduceMotion)window.addEventListener('wheel',e=>{
   e.preventDefault();
   if(pageScrollLocked)return;
   wheelAcc+=e.deltaY;
@@ -853,7 +892,7 @@ window.addEventListener('touchstart',e=>{
   tStartX=e.touches[0].clientX;
 },{passive:true});
 window.addEventListener('touchend',e=>{
-  if(pageScrollLocked)return;
+  if(pageScrollLocked||reduceMotion)return;
   const dy=tStart-e.changedTouches[0].clientY;
   const dx=tStartX-e.changedTouches[0].clientX;
   if(Math.abs(dx)>Math.abs(dy)||Math.abs(dy)<40)return; // horizontal or tiny swipe — ignore
@@ -883,7 +922,7 @@ const vidObs=new IntersectionObserver((entries)=>{
         vid.src=vid.dataset.src;
         vid.load();
       }
-      vid.play().catch(()=>{});
+      if(!reduceMotion)vid.play().catch(()=>{});
     } else {
       vid.pause();
     }
@@ -893,7 +932,7 @@ const vidObs=new IntersectionObserver((entries)=>{
 document.querySelectorAll('video[data-src]').forEach(v=>{vidPreloadObs.observe(v);vidObs.observe(v);});
 
 // smooth, gentle reveal for each scene as it enters
-scenes.forEach((s)=>{
+if(!reduceMotion)scenes.forEach((s)=>{
   if(s.id==='hero-cloud')return; // hero handled separately
   const inner=s.querySelector('.inner')||s.querySelector('.cap-wrap');
   gsap.set(s,{opacity:0});
@@ -907,10 +946,12 @@ scenes.forEach((s)=>{
 function flashIris(){/* disabled — replaced by smooth fades */}
 
 const sBtn=document.getElementById('sound'),sLabel=document.getElementById('sound-label');
-sBtn.addEventListener('click',()=>{if(!soundOn){amb.play().then(()=>{soundOn=true;sBtn.classList.add('playing');sLabel.textContent='Звук вкл';gsap.to(amb,{volume:.5,duration:1.5})}).catch(()=>{});}else{gsap.to(amb,{volume:0,duration:1,onComplete(){amb.pause()}});soundOn=false;sBtn.classList.remove('playing');sLabel.textContent='Звук выкл';}});
+sBtn.addEventListener('click',()=>{if(!soundOn){amb.play().then(()=>{soundOn=true;sBtn.classList.add('playing');sBtn.setAttribute('aria-pressed','true');sLabel.textContent='Звук вкл';gsap.to(amb,{volume:.5,duration:1.5})}).catch(()=>{});}else{gsap.to(amb,{volume:0,duration:1,onComplete(){amb.pause()}});soundOn=false;sBtn.classList.remove('playing');sBtn.setAttribute('aria-pressed','false');sLabel.textContent='Звук выкл';}});
 
 function tick(){document.getElementById('clock').textContent='MSK '+new Date().toLocaleTimeString('ru-RU',{timeZone:'Europe/Moscow',hour:'2-digit',minute:'2-digit'})}
 tick();setInterval(tick,30000);
+
+if(reduceMotion)enterSite(false);
 
 /* Yandex Metrika loads only after an explicit analytics choice. */
 const cookieNote=document.getElementById('cookie-note');
