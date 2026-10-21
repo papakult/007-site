@@ -2,6 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' blob:; connect-src 'none'; frame-src 'none'; object-src 'none'; form-action 'none'; base-uri 'self'; upgrade-insecure-requests">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>007-A: кастомная разработка сайтов и digital-систем премиум-класса</title>
 <meta name="description" content="007-A: кастомная разработка премиум-класса. Сайты, платформы, личные кабинеты, API и AI-интеграции для компаний, чей digital равен масштабу бизнеса.">
@@ -29,48 +31,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": "https://007-a.ru/#organization",
-  "name": "007-A",
-  "url": "https://007-a.ru/",
-  "email": "hello@007-a.ru",
-  "telephone": "+7-995-272-36-14",
-  "description": "Индивидуальная разработка премиум-класса: кастомные сайты, платформы, личные кабинеты, API и AI-интеграции для бизнеса.",
-  "slogan": "Создаём то, чего ещё нет",
-  "priceRange": "$$$$",
-  "areaServed": "RU",
-  "sameAs": [
-    "https://t.me/agent007z",
-    "https://wa.me/79952723614"
-  ],
-  "audience": {"@type": "BusinessAudience", "audienceType": "Компании и бренды премиум-сегмента, крупный бизнес, промышленность, девелопмент, автобизнес, HoReCa"},
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Кастомная разработка премиум-класса",
-    "itemListElement": [
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Разработка сайта премиум-класса", "description": "Индивидуальный дизайн, кинематографичный визуал, 3D и WebGL, фирменный моушн."}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Разработка веб-платформ и личных кабинетов", "description": "Сложная бизнес-логика, роли, документы, API и интеграции."}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "B2B-порталы и промышленные системы", "url": "https://007-a.ru/industrial-b2b/"}},
-      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "AI-интеграции и автоматизация процессов"}}
-    ]
-  },
-  "knowsAbout": [
-    "Премиальная веб-разработка",
-    "Кастомная разработка digital-продуктов",
-    "Проектирование сложных web-систем",
-    "SEO",
-    "Веб-аналитика",
-    "Автоматизация бизнеса",
-    "AI-интеграции"
-  ]
-}
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Forum&display=swap" rel="stylesheet">
+
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -258,6 +219,8 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.35)}
 .scene h2,.scene .eyebrow,.hero-name,.hero-role,.hero-tag,.scroll-cue{-webkit-user-select:none;user-select:none}
 </style>
+<link rel="stylesheet" href="/assets/demo-fonts.css">
+<link rel="stylesheet" href="/assets/demo-mode.css">
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -346,12 +309,12 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
   <div class="veil"></div>
   <div class="inner">
     <span class="eyebrow final-eyebrow">Вызов</span>
-    <h2 class="final-big">Есть задача, которую другие <em>не берутся</em> реализовать?</h2>
-    <p class="final-sub">Обсудим.</p>
-    <a href="https://t.me/agent007z" class="final-btn" target="_blank" rel="noopener"><span>Написать в Telegram</span></a>
-    <nav class="final-meta" aria-label="Контакты и разделы">
-      <a href="https://wa.me/79952723614" target="_blank" rel="noopener">WhatsApp</a>
-      <a href="mailto:hello@007-a.ru">hello@007-a.ru</a>
+    <h2 class="final-big">Дизайн и разработка<br><em>в деталях</em></h2>
+    <p class="final-sub">Демонстрационный проект из портфолио</p>
+    <a href="/industrial-b2b/" class="final-btn"><span>Смотреть направление B2B</span></a>
+    <nav class="final-meta" aria-label="Разделы проекта">
+
+
       <a href="/industrial-b2b/">Промышленность и B2B</a>
       <span id="clock"></span>
     </nav>
@@ -939,5 +902,6 @@ tick();setInterval(tick,30000);
 if(reduceMotion)enterSite(false);
 
 </script>
+<a class="demo-mode-note" href="/privacy/">Демонстрационный проект · Прием заявок отключен</a>
 </body>
 </html>
