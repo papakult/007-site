@@ -126,7 +126,6 @@ html.snapping{scroll-snap-type:y mandatory}
 .final-eyebrow{display:block;margin-bottom:2.8rem;opacity:0}
 .final-big{font-size:clamp(2.4rem,7.5vw,6rem);line-height:1.05;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1.4rem;color:var(--f1)}
 .final-big em{font-style:normal;color:var(--f2)}
-.final-sub{font-size:clamp(.95rem,1.3vw,1.1rem);color:var(--f2);margin-bottom:3.6rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7}
 .final-btn{display:inline-flex;align-items:center;gap:1rem;padding:1.15rem 3.2rem;border:1px solid var(--f3);color:var(--f1);font-family:var(--serif);font-size:13px;letter-spacing:.28em;text-transform:uppercase;background:transparent;cursor:none;position:relative;overflow:hidden;transition:color .5s,border-color .5s}
 .final-btn span{position:relative;z-index:1}
 .final-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.92);transform:translateY(101%);transition:transform .55s cubic-bezier(.7,0,.3,1);z-index:0}
@@ -189,7 +188,6 @@ html.snapping{scroll-snap-type:y mandatory}
   .stats-line{font-size:clamp(14px,3.8vw,17px)!important;padding:0 6vw!important}
   /* FINAL */
   .final-big{font-size:clamp(28px,8.5vw,48px)!important;line-height:1.15!important}
-  .final-sub{padding:0 6vw!important;margin-bottom:2.4rem!important}
   .final-btn{padding:1rem 2rem!important;font-size:11px!important;width:100%!important;justify-content:center!important}
   .final-meta{flex-direction:column!important;gap:1rem!important;margin-top:2.4rem!important}
   .final-domain{font-size:12px!important;letter-spacing:.28em!important;bottom:7.5vh!important}
@@ -200,7 +198,7 @@ html.snapping{scroll-snap-type:y mandatory}
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   #gate,#iris{display:none}
-  .hero-name,.hero-role,.hero-tag,.eyebrow,.statement h2 .w,.final-eyebrow,.stat,.stats-line,.scene,.scene .inner,.cap-wrap,.cap-item,.cap-eyebrow,.final-big,.final-sub,.final-btn,.final-meta{opacity:1!important;transform:none!important}
+  .hero-name,.hero-role,.hero-tag,.eyebrow,.statement h2 .w,.final-eyebrow,.stat,.stats-line,.scene,.scene .inner,.cap-wrap,.cap-item,.cap-eyebrow,.final-big,.final-btn,.final-meta{opacity:1!important;transform:none!important}
   .scroll-cue::after{animation:none!important;opacity:.6}
   html.snapping{scroll-snap-type:y proximity}
 }
@@ -220,7 +218,6 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 .scene h2,.scene .eyebrow,.hero-name,.hero-role,.hero-tag,.scroll-cue{-webkit-user-select:none;user-select:none}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
-<link rel="stylesheet" href="/assets/demo-mode.css">
 <style>.cap-item{padding:1.35rem 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.75rem 0}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}</style></head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -311,7 +308,6 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
   <div class="inner">
     <span class="eyebrow final-eyebrow">Вызов</span>
     <h2 class="final-big">Дизайн и разработка<br><em>в деталях</em></h2>
-    <p class="final-sub">Демонстрационный проект из портфолио</p>
     <a href="/industrial-b2b/" class="final-btn"><span>Смотреть направление B2B</span></a>
     <nav class="final-meta" aria-label="Разделы проекта">
 
@@ -766,7 +762,7 @@ ScrollTrigger.create({trigger:'#s-stats',start:'top 58%',once:true,onEnter(){doc
 gsap.from('.cap-eyebrow',{opacity:0,y:20,duration:.8,scrollTrigger:{trigger:'.cap-list',start:'top 75%'}});
 gsap.to('.final-eyebrow',{opacity:1,duration:.8,scrollTrigger:{trigger:'#final',start:'top 55%'}});
 gsap.from('.final-big',{opacity:0,y:30,duration:1,scrollTrigger:{trigger:'#final',start:'top 55%'}});
-gsap.from('.final-sub, .final-btn, .final-meta',{opacity:0,y:20,duration:.8,stagger:.1,scrollTrigger:{trigger:'#final',start:'top 50%'}});
+gsap.from('.final-btn, .final-meta',{opacity:0,y:20,duration:.8,stagger:.1,scrollTrigger:{trigger:'#final',start:'top 50%'}});
 if(window.matchMedia('(pointer:fine)').matches){
   document.querySelectorAll('.scene video').forEach(v=>{gsap.to(v,{yPercent:12,ease:'none',scrollTrigger:{trigger:v.parentElement,start:'top bottom',end:'bottom top',scrub:true}})});
 }
@@ -903,6 +899,5 @@ tick();setInterval(tick,30000);
 if(reduceMotion)enterSite(false);
 
 </script>
-<a class="demo-mode-note" href="/privacy/">Демонстрационный проект · Прием заявок отключен</a>
 </body>
 </html>
