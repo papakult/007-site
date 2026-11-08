@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0b">
+  <title>3D-модели и конфигураторы для сайтов | 007-A</title>
+  <meta name="description" content="3D-модели автомобилей, зданий и промышленных деталей для сайтов. Поверните автомобиль, зайдите внутрь каркаса и поменяйте размеры фланца в браузере.">
+  <link rel="canonical" href="https://007-a.ru/directions/3d/">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/assets/demo-fonts.css">
+  <link rel="stylesheet" href="./gallery.css">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="3D-модели для сайтов | 007-A">
+  <meta property="og:description" content="Поверните автомобиль, зайдите внутрь здания и измените размеры детали прямо на странице.">
+  <meta property="og:url" content="https://007-a.ru/directions/3d/">
+  <meta property="og:image" content="https://007-a.ru/directions/3d/3d-preview.jpg">
+  <meta property="og:image:alt" content="Автомобиль, здание и фланец в галерее 3D-моделей 007-A">
+  <script type="module" src="./gallery.js"></script>
+</head>
+<body>
+  <a class="skip" href="#gallery">К моделям</a>
+  <header class="top">
+    <a class="brand" href="/" aria-label="007-A, на главную">007-A</a>
+    <nav aria-label="Навигация">
+      <a href="/#s3">Направления</a>
+      <a href="/directions/3d/" aria-current="page">3D</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div class="title-block">
+        <p class="kicker">05 / Интерактивная визуализация</p>
+        <h1 id="title">3D-модели</h1>
+      </div>
+      <p class="intro-copy">Поверните автомобиль, загляните под крышу здания или измените размеры детали.</p>
+    </section>
+
+    <section class="gallery" id="gallery" aria-label="Галерея интерактивных 3D-моделей">
+      <div class="gallery-bar">
+        <p><span class="signal" aria-hidden="true"></span>Три модели <span class="divider" aria-hidden="true">/</span> Потяните, чтобы повернуть</p>
+        <button type="button" id="gallery-spin" disabled hidden>Пауза</button>
+      </div>
+
+      <div class="exhibits">
+        <article class="exhibit car" data-model="car">
+          <div class="stage">
+            <img class="poster" src="./car.webp" alt="" width="553" height="332" fetchpriority="high">
+            <canvas tabindex="0" aria-label="Автомобиль. Поворачивайте мышью, пальцем или клавишами со стрелками."></canvas>
+            <span class="model-number" aria-hidden="true">01</span>
+            <span class="view-label">Концепт купе</span>
+          </div>
+          <div class="caption">
+            <div>
+              <h2>Автомобиль</h2>
+              <p>Кузов, оптика и колёсные диски с любого ракурса.</p>
+            </div>
+            <button type="button" data-reset disabled aria-label="Вернуть исходный ракурс автомобиля">Исходный вид</button>
+          </div>
+        </article>
+
+        <article class="exhibit building" data-model="building">
+          <div class="stage">
+            <img class="poster" src="./building.webp" alt="" width="382" height="332">
+            <canvas tabindex="0" aria-label="Здание. Поворачивайте мышью, пальцем или клавишами со стрелками."></canvas>
+            <span class="model-number" aria-hidden="true">02</span>
+            <span class="view-label" data-view-label>Внешний вид</span>
+          </div>
+          <div class="caption">
+            <div>
+              <h2>Здание</h2>
+              <p>Балки, фермы и связи стального каркаса.</p>
+            </div>
+            <div class="actions">
+              <button type="button" class="accent" data-interior aria-pressed="false" disabled>Зайти внутрь</button>
+              <button type="button" data-reset disabled aria-label="Вернуть исходный ракурс здания">Сбросить вид</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="exhibit detail" data-model="detail">
+          <div class="stage">
+            <img class="poster" src="./detail.webp" alt="" width="381" height="332">
+            <canvas tabindex="0" aria-label="Фланец. Поворачивайте мышью, пальцем или клавишами со стрелками."></canvas>
+            <span class="model-number" aria-hidden="true">03</span>
+            <span class="view-label">Настройка размеров</span>
+          </div>
+          <div class="caption">
+            <div>
+              <h2>Фланец</h2>
+              <p>Толщина и четыре отверстия меняются на модели.</p>
+            </div>
+            <button type="button" data-reset disabled aria-label="Вернуть исходный ракурс фланца">Исходный вид</button>
+          </div>
+          <fieldset class="dimensions" aria-label="Размеры фланца">
+            <div class="dimension">
+              <label for="thickness">Толщина</label>
+              <output for="thickness">20 мм</output>
+              <input id="thickness" type="range" min="8" max="40" value="20" step="1" aria-valuetext="20 мм" disabled>
+            </div>
+            <div class="dimension">
+              <label for="bolt-diameter">Отверстия</label>
+              <output for="bolt-diameter">Ø18 мм</output>
+              <input id="bolt-diameter" type="range" min="10" max="30" value="18" step="1" aria-valuetext="18 мм" disabled>
+            </div>
+            <button type="button" data-defaults disabled>Сбросить размеры</button>
+          </fieldset>
+        </article>
+      </div>
+      <p class="gallery-note">Демонстрационные модели. При перетаскивании автоматическое вращение останавливается.</p>
+    </section>
+
+    <section class="next" aria-labelledby="next-title">
+      <p class="kicker">Для сайтов и каталогов</p>
+      <h2 id="next-title">От чертежа до 3D на сайте</h2>
+      <p>Моделируем изделие по чертежу или берём готовую CAD-модель. На сайте можно показать устройство, разрез или подбор размеров.</p>
+      <a href="/industrial-b2b/">Промышленность и B2B <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <a href="/">007-A</a>
+    <a href="/#s3">Все направления</a>
+  </footer>
+</body>
+</html>

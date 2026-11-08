@@ -70,6 +70,7 @@ video{display:block}
 #hero-cloud{position:relative;height:100vh;height:100dvh;width:100%;overflow:hidden;background:#000}
 #cloud-canvas{position:absolute;inset:0;z-index:0;display:block}
 .hero-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
+.hero-3d{position:absolute;z-index:4;top:clamp(12px,2vw,26px);left:clamp(12px,2vw,26px);display:inline-flex;align-items:center;gap:9px;min-height:42px;padding:0 14px;color:#efede7;border:1px solid #ffffff45;background:#0809098c;letter-spacing:.16em}.hero-3d:hover,.hero-3d:focus-visible{border-color:#efede7}.hero-3d span{font-size:.75em;opacity:.68}
 .hero-overlay::after{content:'';position:absolute;left:0;right:0;bottom:0;height:40vh;z-index:0;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.82) 42%,rgba(0,0,0,.94))}
 .hero-name,.hero-role,.hero-tag{position:relative;z-index:1}
 .hero-name{font-size:clamp(2.4rem,6vw,5.5rem);letter-spacing:.28em;text-transform:uppercase;color:var(--f1);text-align:center;text-shadow:0 2px 40px rgba(0,0,0,.9);opacity:0}
@@ -241,6 +242,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 <!-- HERO: WEBGL FLOATING CLOUD -->
 <main>
 <section id="hero-cloud" class="snap" aria-labelledby="main-heading">
+  <a class="hero-3d" href="/directions/3d/">3D <span aria-hidden="true">↗</span></a>
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
     <h1 class="hero-name" id="main-heading">007-A<span class="sr-only">: кастомная разработка сайтов и digital-систем премиум-класса</span></h1>
@@ -270,6 +272,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
       <div class="cap-item"><span class="idx">02</span><div><h3><a href="/directions/systems/">Системы и AI</a></h3><p>Платформы, интеграции, автоматизация</p></div></div>
       <div class="cap-item"><span class="idx">03</span><div><h3><a href="/directions/design/">Дизайн и айдентика</a></h3><p>Визуальный язык с характером</p></div></div>
       <div class="cap-item"><span class="idx">04</span><div><h3><a href="/directions/growth/">Продвижение</a></h3><p>SEO, реклама, публикации в СМИ</p></div></div>
+      <div class="cap-item"><span class="idx">05</span><div><h3><a href="/directions/3d/">3D</a></h3><p>Модели и конфигураторы для сайтов</p></div></div>
     </div>
   </div>
 </section>
