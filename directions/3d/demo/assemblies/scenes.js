@@ -199,6 +199,33 @@ function workMachine(kind){
  return {root,pose,views:[cam([0,1.39,0],wide?10.8:8.9),cam([0,1.58,.02],7.0),cam([-.1,1.47,.22],4.55,[.42,.55,1])]};
 }
 
+function benchMarker(){
+ const root=new Group(), base=part(root), optics=part(root), path=part(root);
+ deck(base,2.70,1.85);
+ plate(base,steel,0,.44,0,2.52,1.67,.16,.085,'y');
+ for(let i=0;i<10;i++)for(let j=0;j<6;j++)cylinder(base,dark,-1.02+i*.227,.527,-.53+j*.21,.018,.014,'y',9);
+ plate(base,skin,0,.562,.29,1.14,.71,.064,.075,'y');
+ const neck=part(base,0,0,-.64);
+ box(neck,dark,0,1.46,0,.21,2.02,.22);
+ for(let i=0;i<10;i++)box(neck,steel,0,.67+i*.156,.123,.115,.035,.024);
+ const head=part(optics,0,1.97,-.18);
+ plate(head,dark,0,0,.12,.53,.45,1.13,.08);
+ box(head,skin,0,.04,.39,.43,.26,.35);
+ cylinder(head,steel,0,-.25,.52,.158,.13,'y',24);
+ torus(head,copper,0,-.324,.52,.106,.025);
+ const ink=new MeshBasicMaterial({color:0x78e9da});
+ const dots=[];
+ for(let i=0;i<20;i++){
+  const x=-.43+.045*i,z=.26+.12*Math.sin(i*.45);
+  dots.push(cylinder(path,ink,x,.602,z,.024,.009,'y',12));
+ }
+ const pose=(p,t=0)=>{
+  head.position.y=1.97-.30*p;
+  const n=Math.floor((t*6)%dots.length);
+  dots.forEach((dot,i)=>dot.visible=p>.38&&i<=n);
+ };
+ return {root,pose,views:[cam([0,1.13,0],7.9),cam([0,1.24,.04],6.1),cam([0,.88,.22],4.4,[.39,.56,1])]};
+}
 function compressor(){
  const root=new Group(), base=part(root), drive=part(root), block=part(root), panels=part(root), pistons=part(block);
  deck(base,4.83,2.20);
@@ -392,6 +419,29 @@ function seeded(count=8){
  const pose=(p,t=0)=>{boxes.position.y=.38*p;toolbar.position.z=-.31*p;wheels.rotation.x=.07*Math.sin(t*2)*p;};
  return {root,pose,views:[cam([0,.87,0],10.8),cam([0,.89,0],9.3),cam([-.94,.84,-.22],4.7,[.46,.65,1])]};
 }
+function wideSeeder(){
+ const root=new Group(), chassis=part(root), bunkers=part(root), rows=part(root);
+ const W=5.15;
+ box(chassis,dark,0,.91,0,W,.17,.14);
+ for(const z of [-.62,-.20,.22,.64])box(chassis,steel,0,.87,z,W,.087,.091);
+ for(const x of [-1.83,1.83]){
+  rod(chassis,steel,[x,.95,-.64],[0,.95,-1.72],.06);
+  cylinder(chassis,rubber,x,.46,.32,.42,.20,'x',28);
+  cylinder(chassis,steel,x,.46,.32,.19,.21,'x',24);
+ }
+ for(const x of [-.78,.78]){
+  plate(bunkers,accent,x,1.39,-.12,1.43,.80,1.09,.095);
+  plate(bunkers,dark,x,1.83,-.12,1.22,.96,.061,.055,'y');
+  wire(chassis,copper,[[x,1.04,-.32],[x,1.22,-.59],[x,1.17,-.90],[x*.52,.88,-1.17]],.038);
+ }
+ for(let k=0;k<4;k++)for(let j=0;j<20;j++){
+  const x=-W/2+.11+j*.254+(k%2)*.085,z=-.61+k*.42;
+  rod(rows,dark,[x,.85,z],[x,.44,z+.078],.027);
+  cylinder(rows,steel,x,.39,z+.12,.14,.043,'x',16);
+ }
+ const pose=(p,t=0)=>{bunkers.position.y=.47*p;rows.position.z=.37*p;};
+ return {root,pose,views:[cam([0,1.02,0],11.25),cam([0,1.06,0],9.12),cam([-.52,.66,.52],5.1,[.65,.51,1])]};
+}
 function trailer(){
  const root=new Group(), chassis=part(root), bucket=part(root,0,.94,-1.95), door=part(bucket,0,.22,-.04), lift=part(root);
  box(chassis,dark,0,.64,0,1.54,.23,4.22);
@@ -467,11 +517,11 @@ function useStudio(create,id){
 const constructors={
  pack:()=>packaging('pack'),line:()=>packaging('line'),bottle:()=>packaging('bottle'),
  spiral:()=>conveyor(true),belt:()=>conveyor(false),robot:robotCell,
- edm:()=>workMachine('edm'),laser:()=>workMachine('laser'),laseropen:()=>workMachine('laseropen'),marker:()=>workMachine('marker'),
+ edm:()=>workMachine('edm'),laser:()=>workMachine('laser'),laseropen:()=>workMachine('laseropen'),marker:()=>workMachine('marker'),benchmarker:benchMarker,
  compressor,heat:exchanger,ladder:platformLadder,carport:()=>structure('carport'),
  corrugated:()=>structure('corrugated'),arch:()=>structure('arch'),tile:()=>structure('tile'),
  tent:()=>structure('tent'),gazebo:()=>structure('gazebo'),pergola:()=>structure('pergola'),
- garage:()=>structure('garage'),frame:()=>structure('frame'),seeder:()=>seeded(),seed12:()=>seeded(12),trailer,screen,
+ garage:()=>structure('garage'),frame:()=>structure('frame'),seeder:()=>seeded(),seed80:wideSeeder,trailer,screen,
  cnc:()=>useStudio(makeCnc,'cnc'),board:()=>useStudio(makeElectronics,'board'),
  pump:()=>publicModel('pump'),valve:()=>publicModel('butterfly-valve'),
  motor:()=>publicModel('motor'),reducer:()=>publicModel('reducer')
