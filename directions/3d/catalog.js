@@ -71,9 +71,7 @@ function bindModelLink(link,item) {
   });
 }
 
-function filmLink(details) {
-  const link = element('a','Смотреть видео','model-open');
-  link.href = details.url;
+function bindFilmLink(link,details) {
   link.addEventListener('click',event=>{
     if (typeof film.showModal !== 'function' || alternateLinkAction(event)) return;
     event.preventDefault();
@@ -82,9 +80,17 @@ function filmLink(details) {
     film.showModal();
     filmVideo.play().catch(()=>{});
   });
+}
+
+function filmLink(details) {
+  const link = element('a','Смотреть видео','model-open');
+  link.href = details.url;
+  bindFilmLink(link,details);
   return link;
 }
 
+bindModelLink(document.querySelector('#watch-model-link'),byId.get('watch'));
+bindFilmLink(document.querySelector('#watch-film-link'),films.watch);
 film.querySelector('button').addEventListener('click', () => film.close());
 film.addEventListener('close', () => filmVideo.pause());
 
