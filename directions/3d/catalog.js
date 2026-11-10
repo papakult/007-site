@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js?v=calibre007v2';
+import { catalog } from './catalog-models.js?v=watch-first';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');

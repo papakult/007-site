@@ -1548,6 +1548,7 @@ function flangeAssembly() {
 }
 
 export const catalog = [
+  ['watch','Часы 007','products','Ручной завод, анкерный спуск, отдельные стрелки и разборка каждого узла',()=>import('./calibre-007.js?v=2').then(({createCalibre007})=>createCalibre007())],
   ['tolmachevo','Толмачёво','industry','Входная группа по фотографиям объекта СибСТК. Фермы, остекление и крепёж в разборе',()=>import('./tolmachevo.js').then(({createTolmachevo})=>createTolmachevo())],
   ['staircase','Стальная лестница','industry','Косоуры, решётчатые ступени, перила и анкерные опоры',staircase],
   ['glass-rail','Стеклянное ограждение','industry','Остекление, стойки, зажимы и крепление к основанию',glassRail],
@@ -1570,7 +1571,6 @@ export const catalog = [
   ['rover','Марсоход','tech','Шестиколёсная ходовая часть в движении',rover],
   ['arm','Рука робота','industry','Поворот основания и угол плеча',arm],
   ['pavilion','Садовый павильон','architecture','Стойки, стропила и реечный навес',pavilion],
-  ['watch','Часы 007','products','Ручной завод, анкерный спуск, отдельные стрелки и разборка каждого узла',()=>import('./calibre-007.js?v=2').then(({createCalibre007})=>createCalibre007())],
   ['telescope','Телескоп','tech','Настройте наклон оптической трубы',telescope],
   ['motor','Электродвигатель','industry','Статор, обмотка, вал и крышка',motor],
   ['villa','Вилла с террасой','architecture','Разнесите уровни и рассмотрите этажи',villa],
