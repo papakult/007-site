@@ -1,1 +1,1486 @@
-[]
+[
+  {
+    "i": 1,
+    "title": "Упаковочная машина М1М",
+    "family": "pack"
+  },
+  {
+    "i": 2,
+    "title": "Линия фасовки и упаковки АЛБ 165",
+    "family": "line"
+  },
+  {
+    "i": 3,
+    "title": "Ячейка роботизированной загрузки станков",
+    "family": "robot"
+  },
+  {
+    "i": 4,
+    "title": "Промышленный компьютер БТ-69 НМК",
+    "family": "embeddedPc",
+    "config": {}
+  },
+  {
+    "i": 5,
+    "title": "Спиральный конвейер",
+    "family": "spiral"
+  },
+  {
+    "i": 6,
+    "title": "Копировально-прошивные станки SEMAT серии SK",
+    "family": "edm"
+  },
+  {
+    "i": 7,
+    "title": "Поршневая компрессорная установка ПКУ006",
+    "family": "compressor"
+  },
+  {
+    "i": 8,
+    "title": "Разборный пластинчатый теплообменник",
+    "family": "heat"
+  },
+  {
+    "i": 9,
+    "title": "Лазерный комплекс HYPERCUT для резки листов",
+    "family": "laser"
+  },
+  {
+    "i": 10,
+    "title": "SharpMark Fiber Intelligence PRO",
+    "family": "marker"
+  },
+  {
+    "i": 11,
+    "title": "Складная лестница с платформой NV 3540106",
+    "family": "ladder"
+  },
+  {
+    "i": 12,
+    "title": "Двухскатный навес из поликарбоната 11 × 10 м",
+    "family": "canopyExample",
+    "config": {
+      "w": 5.24,
+      "d": 4.76,
+      "posts": 5,
+      "ribs": 6,
+      "purlins": 14,
+      "tint": 9544617
+    }
+  },
+  {
+    "i": 13,
+    "title": "Навес на две машины 10 × 12 м",
+    "family": "canopyExample",
+    "config": {
+      "w": 4.55,
+      "d": 5.45,
+      "posts": 4,
+      "ribs": 5,
+      "purlins": 11,
+      "form": "arch",
+      "tint": 7183524
+    }
+  },
+  {
+    "i": 14,
+    "title": "Навес из профнастила 6 × 8 м",
+    "family": "corrugated"
+  },
+  {
+    "i": 15,
+    "title": "Парковочный навес на 3–20 автомобилей",
+    "family": "canopyExample",
+    "config": {
+      "w": 3.6,
+      "d": 7.4,
+      "posts": 5,
+      "ribs": 6,
+      "form": "lean",
+      "steel": true,
+      "paint": 5267559
+    }
+  },
+  {
+    "i": 16,
+    "title": "Автонавес 6 × 9 м на три машины",
+    "family": "canopyExample",
+    "config": {
+      "w": 5.7,
+      "d": 3.8,
+      "posts": 3,
+      "ribs": 4,
+      "form": "arch",
+      "tint": 9548707
+    }
+  },
+  {
+    "i": 17,
+    "title": "Металлический арочный автонавес",
+    "family": "arch"
+  },
+  {
+    "i": 18,
+    "title": "Арочный автонавес из портфолио",
+    "family": "arch"
+  },
+  {
+    "i": 19,
+    "title": "автонавес из металлочерепицы 8 × 9 м",
+    "family": "tile"
+  },
+  {
+    "i": 20,
+    "title": "двускатный автонавес из поликарбоната",
+    "family": "canopyExample",
+    "config": {
+      "w": 4.78,
+      "d": 3.45,
+      "posts": 3,
+      "ribs": 4,
+      "tint": 10521715,
+      "paint": 4802898
+    }
+  },
+  {
+    "i": 21,
+    "title": "автонавес из поликарбоната",
+    "family": "canopyExample",
+    "config": {
+      "w": 3.7,
+      "d": 4.62,
+      "posts": 4,
+      "ribs": 6,
+      "form": "arch",
+      "tint": 7771322,
+      "paint": 4279396
+    }
+  },
+  {
+    "i": 22,
+    "title": "навес для автомобиля с тентовым покрытием",
+    "family": "tent"
+  },
+  {
+    "i": 23,
+    "title": "металлический автонавес",
+    "family": "canopyExample",
+    "config": {
+      "w": 4.18,
+      "d": 4.5,
+      "posts": 3,
+      "ribs": 4,
+      "form": "lean",
+      "steel": true,
+      "paint": 4736587
+    }
+  },
+  {
+    "i": 24,
+    "title": "металлическая беседка из каталога",
+    "family": "gazebo"
+  },
+  {
+    "i": 25,
+    "title": "металлическая пергола из каталога",
+    "family": "pergola"
+  },
+  {
+    "i": 26,
+    "title": "ВЕСТА 8 ПРОФИ",
+    "family": "seeder"
+  },
+  {
+    "i": 27,
+    "title": "полуприцеп-зерновоз 9520-034-Н7-01",
+    "family": "trailer"
+  },
+  {
+    "i": 28,
+    "title": "грохот для обогатительного оборудования",
+    "family": "screen"
+  },
+  {
+    "i": 29,
+    "title": "Цилиндрический редуктор 1Ц2У-160",
+    "family": "cylindreducer"
+  },
+  {
+    "i": 30,
+    "title": "Стальной блок-контейнер 6×2,4 м",
+    "family": "module",
+    "config": {
+      "window": [
+        800,
+        1100
+      ],
+      "finish": "panel"
+    }
+  },
+  {
+    "i": 31,
+    "title": "Инерционный грохот ГИЛ-051",
+    "family": "screen"
+  },
+  {
+    "i": 32,
+    "title": "Инерционный грохот ГИЛ-42",
+    "family": "screen"
+  },
+  {
+    "i": 33,
+    "title": "Горизонтальный ленточный конвейер для кирпича",
+    "family": "belt"
+  },
+  {
+    "i": 34,
+    "title": "Арочный навес НА002 6×4",
+    "family": "arch"
+  },
+  {
+    "i": 35,
+    "title": "Автоматическая линия дозированного розлива в ПЭТ",
+    "family": "bottle"
+  },
+  {
+    "i": 36,
+    "title": "Электродвигатель АДЧР",
+    "family": "motor"
+  },
+  {
+    "i": 37,
+    "title": "Гидроборт РТП.ВN.1.1500",
+    "family": "liftgate"
+  },
+  {
+    "i": 38,
+    "title": "Линия розлива 0,5–5 л с выдувом ПЭТ",
+    "family": "bottle"
+  },
+  {
+    "i": 39,
+    "title": "Цилиндрический редуктор Ц2Н-500",
+    "family": "cylindreducer"
+  },
+  {
+    "i": 40,
+    "title": "Моноблочный насос КМ 80-65-160",
+    "family": "pump"
+  },
+  {
+    "i": 41,
+    "title": "Цилиндрический редуктор 1Ц2У-200",
+    "family": "cylindreducer"
+  },
+  {
+    "i": 42,
+    "title": "Редуктор 1Ц2У-100",
+    "family": "cylindreducer"
+  },
+  {
+    "i": 43,
+    "title": "Цилиндрический редуктор 1Ц2У 100",
+    "family": "cylindreducer"
+  },
+  {
+    "i": 44,
+    "title": "Блок-контейнер 6×2,4 м с утеплением 150 мм",
+    "family": "module",
+    "config": {
+      "window": [
+        600,
+        600
+      ],
+      "finish": "panel"
+    }
+  },
+  {
+    "i": 45,
+    "title": "Утепленный блок-контейнер 6 м",
+    "family": "module",
+    "config": {
+      "finish": "panel",
+      "roof": "flat"
+    }
+  },
+  {
+    "i": 46,
+    "title": "Блок-контейнер 6×2,4 м с отделкой ДВП",
+    "family": "module",
+    "config": {
+      "window": [
+        600,
+        900
+      ],
+      "roof": "lean",
+      "finish": "profile",
+      "door": "wood"
+    }
+  },
+  {
+    "i": 47,
+    "title": "Строительная бытовка БК-1",
+    "family": "module",
+    "config": {
+      "window": [
+        900,
+        1000
+      ],
+      "door": "wood",
+      "roof": "flat"
+    }
+  },
+  {
+    "i": 48,
+    "title": "Вертикальная емкость с мешалкой на 1 000 л",
+    "family": "tankmix"
+  },
+  {
+    "i": 49,
+    "title": "Линия розлива молока AVIS 6000",
+    "family": "bottle"
+  },
+  {
+    "i": 50,
+    "title": "Контейнер для мультилифта TN-K Profi, 20 м³",
+    "family": "hookbin"
+  },
+  {
+    "i": 51,
+    "title": "Инерционный грохот ГИЛ-43",
+    "family": "screen"
+  },
+  {
+    "i": 52,
+    "title": "Контейнер для мультилифта 20 м³",
+    "family": "hookbin"
+  },
+  {
+    "i": 53,
+    "title": "Прямой ленточный конвейер для склада",
+    "family": "belt"
+  },
+  {
+    "i": 54,
+    "title": "Прямой ленточный транспортер ТЛП-1",
+    "family": "belt"
+  },
+  {
+    "i": 55,
+    "title": "Упаковочный автомат МАКИЗ ТК 055",
+    "family": "pack"
+  },
+  {
+    "i": 56,
+    "title": "Линия Инпак-Эконом и МДВ-22",
+    "family": "pack"
+  },
+  {
+    "i": 57,
+    "title": "Ленточный конвейер с изменяемым углом наклона",
+    "family": "incline"
+  },
+  {
+    "i": 58,
+    "title": "Вертикальная емкость с лопастной мешалкой",
+    "family": "tankmix"
+  },
+  {
+    "i": 59,
+    "title": "Металлический блок-контейнер 6×2,4 м",
+    "family": "module",
+    "config": {
+      "window": [
+        900,
+        600
+      ],
+      "finish": "profile"
+    }
+  },
+  {
+    "i": 60,
+    "title": "Блок-контейнер Север 6",
+    "family": "module",
+    "config": {
+      "door": "double",
+      "finish": "profile"
+    }
+  },
+  {
+    "i": 61,
+    "title": "Блок-контейнер ПР-БК-01",
+    "family": "module",
+    "config": {
+      "window": [
+        800,
+        600
+      ],
+      "roof": "flat",
+      "finish": "profile",
+      "door": "wood"
+    }
+  },
+  {
+    "i": 62,
+    "title": "Блок-контейнер БК-02",
+    "family": "module",
+    "config": {
+      "window": [
+        800,
+        1000
+      ],
+      "door": "wood"
+    }
+  },
+  {
+    "i": 63,
+    "title": "Межфланцевый дисковый затвор ЗДМ",
+    "family": "wafer"
+  },
+  {
+    "i": 64,
+    "title": "Сушильный шкаф ШС80К/300(350)",
+    "family": "drycab"
+  },
+  {
+    "i": 65,
+    "title": "Винтовой конвейер ВК-273",
+    "family": "tubeAuger"
+  },
+  {
+    "i": 66,
+    "title": "Контроллер уровня ЭМИС-СИСТЕМА 500",
+    "family": "board"
+  },
+  {
+    "i": 67,
+    "title": "Распашные металлические ворота ВР серии 1.435.9-17",
+    "family": "swinggate"
+  },
+  {
+    "i": 68,
+    "title": "Сушильный шкаф ШС 35/250-500-П-Улучшенный",
+    "family": "drycab1"
+  },
+  {
+    "i": 69,
+    "title": "Сушильный шкаф ШС-2 СП6",
+    "family": "drycab6"
+  },
+  {
+    "i": 70,
+    "title": "Инерционный грохот ГИЛ-43",
+    "family": "screen"
+  },
+  {
+    "i": 71,
+    "title": "Стандартный блок-контейнер 6×2,4 м",
+    "family": "module",
+    "config": {
+      "finish": "profile"
+    }
+  },
+  {
+    "i": 72,
+    "title": "Инерционный грохот ГИЛ-32",
+    "family": "screen2"
+  },
+  {
+    "i": 73,
+    "title": "Фрезерный станок BEAVERMILL 3 и 4 оси",
+    "family": "enclosedMill",
+    "config": {
+      "w": 2.28,
+      "d": 2.97,
+      "h": 3.56,
+      "swing": true,
+      "rotary": true,
+      "paint": 10728630
+    }
+  },
+  {
+    "i": 74,
+    "title": "Контейнер для мультилифта Стандарт, 20 м³",
+    "family": "hookbin"
+  },
+  {
+    "i": 75,
+    "title": "Арочный навес 5,6×13,5 м",
+    "family": "longArch"
+  },
+  {
+    "i": 76,
+    "title": "Вертикальный фрезерный центр КВАНТ MG-1",
+    "family": "enclosedMill",
+    "config": {
+      "w": 3.6,
+      "d": 2.73,
+      "h": 2.96,
+      "paint": 13752279
+    }
+  },
+  {
+    "i": 77,
+    "title": "Металлический блок-контейнер 6×2,4 м",
+    "family": "module",
+    "config": {
+      "finish": "panel"
+    }
+  },
+  {
+    "i": 78,
+    "title": "Двойной блок-контейнер BM-01SP",
+    "family": "paired"
+  },
+  {
+    "i": 79,
+    "title": "Блок-контейнер БК-01",
+    "family": "module",
+    "config": {
+      "window": [
+        800,
+        900
+      ],
+      "roof": "lean",
+      "finish": "profile"
+    }
+  },
+  {
+    "i": 80,
+    "title": "Контейнер для мультилифта 20 м³",
+    "family": "hookbin"
+  },
+  {
+    "i": 81,
+    "title": "Портальная лазерная система Lab Portal A2",
+    "family": "laseropen"
+  },
+  {
+    "i": 82,
+    "title": "Портальный фрезерный станок TS 1325",
+    "family": "router",
+    "config": {
+      "wide": 2.38,
+      "long": 4.55,
+      "paint": 4229723
+    }
+  },
+  {
+    "i": 83,
+    "title": "Фрезерный станок BIGSTOL 1325",
+    "family": "router",
+    "config": {
+      "wide": 2.37,
+      "long": 4.55,
+      "paint": 2123855
+    }
+  },
+  {
+    "i": 84,
+    "title": "Инерционный грохот ГИС-53",
+    "family": "screen"
+  },
+  {
+    "i": 85,
+    "title": "Гидравлический пресс П6320",
+    "family": "pressFrame",
+    "config": {
+      "cols": 1
+    }
+  },
+  {
+    "i": 86,
+    "title": "Шнековый дозатор с бункером 110 л",
+    "family": "augerDose"
+  },
+  {
+    "i": 87,
+    "title": "Винтовой конвейер РС-КВ-I-250",
+    "family": "tubeAuger"
+  },
+  {
+    "i": 88,
+    "title": "Блок-контейнер БК-02, 6×2,4 м",
+    "family": "module",
+    "config": {
+      "finish": "profile",
+      "window": [
+        800,
+        900
+      ]
+    }
+  },
+  {
+    "i": 89,
+    "title": "Вертикально-фрезерный станок ВФ180",
+    "family": "openmill"
+  },
+  {
+    "i": 90,
+    "title": "Открытый лазерный станок GS 13030L",
+    "family": "laseropen"
+  },
+  {
+    "i": 91,
+    "title": "Арочная теплица Столичная",
+    "family": "greenhouse",
+    "config": {
+      "length": 6.2,
+      "ribs": 7
+    }
+  },
+  {
+    "i": 92,
+    "title": "Арочная теплица Альфа 2,5×4 м",
+    "family": "greenhouse",
+    "config": {
+      "length": 5.3,
+      "ribs": 6
+    }
+  },
+  {
+    "i": 93,
+    "title": "Инерционный грохот ГИЛ-42",
+    "family": "screen"
+  },
+  {
+    "i": 94,
+    "title": "Лазерный маркиратор SEKIRUS P2403M-VM",
+    "family": "marker"
+  },
+  {
+    "i": 95,
+    "title": "Плоский фланец Ду 150 Ру 16, тип 01",
+    "family": "flange",
+    "config": {
+      "d": 285,
+      "k": 240,
+      "bore": 161,
+      "hole": 22,
+      "bolts": 8
+    }
+  },
+  {
+    "i": 96,
+    "title": "Универсально-фрезерный станок ФС-300-01",
+    "family": "universalMill"
+  },
+  {
+    "i": 97,
+    "title": "Линия розлива в ПЭТ-бутылки 0,5–2 л",
+    "family": "bottle"
+  },
+  {
+    "i": 98,
+    "title": "Плоский приварной фланец Ду 80 Ру 16, тип 01",
+    "family": "flange",
+    "config": {
+      "d": 195,
+      "k": 160,
+      "bore": 91,
+      "hole": 18,
+      "bolts": 4
+    }
+  },
+  {
+    "i": 99,
+    "title": "Плоский фланец 50-16-01-1-D, сталь 20",
+    "family": "flange",
+    "config": {
+      "d": 165,
+      "k": 125,
+      "bore": 61,
+      "hole": 18,
+      "bolts": 4
+    }
+  },
+  {
+    "i": 100,
+    "title": "Утепленный воздушный клапан КВУ с ТЭН",
+    "family": "damper"
+  },
+  {
+    "i": 101,
+    "title": "Поршневой гидроцилиндр ГЦ-63.40×320",
+    "family": "hydrocyl"
+  },
+  {
+    "i": 102,
+    "title": "Лазерная система МиниМаркер 2",
+    "family": "benchmarker"
+  },
+  {
+    "i": 103,
+    "title": "Вертикальный воздухосборник В-1,0-0,8",
+    "family": "receiver"
+  },
+  {
+    "i": 104,
+    "title": "Сборный гараж HomeGate GS4_6_Zn",
+    "family": "garage"
+  },
+  {
+    "i": 105,
+    "title": "Волоконный маркиратор Mark&Clean",
+    "family": "benchmarker"
+  },
+  {
+    "i": 106,
+    "title": "Ручной поворотный листогиб ЛГС-26",
+    "family": "manualBender"
+  },
+  {
+    "i": 107,
+    "title": "Гидравлический листогибочный пресс ИБ1430.32-21",
+    "family": "pressBrake"
+  },
+  {
+    "i": 108,
+    "title": "Горизонтальный ленточный смеситель СМУ-Л-1 м³",
+    "family": "ribbon"
+  },
+  {
+    "i": 109,
+    "title": "Полуприцеп-самосвал KOBLiK C3",
+    "family": "trailer"
+  },
+  {
+    "i": 110,
+    "title": "Блок-контейнер БК-01 СП Транспак с тамбуром",
+    "family": "module",
+    "config": {
+      "finish": "panel",
+      "partition": true
+    }
+  },
+  {
+    "i": 111,
+    "title": "Офисный блок-контейнер 6×2,4 м",
+    "family": "module",
+    "config": {
+      "window": [
+        1100,
+        900
+      ],
+      "roof": "flat"
+    }
+  },
+  {
+    "i": 112,
+    "title": "Арочная теплица Боярская 3 м",
+    "family": "greenhouse",
+    "config": {
+      "length": 5.9,
+      "ribs": 7
+    }
+  },
+  {
+    "i": 113,
+    "title": "Арочная теплица 4 м",
+    "family": "greenhouse",
+    "config": {
+      "length": 4.43,
+      "ribs": 5
+    }
+  },
+  {
+    "i": 114,
+    "title": "Наклонный ленточный транспортер",
+    "family": "incline"
+  },
+  {
+    "i": 115,
+    "title": "Арочная теплица ЭКО+ 3×6 м",
+    "family": "greenhouse",
+    "config": {
+      "length": 6.6,
+      "ribs": 7
+    }
+  },
+  {
+    "i": 116,
+    "title": "Утепленный воздушный клапан КВУ",
+    "family": "damper",
+    "config": {
+      "height": 1.69,
+      "blades": 4
+    }
+  },
+  {
+    "i": 117,
+    "title": "Инструментальная тележка Premium с пятью ящиками",
+    "family": "toolCart",
+    "config": {
+      "drawers": 5
+    }
+  },
+  {
+    "i": 118,
+    "title": "Металлический шкаф ТМ-5 на два баллона",
+    "family": "gasCabinet"
+  },
+  {
+    "i": 119,
+    "title": "Грузовой четырехполочный стеллаж МСК-815.600.4",
+    "family": "shelfRack",
+    "config": {
+      "levels": 4
+    }
+  },
+  {
+    "i": 120,
+    "title": "Лестничный лоток Сегмент-МЛЛ40Е 400×50, L2000",
+    "family": "cableLadder",
+    "config": {
+      "length": 4.45,
+      "width": 0.91,
+      "high": 0.22,
+      "rungs": 7
+    }
+  },
+  {
+    "i": 121,
+    "title": "Горячеоцинкованный лестничный лоток 400×50, L3000",
+    "family": "cableLadder",
+    "config": {
+      "length": 5.8,
+      "width": 0.91,
+      "high": 0.22,
+      "rungs": 10
+    }
+  },
+  {
+    "i": 122,
+    "title": "Лестничный лоток ЛМЛ 200×50, L2000",
+    "family": "cableLadder",
+    "config": {
+      "length": 4.45,
+      "width": 0.51,
+      "high": 0.22,
+      "rungs": 8
+    }
+  },
+  {
+    "i": 123,
+    "title": "Лестничный лоток 400×50×2000, толщина 1,2 мм",
+    "family": "cableLadder",
+    "config": {
+      "length": 4.45,
+      "width": 0.91,
+      "high": 0.22,
+      "rungs": 8
+    }
+  },
+  {
+    "i": 124,
+    "title": "Дисковый затвор серии 800",
+    "family": "valve"
+  },
+  {
+    "i": 125,
+    "title": "Металлический евроконтейнер 1,1 м³ с задней загрузкой",
+    "family": "wheelBin",
+    "config": {
+      "paint": 7372176
+    }
+  },
+  {
+    "i": 126,
+    "title": "Пневматическая сеялка МС-8",
+    "family": "shoeSeeder"
+  },
+  {
+    "i": 127,
+    "title": "Контейнер для ТБО Евро 1,1 м³ с колесами Ø200 мм",
+    "family": "wheelBin",
+    "config": {
+      "paint": 3694939
+    }
+  },
+  {
+    "i": 128,
+    "title": "Двухтумбовый слесарный верстак серии L, 5/6 ящиков",
+    "family": "workbench",
+    "config": {
+      "drawers": 6,
+      "leftDrawers": 5
+    }
+  },
+  {
+    "i": 129,
+    "title": "Лестничный лоток 400×50×3000, артикул 200007",
+    "family": "cableLadder",
+    "config": {
+      "length": 5.8,
+      "width": 0.91,
+      "high": 0.23,
+      "rungs": 9
+    }
+  },
+  {
+    "i": 130,
+    "title": "Сушильный шкаф ШС Циклон 1965",
+    "family": "drycabTall"
+  },
+  {
+    "i": 131,
+    "title": "Промышленный сушильный шкаф СМ -50-250-80 ШС",
+    "family": "drycab1"
+  },
+  {
+    "i": 132,
+    "title": "Вертикальный воздухосборник ВВ-1",
+    "family": "receiver",
+    "config": {
+      "height": 1.37
+    }
+  },
+  {
+    "i": 133,
+    "title": "Ручной поворотный листогиб Атлант Плюс 2000",
+    "family": "manualBender",
+    "config": {
+      "paint": 3432313
+    }
+  },
+  {
+    "i": 134,
+    "title": "Блок-контейнер К-4 ССМ для ДГУ",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.05,
+      "depth": 2.12
+    }
+  },
+  {
+    "i": 135,
+    "title": "Контейнер для ДЭС Север Стандарт",
+    "family": "generatorCab",
+    "config": {
+      "length": 5.05,
+      "depth": 2.15,
+      "paint": 8950432
+    }
+  },
+  {
+    "i": 136,
+    "title": "Киосковая трансформаторная подстанция КТП 400",
+    "family": "substation",
+    "config": {
+      "length": 3.89,
+      "depth": 2.06
+    }
+  },
+  {
+    "i": 137,
+    "title": "КТПН-Т-В/К 400/10/0,4 с трансформатором ТМГ",
+    "family": "substation",
+    "config": {
+      "length": 4.5,
+      "depth": 2.13,
+      "paint": 10003892
+    }
+  },
+  {
+    "i": 138,
+    "title": "Блочная насосная станция в контейнере СРБК 5.3.3.0.2018-АС",
+    "family": "pumpHouse",
+    "config": {
+      "length": 4.5,
+      "depth": 2.54
+    }
+  },
+  {
+    "i": 139,
+    "title": "Моноблочный насос КМ 65-50-160",
+    "family": "pump"
+  },
+  {
+    "i": 140,
+    "title": "Инструментальный шкаф КД-02-И, артикул П2691",
+    "family": "toolCabinet",
+    "config": {
+      "drawers": 2
+    }
+  },
+  {
+    "i": 141,
+    "title": "Передвижная подстанция ПКТП 400",
+    "family": "substation",
+    "config": {
+      "length": 4.56,
+      "depth": 2.15,
+      "sled": true
+    }
+  },
+  {
+    "i": 142,
+    "title": "Пергола B200 MAF с неподвижными ламелями",
+    "family": "pergola"
+  },
+  {
+    "i": 143,
+    "title": "Односторонний консольный стеллаж Л 2500×600×1000, 4 уровня",
+    "family": "cantilever",
+    "config": {
+      "levels": 4,
+      "single": true
+    }
+  },
+  {
+    "i": 144,
+    "title": "Двухдверный сушильный шкаф ШСО-2000",
+    "family": "dryDouble",
+    "config": {
+      "shelves": 3,
+      "hanging": true
+    }
+  },
+  {
+    "i": 145,
+    "title": "Блок-контейнер 6×2,4×2,7 м",
+    "family": "module",
+    "config": {
+      "finish": "profile"
+    }
+  },
+  {
+    "i": 146,
+    "title": "Роботизированный модуль RM CNC",
+    "family": "robot"
+  },
+  {
+    "i": 147,
+    "title": "Ленточный конвейер КЛ в горизонтальном исполнении",
+    "family": "belt"
+  },
+  {
+    "i": 148,
+    "title": "Сушильный шкаф ШСО-22М",
+    "family": "dryDouble",
+    "config": {
+      "shelves": 4,
+      "hanging": true
+    }
+  },
+  {
+    "i": 149,
+    "title": "Напорная камера КСО-130-Н-СФ-Р с фронтальной загрузкой",
+    "family": "blast"
+  },
+  {
+    "i": 150,
+    "title": "Проходная камера полимеризации с верхней транспортной системой",
+    "family": "oven",
+    "config": {
+      "pass": true,
+      "depth": 4.2
+    }
+  },
+  {
+    "i": 151,
+    "title": "Контейнер ТБО-3 0,75 м³ с крышкой на колесах",
+    "family": "wheelBin",
+    "config": {
+      "paint": 5270629
+    }
+  },
+  {
+    "i": 152,
+    "title": "Киосковая подстанция КТП ТВ 400/10/0,4",
+    "family": "substation",
+    "config": {
+      "length": 4.7,
+      "depth": 2.07,
+      "paint": 10003363
+    }
+  },
+  {
+    "i": 153,
+    "title": "Подстанция КТП-ТВ-400/10/0,4",
+    "family": "substation",
+    "config": {
+      "length": 4.35,
+      "depth": 2.2,
+      "paint": 8754825
+    }
+  },
+  {
+    "i": 154,
+    "title": "Тупиковая подстанция КТПН-Т-В/К 400/10/0,4",
+    "family": "substation",
+    "config": {
+      "length": 4.05,
+      "depth": 2.17,
+      "paint": 8621730
+    }
+  },
+  {
+    "i": 155,
+    "title": "Контейнер Север для ДГУ",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.8,
+      "depth": 2.15
+    }
+  },
+  {
+    "i": 156,
+    "title": "Шнековый питатель-дозатор ШП-АПМ-76/80БВ",
+    "family": "augerFeed"
+  },
+  {
+    "i": 157,
+    "title": "Блочно-модульная котельная БМК-0,5 МВт",
+    "family": "boiler",
+    "config": {
+      "length": 4.47,
+      "boilers": 1
+    }
+  },
+  {
+    "i": 158,
+    "title": "Металлокаркас ангара",
+    "family": "frame"
+  },
+  {
+    "i": 159,
+    "title": "Блочно-модульная котельная БМК-1000",
+    "family": "boiler",
+    "config": {
+      "length": 5.52,
+      "depth": 2.53,
+      "boilers": 2
+    }
+  },
+  {
+    "i": 160,
+    "title": "Посевной комплекс Импульс 12/80",
+    "family": "seed80"
+  },
+  {
+    "i": 161,
+    "title": "Камера полимеризации КП-1О-2400",
+    "family": "oven",
+    "config": {
+      "depth": 3.06,
+      "sliding": true
+    }
+  },
+  {
+    "i": 162,
+    "title": "Грохот для рассева кокса ГА52",
+    "family": "screen"
+  },
+  {
+    "i": 163,
+    "title": "Гидроборт для прицепа ГБ20",
+    "family": "liftgate"
+  },
+  {
+    "i": 164,
+    "title": "Стальной блок-модуль",
+    "family": "module"
+  },
+  {
+    "i": 165,
+    "title": "Металлический контейнер 1,1 м³ с колесами D200",
+    "family": "wheelBin",
+    "config": {
+      "paint": 4219255
+    }
+  },
+  {
+    "i": 166,
+    "title": "Односторонний консольный стеллаж СГ с четырьмя консолями",
+    "family": "cantilever",
+    "config": {
+      "single": true,
+      "levels": 4
+    }
+  },
+  {
+    "i": 167,
+    "title": "Киосковая подстанция КТП 1000/10/0,4, артикул 2982-КТ",
+    "family": "substation",
+    "config": {
+      "length": 4.4,
+      "depth": 2.47,
+      "paint": 8758680
+    }
+  },
+  {
+    "i": 168,
+    "title": "Проходная подстанция КТПН 630/10/0,4",
+    "family": "substation",
+    "config": {
+      "length": 4.65,
+      "depth": 2.21,
+      "paint": 9871020
+    }
+  },
+  {
+    "i": 169,
+    "title": "Самоходный ножничный подъемник ЭКО 10",
+    "family": "scissor"
+  },
+  {
+    "i": 170,
+    "title": "Дозировочная емкость 500 л с пропеллерной мешалкой",
+    "family": "tankmix",
+    "config": {
+      "poly": true
+    }
+  },
+  {
+    "i": 171,
+    "title": "Разборный пластинчатый теплообменник Pallant PS22",
+    "family": "heat"
+  },
+  {
+    "i": 172,
+    "title": "Блок-контейнер Север БК-6000 на двухосном шасси",
+    "family": "mobileModule"
+  },
+  {
+    "i": 173,
+    "title": "Блок-контейнер Север 4 для ДГУ",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.04,
+      "depth": 2.22,
+      "paint": 8029834
+    }
+  },
+  {
+    "i": 174,
+    "title": "Ленточный конвейер ТЛ(С) 500",
+    "family": "incline"
+  },
+  {
+    "i": 175,
+    "title": "Арочная теплица Звезда 3 м",
+    "family": "greenhouse",
+    "config": {
+      "length": 6.15,
+      "ribs": 7
+    }
+  },
+  {
+    "i": 176,
+    "title": "Двухтрансформаторная киосковая подстанция 2КТПН",
+    "family": "substation",
+    "config": {
+      "length": 6.02,
+      "depth": 2.36,
+      "units": 2
+    }
+  },
+  {
+    "i": 177,
+    "title": "Модульный КПП 2500×2400 ПО-2524",
+    "family": "guardPost",
+    "config": {
+      "w": 2.54,
+      "d": 2.43,
+      "wide": true,
+      "doorfront": true,
+      "wrap": true
+    }
+  },
+  {
+    "i": 178,
+    "title": "Арочный навес 5,6×6 м",
+    "family": "arch"
+  },
+  {
+    "i": 179,
+    "title": "Блок-контейнер пост охраны 4×2,4 м",
+    "family": "guardPost",
+    "config": {
+      "w": 4.0,
+      "d": 2.4,
+      "doorfront": true,
+      "partition": true
+    }
+  },
+  {
+    "i": 180,
+    "title": "Пост охраны БК-00 1,5×1,5×2,45 м",
+    "family": "guardPost",
+    "config": {
+      "w": 1.58,
+      "d": 1.58,
+      "h": 2.45,
+      "hatch": true,
+      "wrap": true,
+      "paint": 11052175
+    }
+  },
+  {
+    "i": 181,
+    "title": "Линия фасовки на базе Бестром 420",
+    "family": "pack"
+  },
+  {
+    "i": 182,
+    "title": "Модульная проходная из четырех блок-контейнеров",
+    "family": "checkpoint"
+  },
+  {
+    "i": 183,
+    "title": "Уличный шкаф ТМ-5 для двух баллонов по 50 л",
+    "family": "gasCabinet",
+    "config": {
+      "singleGas": true
+    }
+  },
+  {
+    "i": 184,
+    "title": "Утепленный блок-контейнер Север для ДГУ",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.18,
+      "depth": 2.35,
+      "paint": 9480119
+    }
+  },
+  {
+    "i": 185,
+    "title": "Шнековый дозатор в готовый пакет",
+    "family": "augerDose",
+    "config": {
+      "bag": true
+    }
+  },
+  {
+    "i": 186,
+    "title": "Винтовой конвейер БКВ-200",
+    "family": "auger",
+    "config": {
+      "turns": 8
+    }
+  },
+  {
+    "i": 187,
+    "title": "Наклонный шнековый транспортер ТНШН-300",
+    "family": "tubeAuger",
+    "config": {
+      "angle": -0.22,
+      "turns": 7
+    }
+  },
+  {
+    "i": 188,
+    "title": "Горизонтальный шнековый транспортер ТШГ-250",
+    "family": "auger",
+    "config": {
+      "turns": 6
+    }
+  },
+  {
+    "i": 189,
+    "title": "Гидроборт SL 1500",
+    "family": "liftgate"
+  },
+  {
+    "i": 190,
+    "title": "Шкаф ШГБ-2-2Н для двух баллонов 50 л",
+    "family": "gasCabinet"
+  },
+  {
+    "i": 191,
+    "title": "Пост охраны КПП 6000×2460×2775 мм",
+    "family": "guardPost",
+    "config": {
+      "w": 5.45,
+      "d": 2.25,
+      "h": 2.58,
+      "wide": true,
+      "doorfront": true,
+      "partition": true
+    }
+  },
+  {
+    "i": 192,
+    "title": "Мобильный пост охраны БК-03",
+    "family": "guardPost",
+    "config": {
+      "w": 3.0,
+      "d": 2.4,
+      "h": 2.56,
+      "hatch": true,
+      "doorfront": true,
+      "paint": 11450036
+    }
+  },
+  {
+    "i": 193,
+    "title": "Блок-контейнер БК-4 с распашной торцевой створкой",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.02,
+      "depth": 2.3,
+      "endDoor": true,
+      "paint": 10988189
+    }
+  },
+  {
+    "i": 194,
+    "title": "ДГУ АД100С-Т400-2Р в контейнере на салазках",
+    "family": "generatorCab",
+    "config": {
+      "length": 4.48,
+      "depth": 2.15,
+      "sled": true,
+      "paint": 10926016
+    }
+  },
+  {
+    "i": 195,
+    "title": "Электромеханический профилегиб ПСК-60",
+    "family": "profileRoll"
+  },
+  {
+    "i": 196,
+    "title": "Шкаф для спецодежды DION PRO NEXT",
+    "family": "workwearDryer"
+  },
+  {
+    "i": 197,
+    "title": "Сборно-разборная кованая беседка Илиада с перилами",
+    "family": "gazebo",
+    "config": {
+      "ornate": true
+    }
+  },
+  {
+    "i": 198,
+    "title": "Лабораторный вытяжной шкаф ШВМУ-1200",
+    "family": "fume",
+    "config": {
+      "width": 1.76,
+      "depth": 1.02,
+      "rise": 0.87
+    }
+  },
+  {
+    "i": 199,
+    "title": "Контейнер для мультилифта ХАРДБЕНД 32 м³",
+    "family": "hookbin",
+    "config": {
+      "horizontal": true
+    }
+  },
+  {
+    "i": 200,
+    "title": "Дизельная котельная БМК-2000 типа ДТ",
+    "family": "boiler",
+    "config": {
+      "length": 5.5,
+      "depth": 2.65,
+      "paint": 11448743,
+      "boilers": 2
+    }
+  }
+]

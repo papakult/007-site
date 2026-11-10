@@ -1,14 +1,20 @@
 import {createStage} from '../../catalog-view.js';
 import {Vector3} from '../../engine.js';
 import {createScene} from './scenes.js';
-const [notes,jobs]=await Promise.all(['./notes.json','./jobs.json'].map(async path=>(await fetch(path)).json()));
+const [notes,jobs]=await Promise.all(['./notes.json','./jobs.json'].map(async path=>{
+ const response=await fetch(path);
+ if(!response.ok)throw new Error('Не загрузился список моделей');
+ return response.json();
+}));
 const parameters=new URLSearchParams(location.search);
 const film=parameters.has('video');
 if(film)document.body.classList.add('film');
 const $=id=>document.getElementById(id);
-const stage=createStage($('model'));
+let stage;
+try { stage=createStage($('model')); }
+catch (error) { $('error').hidden=false; console.warn(error); }
 const steps=Array.from({length:3},(_,i)=>$('step'+i));
-let scene,labels,key,job,tick,activeStep=0,serial=0;
+let scene,labels,key,tick,activeStep=0,serial=0;
 function smooth(t){return t*t*(3-2*t);}
 function mix(a,b,r){return a+(b-a)*r;}
 function vector(a,b,r){return a.map((x,i)=>mix(x,b[i],r));}
@@ -63,33 +69,72 @@ function play(){
 }
 async function open(nextKey,nextJob){
  stop();const id=++serial;
- const selected=await createScene(nextKey);
+ const title=nextJob?.title||notes[nextKey][0];
+ $('title').textContent=title;
+ document.title=title+' | 007-A';
+ $('picker').value=nextJob?'item-'+nextJob.i:'type-'+nextKey;
+ $('matching-video').hidden=!nextJob;
+ if(nextJob)$('matching-video').href='../../videos/#demo-'+nextJob.i;
+ if(!stage)return;
+ const selected=await createScene(nextKey,nextJob?.config);
  if(id!==serial){stage.dispose(selected.root);return;}
- key=nextKey;job=nextJob;
+ key=nextKey;
  scene=selected;
- labels=['Изделие в сборе',...notes[key].slice(1,3)];
- $('title').textContent=job?.title||notes[key][0];
- document.title=notes[key][0]+' | 007-A';
+ labels=nextJob?.labels||['Изделие в сборе',...notes[key].slice(1,3)];
  steps.forEach((button,i)=>button.textContent='0'+(i+1)+'  '+labels[i]);
- $('picker').value=key;
  stage.show(scene);snap(0);
  $('model').dataset.scene=key;
  document.documentElement.dataset.ready='true';
 }
-for(const [k,value] of Object.entries(notes)){
- const o=document.createElement('option');o.value=k;o.textContent=value[0];$('picker').append(o);
+function appendOption(parent,value,title){
+ const option=document.createElement('option');
+ option.value=value;
+ option.textContent=title;
+ parent.append(option);
 }
-$('picker').onchange=()=>{location.hash=$('picker').value;open($('picker').value);};
-window.addEventListener('hashchange',()=>{
- const k=location.hash.slice(1);
- if(k in notes&&k!==key)open(k);
+const specific=document.createElement('optgroup');
+specific.label='Изделия из видеогалереи';
+const samples=document.createElement('optgroup');
+samples.label='Другие промышленные модели';
+const byId=new Map(jobs.map(item=>[String(item.i),item]));
+for(const item of jobs)appendOption(specific,'item-'+item.i,item.title);
+for(const [key,value] of Object.entries(notes))appendOption(samples,'type-'+key,value[0]);
+$('picker').append(specific,samples);
+async function followLocation(){
+ const params=new URLSearchParams(location.search);
+ const chosen=byId.get(params.get('model')||params.get('video'));
+ const key=chosen?.family||location.hash.slice(1);
+ try{
+  $('error').hidden=Boolean(stage);
+  await open(Object.hasOwn(notes,key)?key:'pack',chosen);
+ }catch(error){
+  $('error').hidden=false;
+  console.warn(error);
+ }
+}
+$('picker').onchange=()=>{
+ const value=$('picker').value;
+ const url=new URL(location.href);
+ url.search='';
+ url.hash='';
+ if(value.startsWith('item-'))url.searchParams.set('model',value.slice(5));
+ else url.hash=value.slice(5);
+ history.pushState(null,'',url);
+ followLocation();
+};
+window.addEventListener('popstate',followLocation);
+window.addEventListener('hashchange',followLocation);
+$('explode').oninput=()=>{if(scene){stop();setPose(Number($('explode').value)/100,1.4);}};
+steps.forEach((button,i)=>button.onclick=()=>{if(scene)snap(i);});
+$('play').onclick=()=>{if(scene){if(tick)stop();else play();}};
+$('zoom-in').onclick=()=>stage?.zoom(.82);
+$('zoom-out').onclick=()=>stage?.zoom(1.22);
+$('model').addEventListener('keydown',event=>{
+ if(event.key==='+'||event.key==='-'){
+  event.preventDefault();
+  stage?.zoom(event.key==='+'?.82:1.22);
+ }
 });
-$('explode').oninput=()=>{stop();setPose(Number($('explode').value)/100,1.4);};
-steps.forEach((b,i)=>b.onclick=()=>snap(i));
-$('play').onclick=()=>tick?stop():play();
-stage.controls.addEventListener('start',stop);
-const chosen=jobs.find(x=>String(x.i)===parameters.get('video'));
-const defaultKey=chosen?.family||location.hash.slice(1);
-try{await open(defaultKey in notes?defaultKey:'pack',chosen);}
-catch(error){$('error').hidden=false;throw error;}
+stage?.controls.addEventListener('start',stop);
+await followLocation();
 window.startTour=play;
