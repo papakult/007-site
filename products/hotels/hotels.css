@@ -4,6 +4,10 @@
   filter: saturate(.86);
   object-position: 61% 50%;
 }
+.hotels-direction .hero .shade {
+  background: linear-gradient(90deg, rgba(3, 4, 4, .93) 4%, rgba(3, 4, 4, .68) 51%, rgba(3, 4, 4, .10)),
+              linear-gradient(0deg, #080909, transparent 36%);
+}
 .hotel-jump { display: inline-block; border: 1px solid var(--line); padding: 12px 17px; margin-top: 22px; }
 .hotel-jump:hover { border-color: var(--ink); }
 
