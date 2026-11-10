@@ -216,8 +216,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 .scene h2,.scene .eyebrow,.hero-name,.hero-role,.hero-tag,.scroll-cue{-webkit-user-select:none;user-select:none}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
-<link rel="stylesheet" href="/assets/products-home.css">
-<style>.cap-item{padding:1.35rem 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.75rem 0}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}</style>  <script src="/assets/metrika.js" defer></script>
+<style>.cap-item{padding:clamp(.55rem,2vh,1.35rem) 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.7rem 0!important}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}@media(max-width:768px) and (max-height:700px){.cap-visual{height:25vh!important}.cap-item{padding:.5rem 0!important}.cap-list{padding-top:14px;padding-bottom:14px}}@media(min-width:769px) and (max-height:700px){.cap-list{padding-block:clamp(12px,4vh,28px)}.cap-eyebrow{margin-bottom:1.4rem}.cap-item{padding-block:clamp(.35rem,1.65vh,.9rem)}}</style>  <script src="/assets/metrika.js" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -244,13 +243,12 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 <!-- HERO: WEBGL FLOATING CLOUD -->
 <main>
 <section id="hero-cloud" class="snap" aria-labelledby="main-heading">
-  <nav class="hero-3d-nav" aria-label="Разделы и модели">
+  <nav class="hero-3d-nav" aria-label="Интерактивные модели">
     <a class="hero-3d" href="/directions/3d/#library">3D <span aria-hidden="true">↗</span></a>
     <a class="hero-3d hero-watch" href="/directions/3d/#model-watch">
       <img src="/directions/3d/posters/watch-icon.webp" width="24" height="24" alt="">
       Часы 007 <span aria-hidden="true">↗</span>
     </a>
-    <a class="hero-3d hero-products" href="#products">Продукты <span aria-hidden="true">↓</span></a>
   </nav>
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
@@ -277,27 +275,13 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
     <div class="cap-visual"><video poster="poster-work.jpg" data-src="work.mp4" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video></div>
     <div class="cap-list">
       <span class="eyebrow cap-eyebrow">Направления</span>
-      <div class="cap-item"><span class="idx">01</span><div><h3><a href="/directions/sites/">Сайты и e-commerce</a></h3><p>Цифровое пространство для бизнеса</p></div></div>
-      <div class="cap-item"><span class="idx">02</span><div><h3><a href="/directions/systems/">Системы и AI</a></h3><p>Платформы, интеграции, автоматизация</p></div></div>
-      <div class="cap-item"><span class="idx">03</span><div><h3><a href="/directions/design/">Дизайн и айдентика</a></h3><p>Визуальный язык с характером</p></div></div>
-      <div class="cap-item"><span class="idx">04</span><div><h3><a href="/directions/growth/">Продвижение</a></h3><p>SEO, реклама, публикации в СМИ</p></div></div>
-      <div class="cap-item"><span class="idx">05</span><div><h3><a href="/directions/3d/">3D</a></h3><p>Модели и конфигураторы для сайтов</p></div></div>
+      <div class="cap-item"><span class="idx">01</span><div><h3><a href="/directions/3d/">3D</a></h3><p>Модели и конфигураторы для сайтов</p></div></div>
+      <div class="cap-item"><span class="idx">02</span><div><h3><a href="/products/hotels/">Для отелей</a></h3><p>Сайты гостиниц, 3D-туры и бронирование</p></div></div>
+      <div class="cap-item"><span class="idx">03</span><div><h3><a href="/directions/sites/">Сайты и e-commerce</a></h3><p>Цифровое пространство для бизнеса</p></div></div>
+      <div class="cap-item"><span class="idx">04</span><div><h3><a href="/directions/systems/">Системы и AI</a></h3><p>Платформы, интеграции, автоматизация</p></div></div>
+      <div class="cap-item"><span class="idx">05</span><div><h3><a href="/directions/design/">Дизайн и айдентика</a></h3><p>Визуальный язык с характером</p></div></div>
+      <div class="cap-item"><span class="idx">06</span><div><h3><a href="/directions/growth/">Продвижение</a></h3><p>SEO, реклама, публикации в СМИ</p></div></div>
     </div>
-  </div>
-</section>
-
-<!-- PRODUCTS -->
-<section class="products-section snap" id="products" aria-labelledby="products-heading">
-  <div class="products-inner">
-    <div class="products-copy">
-      <span class="eyebrow">007-A</span>
-      <h2 id="products-heading">Продукты</h2>
-      <a class="products-hotel" href="/products/hotels/">
-        <span><strong>Для отелей</strong><small>Сайты гостиниц, 3D-туры и бронирование</small></span>
-        <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-    <img src="/products/hotels/villa-007/assets/villa.webp" alt="Фасад демонстрационного отеля Villa 007" loading="lazy" width="1536" height="1024">
   </div>
 </section>
 
@@ -337,7 +321,6 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 
 
       <a href="/industrial-b2b/">Промышленность и B2B</a>
-      <a href="/products/hotels/">Для отелей</a>
       <span id="clock"></span>
     </nav>
   </div>

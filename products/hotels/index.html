@@ -16,51 +16,58 @@
   <meta property="og:image" content="https://007-a.ru/products/hotels/villa-007/assets/villa.webp">
   <meta property="og:image:alt" content="Вилла Villa 007 на фоне Доломитовых Альп">
   <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="stylesheet" href="/assets/demo-fonts.css">
-  <link rel="stylesheet" href="hotels.css">
+  <link rel="stylesheet" href="/assets/directions.css?v=4">
+  <link rel="stylesheet" href="hotels.css?v=2">
   <title>Для отелей | Сайты, 3D-туры и бронирование | 007-A</title>
 </head>
-<body>
-  <a class="skip" href="#hotel-heading">К содержанию</a>
-  <header class="header">
-    <nav class="wrap navigation" aria-label="Путь к разделу">
-      <a class="logo" href="/" aria-label="007-A, на главную">007-A</a>
-      <a href="/#products">Продукты</a>
-      <span aria-current="page">Для отелей</span>
+<body class="hotels-direction">
+  <header class="top">
+    <a class="brand" href="/" aria-label="007-A, на главную">007-A</a>
+    <nav class="topnav" aria-label="Навигация">
+      <a href="/#s3">Направления</a>
+      <a href="/">На главную</a>
     </nav>
   </header>
-  <main class="wrap">
+  <main>
     <section class="hero" aria-labelledby="hotel-heading">
-      <div class="intro">
-        <p class="eyebrow">Сайты гостиниц от 007-A</p>
+      <img class="media" src="villa-007/assets/villa.webp" width="1536" height="1024" alt="Фасад демонстрационного отеля Villa 007" fetchpriority="high">
+      <div class="shade" aria-hidden="true"></div>
+      <span class="ghost" aria-hidden="true">02</span>
+      <div class="hero-content">
+        <div class="kicker">Сайты гостиниц</div>
         <h1 id="hotel-heading">Для отелей</h1>
-        <p>Разрабатываем сайты, на которых гость может осмотреть номер, выбрать свободные даты и оформить бронь.</p>
-        <a class="primary" href="villa-007/">Открыть Villa 007 <span aria-hidden="true">↗</span></a>
+        <p>Сайт, на котором гость может осмотреть номер, выбрать даты и оформить бронь.</p>
+        <a class="hotel-jump" href="#demo">Смотреть демо</a>
       </div>
-      <figure>
-        <img src="villa-007/assets/villa.webp" width="1536" height="1024" alt="Фасад вымышленной гостиницы Villa 007 на фоне гор" fetchpriority="high">
-        <figcaption>Villa 007 · демонстрационный сайт</figcaption>
-      </figure>
     </section>
-    <section class="experiences" aria-labelledby="experiences-heading">
-      <h2 id="experiences-heading">Попробуйте в демо</h2>
-      <div class="cards">
-        <a class="card" href="tours/">
-          <span class="eyebrow">01 / Виртуальный осмотр</span>
-          <h3>3D-туры по номерам</h3>
-          <p>Выберите номер, осмотритесь и через дверь перейдите в санузел.</p>
-          <span class="card-link">Открыть 3D-туры <span aria-hidden="true">↗</span></span>
+    <section class="section" id="demo" aria-labelledby="demo-heading">
+      <div class="section-head">
+        <span class="label">02 / Направление</span>
+        <h2 id="demo-heading">Попробуйте на примере Villa 007</h2>
+      </div>
+      <div class="grid hotel-demos">
+        <a class="item" href="villa-007/">
+          <span class="num">01 / Сайт гостиницы</span>
+          <h3>Открыть Villa 007</h3>
+          <p>Сайт вымышленного отеля с номерами и видео Доломитов.</p>
         </a>
-        <a class="card" href="booking/">
-          <span class="eyebrow">02 / Shellyst Бронь</span>
+        <a class="item" href="tours/">
+          <span class="num">02 / Виртуальный осмотр</span>
+          <h3>3D-туры по номерам</h3>
+          <p>Выберите номер и перейдите из комнаты в санузел.</p>
+        </a>
+        <a class="item" href="booking/">
+          <span class="num">03 / Shellyst Бронь</span>
           <h3>Прямое бронирование</h3>
-          <p>Выберите даты, оформите пробную бронь и найдите ее в расписании отельера.</p>
-          <span class="card-link">Попробовать бронирование <span aria-hidden="true">↗</span></span>
+          <p>Оформите тестовую бронь и найдите ее в расписании.</p>
         </a>
       </div>
-      <p class="demo-note">Villa 007 вымышлена. В демо используются тестовые даты, цены и брони.</p>
     </section>
   </main>
-  <footer class="wrap footer"><a href="/#products">К продуктам 007-A</a></footer>
+  <section class="other" aria-label="Другие направления">
+    <div class="other-top"><span class="label">007-A / Навигация</span><span class="label">Выберите направление</span></div>
+    <nav class="other-grid"><a href="/directions/3d/"><small>01 / 3D</small>3D</a><a href="/products/hotels/" aria-current="page"><small>02 / HOTELS</small>Для отелей</a><a href="/directions/sites/"><small>03 / WEB / COMMERCE</small>Сайты</a><a href="/directions/systems/"><small>04 / SYSTEMS / AI</small>Системы</a><a href="/directions/design/"><small>05 / DESIGN / IDENTITY</small>Дизайн</a><a href="/directions/growth/"><small>06 / GROWTH / SEARCH</small>Продвижение</a></nav>
+  </section>
+  <footer class="foot"><span>007-A / DIGITAL STUDIO</span></footer>
 </body>
 </html>
