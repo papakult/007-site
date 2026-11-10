@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js?v=assemblies';
+import { catalog } from './catalog-models.js?v=calibre007';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -103,6 +103,10 @@ function slider(label,initial,update,{min=0,max=100,unit='%'} = {}) {
     stage.schedule();
   });
   row.append(labelText,output,input);
+  row.setValue = value => {
+    input.value = String(value);
+    input.dispatchEvent(new Event('input'));
+  };
   return row;
 }
 
@@ -197,23 +201,29 @@ function partInspector(model) {
   resetParts();
   row.append(groupLabel,partLabel,button('Приблизить деталь',updateFocus),isolate);
   inspector.append(summary,row);
+  inspector.restore = ()=>{ if (hidden.length) isolate.reset(); };
   return inspector;
 }
 
 function extraControls(model) {
   const controls = [];
+  let explode;
   if (model.sections.some(section=>section.offset.lengthSq()>0)) {
-    controls.push(slider('Разборка',0,value=>{
+    explode = slider('Разборка',0,value=>{
       for (const {group,origin,offset,start=0} of model.sections) {
         const progress = Math.max(0,(value/100-start)/(1-start));
         group.position.copy(origin).addScaledVector(offset,progress);
       }
-    }));
+    });
+    controls.push(explode);
   }
   const adjustments = [model.adjust, ...(model.adjustments || [])].filter(Boolean);
+  const adjustmentRows = [];
   for (const {label,initial,apply,...options} of adjustments) {
     apply(initial);
-    controls.push(slider(label,initial,apply,options));
+    const row = slider(label,initial,apply,options);
+    adjustmentRows.push({row,initial});
+    controls.push(row);
   }
   model.visibilityControls = new Map();
   function visibility(groups,label,restore) {
@@ -247,7 +257,27 @@ function extraControls(model) {
       stage.schedule();
     }));
   }
-  if (model.views) controls.push(partInspector(model));
+  const inspector = (model.views || model.presets) ? partInspector(model) : null;
+  if (model.presets) {
+    const panel = element('div',null,'model-presets');
+    const row = element('div',null,'model-actions');
+    panel.append(element('p','Узлы часов'),row);
+    row.append(...model.presets.map(preset=>button(preset.label,event=>{
+      stopSpin();
+      inspector.restore();
+      for (const {group} of model.sections) group.visible = !preset.groups || preset.groups.includes(group);
+      explode.setValue(preset.amount);
+      if (!preset.groups && preset.amount===0) {
+        for (const {row,initial} of adjustmentRows) row.setValue(initial);
+      }
+      for (const button of row.children) button.setAttribute('aria-pressed',String(button===event.currentTarget));
+      stage.frameVisible(preset.eye);
+    })));
+    for (const [index,control] of [...row.children].entries())
+      control.setAttribute('aria-pressed',String(index===0));
+    controls.unshift(panel);
+  }
+  if (inspector) controls.push(inspector);
   extras.replaceChildren(...controls);
 }
 
@@ -257,7 +287,7 @@ function stopSpin() {
   spin.textContent = 'Автовращение';
 }
 function enableViewer() {
-  if (!stagePromise) stagePromise = import('./catalog-view.js?v=assemblies').then(({createStage})=>{
+  if (!stagePromise) stagePromise = import('./catalog-view.js?v=calibre007').then(({createStage})=>{
     stage = createStage(canvas);
     stage.controls.addEventListener('start',stopSpin);
     return stage;
@@ -325,7 +355,8 @@ dialog.addEventListener('close',()=>{
 });
 dialog.querySelector('[data-model-reset]').addEventListener('click',()=>{
   stopSpin();
-  stage.reset();
+  if (selected?.id === 'watch') stage.frameVisible();
+  else stage.reset();
 });
 for (const [selector,factor] of [['[data-model-plus]',.82],['[data-model-minus]',1.22]])
   dialog.querySelector(selector).addEventListener('click',()=>stage.zoom(factor));

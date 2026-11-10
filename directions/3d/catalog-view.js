@@ -4,12 +4,13 @@ import {
   PMREMGenerator, RoomEnvironment, Scene, SRGBColorSpace, Vector3, WebGLRenderer,
 } from './engine.js';
 
-function limits(model) {
+function limits(model,visibleOnly=false) {
   const min = new Vector3(Infinity, Infinity, Infinity);
   const max = new Vector3(-Infinity, -Infinity, -Infinity);
   const corner = new Vector3();
   model.updateWorldMatrix(true,true);
-  model.traverse(item => {
+  const traverse = visibleOnly ? model.traverseVisible.bind(model) : model.traverse.bind(model);
+  traverse(item => {
     if (!item.isMesh) return;
     item.geometry.computeBoundingBox();
     const b = item.geometry.boundingBox;
@@ -51,6 +52,8 @@ function disposeModel(model) {
     for (const material of [item.material].flat()) materials.add(material);
   });
   geometries.forEach(g => g.dispose());
+  const textures = new Set([...materials].map(m=>m.map).filter(Boolean));
+  textures.forEach(texture=>texture.dispose());
   materials.forEach(m => m.dispose());
 }
 
@@ -113,11 +116,11 @@ export function createStage(canvas) {
     if (active && frame === null && !document.hidden) frame = requestAnimationFrame(run);
   }
 
-  function reset() {
+  function reset(visibleOnly=false,viewEye) {
     if (!bounds) return;
-    bounds = limits(model.root);
+    bounds = limits(model.root,visibleOnly);
     const extent = bounds.size.length();
-    const eye = new Vector3(...(model.eye || [.61,.43,1])).normalize();
+    const eye = new Vector3(...(viewEye || model.eye || [.61,.43,1])).normalize();
     const right = new Vector3().crossVectors(camera.up,eye).normalize();
     const up = new Vector3().crossVectors(eye,right);
     const tan = Math.tan(camera.fov * Math.PI / 360);
@@ -151,6 +154,7 @@ export function createStage(canvas) {
   document.addEventListener('visibilitychange',schedule);
   return {
     controls, camera, reset, resize, draw, schedule,
+    frameVisible(eye) { reset(true,eye); },
     focus(target, distance, eye = [.61,.43,1]) {
       controls.target.copy(target);
       camera.position.copy(target).addScaledVector(new Vector3(...eye).normalize(),distance);

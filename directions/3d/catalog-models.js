@@ -746,62 +746,6 @@ function coffee() {
 
   return a;
 }
-function watch() {
-  const a=assembly(), steel=mat('steel'), gold=mat('gold'), strap=mat('darkWood'), face=mat('gunmetal'), white=mat('ivory');
-  const bracelet=a.layer([0,-.41,-.37],undefined,'Ремешок и крепление');
-  for(const sign of [-1,1]){
-    for(let i=0;i<7;i++){
-      const y=sign*(.81+i*.19);
-      box(bracelet,strap,0,y,-.05-i*.012,.68-i*.016,.17,.15);
-      if(i%2===0) for(const x of [-.27,.27])ball(bracelet,gold,x,y,.034,.018);
-    }
-  }
-  const shell=a.layer([0,0,-.80],undefined,'Корпус и заводная головка');
-  annulus(shell,steel,0,0,0,.81,.61,.32);
-  cylinder(shell,steel,.82,0,0,.12,.24,'x',16);
-  const dial=a.layer([0,0,.77],undefined,'Циферблат и стрелки');
-  cylinder(dial,face,0,0,.08,.65,.105,'z');
-  for(let i=0;i<12;i++){
-    const t=i*2*PI/12;
-    const marker=box(dial,white,Math.sin(t)*.54,Math.cos(t)*.54,.145,.039,.113,.020);
-    marker.rotation.z=-t;
-    marker.name='Часовая метка';
-  }
-  const hands=part(dial,0,0,.16);
-  beam(hands,gold,[0,0,0],[-.25,.17,0],.041);
-  beam(hands,white,[0,0,.01],[.23,.38,.01],.028);
-  const second=part(hands);
-  beam(second,glow(0xf58a54),[0,-.07,.024],[0,.50,.024],.013);
-  ball(hands,gold,0,0,.037,.052);
-  const front=a.layer([0,0,1.57],[0,0,.22],'Безель и стекло');
-  torus(front,gold,0,0,0,.74,.068).name='Безель';
-  cylinder(front,mat('glass',{transparent:true,opacity:.16,depthWrite:false}),0,0,.014,.698,.032,'z',48).name='Стекло';
-  a.motion=dt=>{second.rotation.z-=dt*.55;};
-  a.finish=strap;
-
-  const movement=a.layer([0,.17,-.10],[0,0,-.075],'Зубчатая передача',.22);
-  const rear=a.layer([0,0,-1.30],[0,0,-.16],'Задняя крышка',.12);
-  cylinder(rear,steel,0,0,0,.739,.057,'z',48).name='Задняя крышка';
-  box(movement,steel,0,0,-.028,.79,.67,.052).name='Мост механизма';
-  const mainspring=gear(movement,gold,-.23,.13,.049,.224,20,.048);
-  const center=gear(movement,steel,.13,.09,.047,.144,15,.045);
-  const pinion=gear(movement,gold,.34,-.058,.046,.101,12,.044);
-  const escape=gear(movement,steel,.01,-.233,.057,.141,15,.040);
-  torus(movement,gold,-.21,-.235,.073,.167,.024).name='Обод баланса';
-  cylinder(movement,steel,-.21,-.235,.082,.025,.091,'z',14).name='Ось баланса';
-  for(const [x,y] of [[-.23,.13],[.13,.09],[.34,-.058],[.01,-.233]])
-    cylinder(movement,mat('copper'),x,y,.092,.030,.038,'z',14).name='Опора оси';
-  const moveSecond=a.motion;
-  a.motion=dt=>{
-    moveSecond(dt); mainspring.rotation.z+=dt*.18;center.rotation.z-=dt*.28;
-    pinion.rotation.z+=dt*.40;escape.rotation.z-=dt*.55;
-  };
-  a.shells=[{groups:[dial,front],label:'Снять циферблат и стекло',restoreLabel:'Вернуть циферблат и стекло'}];
-  a.views=[view('Зубчатая передача',movement,[0,-.03,.06],1.8,[.3,.23,1],[dial,front]),
-    view('Заводная головка',shell,[.78,0,0],1.18,[1,.48,1])];
-
-  return a;
-}
 function lamp() {
   const a=assembly(), white=mat('ivory'), bronze=mat('gold'), body=mat('teal'), warm=glow(0xffda92);
   const base=a.layer([0,-.38,0],undefined,'Основание и утяжелитель');
@@ -1626,7 +1570,7 @@ export const catalog = [
   ['rover','Марсоход','tech','Шестиколёсная ходовая часть в движении',rover],
   ['arm','Рука робота','industry','Поворот основания и угол плеча',arm],
   ['pavilion','Садовый павильон','architecture','Стойки, стропила и реечный навес',pavilion],
-  ['watch','Наручные часы','products','Корпус, циферблат и ход секундной стрелки',watch],
+  ['watch','Часы 007','products','Ручной завод, анкерный спуск, отдельные стрелки и разборка каждого узла',()=>import('./calibre-007.js?v=1').then(({createCalibre007})=>createCalibre007())],
   ['telescope','Телескоп','tech','Настройте наклон оптической трубы',telescope],
   ['motor','Электродвигатель','industry','Статор, обмотка, вал и крышка',motor],
   ['villa','Вилла с террасой','architecture','Разнесите уровни и рассмотрите этажи',villa],
