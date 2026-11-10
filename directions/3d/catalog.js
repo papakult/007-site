@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js?v=watch-first';
+import { catalog as models } from './catalog-models.js?v=watch-first';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -19,19 +19,29 @@ const categories = {
   products: 'Предметы', tech: 'Техника', electrical: 'Электротехника',
 };
 const poster = id => `./posters/${id}.webp${id==='watch'?'?v=2':''}`;
-const byId = new Map(catalog.map(item => [item.id,item]));
 const flashlight = {
   id: 'flashlight', title: 'Фонарь на батарейках', category: 'electrical',
-  description: 'Разборка корпуса, плата драйвера и четыре провода', href: './flashlight/',
+  description: 'Разборка корпуса, плата драйвера и четыре провода',
+  create: () => import('./flashlight.js').then(({createFlashlight})=>createFlashlight()),
 };
+const firstIds = ['tolmachevo', 'staircase'];
+const catalog = [
+  flashlight, ...firstIds.map(id=>models.find(item=>item.id===id)),
+  ...models.filter(item=>!firstIds.includes(item.id)),
+];
 const electricalIds = new Set(['flashlight', 'motor', 'lamp', 'charger', 'headphones']);
-const shelfModels = [...catalog.filter(item => item.id !== 'watch'), flashlight];
+const byId = new Map(catalog.map(item=>[item.id,item]));
+const films = {
+  watch: {title:'Часы 007. Макроразборка', url:'/assets/watch-007-macro.mp4'},
+  flashlight: {title:'Фонарь на батарейках. Разборка', url:'./flashlight/razborka.mp4'},
+};
 const modelHash = id => '#model-' + id;
 let selected = null;
 let lastTrigger = null;
 let stage = null;
 let stagePromise = null;
 let transition = 0;
+let controlsLifetime = null;
 
 function element(tag,text,css) {
   const node = document.createElement(tag);
@@ -61,29 +71,33 @@ function bindModelLink(link,item) {
   });
 }
 
-function openWatchFilm(event) {
-  if (typeof film.showModal !== 'function' || alternateLinkAction(event)) return;
-  event.preventDefault();
-  film.showModal();
-  if (!filmVideo.src) filmVideo.src = event.currentTarget.href;
-  filmVideo.play().catch(() => {});
+function filmLink(details) {
+  const link = element('a','Смотреть видео','model-open');
+  link.href = details.url;
+  link.addEventListener('click',event=>{
+    if (typeof film.showModal !== 'function' || alternateLinkAction(event)) return;
+    event.preventDefault();
+    film.querySelector('h2').textContent = details.title;
+    if (filmVideo.src !== link.href) filmVideo.src = link.href;
+    film.showModal();
+    filmVideo.play().catch(()=>{});
+  });
+  return link;
 }
 
-bindModelLink(document.querySelector('#watch-model-link'),byId.get('watch'));
-document.querySelector('#watch-film-link').addEventListener('click',openWatchFilm);
 film.querySelector('button').addEventListener('click', () => film.close());
 film.addEventListener('close', () => filmVideo.pause());
 
 function drawShelf(category) {
-  const items = shelfModels.filter(item =>
+  const items = catalog.filter(item =>
     category === 'all' || item.category === category ||
     (category === 'electrical' && electricalIds.has(item.id)));
-  count.textContent = `${items.length} из ${shelfModels.length}`;
+  count.textContent = `${items.length} из ${catalog.length}`;
   shelf.replaceChildren(...items.map(item => {
     const article = element('article',null,'model-card');
     const link = element('a',null,'model-card-link');
-    link.href = item.href || modelHash(item.id);
-    if (!item.href) bindModelLink(link,item);
+    link.href = modelHash(item.id);
+    bindModelLink(link,item);
     const preview = element('div',null,'model-preview');
     preview.dataset.group = item.category;
     const picture = element('img');
@@ -91,7 +105,7 @@ function drawShelf(category) {
     picture.alt = '';
     picture.width = 560;
     picture.height = 350;
-    const index = item.href ? catalog.length : catalog.indexOf(item);
+    const index = catalog.indexOf(item);
     picture.loading = index < 4 ? 'eager' : 'lazy';
     picture.decoding = 'async';
     preview.append(picture,element('span',String(index+1).padStart(2,'0'),'model-index'));
@@ -237,7 +251,7 @@ function partInspector(model) {
   return inspector;
 }
 
-function extraControls(model) {
+function extraControls(model,item) {
   const controls = [];
   let explode;
   if (model.sections.some(section=>section.offset.lengthSq()>0)) {
@@ -246,6 +260,7 @@ function extraControls(model) {
         const progress = Math.max(0,(value/100-start)/(1-start));
         group.position.copy(origin).addScaledVector(offset,progress);
       }
+      model.onExplode?.(value);
     });
     controls.push(explode);
   }
@@ -310,6 +325,13 @@ function extraControls(model) {
     controls.unshift(panel);
   }
   if (inspector) controls.push(inspector);
+  if (model.createControls) {
+    const custom = model.createControls({
+      stage, canvas, explode, element, button, toggle, stopSpin, signal:controlsLifetime.signal,
+    });
+    controls.unshift(...custom);
+  }
+  if (films[item.id]) controls.push(filmLink(films[item.id]));
   extras.replaceChildren(...controls);
 }
 
@@ -338,6 +360,8 @@ async function openModel(item) {
   canvas.hidden = true;
   dialog.dataset.group = item.category;
   notice.textContent = 'Загрузка 3D';
+  controlsLifetime?.abort();
+  controlsLifetime = new AbortController();
   extras.replaceChildren();
   if (!dialog.open) dialog.showModal();
   stopSpin();
@@ -356,7 +380,7 @@ async function openModel(item) {
     canvas.dataset.model = item.id;
     image.hidden = true;
     notice.textContent = 'Поворот перетаскиванием. Масштаб двумя пальцами или кнопками';
-    extraControls(model);
+    extraControls(model,item);
     stage.schedule();
     for (const control of dialog.querySelectorAll('[data-needs-stage]')) control.disabled = false;
   } catch (error) {
@@ -379,6 +403,7 @@ window.addEventListener('popstate',followHash);
 dialog.querySelector('[data-model-close]').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('close',()=>{
   transition++;
+  controlsLifetime?.abort();
   stage?.clear();
   if (location.hash.startsWith('#model-')) history.replaceState(null,'',location.pathname+location.search);
   selected = null;
@@ -387,7 +412,7 @@ dialog.addEventListener('close',()=>{
 });
 dialog.querySelector('[data-model-reset]').addEventListener('click',()=>{
   stopSpin();
-  if (selected?.id === 'watch') stage.frameVisible();
+  if (selected?.id === 'watch' || selected?.id === 'flashlight') stage.frameVisible();
   else stage.reset();
 });
 for (const [selector,factor] of [['[data-model-plus]',.82],['[data-model-minus]',1.22]])

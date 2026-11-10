@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://007-a.ru/directions/3d/">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/demo-fonts.css">
-  <link rel="stylesheet" href="./gallery.css?v=watch-feature-row2">
+  <link rel="stylesheet" href="./gallery.css?v=native-flashlight">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="3D-модели для сайтов | 007-A">
@@ -18,11 +18,11 @@
   <meta property="og:image" content="https://007-a.ru/directions/3d/3d-preview.jpg">
   <meta property="og:image:alt" content="Автомобиль, здание и фланец в галерее 3D-моделей 007-A">
   <script type="module" src="./gallery.js"></script>
-  <script type="module" src="./catalog.js?v=electrical-list"></script>
+  <script type="module" src="./catalog.js?v=native-flashlight"></script>
   <script src="/assets/metrika.js" defer></script>
 </head>
 <body>
-  <a class="skip" href="#gallery">К моделям</a>
+  <a class="skip" href="#library">К моделям</a>
   <header class="top">
     <a class="brand" href="/" aria-label="007-A, на главную">007-A</a>
     <nav aria-label="Навигация">
@@ -41,31 +41,6 @@
     </section>
 
     <section class="model-library" id="library" aria-labelledby="library-title">
-      <div class="watch-feature">
-        <a class="watch-feature-card" id="watch-model-link" href="#model-watch" aria-haspopup="dialog">
-          <div class="watch-feature-preview">
-            <img src="./posters/watch-feature.webp?v=2" width="900" height="500" alt="" decoding="async">
-          </div>
-          <div class="watch-feature-copy">
-            <span class="kicker">Интерактивная модель</span>
-            <strong>Часы 007</strong>
-            <span class="model-open">Открыть 3D</span>
-          </div>
-        </a>
-        <a class="watch-feature-card" id="watch-film-link" href="/assets/watch-007-macro.mp4" aria-haspopup="dialog">
-          <div class="watch-feature-preview">
-            <img src="./posters/watch-macro-frame.webp" width="960" height="540" alt="" decoding="async">
-            <span class="watch-feature-play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M8 4.5v15L20 12z"/></svg>
-            </span>
-          </div>
-          <div class="watch-feature-copy">
-            <span class="kicker">Видео, 24 секунды</span>
-            <strong>Макроразборка</strong>
-            <span class="model-open">Смотреть видео</span>
-          </div>
-        </a>
-      </div>
       <div class="library-heading">
         <div>
           <p class="kicker">Интерактивная коллекция</p>
@@ -75,7 +50,7 @@
       </div>
       <div class="library-tools">
         <div class="model-filters" id="model-filters" aria-label="Категории моделей"></div>
-        <p id="model-count" aria-live="polite">28 моделей</p>
+        <p id="model-count" aria-live="polite">29 моделей</p>
       </div>
       <div class="model-shelf" id="model-shelf"></div>
       <noscript><p class="gallery-note">Для интерактивного просмотра включите JavaScript.</p></noscript>
@@ -111,7 +86,7 @@
 
     <dialog class="model-dialog watch-film" id="watch-film" aria-labelledby="watch-film-title">
       <div class="model-dialog-head">
-        <h2 id="watch-film-title">Часы 007. Макроразборка</h2>
+        <h2 id="watch-film-title">Видео разборки</h2>
         <button type="button" autofocus>Закрыть</button>
       </div>
       <video controls playsinline preload="none" aria-labelledby="watch-film-title"></video>
