@@ -20,6 +20,7 @@ const categories = {
 };
 const poster = id => `./posters/${id}.webp${id==='watch'?'?v=2':''}`;
 const byId = new Map(catalog.map(item => [item.id,item]));
+const shelfModels = catalog.filter(item => item.id !== 'watch');
 const modelHash = id => '#model-' + id;
 let selected = null;
 let lastTrigger = null;
@@ -41,32 +42,41 @@ function button(label,handler,css) {
   return node;
 }
 
+function alternateLinkAction(event) {
+  return event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
+}
+
+function bindModelLink(link,item) {
+  link.addEventListener('click',event => {
+    if (alternateLinkAction(event)) return;
+    event.preventDefault();
+    lastTrigger = link;
+    history.pushState(null,'',link.href);
+    openModel(item);
+  });
+}
+
 function openWatchFilm(event) {
-  if (typeof film.showModal !== 'function' ||
-      event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  if (typeof film.showModal !== 'function' || alternateLinkAction(event)) return;
   event.preventDefault();
   film.showModal();
   if (!filmVideo.src) filmVideo.src = event.currentTarget.href;
   filmVideo.play().catch(() => {});
 }
 
+bindModelLink(document.querySelector('#watch-model-link'),byId.get('watch'));
+document.querySelector('#watch-film-link').addEventListener('click',openWatchFilm);
 film.querySelector('button').addEventListener('click', () => film.close());
 film.addEventListener('close', () => filmVideo.pause());
 
 function drawShelf(category) {
-  const items = catalog.filter(item => category === 'all' || item.category === category);
-  count.textContent = `${items.length} из ${catalog.length}`;
+  const items = shelfModels.filter(item => category === 'all' || item.category === category);
+  count.textContent = `${items.length} из ${shelfModels.length}`;
   shelf.replaceChildren(...items.map(item => {
     const article = element('article',null,'model-card');
     const link = element('a',null,'model-card-link');
     link.href = modelHash(item.id);
-    link.addEventListener('click',event => {
-      if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-      event.preventDefault();
-      lastTrigger = link;
-      history.pushState(null,'',link.href);
-      openModel(item);
-    });
+    bindModelLink(link,item);
     const preview = element('div',null,'model-preview');
     preview.dataset.group = item.category;
     const picture = element('img');
@@ -82,13 +92,6 @@ function drawShelf(category) {
       element('p',item.description),element('span','Открыть 3D','model-open'));
     link.append(preview,content);
     article.append(link);
-    if (item.id === 'watch') {
-      const filmLink = element('a', 'Видео 24 с', 'model-film-link');
-      filmLink.href = '/assets/watch-007-macro.mp4';
-      filmLink.setAttribute('aria-label', 'Смотреть разборку часов 007, 24 секунды');
-      filmLink.addEventListener('click', openWatchFilm);
-      article.append(filmLink);
-    }
     return article;
   }));
 }
