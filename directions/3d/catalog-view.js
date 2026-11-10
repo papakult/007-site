@@ -117,7 +117,7 @@ export function createStage(canvas) {
     if (!bounds) return;
     bounds = limits(model.root);
     const extent = bounds.size.length();
-    const eye = new Vector3(.61,.43,1).normalize();
+    const eye = new Vector3(...(model.eye || [.61,.43,1])).normalize();
     const right = new Vector3().crossVectors(camera.up,eye).normalize();
     const up = new Vector3().crossVectors(eye,right);
     const tan = Math.tan(camera.fov * Math.PI / 360);

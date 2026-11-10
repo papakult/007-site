@@ -63,8 +63,19 @@ function shell(parent, stations, material, closed = false) {
   return part(parent, geometry, material);
 }
 
-export function createCar() {
+export function createCar(separate = false) {
   const car = new Group();
+  const group = name => {
+    if (!separate) return car;
+    const item = new Group();
+    item.name = name;
+    car.add(item);
+    return item;
+  };
+  const bodywork = group('Боковины, пороги и бамперы');
+  const hood = group('Капот и передняя оптика');
+  const roof = group('Крыша и остекление');
+  const wheels = [];
   const paint = new MeshPhysicalMaterial({
     color: 0x617683, metalness: 0.67, roughness: 0.26, clearcoat: 0.66,
     clearcoatRoughness: 0.24, side: DoubleSide,
@@ -84,55 +95,64 @@ export function createCar() {
     [0.40, 0.94, 0.86, 0.79], [0.97, 0.98, 0.94, 0.87], [1.44, 0.95, 0.98, 0.91],
     [1.91, 0.83, 0.91, 0.87], [2.12, 0.65, 0.77, 0.73], [2.18, 0.57, 0.64, 0.64],
   ];
-  shell(car, body.map(([x, y, width, shoulder]) => [x,
+  const bodyProfile = body.map(([x, y, width, shoulder]) => [x,
     [0.38, -width * 0.82], [y - 0.17, -width], [y - 0.04, -shoulder],
     [y + 0.04, -shoulder * 0.58], [y + 0.06, 0], [y + 0.04, shoulder * 0.58],
     [y - 0.04, shoulder], [y - 0.17, width], [0.38, width * 0.82],
-  ]), paint, true);
+  ]);
+  if (separate) {
+    shell(bodywork, bodyProfile.slice(4), paint, true).name = 'Задняя часть кузова';
+    shell(bodywork, bodyProfile.slice(0, 5).map(([x, ...profile]) =>
+      [x, ...profile.slice(0, 3), ...profile.slice(6)]), paint, false).name = 'Передние боковины';
+    shell(hood, bodyProfile.slice(0, 5).map(([x, ...profile]) =>
+      [x, ...profile.slice(2, 7)]), paint).name = 'Панель капота';
+  } else shell(bodywork, bodyProfile, paint, true);
 
   const cabin = [
     [-1.17, 0.95, 0.66], [-0.83, 1.16, 0.59], [-0.49, 1.39, 0.49], [-0.20, 1.45, 0.47],
     [0.41, 1.43, 0.48], [0.71, 1.31, 0.53], [1.03, 1.13, 0.62], [1.29, 0.98, 0.69],
   ];
-  shell(car, cabin.map(([x, y, width]) => [x, [0.92, -width * 1.14], [y, -width],
+  shell(roof, cabin.map(([x, y, width]) => [x, [0.92, -width * 1.14], [y, -width],
     [y + 0.03, 0], [y, width], [0.92, width * 1.14]]), glass);
-  shell(car, cabin.slice(2, 6).map(([x, y, width]) =>
+  shell(roof, cabin.slice(2, 6).map(([x, y, width]) =>
     [x, [y + 0.006, -width * 0.91], [y + 0.036, 0], [y + 0.006, width * 0.91]]), paint);
 
   for (const side of [-1, 1]) {
-    beam(car, paint, [-0.84, 0.94, 0.68 * side], [-0.49, 1.38, 0.49 * side], 0.034);
-    beam(car, paint, [0.42, 0.95, 0.68 * side], [0.42, 1.43, 0.48 * side], 0.034);
-    beam(car, paint, [1.27, 0.96, 0.73 * side], [0.70, 1.30, 0.54 * side], 0.034);
-    beam(car, trim, [-0.94, 0.42, 0.80 * side], [0.96, 0.43, 0.87 * side], 0.025);
-    beam(car, trim, [0.63, 0.83, 0.83 * side], [0.79, 0.84, 0.86 * side], 0.016);
-    oval(car, paint, -0.69, 0.96, 0.88 * side, 0.13, 0.055, 0.092);
-    beam(car, leds, [-2.11, 0.63, 0.70 * side], [-1.82, 0.79, 0.87 * side], 0.042, 0.045);
-    beam(car, rear, [1.85, 0.77, 0.86 * side], [2.13, 0.60, 0.67 * side], 0.035);
-    beam(car, leds, [-2.205, 0.61, 0.37 * side], [-2.205, 0.59, 0.62 * side], 0.022);
-    box(car, trim, -2.194, 0.476, 0.31 * side, 0.028, 0.055, 0.48);
+    beam(roof, paint, [-0.84, 0.94, 0.68 * side], [-0.49, 1.38, 0.49 * side], 0.034);
+    beam(roof, paint, [0.42, 0.95, 0.68 * side], [0.42, 1.43, 0.48 * side], 0.034);
+    beam(roof, paint, [1.27, 0.96, 0.73 * side], [0.70, 1.30, 0.54 * side], 0.034);
+    beam(bodywork, trim, [-0.94, 0.42, 0.80 * side], [0.96, 0.43, 0.87 * side], 0.025);
+    beam(bodywork, trim, [0.63, 0.83, 0.83 * side], [0.79, 0.84, 0.86 * side], 0.016);
+    oval(bodywork, paint, -0.69, 0.96, 0.88 * side, 0.13, 0.055, 0.092);
+    beam(hood, leds, [-2.11, 0.63, 0.70 * side], [-1.82, 0.79, 0.87 * side], 0.042, 0.045);
+    beam(bodywork, rear, [1.85, 0.77, 0.86 * side], [2.13, 0.60, 0.67 * side], 0.035);
+    beam(hood, leds, [-2.205, 0.61, 0.37 * side], [-2.205, 0.59, 0.62 * side], 0.022);
+    box(bodywork, trim, -2.194, 0.476, 0.31 * side, 0.028, 0.055, 0.48);
 
     for (const x of [-1.40, 1.43]) {
       const z = side * 0.89;
-      const arch = part(car, new CylinderGeometry(0.41, 0.41, 0.055, 48), trim, x, 0.40, z + side * 0.025);
+      const wheelSet = group(`Колесо ${x<0?'переднее':'заднее'} ${side>0?'правое':'левое'}`);
+      wheels.push({group:wheelSet,x,z,side});
+      const arch = part(wheelSet, new CylinderGeometry(0.41, 0.41, 0.055, 48), trim, x, 0.40, z + side * 0.025);
       arch.rotation.x = Math.PI / 2;
-      const tire = part(car, new CylinderGeometry(0.348, 0.348, 0.24, 48), rubber, x, 0.35, z);
+      const tire = part(wheelSet, new CylinderGeometry(0.348, 0.348, 0.24, 48), rubber, x, 0.35, z);
       tire.rotation.x = Math.PI / 2;
       const rimZ = z + side * 0.125;
-      const wheel = part(car, new CylinderGeometry(0.245, 0.245, 0.033, 48), trim, x, 0.35, rimZ);
+      const wheel = part(wheelSet, new CylinderGeometry(0.245, 0.245, 0.033, 48), trim, x, 0.35, rimZ);
       wheel.rotation.x = Math.PI / 2;
-      part(car, new TorusGeometry(0.242, 0.018, 9, 48), alloy, x, 0.35, rimZ + side * 0.019);
-      oval(car, alloy, x, 0.35, rimZ + side * 0.038, 0.070, 0.070, 0.022);
+      part(wheelSet, new TorusGeometry(0.242, 0.018, 9, 48), alloy, x, 0.35, rimZ + side * 0.019);
+      oval(wheelSet, alloy, x, 0.35, rimZ + side * 0.038, 0.070, 0.070, 0.022);
       for (let i = 0; i < 8; i++) {
         const angle = i * Math.PI / 4;
         const spokeZ = rimZ + side * 0.025;
-        beam(car, alloy, [x, 0.35, spokeZ],
+        beam(wheelSet, alloy, [x, 0.35, spokeZ],
           [x + Math.cos(angle) * 0.23, 0.35 + Math.sin(angle) * 0.23, spokeZ], 0.032, 0.021);
       }
     }
   }
-  box(car, trim, -2.10, 0.42, 0, 0.16, 0.15, 1.10);
-  box(car, trim, 2.08, 0.40, 0, 0.16, 0.15, 1.18);
-  return car;
+  box(bodywork, trim, -2.10, 0.42, 0, 0.16, 0.15, 1.10);
+  box(bodywork, trim, 2.08, 0.40, 0, 0.16, 0.15, 1.18);
+  return separate ? {bodywork,hood,roof,wheels,paint} : car;
 }
 
 export function createBuilding() {

@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js?v=industrial';
+import { catalog } from './catalog-models.js?v=assemblies';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -85,18 +85,20 @@ for (const [key,label] of Object.entries(categories)) {
 }
 setFilter('all');
 
-function slider(label,initial,update) {
+function slider(label,initial,update,{min=0,max=100,unit='%'} = {}) {
   const row = element('label',null,'model-range');
   const labelText = element('span',label);
   const input = element('input');
   input.type = 'range';
   input.setAttribute('aria-label',label);
-  input.min = '0';
-  input.max = '100';
+  input.min = String(min);
+  input.max = String(max);
   input.value = String(initial);
-  const output = element('output',initial+'%');
+  const output = element('output',initial+unit);
+  input.setAttribute('aria-valuetext',output.value);
   input.addEventListener('input',()=>{
-    output.value = input.value+'%';
+    output.value = input.value+unit;
+    input.setAttribute('aria-valuetext',output.value);
     update(input.valueAsNumber);
     stage.schedule();
   });
@@ -115,19 +117,31 @@ function toggle(label,enabledLabel,update) {
   }
   const control = button(label,()=>set(!active));
   control.reset = () => set(false);
+  control.hide = () => set(true);
   control.setAttribute('aria-pressed','false');
   return control;
 }
+
+const shapeLabels = {
+  BoxGeometry:'Панель или профиль', CylinderGeometry:'Цилиндрическая деталь',
+  TorusGeometry:'Кольцо', SphereGeometry:'Сферическая деталь', ExtrudeGeometry:'Фасонная деталь',
+};
 
 function partInspector(model) {
   const inspector = element('details',null,'model-inspector');
   const summary = element('summary','Рассмотреть отдельную деталь');
   const row = element('div',null,'model-part-fields');
-  const groups = model.sections.map(({group})=>{
+  const layers = model.sections.map(({group})=>group);
+  const groups = layers.map(group=>{
     const meshes = [];
     group.traverse(item=>{if (item.isMesh) meshes.push(item);});
     return {group,meshes};
   }).filter(({meshes})=>meshes.length);
+  const staticParts = [];
+  for (const item of model.root.children) {
+    if (!layers.includes(item)) item.traverse(part=>{if (part.isMesh) staticParts.push(part);});
+  }
+  if (staticParts.length) groups.push({group:model.root,meshes:staticParts});
   const groupSelect = element('select');
   const partSelect = element('select');
   groupSelect.setAttribute('aria-label','Группа деталей');
@@ -135,7 +149,7 @@ function partInspector(model) {
   const groupLabel = element('label','Группа деталей');
   const partLabel = element('label','Элемент');
   groupSelect.append(...groups.map(({group,meshes},index)=>
-    new Option(`${group.name || 'Группа '+(index+1)} · ${meshes.length}`,String(index))));
+    new Option(`${group.name || (group===model.root?'Основание':'Группа '+(index+1))} · ${meshes.length}`,String(index))));
   groupLabel.append(groupSelect);
   partLabel.append(partSelect);
 
@@ -143,7 +157,7 @@ function partInspector(model) {
   const resetParts = () => {
     const {meshes} = groups[groupSelect.selectedIndex];
     partSelect.replaceChildren(...meshes.map((item,index)=>
-      new Option(`${index+1} · ${item.name || 'Деталь сборки'}`,String(index))));
+      new Option(`${index+1} · ${item.name || shapeLabels[item.geometry.type] || 'Деталь сборки'}`,String(index))));
   };
   let hidden = [];
   function restore() {
@@ -196,10 +210,10 @@ function extraControls(model) {
       }
     }));
   }
-  if (model.adjust) {
-    const {label,initial,apply} = model.adjust;
+  const adjustments = [model.adjust, ...(model.adjustments || [])].filter(Boolean);
+  for (const {label,initial,apply,...options} of adjustments) {
     apply(initial);
-    controls.push(slider(label,initial,apply));
+    controls.push(slider(label,initial,apply,options));
   }
   model.visibilityControls = new Map();
   function visibility(groups,label,restore) {
@@ -210,17 +224,20 @@ function extraControls(model) {
     controls.push(control);
   }
   if (model.shell) visibility([model.shell.group],model.shell.label,model.shell.restoreLabel || 'Вернуть оболочку');
+  for (const {groups,label,restoreLabel} of model.shells || []) visibility(groups,label,restoreLabel);
   if (model.fasteners) visibility(model.fasteners,'Скрыть крепёж','Показать крепёж');
   for (const view of model.views || []) {
     controls.push(button(view.label,()=>{
       stopSpin();
       model.visibilityControls.get(view.group)?.reset();
+      const covers = new Set(view.reveal?.map(group=>model.visibilityControls.get(group)));
+      for (const control of covers) control?.hide();
       const target = view.target.clone();
-      if (view.group) target.add(view.group.position);
+      if (view.group) view.group.localToWorld(target);
       stage.focus(target,view.distance,view.eye);
     }));
   }
-  if (model.motion) controls.push(toggle('Запустить механизм','Остановить механизм',value=>stage.animate(value)));
+  if (model.motion) controls.push(toggle(model.motionLabel || 'Запустить механизм','Остановить механизм',value=>stage.animate(value)));
   if (model.finish) {
     const colors = [model.finish.color.getHex(),0xb47050,0x4d6587,0x647b65,0x2b333d];
     let index = 0;
@@ -240,7 +257,7 @@ function stopSpin() {
   spin.textContent = 'Автовращение';
 }
 function enableViewer() {
-  if (!stagePromise) stagePromise = import('./catalog-view.js?v=industrial').then(({createStage})=>{
+  if (!stagePromise) stagePromise = import('./catalog-view.js?v=assemblies').then(({createStage})=>{
     stage = createStage(canvas);
     stage.controls.addEventListener('start',stopSpin);
     return stage;

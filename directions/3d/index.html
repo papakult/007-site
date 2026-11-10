@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090a0b">
   <title>3D-модели и конфигураторы для сайтов | 007-A</title>
-  <meta name="description" content="25 интерактивных 3D-демо для сайтов и каталогов. Вращайте модели, разберите турбину, снимите крышу дома и измените положение солнечных панелей.">
+  <meta name="description" content="28 интерактивных 3D-демо для сайтов и каталогов. Вращайте модели, разберите турбину, снимите крышу дома и измените положение солнечных панелей.">
   <link rel="canonical" href="https://007-a.ru/directions/3d/">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/demo-fonts.css">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="https://007-a.ru/directions/3d/3d-preview.jpg">
   <meta property="og:image:alt" content="Автомобиль, здание и фланец в галерее 3D-моделей 007-A">
   <script type="module" src="./gallery.js"></script>
-  <script type="module" src="./catalog.js?v=industrial"></script>
+  <script type="module" src="./catalog.js?v=assemblies"></script>
   <script src="/assets/metrika.js" defer></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
         <p class="kicker">05 / Интерактивная визуализация</p>
         <h1 id="title">3D-модели</h1>
       </div>
-      <p class="intro-copy">Вращайте модели, заглядывайте внутрь и управляйте деталями. 25 демонстраций для сайтов и каталогов.</p>
+      <p class="intro-copy">Разберите автомобиль до двигателя, раскройте диафрагму камеры или снимите кровлю. 28 интерактивных демонстраций.</p>
     </section>
 
     <section class="model-library" id="library" aria-labelledby="library-title">
@@ -46,11 +46,11 @@
           <p class="kicker">Интерактивная коллекция</p>
           <h2 id="library-title">Галерея моделей</h2>
         </div>
-        <p>Выберите модель. Её можно приблизить, повернуть и открыть по отдельной ссылке.</p>
+        <p>Разберите сборку по узлам и рассмотрите отдельную деталь крупным планом.</p>
       </div>
       <div class="library-tools">
         <div class="model-filters" id="model-filters" aria-label="Категории моделей"></div>
-        <p id="model-count" aria-live="polite">25 моделей</p>
+        <p id="model-count" aria-live="polite">28 моделей</p>
       </div>
       <div class="model-shelf" id="model-shelf"></div>
       <noscript><p class="gallery-note">Для интерактивного просмотра включите JavaScript.</p></noscript>
@@ -72,7 +72,7 @@
         <div class="model-actions" aria-label="Управление ракурсом">
           <button type="button" data-model-minus data-needs-stage aria-label="Уменьшить">−</button>
           <button type="button" data-model-plus data-needs-stage aria-label="Увеличить">+</button>
-          <button type="button" data-model-reset data-needs-stage>Исходный вид</button>
+          <button type="button" data-model-reset data-needs-stage>Вписать в кадр</button>
           <button type="button" data-model-spin data-needs-stage aria-pressed="false">Автовращение</button>
           <button type="button" data-model-share>Скопировать ссылку</button>
         </div>
@@ -100,8 +100,8 @@
           </div>
           <div class="caption">
             <div>
-              <h2>Автомобиль</h2>
-              <p>Кузов, оптика и колёсные диски с любого ракурса.</p>
+              <h2><a href="#model-car">Автомобиль</a></h2>
+              <p>Быстрый обзор кузова и колёс. <a href="#model-car">Открыть салон и разобрать двигатель</a>.</p>
             </div>
             <button type="button" data-reset disabled aria-label="Вернуть исходный ракурс автомобиля">Исходный вид</button>
           </div>
@@ -116,8 +116,8 @@
           </div>
           <div class="caption">
             <div>
-              <h2>Здание</h2>
-              <p>Балки, фермы и связи стального каркаса.</p>
+              <h2><a href="#model-building">Здание</a></h2>
+              <p>Балки, фермы и связи стального каркаса. <a href="#model-building">Разобрать по узлам</a>.</p>
             </div>
             <div class="actions">
               <button type="button" class="accent" data-interior aria-pressed="false" disabled>Зайти внутрь</button>
@@ -135,8 +135,8 @@
           </div>
           <div class="caption">
             <div>
-              <h2>Фланец</h2>
-              <p>Толщина и четыре отверстия меняются на модели.</p>
+              <h2><a href="#model-flange">Фланец</a></h2>
+              <p>Толщина и четыре отверстия меняются на модели. <a href="#model-flange">Открыть фланцевое соединение</a>.</p>
             </div>
             <button type="button" data-reset disabled aria-label="Вернуть исходный ракурс фланца">Исходный вид</button>
           </div>
