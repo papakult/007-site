@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#22261e">
+  <meta name="description" content="Откройте панорамы номеров Villa 007 и перейдите из комнаты в санузел.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <title>3D-туры по номерам | 007-A</title>
+  <link rel="stylesheet" href="../villa-007/assets/panorama.css">
+  <link rel="stylesheet" href="../villa-007/assets/fonts.css">
+  <link rel="stylesheet" href="../villa-007/assets/hotel.css">
+  <link rel="stylesheet" href="../villa-007/assets/hotel-villa.css">
+  <link rel="stylesheet" href="../demo-module.css">
+  <script defer src="../villa-007/assets/hotel-rooms.js"></script>
+  <script defer src="../villa-007/assets/hotel-tour.js?v=3"></script>
+  <script defer src="menu.js"></script>
+</head>
+<body class="tours-demo">
+  <a class="skip" href="#module-title">К содержанию</a>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="studio" href="../" aria-label="007-A, к разделу для отелей">007-A</a>
+      <nav aria-label="Демо для отелей">
+        <a href="../">Для отелей</a>
+        <a href="../booking/">Бронирование</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="module-intro" aria-labelledby="module-title">
+      <p class="eyebrow">Демо для отелей</p>
+      <h1 id="module-title">3D-туры по номерам</h1>
+      <p>Выберите номер Villa 007. Поверните панораму и нажмите на метку у двери, чтобы перейти в санузел.</p>
+      <div class="room-grid">
+        <button class="room-image tour-tile" type="button" data-open-tour="03" aria-haspopup="dialog" aria-label="3D-тур по номеру Классика">
+          <img src="../villa-007/assets/classic.webp" alt="">
+          <span class="tour-tile-name">Классика</span>
+          <span class="room-badge">Смотреть <b aria-hidden="true">↗</b></span>
+        </button>
+        <button class="room-image tour-tile" type="button" data-open-tour="05" aria-haspopup="dialog" aria-label="3D-тур по номеру Комфорт">
+          <img src="../villa-007/assets/comfort.jpg" alt="">
+          <span class="tour-tile-name">Комфорт</span>
+          <span class="room-badge">Смотреть <b aria-hidden="true">↗</b></span>
+        </button>
+        <button class="room-image tour-tile" type="button" data-open-tour="07" aria-haspopup="dialog" aria-label="3D-тур по номеру Люкс 07">
+          <img src="../villa-007/assets/suite.webp" alt="">
+          <span class="tour-tile-name">Люкс 07</span>
+          <span class="room-badge">Смотреть <b aria-hidden="true">↗</b></span>
+        </button>
+      </div>
+      <p class="demo-note">Панорамы вымышленной гостиницы Villa 007.</p>
+    </section>
+  </main>
+  <dialog class="room-dialog" id="room-detail" aria-labelledby="detail-title">
+    <div class="detail-photo">
+      <img id="detail-image" alt="" hidden>
+      <div id="detail-panorama" tabindex="0" aria-label="Панорама номера. Перетаскивайте изображение или используйте клавиши со стрелками." hidden></div>
+      <button class="tour-hotspot" id="tour-door" type="button" hidden></button>
+      <span class="tour-badge" id="tour-stage-label">01 / Комната</span>
+      <div class="tour-controls" aria-label="Поворот панорамы">
+        <button class="look-reset" id="look-left" type="button" aria-label="Повернуть влево">‹</button>
+        <button class="look-reset" id="look-reset" type="button">В центр</button>
+        <button class="look-reset" id="look-right" type="button" aria-label="Повернуть вправо">›</button>
+      </div>
+      <form method="dialog"><button class="close" type="submit" aria-label="Закрыть номер">×</button></form>
+    </div>
+    <div class="detail-body">
+      <div>
+        <p class="eyebrow" id="detail-meta"></p>
+        <h2 id="detail-title"></h2>
+        <p id="detail-description"></p>
+        <p class="look-help" id="look-help" role="status"></p>
+      </div>
+      <div class="detail-actions">
+        <div id="detail-views" role="group" aria-label="Переходы по номеру">
+          <button class="button button-outline" type="button" data-scene="0">Комната</button>
+          <button class="button button-outline" type="button" data-scene="1">Санузел</button>
+        </div>
+        <button class="button button-dark" id="book-detail" type="button">Выбрать этот номер</button>
+      </div>
+    </div>
+  </dialog>
+
+</body>
+</html>

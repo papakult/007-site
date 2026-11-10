@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, follow">
+  <meta name="theme-color" content="#22261e">
+  <meta name="description" content="Попробуйте выбрать номер и даты, оформить тестовую бронь и найти ее в расписании отельера.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <title>Прямое бронирование | 007-A</title>
+  <link rel="stylesheet" href="../villa-007/assets/fonts.css">
+  <link rel="stylesheet" href="../villa-007/assets/hotel.css">
+  <link rel="stylesheet" href="../villa-007/assets/hotel-villa.css">
+  <link rel="stylesheet" href="../villa-007/assets/hotel-planning.css">
+  <link rel="stylesheet" href="../demo-module.css">
+  <script defer src="../villa-007/assets/hotel-rooms.js"></script>
+  <script defer src="../villa-007/assets/hotel.js?v=4"></script>
+</head>
+<body class="booking-demo">
+  <a class="skip" href="#module-title">К содержанию</a>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="studio" href="../" aria-label="007-A, к разделу для отелей">007-A</a>
+      <nav aria-label="Демо для отелей">
+        <a href="../">Для отелей</a>
+        <a href="../tours/">3D-туры</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="module-intro wrap" aria-labelledby="module-title">
+      <p class="eyebrow">Демо для отелей</p>
+      <h1 id="module-title">Прямое бронирование</h1>
+      <p>Выберите даты и номер. После пробной брони откроется ссылка на расписание отельера.</p>
+      <a class="text-link" href="#planning">Открыть расписание</a>
+    </section>
+    <section class="stay wrap" id="stay" aria-labelledby="stay-title">
+      <div class="booking-band">
+        <div><p class="eyebrow">Shellyst Бронь</p><h2 id="stay-title">Ваше проживание</h2></div>
+        <form id="date-form">
+          <label>Заезд<input type="date" name="arrival" required></label>
+          <label>Выезд<input type="date" name="departure" required></label>
+          <label>Гости
+            <select name="guests"><option value="1">1 гость</option><option value="2" selected>2 гостя</option><option value="3">3 гостя</option></select>
+          </label>
+          <button class="button button-dark" type="submit">Показать номера</button>
+        </form>
+      </div>
+      <p class="demo-note">Villa 007 показывает работу сайта вымышленной гостиницы. Даты, цены и брони тестовые. Демо работает в текущей вкладке без оплаты и передачи данных.</p>
+
+      <div class="heading-row" id="rooms">
+        <div><p class="eyebrow">Номер и стоимость</p><h2>Доступные номера</h2></div>
+        <p class="date-summary" id="availability" aria-live="polite"></p>
+      </div>
+      <div class="room-grid" id="room-grid"></div>
+      <template id="room-template">
+        <article class="room">
+          <div class="room-image"><img loading="lazy" alt=""><span class="room-state"></span></div>
+          <div class="room-body">
+            <p class="room-meta"></p>
+            <h3></h3>
+            <p class="room-description"></p>
+            <div class="room-action">
+              <div><strong class="room-price"></strong><small class="room-rate"></small></div>
+              <button class="button button-outline" type="button">Выбрать</button>
+            </div>
+          </div>
+        </article>
+      </template>
+    </section>
+
+    <section class="planning" id="planning" aria-labelledby="planning-title">
+      <div class="wrap">
+        <div class="heading-row planning-heading">
+          <div><p class="eyebrow">Кабинет отельера</p><h2 id="planning-title">Планирование заселений</h2></div>
+          <p>Заезды, выезды и свободные номера. Нажмите на бронь или выберите дату в расписании.</p>
+        </div>
+        <div class="calendar">
+          <div class="calendar-toolbar">
+            <div class="desk-brand"><span>007</span><div><b>Стойка приема</b><small>Демонстрационный кабинет</small></div></div>
+            <div class="calendar-nav" aria-label="Недели в расписании">
+              <button class="button button-outline" id="prev-week" type="button" aria-label="На неделю назад">‹</button>
+              <button class="button button-outline" id="today" type="button">Сегодня</button>
+              <button class="button button-outline" id="next-week" type="button" aria-label="На неделю вперед">›</button>
+            </div>
+          </div>
+          <div class="desk-layout">
+            <div class="desk-main">
+              <div class="desk-period">
+                <div><span class="eyebrow">Расписание по номерам</span><h3 id="calendar-period"></h3></div>
+                <div class="desk-metrics" aria-label="Показатели выбранного дня">
+                  <div><strong id="metric-arrivals">0</strong><span>Заезды</span></div>
+                  <div><strong id="metric-departures">0</strong><span>Выезды</span></div>
+                  <div><strong id="metric-free">0</strong><span>Свободно</span></div>
+                </div>
+              </div>
+              <div class="table-scroll" tabindex="0" role="region" aria-label="Расписание номеров">
+                <table>
+                  <caption class="sr-only">Доступность по номерам и ночам</caption>
+                  <thead id="calendar-head"></thead>
+                  <tbody id="calendar-body"></tbody>
+                </table>
+              </div>
+              <div class="legend">
+                <span><i class="key free"></i> Свободно</span>
+                <span><i class="key booked"></i> Бронь</span>
+                <span><i class="key blocked"></i> Закрыто</span>
+              </div>
+            </div>
+            <aside class="desk-detail" aria-labelledby="desk-detail-title">
+              <p class="eyebrow" id="desk-detail-kicker">Выбранный день</p>
+              <h3 id="desk-detail-title"></h3>
+              <div id="desk-detail-content"></div>
+            </aside>
+          </div>
+          <p class="calendar-status sr-only" id="calendar-status" role="status"></p>
+        </div>
+        <div class="desk-links">
+          <a class="text-link" href="#stay">К выбору дат</a>
+          <a class="text-link" href="../">К разделу для отелей</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <dialog id="checkout" aria-labelledby="checkout-title">
+    <div class="dialog-top">
+      <p class="eyebrow">Shellyst Бронь</p>
+      <form method="dialog"><button class="close" type="submit" aria-label="Закрыть">×</button></form>
+    </div>
+    <h2 id="checkout-title">Пробная бронь</h2>
+    <p id="checkout-details"></p>
+    <p id="checkout-message" role="status">Для тестовой брони достаточно подтвердить выбранные даты.</p>
+    <div class="dialog-actions">
+      <button class="button button-dark" id="confirm" type="button">Подтвердить тестовую бронь</button>
+      <a class="button button-dark" id="see-booking" href="#planning" hidden>Открыть в расписании</a>
+      <a class="text-link" id="see-studio" href="../" hidden>К разделу для отелей</a>
+    </div>
+  </dialog>
+</body>
+</html>

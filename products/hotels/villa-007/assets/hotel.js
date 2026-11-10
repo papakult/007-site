@@ -1,22 +1,6 @@
 'use strict';
 
-const rooms = [
-  {
-    id: '03', name: 'Классика', size: 24, capacity: 2, rate: 8500,
-    cover: 'classic.webp', alt: 'Две кровати и окно со светлыми шторами',
-    description: 'Две отдельные кровати и окно во внутренний двор.',
-  },
-  {
-    id: '05', name: 'Комфорт', size: 31, capacity: 2, rate: 11200,
-    cover: 'comfort.jpg', alt: 'Спальня в оливковых тонах с большой кроватью',
-    description: 'Большая кровать, оливковые стены и кресло для чтения.',
-  },
-  {
-    id: '07', name: 'Люкс 07', size: 46, capacity: 3, rate: 15800,
-    cover: 'suite.webp', alt: 'Двуспальная кровать у высокого арочного окна',
-    description: 'Арочное окно на старый город и отдельный уголок с диваном, где можно выпить кофе.',
-  },
-];
+const hotelAssets = new URL('.', document.currentScript.src);
 
 const oneDay = 86400000;
 const money = new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB', maximumFractionDigits: 0 });
@@ -95,7 +79,7 @@ function renderRooms() {
     const card = template.content.cloneNode(true);
     const image = card.querySelector('img');
     const available = isAvailable(room, stay);
-    image.src = 'assets/' + room.cover;
+    image.src = new URL(room.cover, hotelAssets);
     image.alt = room.alt;
     card.querySelector('.room-state').textContent = available ? 'Свободен' : 'Недоступен';
     card.querySelector('.room-meta').textContent = room.size + ' м² · до ' + room.capacity + ' гостей';
@@ -108,10 +92,12 @@ function renderRooms() {
     book.disabled = !available;
     book.setAttribute('aria-label', available ? 'Забронировать номер ' + room.name : room.name + ' недоступен');
     book.addEventListener('click', () => openCheckout(room));
-    const tour = card.querySelector('.room-image');
-    tour.setAttribute('aria-label', 'Открыть в 3D: ' + room.name);
-    tour.setAttribute('aria-haspopup', 'dialog');
-    tour.addEventListener('click', () => openDetail(room));
+    const tour = card.querySelector('button.room-image');
+    if (tour) {
+      tour.setAttribute('aria-label', 'Открыть в 3D: ' + room.name);
+      tour.setAttribute('aria-haspopup', 'dialog');
+      tour.addEventListener('click', () => openDetail(room));
+    }
     grid.append(card);
   }
 }
@@ -119,7 +105,7 @@ function renderRooms() {
 function openDetail(room) {
   const stay = getStay();
   const available = stay && isAvailable(room, stay);
-  openHotelTour(room, available, () => {
+  openHotelTour(room, available ? 'Выбрать этот номер' : 'Выбрать другие даты', () => {
     if (available) openCheckout(room);
     else {
       document.querySelector('#stay').scrollIntoView();
@@ -361,48 +347,3 @@ arrival.value = addDays(today, 1);
 setDepartureRange();
 renderRooms();
 renderCalendar();
-
-
-const previewVideo = document.querySelector('#preview-video');
-const previewMotion = document.querySelector('#preview-motion');
-const landscapeVideo = document.querySelector('#landscape-video');
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-let previewPaused = false;
-
-function updatePreviewMotion() {
-  previewMotion.textContent = previewVideo.paused ? 'Играть' : 'Пауза';
-}
-
-async function playPreview() {
-  if (reduceMotion.matches || previewPaused) return;
-  try {
-    await previewVideo.play();
-    previewMotion.hidden = false;
-  } catch {
-    previewMotion.hidden = true;
-  }
-}
-
-const previewVisibility = new IntersectionObserver(([entry]) => {
-  if (entry.isIntersecting) void playPreview();
-  else previewVideo.pause();
-}, { threshold: .45 });
-previewVisibility.observe(previewVideo);
-reduceMotion.addEventListener('change', () => {
-  if (reduceMotion.matches) {
-    previewVideo.pause();
-    previewMotion.hidden = true;
-  } else {
-    void playPreview();
-  }
-});
-previewMotion.addEventListener('click', () => {
-  previewPaused = !previewPaused;
-  if (previewPaused) previewVideo.pause();
-  else void playPreview();
-});
-previewVideo.addEventListener('play', updatePreviewMotion);
-previewVideo.addEventListener('pause', updatePreviewMotion);
-document.querySelector('.landscape-preview').addEventListener('click', () => {
-  void landscapeVideo.play().catch(() => {});
-});

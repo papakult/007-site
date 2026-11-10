@@ -1,0 +1,18 @@
+.module-intro { padding-block: clamp(34px, 5vw, 75px) 27px; }
+.module-intro .eyebrow { color: #765921; }
+.module-intro h1 { margin: 9px 0 12px; font-size: clamp(40px, 7vw, 96px); letter-spacing: -.045em; overflow-wrap: anywhere; }
+.module-intro > p:not(.eyebrow) { color: var(--muted); max-width: 58ch; }
+.module-intro > .text-link { display: inline-block; margin-top: 12px; }
+.booking-demo .booking-band { margin-top: 0; }
+.booking-demo .room-image:hover img { transform: none; }
+.tours-demo .room-grid { margin-top: 25px; }
+.tour-tile { text-align: left; }
+.tour-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, #1d2418da, transparent 45%); }
+.tour-tile .tour-tile-name { z-index: 1; inset: auto auto 13px 14px; padding: 0; color: var(--paper); background: none; font: clamp(24px, 3vw, 39px)/1 var(--display); }
+.tour-tile .room-badge { z-index: 1; }
+@media (max-width: 880px) {
+  .tour-tile .room-badge { inset: 8px 8px auto auto; min-height: 32px; padding-inline: 8px; gap: 7px; }
+}
+@media (max-width: 520px) {
+  .bar nav { gap: 11px; }
+}

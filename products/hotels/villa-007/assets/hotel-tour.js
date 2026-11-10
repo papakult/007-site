@@ -1,6 +1,7 @@
 'use strict';
 
 const openHotelTour = (() => {
+  const tourAssets = new URL('.', document.currentScript.src);
   const detail = document.querySelector('#room-detail');
   const viewport = document.querySelector('#detail-panorama');
   const fallback = document.querySelector('#detail-image');
@@ -37,7 +38,7 @@ const openHotelTour = (() => {
     if (!scripts.has(file)) {
       const loaded = new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = 'assets/' + file + '?v=2';
+        script.src = new URL(file + '?v=2', tourAssets);
         script.onload = resolve;
         script.onerror = reject;
         document.head.append(script);
@@ -161,17 +162,17 @@ const openHotelTour = (() => {
     fallback.removeAttribute('src');
   });
 
-  return (selectedRoom, available, onBook) => {
+  return (selectedRoom, actionLabel, onBook) => {
     room = selectedRoom;
     document.querySelector('#detail-title').textContent = room.name;
     document.querySelector('#detail-meta').textContent = 'Номер ' + room.id + ' · ' + room.size + ' м²';
     document.querySelector('#detail-description').textContent = room.description;
-    book.textContent = available ? 'Выбрать этот номер' : 'Выбрать другие даты';
+    book.textContent = actionLabel;
     book.onclick = () => {
       detail.close();
       onBook();
     };
-    fallback.src = 'assets/' + room.cover;
+    fallback.src = new URL(room.cover, tourAssets);
     fallback.alt = room.alt;
     fallback.hidden = false;
     controls.hidden = true;
