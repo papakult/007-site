@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D-разборка изделий | 007-A</title>
+<style>
+:root{color-scheme:dark;--bg:#13181f;--panel:#1d242d;--line:#344252;--text:#f3f5f7;--muted:#b3c2ce;--amber:#f1ad6c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:16px/1.42 system-ui,-apple-system,sans-serif;color:var(--text)}
+header{height:60px;padding:0 4%;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line)}
+strong.brand{font-size:22px;letter-spacing:.12em}
+header small,.tag{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:650}
+main{margin:auto;max-width:1520px;padding:19px 4% 15px}
+.tag{color:var(--amber);margin:0 0 5px}
+h1{font-size:clamp(24px,4.05vw,55px);line-height:1.04;letter-spacing:-.038em;margin:0 0 12px;min-height:1.04em}
+.picker{margin:6px 0 13px;font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:6px 10px;max-width:100%}
+body.film .picker,body.film #play{display:none}
+.viewer{min-height:465px;display:grid;grid-template-columns:minmax(0,1fr) 248px;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.stage{position:relative;min-height:475px;background:radial-gradient(ellipse at 47% 39%,#425568 0,#2a3543 44%,#1b232d 78%,#17202a 100%)}
+.stage::before{content:"";position:absolute;inset:0;background:linear-gradient(#a6bed314 1px,transparent 1px),linear-gradient(90deg,#a6bed314 1px,transparent 1px);background-size:47px 47px;opacity:.4;pointer-events:none}
+canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}
+.chip{position:absolute;pointer-events:none;left:15px;top:14px;background:#181f27dc;border:1px solid #55657a;border-radius:24px;padding:6px 11px;font-size:13px}
+aside{padding:17px 14px;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+aside h2{font-size:16px;margin:0 0 4px}
+button{background:#222e3b;color:var(--text);border:1px solid #415266;border-radius:8px;cursor:pointer;padding:9px 11px;font:inherit;font-size:13px;text-align:left}
+button[aria-pressed=true]{background:#382f28;border-color:#cc935b;color:#ffd8af}
+#detail{font-size:13px;color:var(--muted);margin:9px 0 6px;min-height:38px}
+label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+input{width:100%;accent-color:var(--amber)}
+footer{margin:11px 0 0;color:var(--muted);font-size:12px}
+#error{color:#ffd1a5;position:absolute;left:20px;bottom:17px}
+@media(max-width:700px){header{height:48px}main{padding:14px 12px}.viewer{display:block}.stage{min-height:325px}aside{border-left:0;border-top:1px solid var(--line);padding:12px}.picker{width:100%}footer{font-size:11px}}
+</style>
+</head>
+<body>
+<header><strong class="brand">007-A</strong><small>Промышленное 3D</small></header>
+<main>
+<p class="tag">Демонстрационная 3D-модель</p><h1 id="title"></h1>
+<select id="picker" class="picker" aria-label="Выберите модель"></select>
+<section class="viewer" aria-label="Интерактивный 3D-просмотр">
+<div class="stage"><canvas id="model" aria-label="Повернуть и приблизить модель"></canvas><span class="chip" id="shot">Изделие в сборе</span><span id="error" hidden>3D недоступно. Откройте страницу в браузере с WebGL</span></div>
+<aside><h2>Рассмотреть по шагам</h2><button id="step0">01  Изделие в сборе</button><button id="step1"></button><button id="step2"></button><p id="detail">Поверните модель, чтобы увидеть её с другой стороны</p><label for="explode">Разборка <output id="percent">0%</output></label><input type="range" id="explode" min="0" max="100" value="0"><button id="play">Смотреть демонстрацию</button></aside>
+</section>
+<footer>Компоновка и размеры условные</footer>
+</main>
+<script type="module" src="./campaign.js"></script>
+</body>
+</html>
