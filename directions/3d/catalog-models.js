@@ -5,6 +5,7 @@ import {
 } from './engine.js';
 import { createCar, createBuilding, createDetail } from './models.js?v=assemblies';
 import { makeFlange } from './flange.js';
+import {LatheGeometry, Vector2} from './flashlight-geometry.js';
 
 const PI = Math.PI;
 const palette = {
@@ -116,22 +117,88 @@ function rotor(g, m, hub, blades, radius, z = 0) {
   return p;
 }
 
+function flangedRing(g, m, x, y, z, outer, inner, depth, pitch, count, bore, axis='z') {
+  const shape=new Shape();
+  shape.absarc(0,0,outer,0,2*PI,false);
+  const holes=[[0,0,inner]];
+  for(let i=0;i<count;i++){
+    const angle=2*PI*i/count;
+    holes.push([pitch*Math.cos(angle),pitch*Math.sin(angle),bore]);
+  }
+  for(const [hx,hy,r] of holes){
+    const hole=new Path();hole.absarc(hx,hy,r,0,2*PI,true);shape.holes.push(hole);
+  }
+  const geometry=new ExtrudeGeometry(shape,{depth,bevelEnabled:false,curveSegments:20});
+  geometry.translate(0,0,-depth/2);
+  const ring=mesh(g,geometry,m,x,y,z);
+  if(axis==='y')ring.rotation.x=PI/2;
+  if(axis==='x')ring.rotation.y=PI/2;
+  return ring;
+}
+function tube(g,m,points,r,name) {
+  for(let i=1;i<points.length;i++){
+    const start=new Vector3(...points[i-1]),end=new Vector3(...points[i]);
+    const axis=end.clone().sub(start);
+    const segment=cylinder(g,m,...start.add(end).multiplyScalar(.5).toArray(),r,axis.length(),'y',12);
+    segment.quaternion.setFromUnitVectors(new Vector3(0,1,0),axis.normalize());
+    segment.name=name;
+    if(i<points.length-1)ball(g,m,...points[i],r).name=name;
+  }
+}
+function bearing(g,m,x,y,z,outer,inner,depth) {
+  const group=part(g,x,y,z);
+  group.name='Подшипник';
+  const width=outer-inner;
+  annulus(group,m,0,0,0,outer,outer-width*.24,depth).name='Наружное кольцо подшипника';
+  annulus(group,m,0,0,0,inner+width*.24,inner,depth).name='Внутреннее кольцо подшипника';
+  for(let i=0;i<12;i++){
+    const t=i*2*PI/12,r=(outer+inner)/2;
+    ball(group,m,r*Math.cos(t),r*Math.sin(t),0,width*.22).name='Тело качения';
+  }
+  return group;
+}
+function sweptVanes(g,m,count,inner,outer,sweep,depth,z,name) {
+  const shape=new Shape();
+  shape.moveTo(inner,-inner*.09);
+  shape.bezierCurveTo(inner*1.4,-inner*.12,outer*.80,sweep*.45,outer,sweep);
+  shape.quadraticCurveTo(outer*.95,sweep+outer*.10,outer*.90,sweep+outer*.12);
+  shape.bezierCurveTo(outer*.73,sweep*.53,inner*1.25,inner*.16,inner,inner*.14);
+  shape.closePath();
+  const geometry=new ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelSize:.009,bevelThickness:.007,bevelSegments:1,curveSegments:9});
+  for(let i=0;i<count;i++){
+    const blade=mesh(g,geometry,m,0,0,z);
+    blade.rotation.z=i*2*PI/count;
+    blade.name=name;
+  }
+}
+
 function turbine() {
   const a = assembly();
   const steel = mat('steel'), dark = mat('gunmetal'), gold = mat('gold');
   const back = a.layer([0,0,-1.3],[0,0,-.61],'Задний корпус и статор');
   annulus(back, dark, 0, 0, 0, 1.50, 1.21, .50).name='Корпус';
   torus(back, steel, 0, 0, -.27, 1.44, .09);
-  for (let i = 0; i < 12; i++) {
-    const k = i * PI / 6;
-    beam(back, steel, [0, 0, 0], [1.25 * Math.cos(k), 1.25 * Math.sin(k), -.18], .071).name='Направляющая статора';
+  const stator=a.layer([0,0,-.75],[0,0,-.40],'Неподвижный направляющий аппарат',.12);
+  annulus(stator,steel,0,0,0,1.23,1.12,.17).name='Наружное кольцо статора';
+  annulus(stator,dark,0,0,0,.34,.23,.16).name='Ступица статора';
+  sweptVanes(stator,steel,18,.31,1.15,-.21,.18,-.085,'Профилированная лопатка статора');
+  for(let i=0;i<8;i++){
+    const t=i*PI/4;
+    const lug=box(back,dark,1.48*Math.cos(t),1.48*Math.sin(t),-.07,.22,.18,.39);
+    lug.rotation.z=t;lug.name='Усиление корпуса';
   }
   const hub = a.layer([0,0,0],undefined,'Ротор и вал');
   cylinder(hub, dark, 0, 0, -.28, .23, 1.2, 'z');
-  const spinning = rotor(hub, gold, steel, 19, 1.16, .06);
-  ball(spinning, steel, 0, 0, .20, .28, .28, .37);
+  const spinning=part(hub,0,0,.06);
+  annulus(spinning,gold,0,0,-.11,.54,.229,.23).name='Несущий диск ротора';
+  sweptVanes(spinning,steel,21,.36,1.10,.29,.21,-.105,'Профилированная лопатка ротора');
+  cylinder(spinning,steel,0,0,.15,.231,.25,'z',40,.16).name='Конус ступицы';
+  for(let i=0;i<21;i++){
+    const t=i*2*PI/21;
+    cylinder(spinning,gold,.43*Math.cos(t),.43*Math.sin(t),.119,.026,.047,'z',6).name='Стопор лопатки';
+  }
   const front = a.layer([0,0,1.5],[0,0,.54],'Передний фланец');
-  annulus(front, steel, 0, 0, 0, 1.49, 1.24, .23).name='Фланец';
+  flangedRing(front,steel,0,0,0,1.49,1.24,.23,1.37,14,.047).name='Фланец с крепёжными отверстиями';
 
   a.motion = dt => { spinning.rotation.z -= dt * 3; };
 
@@ -148,7 +215,9 @@ function turbine() {
     ball(seal,steel,.309*Math.cos(t),.309*Math.sin(t),-.055,.032).name='Шарик подшипника';
   }
   a.fasteners=[fix];
-  a.views=[view('Лопатки ротора',hub,[0,0,.12],3.4),
+  a.shell={group:front,label:'Снять передний фланец',restoreLabel:'Вернуть фланец'};
+  a.views=[view('Лопатки ротора',hub,[0,0,.12],4.35,[.38,.24,1],[front]),
+    view('Направляющие статора',stator,[0,0,0],3.20,[.46,.30,-1]),
     view('Опора вала',seal,[0,0,-.05],1.8,[.6,.2,1])];
 
   return a;
@@ -156,16 +225,31 @@ function turbine() {
 function pump() {
   const a = assembly(), blue = mat('blue'), steel = mat('steel'), bronze = mat('gold');
   const casing = a.layer([0,0,-1.26],undefined,'Корпус и патрубок');
-  annulus(casing, blue, 0, 0, 0, 1.36, .98, .69).name='Улитка насоса';
-  cylinder(casing, blue, 0, 0, -.39, 1.35, .16, 'z');
-  cylinder(casing, blue, .60, 1.17, -.04, .39, .94).name='Напорный патрубок';
-  cylinder(casing, steel, .60, 1.63, -.04, .58, .18);
+  const volute=new Shape();
+  for(let i=0;i<=64;i++){
+    const t=i*2*PI/64,r=1.23+.19*(.5+.5*Math.sin(t-.55));
+    const x=r*Math.cos(t),y=r*Math.sin(t);
+    if(i===0)volute.moveTo(x,y);else volute.lineTo(x,y);
+  }
+  volute.closePath();
+  const waterway=new Path();
+  waterway.absellipse(.015,.045,1.04,1.09,0,2*PI,true);
+  volute.holes.push(waterway);
+  mesh(casing,new ExtrudeGeometry(volute,{depth:.64,bevelEnabled:true,bevelSize:.042,bevelThickness:.03,bevelSegments:2}),blue,0,0,-.32).name='Литая улитка насоса';
+  annulus(casing,blue,0,0,-.39,1.27,.14,.16).name='Задняя стенка с проходом вала';
+  flangedRing(casing,blue,.60,1.26,-.04,.38,.265,.69,.32,0,0,'y').name='Полый напорный патрубок';
+  flangedRing(casing,steel,.60,1.63,-.04,.53,.263,.14,.425,6,.034,'y').name='Напорный фланец';
   box(casing, steel, 0, -1.35, -.10, 2.45, .22, 1.18);
   const hub = a.layer([0,0,.12],undefined,'Крыльчатка и вал');
-  const impeller = rotor(hub, bronze, steel, 8, .97, .33);
+  const impeller=part(hub,0,0,.16);
+  annulus(impeller,bronze,0,0,-.09,.98,.14,.13).name='Задний диск рабочего колеса';
+  cylinder(impeller,steel,0,0,-.02,.212,.29,'z',32).name='Ступица крыльчатки';
+  sweptVanes(impeller,bronze,7,.24,.91,.30,.19,-.027,'Изогнутая лопасть крыльчатки');
+  annulus(impeller,steel,0,0,.19,.30,.20,.034).name='Входное кольцо крыльчатки';
   const cap = a.layer([0,0,1.55],[0,0,.62],'Крышка и впуск');
-  annulus(cap, blue, 0, 0, 0, 1.37, .70, .19);
-  torus(cap, steel, 0, 0, .13, .73, .065);
+  flangedRing(cap,blue,0,0,0,1.37,.65,.19,1.15,9,.055).name='Крышка с отверстиями под стяжные болты';
+  annulus(cap,blue,0,0,.21,.72,.58,.34).name='Всасывающий патрубок';
+  flangedRing(cap,steel,0,0,.37,.83,.58,.12,.735,8,.036).name='Всасывающий фланец';
 
   a.motion = dt => { impeller.rotation.z += dt * 2.4; };
 
@@ -173,14 +257,16 @@ function pump() {
   const fasteners=a.layer([0,0,2.41],[0,0,.76],'Стяжные болты',.28);
   torus(seal,mat('black'),0,0,0,1.206,.026).name='Прокладка крышки';
   annulus(seal,bronze,0,0,-.22,.315,.15,.11).name='Торцевое уплотнение';
-  cylinder(hub,steel,0,0,-.27,.13,1.05,'z',24).name='Вал крыльчатки';
+  cylinder(hub,steel,0,0,-.38,.13,1.20,'z',32).name='Вал крыльчатки';
+  bearing(seal,steel,0,0,-.70,.29,.13,.10);
+  torus(seal,bronze,0,0,-.16,.258,.023).name='Контактное кольцо торцевого уплотнения';
   for(let i=0;i<9;i++){
     const t=i*2*PI/9;
     joint(fasteners,steel,1.15*Math.cos(t),1.15*Math.sin(t),0,'z',.067,.25);
   }
   a.fasteners=[fasteners];
   a.shell={group:cap,label:'Снять крышку',restoreLabel:'Вернуть крышку'};
-  a.views=[view('Рабочее колесо',hub,[0,0,.31],3.0,[.37,.22,1],[cap]),
+  a.views=[view('Рабочее колесо',hub,[0,0,.23],3.95,[.37,.22,1],[cap]),
     view('Торцевое уплотнение',seal,[0,0,-.22],1.4,[.38,.22,1],[cap])];
 
   return a;
@@ -200,21 +286,31 @@ function reducer() {
   const lid = a.layer([0,0,1.45],[0,0,.47],'Передняя крышка');
   annulus(lid, steel, 0, 0, 0, 1.47, 1.13, .15).name='Крышка';
 
+  const sunRate=1.25,carrierRate=sunRate*16/(16+44);
   a.motion = dt => {
-    sun.rotation.z += dt * 1.25;
-    carrier.rotation.z += dt * .36;
-    for (const planet of planets) planet.rotation.z -= dt * 1.14;
+    sun.rotation.z += dt*sunRate;
+    carrier.rotation.z += dt*carrierRate;
+    output.rotation.z=carrier.rotation.z;
+    for (const planet of planets) planet.rotation.z-=dt*(sunRate-carrierRate)*16/14;
   };
 
   const output=a.layer([0,0,.66],[0,0,.19],'Водило и выходной вал',.12);
   const fix=a.layer([0,0,2.16],[0,0,.59],'Крепёж крышки',.28);
-  for(let i=0;i<42;i++){
-    const t=i*2*PI/42;
+  for(let i=0;i<44;i++){
+    const t=i*2*PI/44;
     box(shell,steel,1.17*Math.cos(t),1.17*Math.sin(t),.09,.12,.082,.32).rotation.z=t;
     shell.children.at(-1).name='Внутренний зуб венца';
   }
   annulus(output,gold,0,0,0,1.065,.41,.068).name='Диск водила';
-  cylinder(output,steel,0,0,.25,.21,.55,'z',24).name='Выходной вал';
+  cylinder(output,steel,0,0,.25,.21,.55,'z',28).name='Выходной вал';
+  bearing(lid,steel,0,0,.072,.369,.213,.117);
+  bearing(shell,steel,0,0,-.12,.315,.171,.095);
+  cylinder(train,steel,0,0,-.39,.166,.63,'z',28).name='Входной вал';
+  for(let i=0;i<12;i++){
+    const t=i*2*PI/12;
+    const key=box(output,steel,.212*Math.cos(t),.212*Math.sin(t),.44,.038,.025,.23);
+    key.rotation.z=t;key.name='Шлиц выходного вала';
+  }
   for(let i=0;i<3;i++){
     const t=i*2*PI/3;
     cylinder(carrier,gold,.79*Math.sin(t),.79*Math.cos(t),.15,.083,.39,'z',20).name='Палец сателлита';
@@ -225,7 +321,8 @@ function reducer() {
   }
   a.fasteners=[fix];
   a.shells=[{groups:[output,lid],label:'Открыть передачу',restoreLabel:'Закрыть передачу'}];
-  a.views=[view('Планетарная передача',train,[0,0,0],3.05,[.30,.22,1],[lid,output])];
+  a.views=[view('Планетарная передача',train,[0,0,0],4.18,[.30,.22,1],[lid,output]),
+    view('Водило и выходной вал',output,[0,0,.23],2.6,[.56,.24,1])];
 
   return a;
 }
@@ -246,11 +343,23 @@ function arm() {
   cylinder(wrist, steel, 0, 0, 0, .25, .46, 'z');
   box(wrist, orange, 0, .42, 0, .32, .87, .30);
   cylinder(wrist, metal, 0, .93, 0, .23, .25);
-  for (const x of [-.15, .15]) {
-    beam(wrist, steel, [x, 1, 0], [x * 1.6, 1.26, 0], .095);
-    beam(wrist, metal, [x * 1.6, 1.26, 0], [x * .9, 1.34, 0], .075);
+  const jaws=[];
+  for(const side of [-1,1]){
+    const jaw=part(wrist,side*.15,1,0);
+    beam(jaw,steel,[0,0,0],[side*.09,.26,0],.095).name='Подвижная губка';
+    beam(jaw,metal,[side*.09,.26,0],[-side*.015,.34,0],.075).name='Накладка губки';
+    for(let i=0;i<4;i++)
+      box(jaw,steel,-side*.012,.305+i*.014,0,.020,.007,.064).name='Насечка накладки';
+    jaws.push([jaw,side]);
   }
+  const screw=cylinder(wrist,steel,0,.95,.106,.034,.39,'x',20);screw.name='Ходовой винт захвата';
+  for(let i=0;i<11;i++)torus(wrist,steel,-.17+i*.034,.95,.106,.034,.006,'x').name='Виток ходового винта';
+  for(const side of [-1,1])
+    cylinder(wrist,metal,0,1.015,side*.092,.025,.40,'x',16).name='Направляющая губок';
   a.adjust = { label: 'Поворот плеча', initial: 48, apply(value) { elbow.rotation.z = (value - 65) * .019; } };
+  a.adjustments=[{label:'Раскрытие захвата',initial:44,apply(value){
+    for(const [jaw,side] of jaws)jaw.position.x=side*(.092+value*.00132);
+  }}];
   a.motion = (dt, t) => { axis.rotation.y += dt * .41; wrist.rotation.z = -1.15 + Math.sin(t * 1.5) * .32; };
 
   const wristCover=a.layer([.73,.40,.64],[0,0,0],'Съёмный кожух привода',.18);
@@ -267,7 +376,10 @@ function arm() {
     bolts(gearbox,steel,r*.82,.058,6,.021);
   }
   box(wristCover,orange,0,1.02,-.255,.48,.49,.10).name='Сервисная крышка';
-  beam(elbow,metal,[-.19,.17,.17],[-.20,1.13,.17],.044).name='Кабельный рукав';
+  tube(elbow,metal,[[-.21,.06,.19],[-.31,.22,.16],[-.28,1.0,.16],[-.18,1.18,.16]],.027,'Кабельный рукав плеча');
+  for(let i=0;i<8;i++)torus(elbow,steel,-.28,.30+i*.081,.16,.028,.004,'y').name='Звено кабельного рукава';
+  cylinder(wrist,metal,0,-.015,-.276,.105,.056,'z',24).name='Корпус энкодера';
+  cylinder(wrist,steel,0,-.015,-.310,.058,.021,'z',24).name='Крышка энкодера';
   a.fasteners=[fasteners];
   a.views=[view('Плечевой редуктор',elbow,[0,.04,.27],1.35,[.7,.36,1]),
     view('Губки захвата',wrist,[0,1.18,0],1.47,[1,.3,1])];
@@ -286,15 +398,32 @@ function motor() {
   }
   box(body, dark, 0, -1.11, 0, 1.86, .19, 1.54);
   box(body, dark, 0, 1.16, -.1, .69, .32, .54);
-  const coil = a.layer([0,0,1.25],undefined,'Статор и обмотка');
-  annulus(coil, steel, 0, 0, .29, .80, .60, .62);
-  for (let i = 0; i < 18; i++) {
-    const t = i * 2 * PI / 18;
-    box(coil,copper,Math.cos(t)*.72,Math.sin(t)*.72,.32,.105,.105,.82).name='Пазовая обмотка';
+  const coil = a.layer([0,0,1.25],undefined,'Статор и трёхфазная обмотка');
+  const terminalLid=a.layer([.54,.52,0],[0,1.32,-.12],'Крышка клеммной коробки',.21);
+  const terminalColors=[mat('copper'),mat('gold'),mat('blue')];
+  annulus(coil,steel,0,0,.20,.81,.628,.87).name='Пакет листов статора';
+  for(let z=-.215;z<.63;z+=.053)
+    torus(coil,dark,0,0,z,.806,.007).name='Ламель пакета статора';
+  for(let i=0;i<18;i++){
+    const t=i*2*PI/18,r=.692,u=t+.105,v=t-.105;
+    tube(coil,copper,[[r*Math.cos(u),r*Math.sin(u),-.24],[r*Math.cos(u),r*Math.sin(u),.67],
+      [r*Math.cos(t),r*Math.sin(t),.79],[r*Math.cos(v),r*Math.sin(v),.67],
+      [r*Math.cos(v),r*Math.sin(v),-.24],[r*Math.cos(t),r*Math.sin(t),-.34],
+      [r*Math.cos(u),r*Math.sin(u),-.24]],.024,'Виток медной обмотки');
+    const tooth=box(coil,steel,.632*Math.cos(t),.632*Math.sin(t),.20,.068,.082,.84);
+    tooth.rotation.z=t;tooth.name='Зуб магнитопровода статора';
   }
   const shaft = a.layer([0,0,2.04],undefined,'Ротор и приводной вал');
-  cylinder(shaft, dark, 0, 0, .48, .52, .59, 'z');
-  cylinder(shaft, steel, 0, 0, .94, .17, 1.62, 'z');
+  cylinder(shaft,dark,0,0,.23,.506,.84,'z',56).name='Магнитопровод ротора';
+  cylinder(shaft,steel,0,0,.36,.17,1.89,'z',48).name='Приводной вал';
+  for(const z of [-.19,.66])
+    annulus(shaft,mat('gold'),0,0,z,.534,.41,.062).name='Короткозамыкающее кольцо ротора';
+  for(let i=0;i<22;i++){
+    const t=i*2*PI/22,r=.508;
+    tube(shaft,mat('gold'),[[r*Math.cos(t),r*Math.sin(t),-.19],
+      [r*Math.cos(t+.11),r*Math.sin(t+.11),.66]],.017,'Стержень короткозамкнутого ротора');
+  }
+  box(shaft,steel,.174,0,1.12,.038,.059,.25).name='Шпонка выходного вала';
   const cap = a.layer([0,0,3.05],[0,0,.81],'Передняя крышка и опора');
   annulus(cap, blue, 0, 0, 0, 1.08, .34, .18);
 
@@ -307,10 +436,17 @@ function motor() {
   annulus(fan,blue,0,0,-.13,1.06,.82,.22).name='Кольцо кожуха вентилятора';
   annulus(cap,steel,0,0,.06,.34,.177,.074).name='Передний подшипник';
   box(terminals,dark,0,0,0,.56,.11,.42).name='Клеммная колодка';
-  for(const x of [-.17,0,.17]){
-    cylinder(terminals,copper,x,.075,0,.044,.1,'y',12).name='Контактная шпилька';
-    box(terminals,steel,x,.15,.07,.095,.037,.24).name='Контактная перемычка';
+  for(const [i,x] of [-.17,0,.17].entries()){
+    for(const z of [-.105,.105]){
+      cylinder(terminals,terminalColors[i],x,.076,z,.037,.102,'y',16).name='Контактная шпилька';
+      cylinder(terminals,steel,x,.137,z,.041,.025,'y',6).name='Зажимная гайка';
+    }
+    box(terminals,steel,x,.156,0,.055,.025,.263).name='Контактная перемычка';
+    tube(terminals,terminalColors[i],[[x,.060,-.16],[x,.021,-.25],[x+.03,-.10,-.29]],.018,'Провод к статору');
   }
+  box(terminalLid,blue,0,.13,0,.65,.075,.48).name='Крышка клеммной коробки';
+  for(const x of [-.256,.256])for(const z of [-.17,.17])
+    cylinder(terminalLid,steel,x,.177,z,.027,.018,'y',6).name='Винт крышки';
   for(let i=0;i<8;i++){
     const t=i*PI/4;
     joint(fix,steel,.91*Math.cos(t),.91*Math.sin(t),0,'z',.051,.29);
@@ -318,7 +454,12 @@ function motor() {
   const rotate=a.motion;
   a.motion=dt=>{rotate(dt);blades.rotation.z+=dt*3;};
   a.fasteners=[fix];
-  a.views=[view('Медная обмотка',coil,[0,0,.30],2.72),view('Клеммная колодка',terminals,[0,.07,0],1.20)];
+  a.shells=[{groups:[body],label:'Снять корпус',restoreLabel:'Вернуть корпус'},
+    {groups:[terminalLid],label:'Открыть клеммную коробку',restoreLabel:'Закрыть клеммную коробку'},
+    {groups:[cap],label:'Снять переднюю крышку двигателя',restoreLabel:'Вернуть переднюю крышку двигателя'}];
+  a.views=[view('Медная обмотка',coil,[0,0,.30],3.45,[.64,.48,1],[body,cap]),
+    view('Короткозамкнутый ротор',shaft,[0,0,.34],3.42,[1.12,.38,.76],[body,cap]),
+    view('Клеммная колодка',terminals,[0,.08,0],1.42,[.53,.76,1],[terminalLid])];
 
   return a;
 }
@@ -459,6 +600,27 @@ function cafe() {
 
   const lights=a.layer([0,.57,.13],undefined,'Освещение и проводка',.18);
   const equipment=a.layer([.72,.36,.30],undefined,'Оборудование стойки',.25);
+  const glass=a.layer([0,.47,1.16],undefined,'Фасадное остекление и дверь',.18);
+  const service=a.layer([.61,-.08,-.54],undefined,'Вода и электрика под стойкой',.27);
+  const glazing=mat('glass',{transparent:true,opacity:.36,depthWrite:false});
+  const steel=mat('steel'), copper=mat('copper');
+  for(const x of [-1.73,-.50,.74,1.73])
+    beam(glass,trim,[x,.16,1.30],[x,1.91,1.30],.049).name='Стойка витража';
+  for(const x of [-1.13,.10,1.24]){
+    glassPanel(glass,glazing,x,1.04,1.30,x>1?.94:1.17,1.70,.021);
+    box(glass,trim,x,.21,1.30,x>1?.98:1.20,.049,.054).name='Нижняя направляющая витража';
+  }
+  beam(glass,steel,[1.59,.85,1.345],[1.59,1.16,1.345],.026).name='Ручка двери';
+  const tiles=[mat('concrete',{color:0xa99e91}),mat('concrete',{color:0xb4aba0})];
+  for(let x=0;x<7;x++)for(let z=0;z<5;z++)
+    box(walls,tiles[(x+z)%2],-1.61+x*.51,.068,-1.05+z*.51,.497,.014,.497).name='Плитка пола';
+  box(equipment,steel,.93,1.099,.54,.385,.034,.34).name='Рамка мойки';
+  box(equipment,trim,.93,1.12,.54,.272,.024,.224).name='Чаша мойки';
+  tube(equipment,steel,[[.98,1.10,.40],[.98,1.28,.40],[.98,1.29,.56],[.98,1.24,.56]],.018,'Смеситель');
+  tube(service,mat('blue'),[[1.47,.32,.10],[1.18,.32,.12],[.95,.32,.42],[.95,1.09,.44]],.024,'Подвод воды');
+  tube(service,copper,[[.93,1.06,.54],[.93,.48,.54],[1.11,.42,.52],[1.13,.33,.21],[1.36,.25,.04]],.041,'Отвод мойки');
+  box(service,trim,-.96,.83,.20,.28,.21,.062).name='Распределительная коробка';
+  tube(service,trim,[[-1.0,.83,.16],[-1.36,.83,.15],[-1.36,1.79,.20],[-1.36,1.98,.59]],.022,'Подвод к освещению');
   for(const x of [-1.10,0,1.10]){
     beam(lights,trim,[x,1.98,.67],[x,1.82,.67],.025).name='Подвес светильника';
     cylinder(lights,wood,x,1.81,.67,.109,.085,'y',24,.076).name='Плафон';
@@ -475,7 +637,10 @@ function cafe() {
     box(counter,wood,x,.78,.204,.115,.029,.026).name='Ручка шкафа';
   }
   a.views=[view('Рабочая зона',equipment,[-.10,1.29,.54],2.65,[.38,.48,1],[roof]),
-    view('Подвесы освещения',lights,[0,1.85,.67],2.35,[.40,-.2,1],[roof])];
+    view('Подвесы освещения',lights,[0,1.85,.67],2.35,[.40,-.2,1],[roof]),
+    view('Мойка и коммуникации',service,[.91,.59,.38],2.83,[.81,.41,.75],[glass,walls])];
+  a.shells=[{groups:[glass],label:'Снять остекление',restoreLabel:'Вернуть остекление'},
+    {groups:[walls],label:'Снять стеновые панели',restoreLabel:'Вернуть стеновые панели'}];
 
   return a;
 }
@@ -565,8 +730,10 @@ function headphones() {
   const headband=a.layer([0,.62,0],undefined,'Оголовье и накладка');
   torus(headband,finish,0,.50,0,1.15,.13,'z',PI).name='Дуга оголовья';
   torus(headband,pad,0,.49,0,1.02,.088,'z',PI).name='Мягкая накладка';
-  const drivers=[];
+  const drivers=[],diaphragms=[];
   const shells=[];
+  const electronics=a.layer([.57,-.28,-.62],[1.23,-.41,0],'Плата, аккумулятор и кнопки',.22);
+  const pcb=mat('green'), gold=mat('gold'), copper=mat('copper');
   for(const sign of [-1,1]){
     beam(headband,steel,[sign*1.14,.54,0],[sign*1.27,-.11,0],.08);
     const side=sign<0?'Левый':'Правый';
@@ -583,15 +750,35 @@ function headphones() {
     cylinder(driver,steel,sign*.086,0,0,.193,.09,'x').name='Магнит';
     cylinder(driver,mat('copper'),sign*.029,0,0,.104,.10,'x').name='Звуковая катушка';
     torus(driver,steel,-sign*.069,0,0,.324,.018,'x').name='Гибкий подвес';
-    ball(driver,finish,-sign*.084,0,0,.055,.314,.314).name='Мембрана';
+    const diaphragm=part(driver,-sign*.084,0,0);
+    ball(diaphragm,finish,0,0,0,.039,.291,.291).name='Мембрана';
+    torus(diaphragm,dark,0,0,0,.278,.025,'x').name='Эластичный край мембраны';
+    ball(diaphragm,steel,-sign*.027,0,0,.026,.084,.084).name='Пылезащитный колпачок';
+    diaphragms.push([diaphragm,diaphragm.position.x,sign]);
+    for(let i=0;i<14;i++){
+      const t=i*2*PI/14;
+      const port=box(driver,pad,sign*.103,.258*Math.cos(t),.258*Math.sin(t),.026,.047,.067);
+      port.rotation.x=t;port.name='Акустический порт корзины';
+    }
+    for(let i=0;i<8;i++)torus(driver,copper,sign*.023+i*.007,0,0,.103,.004,'x').name='Виток звуковой катушки';
     for(let i=0;i<6;i++){
       const t=i*PI/3;
       joint(driver,steel,sign*.056,Math.cos(t)*.356,Math.sin(t)*.356,'x',.019,.12);
     }
   }
+  cylinder(electronics,pcb,-.055,0,0,.264,.045,'x',48).name='Плата усилителя';
+  box(electronics,dark,.048,.10,.03,.058,.125,.124).name='Микросхема усилителя';
+  box(electronics,steel,.021,-.135,0,.077,.109,.275).name='Аккумулятор';
+  for(let i=0;i<8;i++)
+    box(electronics,gold,.057,.031+i*.023,-.133,.018,.012,.055).name='Вывод микросхемы';
+  tube(electronics,copper,[[.042,-.17,.126],[.10,-.23,.145],[.112,-.21,-.08],[.05,-.124,-.14]],.012,'Провод динамика');
+  for(let i=0;i<3;i++)box(electronics,steel,.024,-.108+i*.10,.239,.068,.046,.032).name='Контакт кнопки управления';
   a.finish=finish;
+  a.motion=(dt,t)=>{for(const [part,zero,sign] of diaphragms)part.position.x=zero+sign*.022*Math.sin(t*9);};
+  a.motionLabel='Показать ход мембраны';
 
-  a.views=[view('Мембрана и магнит',drivers[1],[0,0,0],1.72,[1,.37,.54],shells)];
+  a.views=[view('Мембрана и магнит',drivers[1],[0,0,0],1.72,[-1,.34,.58],shells),
+    view('Усилитель и батарея',electronics,[0,0,0],1.45,[1,.43,1],shells)];
   a.shells=[{groups:shells,label:'Снять чашки',restoreLabel:'Вернуть чашки'}];
 
   return a;
@@ -636,12 +823,23 @@ function camera() {
   box(circuit,board,-.03,0,-.47,1.69,1.02,.051).name='Основная плата';
   box(circuit,silver,-.27,0,-.36,.77,.57,.068).name='Рамка матрицы';
   box(circuit,sensorMat,-.27,0,-.313,.63,.43,.026).name='Светочувствительная матрица';
+  const pixelColors=[mat('teal'),mat('blue'),mat('gold')];
+  for(let row=0;row<8;row++)for(let column=0;column<12;column++){
+    box(circuit,pixelColors[(row+column*2)%3],-.54+column*.049,-.175+row*.05,-.298,.044,.043,.003).name='Условная ячейка матрицы';
+  }
+  for(let i=0;i<10;i++){
+    const y=-.18+i*.04;
+    beam(circuit,gold,[.061,y,-.418],[.219,y,-.418],.008).name='Контакт шлейфа матрицы';
+  }
+  box(circuit,gold,.169,0,-.406,.229,.381,.009).name='Гибкий шлейф матрицы';
+  box(circuit,dark,.294,0,-.409,.062,.398,.029).name='Разъём шлейфа';
   box(circuit,dark,.44,.14,-.423,.23,.22,.039).name='Процессор';
   for(let i=0;i<12;i++){
     const y=-.43+i*.065;
     box(circuit,gold,.63,y,-.427,.16,.021,.028).name='Контакт платы';
     box(circuit,dark,-.77,y,-.430,.10,.024,.033).name='Компонент платы';
   }
+  const focusGroup=part(optics);
   const curtains=[];
   for(let i=0;i<4;i++) {
     curtains.push(box(shutter,dark,0,(i-1.5)*.116,0,.69,.105,.017));
@@ -657,8 +855,10 @@ function camera() {
   }
   torus(barrel,silver,0,0,.33,.53,.037).name='Посадочное кольцо';
   for(const [z,r] of [[-.25,.32],[-.075,.385],[.21,.445]]){
-    annulus(optics,silver,0,0,z,r+.046,r-.022,.032).name='Оправа линзы';
-    ball(optics,lens,0,0,z,r,r,.056).name='Оптическая линза';
+    const group=z===.21?focusGroup:optics;
+    annulus(group,silver,0,0,z,r+.046,r-.022,.032).name='Оправа линзы';
+    ball(group,lens,0,0,z,r,r,.056).name='Оптическая линза';
+    torus(group,gold,0,0,z+.024,r+.018,.009).name='Пружинное кольцо линзы';
   }
   for(let i=0;i<3;i++){
     const angle=i*2*PI/3;
@@ -686,6 +886,7 @@ function camera() {
     const travel=.35*(.5+.5*Math.sin(t*2.8));
     curtains.forEach((blade,i)=>{blade.position.y=(i-1.5)*.116+travel;});
   };
+  a.adjustments=[{label:'Фокусировка объектива',initial:40,apply(v){focusGroup.position.z=(v-40)*.0027;}}];
   a.motionLabel='Показать ход шторок';
   a.finish=body;
   a.fasteners=[hardware];
@@ -693,11 +894,14 @@ function camera() {
   a.views=[
     view('Линзы объектива',optics,[0,0,0],2.35,[1,.45,1.4]),
     view('Диафрагма',iris,[0,0,0],2.05,[.18,.16,1],[barrel,optics,filter]),
-    view('Матрица и плата',circuit,[-.20,0,-.40],2.7,[.5,.26,-1],[rear]),
+    view('Матрица и плата',circuit,[-.20,0,-.36],2.48,[.49,.37,1],[rear,face,barrel,optics,iris,filter,shutter]),
+    view('Шторки затвора',shutter,[0,0,.05],1.66,[.48,.17,1],[face,barrel,optics,filter]),
   ];
   a.shells=[
     {groups:[barrel,optics,filter],label:'Скрыть оптику',restoreLabel:'Вернуть оптику'},
+    {groups:[iris],label:'Скрыть диафрагму',restoreLabel:'Вернуть диафрагму'},
     {groups:[face],label:'Снять лицевую панель',restoreLabel:'Вернуть лицевую панель'},
+    {groups:[shutter],label:'Скрыть шторки',restoreLabel:'Вернуть шторки'},
   ];
   return a;
 }
@@ -723,13 +927,37 @@ function coffee() {
   a.finish=body;
 
   const internals=a.layer([.49,.12,.46],undefined,'Бойлер, насос и трубки',.15);
+  const tank=a.layer([-.66,.53,-.40],undefined,'Бак воды и заборный клапан',.18);
+  const clear=mat('glass',{transparent:true,opacity:.32,depthWrite:false});
+  const flow=a.layer([.49,.12,.46],undefined,'Условный путь воды',.15);
   const shower=a.layer([0,-.40,1.65],undefined,'Рассекатель и корзина фильтра',.24);
   const hardware=a.layer([0,.32,2.06],undefined,'Крепление группы',.32);
   cylinder(internals,copper,0,1.98,-.38,.365,.68,'x',36).name='Бойлер';
   for(const x of [-.36,.36]) torus(internals,steel,x,1.98,-.38,.347,.035,'x').name='Крышка бойлера';
   cylinder(internals,steel,.29,.82,-.43,.118,.34,'y',24).name='Насос';
-  beam(internals,copper,[.29,1.0,-.43],[.34,1.79,-.43],.043).name='Трубка от насоса';
-  beam(internals,copper,[.03,1.94,-.21],[.03,2.05,.43],.043).name='Трубка к группе';
+  box(tank,clear,-.52,1.26,-.50,.42,1.18,.38).name='Прозрачный резервуар воды';
+  box(tank,black,-.52,1.88,-.50,.44,.052,.39).name='Крышка резервуара';
+  cylinder(tank,steel,-.52,.675,-.50,.072,.059,'y',24).name='Заборный клапан';
+  const waterway=[[-.52,.675,-.50],[-.52,.49,-.48],[.29,.49,-.43],[.29,.82,-.43],
+    [.29,1.08,-.43],[.34,1.79,-.43],[.31,1.97,-.33],[.03,2.05,-.15],[.03,2.05,.43],[.03,1.76,.43]];
+  tube(internals,copper,waterway,.021,'Гидравлическая линия');
+  tube(internals,steel,[[.52,2.07,.55],[.71,1.92,.64],[.70,1.46,.81],[.65,1.37,.92]],.037,'Паровая трубка');
+  cylinder(internals,black,.70,1.66,.758,.058,.20,'y',20).name='Рукоятка паровой трубки';
+  cylinder(internals,steel,.65,1.35,.93,.054,.095,'y',18).name='Насадка паровой трубки';
+  cylinder(internals,steel,.30,2.32,-.41,.073,.11,'y',18).name='Клапан бойлера';
+  const path=waterway.map(point=>new Vector3(...point));
+  const drops=Array.from({length:6},()=>{
+    const dot=ball(flow,glow(0x7dcdf5),0,0,0,.033);
+    dot.visible=false;dot.name='Индикатор потока';return dot;
+  });
+  a.motionLabel='Показать подачу воды';
+  a.motion=(dt,t)=>{
+    for(const [i,dot] of drops.entries()){
+      const along=((t*.85+i/drops.length)%1)*(path.length-1),index=Math.floor(along);
+      dot.position.copy(path[index]).lerp(path[index+1],along-index);
+      dot.visible=true;
+    }
+  };
   annulus(shower,steel,0,0,0,.30,.15,.039).name='Опорное кольцо';
   shower.children.at(-1).rotation.x=PI/2;
   shower.children.at(-1).position.set(0,1.82,.43);
@@ -742,55 +970,11 @@ function coffee() {
   a.fasteners=[hardware];
   a.shell={group:frame,label:'Снять корпус',restoreLabel:'Вернуть корпус'};
   a.views=[view('Бойлер и насос',internals,[0,1.50,-.40],3.2,[1,.35,1],[frame]),
-    view('Рассекатель группы',shower,[0,1.79,.43],1.49,[.5,-.4,1])];
+    view('Рассекатель группы',shower,[0,1.79,.43],1.49,[.5,-.4,1]),
+    view('Резервуар и клапан',tank,[-.52,1.22,-.45],2.68,[.58,.37,-1],[frame])];
 
   return a;
 }
-function lamp() {
-  const a=assembly(), white=mat('ivory'), bronze=mat('gold'), body=mat('teal'), warm=glow(0xffda92);
-  const base=a.layer([0,-.38,0],undefined,'Основание и утяжелитель');
-  const arm=a.layer([0,0,0],undefined,'Рычаги и шарниры');
-  cylinder(base,body,0,.115,0,.63,.23);
-  cylinder(base,bronze,0,.25,0,.24,.11);
-  const pivot=part(arm,0,.29,0);
-  for(const z of [-.10,.10]){
-    beam(pivot,bronze,[0,0,z],[-.53,.96,z],.051);
-    beam(pivot,bronze,[-.53,.96,z],[.34,1.58,z],.051);
-  }
-  for(const [x,y] of [[0,0],[-.53,.96],[.34,1.58]])cylinder(pivot,body,x,y,0,.13,.33,'z');
-  const shade=part(pivot,.44,1.59,0);
-  shade.rotation.z=.55;
-  const reflector=cylinder(shade,body,.16,-.12,0,.37,.40,'y',40,.17);
-  reflector.name='Корпус плафона';
-  torus(shade,white,.16,-.33,0,.34,.025,'y');
-  ball(shade,warm,.16,-.30,0,.19,.09,.19);
-  a.adjust={label:'Наклон плафона',initial:51,apply(v){shade.rotation.z=(v-30)*.026;}};
-  a.finish=body;
-
-  const led=a.layer([.68,.30,.64],undefined,'Светодиоды и драйвер',.20);
-  const fix=a.layer([0,.19,.72],undefined,'Крепление основания',.28);
-  cylinder(led,bronze,0,.218,0,.40,.061,'y',32).name='Плата драйвера';
-  box(led,mat('black'),0,.265,0,.24,.073,.18).name='Блок питания';
-  for(const x of [-.16,.16]) cylinder(led,white,x,.27,0,.041,.082,'y',12).name='Конденсатор';
-  for(const z of [-.10,.10]){
-    torus(pivot,body,-.53,.96,z,.079,.019).name='Пружина шарнира';
-    beam(pivot,white,[-.13,.22,z],[-.58,.88,z],.025).name='Кабель в стойке';
-  }
-  for(let i=0;i<8;i++){
-    const t=i*PI/4;
-    cylinder(shade,warm,.16+.12*Math.cos(t),-.346,.12*Math.sin(t),.031,.016,'y',12).name='Светодиод';
-  }
-  for(let i=0;i<4;i++){
-    const t=(i+.5)*PI/2;
-    joint(fix,bronze,.48*Math.cos(t),.11,.48*Math.sin(t),'y',.033,.20);
-  }
-  a.fasteners=[fix];
-  a.views=[view('Светодиоды в плафоне',shade,[.16,-.34,0],1.42,[.52,-.8,1]),
-    view('Шарнир рычага',pivot,[-.53,.96,0],1.48,[.54,.3,1])];
-
-  return a;
-}
-
 function drone() {
   const a=assembly(), skin=mat('ivory'), dark=mat('gunmetal'), trim=mat('orange'), rubber=mat('black');
   const frame=a.layer([0,0,0],undefined,'Шасси и лучи');
@@ -804,15 +988,27 @@ function drone() {
   ball(gimbal,dark,0,.57,.60,.22,.15,.20);
   cylinder(gimbal,mat('glass'),0,.57,.76,.11,.075,'z');
   const props=[];
+  const esc=a.layer([0,.35,-.35],undefined,'Регуляторы моторов и кабели',.23);
+  const gimbalPivot=part(gimbal,0,.57,.59);
+  for(const piece of [...gimbal.children].filter(item=>item!==gimbalPivot))gimbalPivot.attach(piece);
+  const cage=torus(gimbal,dark,0,.57,.59,.225,.026,'x');
+  cage.name='Рама подвеса камеры';
+  const copper=mat('copper'), pcb=mat('green'), gold=mat('gold');
   for(const x of [-1.24,1.24])for(const z of [-1.08,1.08]){
     beam(frame,dark,[0,.71,0],[x,.70,z],.112);
     cylinder(frame,trim,x,.72,z,.18,.19).name='Мотор';
     beam(frame,rubber,[x,.63,z],[x*.95,.25,z*.94],.09);
     const prop=part(rotors,x,.89,z);
     cylinder(prop,skin,0,0,0,.10,.12);
-    box(prop,dark,0,0,0,1.11,.035,.10);
-    box(prop,dark,0,0,0,.09,.035,1.07);
-    props.push(prop);
+    sweptVanes(prop,dark,2,.076,.553,.058,.026,-.014,'Профилированная лопасть винта');
+    for(const blade of prop.children.slice(1))blade.rotateX(-PI/2);
+    props.push([prop,Math.sign(x*z)]);
+    box(esc,pcb,x*.58,.744,z*.58,.20,.040,.121).name='Плата ESC';
+    for(const dx of [-.058,0,.058]){
+      box(esc,dark,x*.58+dx,.772,z*.58,.039,.029,.065).name='Силовой транзистор ESC';
+      tube(esc,dx===0?gold:copper,[[x*.60+dx,.741,z*.60],[x*.84+dx,.732,z*.83],[x+dx,.734,z]],.009,'Фазный провод мотора');
+    }
+    tube(esc,rubber,[[x*.23,.747,z*.24],[x*.40,.740,z*.42],[x*.56,.748,z*.56]],.016,'Питание регулятора');
     for (const dx of [-.104,.104])for(const dz of [-.09,.09])
       joint(hardware,dark,x+dx,.752,z+dz,'y',.025,.15);
     for(let i=0;i<9;i++){
@@ -820,7 +1016,9 @@ function drone() {
       cylinder(frame,mat('copper'),x+.116*Math.cos(t),.72,z+.116*Math.sin(t),.018,.112,'y',10).name='Обмотка мотора';
     }
   }
-  a.motion=dt=>props.forEach((p,i)=>{p.rotation.y+=dt*(i%2?13:-13);});
+  a.motion=dt=>props.forEach(([p,handed])=>{p.rotation.y+=dt*handed*13;});
+  a.motionLabel='Запустить винты';
+  a.adjust={label:'Наклон камеры',initial:42,apply(v){gimbalPivot.rotation.x=(v-42)*.018;}};
   a.finish=skin;
 
   const electronics=a.layer([0,.44,-.49],undefined,'Контроллер и аккумулятор',.20);
@@ -829,10 +1027,13 @@ function drone() {
   box(electronics,trim,-.23,.779,-.15,.17,.063,.42).name='Аккумулятор';
   for(let i=0;i<8;i++)box(electronics,mat('gold'),.28,.773,-.32+i*.086,.066,.023,.035).name='Контакт платы';
   for(const x of [-.19,.19]) cylinder(gimbal,trim,x,.57,.59,.068,.11,'x',18).name='Ось подвеса';
+  box(electronics,mat('steel'),.01,.84,-.327,.158,.052,.145).name='Плата антенны навигации';
+  box(electronics,dark,.095,.798,-.08,.104,.018,.105).name='Инерциальный датчик';
   a.shell={group:lid,label:'Открыть корпус',restoreLabel:'Закрыть корпус'};
   a.fasteners=[hardware];
   a.views=[view('Контроллер и батарея',electronics,[0,.77,-.09],1.86,[.45,.90,1],[lid]),
-    view('Подвес камеры',gimbal,[0,.57,.68],1.48,[.68,.30,1])];
+    view('Подвес камеры',gimbal,[0,.57,.68],1.48,[.68,.30,1]),
+    view('Регулятор мотора',esc,[.76,.74,.62],1.58,[.44,.78,1])];
 
   return a;
 }
@@ -848,16 +1049,37 @@ function satellite() {
   box(skin,bronze,0,0,.48,1.05,1.00,.055).name='Передняя панель теплозащиты';
   for(const x of [-.54,.54])box(bus,steel,x,0,0,.09,1.21,1.02);
   cylinder(antenna,steel,0,.77,0,.26,.49);
-  const dish=cylinder(antenna,steel,0,1.04,0,.20,.23,'y',48,.59);
+  const dish=part(antenna,0,1.01,0);
+  const reflector=[];
+  for(let i=0;i<=18;i++){
+    const r=.04+i*.031;reflector.push(new Vector2(r,.53*r*r));
+  }
+  for(let i=18;i>=0;i--){
+    const r=.04+i*.031;reflector.push(new Vector2(r,.53*r*r+.021));
+  }
+  mesh(dish,new LatheGeometry(reflector,64),steel,0,0,0).name='Параболическое зеркало антенны';
+  torus(dish,bronze,0,.198,0,.60,.014,'y').name='Обод зеркала';
+  for(let i=0;i<3;i++){
+    const t=i*2*PI/3;
+    beam(dish,dark,[.51*Math.cos(t),.18,.51*Math.sin(t)],[0,.47,0],.027).name='Растяжка облучателя';
+  }
+  cylinder(dish,bronze,0,.47,0,.068,.125,'y',24).name='Облучатель';
   dish.rotation.z=-.24;
-  beam(antenna,dark,[0,1.14,0],[.18,1.58,0],.05);
-  ball(antenna,bronze,.18,1.58,0,.075);
+  for(const x of [-.44,.44])for(const y of [-.39,.39])
+    cylinder(skin,steel,x,y,.514,.031,.022,'z',6).name='Винт панели доступа';
+  for(let i=0;i<10;i++)box(skin,bronze,0,-.44+i*.095,.512,1.028,.007,.008).name='Шов теплозащитной панели';
   const wings=[];
   for(const side of [-1,1]){
     const pivot=part(panels,side*.57,0,0);
     beam(pivot,steel,[0,0,0],[side*.39,0,0],.082);
-    for(let x=0;x<5;x++)for(let z=0;z<3;z++)
-      box(pivot,blue,side*(.51+x*.26),0,(z-1)*.26,.244,.050,.241).name='Фотоэлектрическая ячейка';
+    for(let x=0;x<5;x++)for(let z=0;z<3;z++){
+      const cx=side*(.51+x*.26),cz=(z-1)*.26;
+      box(pivot,blue,cx,0,cz,.244,.050,.241).name='Фотоэлектрическая ячейка';
+      for(const dx of [-.065,0,.065])
+        box(pivot,steel,cx+dx,.027,cz,.003,.003,.234).name='Токосъёмная дорожка';
+      box(pivot,bronze,cx,.028,cz+.10,.227,.003,.009).name='Шина ячейки';
+    }
+    tube(pivot,mat('copper'),[[0,-.057,0],[side*.39,-.058,-.24],[side*1.63,-.057,-.35]],.014,'Кабель солнечного крыла');
     box(pivot,steel,side*1.02,-.038,0,1.33,.037,.80);
     wings.push(pivot);
     cylinder(panels,bronze,side*.565,0,0,.091,.57,'z',20).name='Шарнир крыла';
@@ -871,9 +1093,15 @@ function satellite() {
     for(const z of [-.22,.22])box(power,dark,x,-.25,z,.29,.25,.24).name='Ячейка аккумулятора';
   }
   for(let i=0;i<9;i++)box(power,bronze,-.32+i*.079,.28,.295,.045,.036,.059).name='Разъём питания';
+  box(power,dark,-.21,.278,-.15,.24,.064,.20).name='Контроллер распределения питания';
+  for(let i=0;i<7;i++)box(power,steel,-.31+i*.031,.32,-.15,.014,.038,.19).name='Ребро теплоотвода';
+  tube(power,mat('copper'),[[-.35,.06,.24],[-.35,.18,.28],[-.31,.29,.29],[.09,.29,.31]],.014,'Жгут аккумулятора');
+  const sensor=box(bus,dark,.61,.25,-.29,.18,.135,.18);sensor.name='Датчик ориентации';
+  ball(bus,mat('glass'),.70,.25,-.29,.035,.041,.041).name='Оптика датчика ориентации';
   a.shell={group:skin,label:'Снять панель доступа',restoreLabel:'Вернуть панель доступа'};
   a.views=[view('Маховики и питание',power,[0,.02,0],2.02,[.43,.38,1],[skin]),
-    view('Шарнир солнечного крыла',panels,[.57,0,0],1.43,[.65,.64,1])];
+    view('Шарнир солнечного крыла',panels,[.57,0,0],1.63,[.65,.64,1]),
+    view('Зеркало и облучатель',dish,[0,.19,0],1.84,[.52,.87,1])];
 
   return a;
 }
@@ -890,10 +1118,22 @@ function rover() {
   beam(mast,steel,[.52,1.13,.14],[.52,1.91,.14],.078);
   box(mast,steel,.56,1.97,.14,.39,.22,.27);
   ball(mast,glow(0x8bcde8),.65,1.96,.285,.063);
-  const wheels=[];
-  for(const side of [-1,1])for(const x of [-1.02,0,1.02]){
-    const z=side*.91;
-    beam(chassis,steel,[x*.82,.85,side*.52],[x,.40,z],.070).name='Рычаг подвески';
+  const wheels=[],poses=[];
+  const suspension=[];
+  for(const side of [-1,1]){
+    const rocker=part(chassis,-.27,.78,side*.64);
+    const bogie=part(rocker,.82,-.12,0);
+    rocker.name='Основное коромысло';bogie.name='Задняя балансирная тележка';
+    beam(rocker,steel,[0,0,0],[-.46,-.10,0],.095).name='Переднее плечо коромысла';
+    beam(rocker,steel,[-.46,-.10,0],[-.75,-.40,side*.27],.095).name='Рычаг переднего колеса';
+    beam(rocker,steel,[0,0,0],[.82,-.12,0],.099).name='Заднее плечо коромысла';
+    beam(bogie,steel,[0,0,0],[-.55,-.28,side*.27],.081).name='Рычаг среднего колеса';
+    beam(bogie,steel,[0,0,0],[.47,-.28,side*.27],.081).name='Рычаг заднего колеса';
+    cylinder(rocker,dark,0,0,0,.125,.195,'z',24).name='Главная ось подвески';
+    cylinder(bogie,gold,0,0,0,.116,.20,'z',24).name='Шарнир тележки';
+    suspension.push({side,rocker,bogie});
+    for(const x of [-1.02,0,1.02]){
+      const z=side*.91;
     const wheelLayer=a.layer([0,-.09,side*(.74+.14*Math.abs(x))],[x,.38,z],`Колесо ${x<-.5?'переднее':x>.5?'заднее':'среднее'} ${side>0?'правое':'левое'}`,.12);
     const wheel=part(wheelLayer);
     cylinder(wheel,tread,0,0,0,.34,.29,'z').name='Шина';
@@ -903,13 +1143,27 @@ function rover() {
       const lug=box(wheel,dark,Math.cos(angle)*.335,Math.sin(angle)*.335,0,.075,.10,.315);
       lug.rotation.z=angle; lug.name='Грунтозацеп';
     }
-    wheels.push(wheel);
-    cylinder(chassis,dark,x,.38,side*.69,.117,.22,'z',22).name='Ось колеса';
-    for(let i=0;i<6;i++){
-      const t=i*PI/3;
-      joint(wheel,mat('gold'),.122*Math.cos(t),.122*Math.sin(t),side*.191,'z',.021,.097);
+      wheels.push(wheel);
+      const anchor=x<-.5?rocker:bogie;
+      const local=new Vector3(x-(x<-.5?-.27:.55),.38-(x<-.5?.78:.66),side*.27);
+      poses.push({wheel,anchor,local,origin:new Vector3(x,.38,z)});
+      cylinder(wheel,dark,0,0,-side*.14,.114,.17,'z',22).name='Привод ступицы';
+      for(let i=0;i<6;i++){
+        const t=i*PI/3;
+        joint(wheel,gold,.122*Math.cos(t),.122*Math.sin(t),side*.191,'z',.021,.097);
+      }
     }
   }
+  a.adjust={label:'Ход подвески',initial:50,apply(value){
+    const turn=(value-50)*.006;
+    for(const {side,rocker,bogie} of suspension){
+      rocker.rotation.z=side*turn;
+      bogie.rotation.z=-side*turn*.73;
+    }
+    for(const {wheel,anchor,local,origin} of poses)
+      wheel.position.copy(anchor.localToWorld(local.clone())).sub(origin);
+  }};
+  a.motionLabel='Прокрутить колёса';
   a.motion=dt=>wheels.forEach(p=>{p.rotation.z+=dt*1.75;});
 
   box(electronics,mat('green'),0,.82,0,1.53,.043,.78).name='Монтажная плата';
@@ -917,7 +1171,11 @@ function rover() {
   box(electronics,steel,.39,.91,.24,.40,.18,.24).name='Радиомодуль';
   ball(mast,glow(0x8bcde8),.48,1.96,.285,.063).name='Камера стереопары';
   a.shell={group:deck,label:'Снять палубу',restoreLabel:'Вернуть палубу'};
+  tube(electronics,mat('copper'),[[-.57,.93,.01],[-.49,.99,.14],[.02,.99,.14],[.38,.93,.24]],.019,'Жгут приборов');
+  torus(mast,steel,.65,1.96,.288,.068,.008).name='Оправа стереокамеры';
+  torus(mast,steel,.48,1.96,.288,.068,.008).name='Оправа стереокамеры';
   a.views=[view('Ступица колеса',wheels[3],[0,0,.17],1.39,[.6,.28,1]),
+    view('Коромысло и тележка',chassis,[.28,.62,.72],2.44,[.41,.33,1]),
     view('Бортовые приборы',electronics,[0,.88,0],2.42,[.42,.8,1],[deck])];
 
   return a;
@@ -943,8 +1201,13 @@ function telescope() {
   cylinder(front,dark,-1.02,1.28,0,.34,.23,'x').name='Бленда';
   torus(front,steel,-1.16,1.28,0,.275,.055,'x').name='Кольцо объектива';
   cylinder(front,mat('glass'),-1.14,1.28,0,.23,.035,'x').name='Передняя линза';
-  cylinder(eyepiece,brass,1.10,1.28,0,.17,.24,'x').name='Фокусёр';
-  cylinder(eyepiece,dark,1.31,1.28,0,.125,.29,'x').name='Наглазник';
+  cylinder(eyepiece,brass,1.10,1.28,0,.17,.24,'x').name='Корпус фокусёра';
+  const drawtube=part(eyepiece,1.17,1.28,0);
+  cylinder(drawtube,steel,.061,0,0,.134,.23,'x',38).name='Подвижная трубка фокусёра';
+  cylinder(drawtube,dark,.213,0,0,.125,.23,'x',40).name='Наглазник';
+  for(let i=0;i<7;i++)torus(drawtube,dark,.145+i*.022,0,0,.127,.008,'x').name='Насечка окуляра';
+  cylinder(eyepiece,brass,1.02,1.17,.188,.087,.115,'z',32).name='Ручка фокусировки';
+  cylinder(eyepiece,steel,1.02,1.17,0,.025,.40,'z',16).name='Вал фокусёра';
   cylinder(tubeLayer,steel,-.32,1.59,0,.076,.49,'x').name='Искатель';
 
   a.finish=body;
@@ -960,6 +1223,15 @@ function telescope() {
     ball(inner,mat('glass'),x,1.28,0,.038,x>1?.105:.213,x>1?.105:.213).name='Линза';
   }
   cylinder(mount,brass,0,0,0,.126,.31,'z',20).name='Ось наклона';
+  for(const offset of [-.12,.12]){
+    tube(inner,glow(0xe5b777),[[-1.13,1.28+offset,0],[-.91,1.28+offset,0],
+      [.88,1.28,0],[1.18,1.28-offset*.24,0]],.007,'Условный ход луча');
+  }
+  const focus={label:'Ход фокусёра',initial:25,apply(value){
+    drawtube.children.forEach(piece=>{if(piece.userData.focusOrigin===undefined)piece.userData.focusOrigin=piece.position.x;
+      piece.position.x=piece.userData.focusOrigin+(value-25)*.0024;});
+  }};
+  a.adjustments=[focus];
   const pivot=new Vector3(0,1.28,0), vertical=new Vector3(0,0,1);
   const placements=adjustGroups.map(layer=>layer.children.map(mesh=>[mesh,mesh.position.clone(),mesh.quaternion.clone()]));
   a.adjust={label:'Угол наведения',initial:25,apply(v){
@@ -971,7 +1243,8 @@ function telescope() {
   }};
   a.shell={group:tubeLayer,label:'Снять оптическую трубу',restoreLabel:'Вернуть оптическую трубу'};
   a.views=[view('Линзы и диафрагмы',inner,[-.18,1.28,0],2.6,[.50,.44,1],[tubeLayer]),
-    view('Крепление трубы',support,[0,1.22,.14],1.5,[.63,.35,1])];
+    view('Крепление трубы',support,[0,1.22,.14],1.5,[.63,.35,1]),
+    view('Окуляр и фокусёр',eyepiece,[1.20,1.28,0],1.7,[.57,.48,1])];
 
   return a;
 }
@@ -1171,11 +1444,15 @@ function butterflyValve() {
   const a=assembly(), blue=mat('blue'), steel=mat('steel'), dark=mat('gunmetal'), brass=mat('gold');
   const body=a.layer([0,0,-.92]), seat=a.layer([0,0,0]), cover=a.layer([0,0,1.20]);
   const fixing=a.layer([0,0,1.95]), actuator=a.layer([0,1.04,0]);
+  const driveCover=a.layer([.45,1.07,.38],undefined,'Крышка редуктора',.16);
+  const drive=part(actuator,0,1.85,.08);
   body.name='Корпус и задний фланец'; seat.name='Диск, вал и уплотнение';
   cover.name='Передний фланец'; fixing.name='Комплект крепежа'; actuator.name='Редуктор и маховик';
   annulus(body,blue,0,0,-.35,1.42,1.12,.67).name='Корпус затвора';
-  annulus(body,steel,0,0,-.68,1.65,1.12,.24).name='Задний фланец';
-  annulus(cover,blue,0,0,.44,1.65,1.12,.26).name='Передний фланец';
+  flangedRing(body,steel,0,0,-.68,1.65,1.12,.24,1.49,12,.061).name='Задний фланец';
+  flangedRing(cover,blue,0,0,.44,1.65,1.12,.26,1.49,12,.061).name='Передний фланец';
+  torus(body,brass,0,0,-.26,1.108,.024).name='Посадочное кольцо седла';
+  torus(seat,dark,0,0,.209,1.093,.033).name='Кромка уплотнительной манжеты';
   annulus(seat,dark,0,0,.08,1.154,1.042,.25).name='Сменное уплотнение';
   const disc=part(seat,0,0,.085);
   cylinder(disc,steel,0,0,0,1.039,.14,'z',64).name='Поворотный диск';
@@ -1187,9 +1464,20 @@ function butterflyValve() {
     joint(fixing,brass,1.49*Math.cos(angle),1.49*Math.sin(angle),.14,'z',.079,1.44);
   }
   cylinder(actuator,dark,0,1.47,.075,.28,.39).name='Втулка вала';
-  box(actuator,blue,0,1.87,.10,.73,.43,.71).name='Корпус редуктора';
+  box(actuator,blue,0,1.668,.10,.78,.095,.78).name='Основание редуктора';
+  for(const side of [-1,1])
+    box(actuator,blue,side*.38,1.858,.10,.065,.39,.78).name='Боковая стенка редуктора';
+  box(driveCover,blue,0,2.059,.10,.80,.079,.80).name='Съёмная верхняя крышка';
   for (const x of [-.28,.28]) for (const z of [-.15,.35])
-    joint(actuator,steel,x,2.10,z,'y',.043,.20);
+    joint(driveCover,steel,x,2.10,z,'y',.043,.20);
+  const sector=gear(drive,brass,-.085,0,-.015,.22,23,.082);
+  sector.rotation.x=PI/2;
+  const worm=part(drive,.19,0,.09);
+  cylinder(worm,steel,0,0,0,.065,.50,'z',24).name='Червячный вал';
+  for(let i=0;i<10;i++){
+    const thread=torus(worm,brass,0,0,-.20+i*.042,.068,.011);
+    thread.rotation.y=.33;thread.name='Виток червяка';
+  }
   cylinder(actuator,steel,0,2.03,.10,.069,.96,'z').name='Шпиндель маховика';
   const wheel=part(actuator,0,2.03,.61);
   torus(wheel,dark,0,0,0,.48,.05).name='Маховик';
@@ -1201,12 +1489,15 @@ function butterflyValve() {
   a.adjust={label:'Открытие затвора',initial:38,apply(value) {
     disc.rotation.y=PI*value/200;
     wheel.rotation.z=PI*value/18;
+    worm.rotation.z=wheel.rotation.z;
+    sector.rotation.z=disc.rotation.y;
   }};
   a.fasteners=[fixing];
   a.shell={group:cover,label:'Скрыть передний фланец',restoreLabel:'Показать передний фланец'};
+  a.shells=[{groups:[driveCover],label:'Снять крышку редуктора',restoreLabel:'Вернуть крышку редуктора'}];
   a.views=[
     {label:'Диск и уплотнение',target:new Vector3(0,0,.16),distance:3.75,eye:[.5,.27,1]},
-    {label:'Редуктор',target:new Vector3(0,1.93,.31),group:actuator,distance:2.55},
+    view('Редуктор',drive,[0,0,.04],1.61,[.53,.86,-.55],[driveCover]),
   ];
   return a;
 }
@@ -1265,6 +1556,9 @@ function carAssembly() {
   const transmission=a.layer([.16,-.63,-.57],undefined,'Трансмиссия и выхлоп',.24);
   const brakes=a.layer([0,-.30,.43],undefined,'Подвеска и тормозные механизмы',.27);
   const cooling=a.layer([-1.02,.43,.49],undefined,'Радиатор, вентилятор и впуск',.27);
+  const diffHousing=a.layer([.25,-.48,-.66],undefined,'Корпус заднего дифференциала',.24);
+  const differential=a.layer([.28,-.36,.70],undefined,'Шестерни заднего моста',.22);
+  const finalDrive=part(differential,1.41,.34,0);
   const engineOffset=[-1.22,.77,0], enginePosition=[-1.37,.37,0];
   const block=a.layer(engineOffset,enginePosition,'Блок и гильзы цилиндров',.15);
   const head=a.layer(engineOffset,enginePosition,'Головка, клапаны и распредвалы',.15);
@@ -1407,13 +1701,29 @@ function carAssembly() {
   cylinder(transmission,dark,-.71,.438,0,.179,.37,'x',30,.107).name='Картер сцепления';
   cylinder(transmission,steel,-.38,.412,0,.115,.40,'x',24,.144).name='Коробка передач';
   cylinder(transmission,steel,.44,.34,0,.042,1.44,'x',20).name='Карданный вал';
-  ball(transmission,dark,1.41,.34,0,.151,.125,.13).name='Картер дифференциала';
-  cylinder(transmission,steel,1.41,.34,0,.055,1.55,'z',18).name='Полуоси заднего моста';
+  ball(diffHousing,dark,1.41,.34,0,.164,.137,.147).name='Картер дифференциала';
+  annulus(diffHousing,steel,1.41,.34,.088,.143,.105,.024).name='Крышка картера';
+  const ring=gear(finalDrive,steel,0,0,.058,.101,24,.028);
+  ring.name='Ведомая шестерня';
+  const pinion=gear(finalDrive,brass,-.112,0,.058,.051,12,.029);
+  pinion.rotation.y=PI/2;pinion.name='Ведущая шестерня';
+  for(const z of [-.054,.051]){
+    const sideGear=gear(finalDrive,brass,0,0,z,.048,12,.018);sideGear.name='Шестерня полуоси';
+  }
+  cylinder(transmission,steel,1.41,.34,0,.047,1.55,'z',18).name='Полуоси заднего моста';
+  for(const z of [-.155,.155])bearing(differential,steel,1.41,.34,z,.082,.047,.034);
+  const crankMotion=a.motion;
+  a.motion=dt=>{crankMotion(dt);ring.rotation.z+=dt*1.35;pinion.rotation.z-=dt*2.7;};
   for(const z of [-.25,.25]){
     beam(transmission,copper,[-1.22,.323,z],[1.91,.313,z],.045).name='Труба выхлопа';
     cylinder(transmission,dark,1.65,.32,z,.087,.41,'x',24).name='Глушитель';
   }
   box(cooling,dark,-1.96,.605,0,.095,.385,.95).name='Рамка радиатора';
+  for(const z of [-.45,.45]){
+    box(cooling,steel,-1.924,.605,z,.076,.342,.054).name='Бачок радиатора';
+    for(let i=0;i<7;i++)
+      cylinder(cooling,steel,-1.91,.45+i*.051,z,.011,.021,'x',6).name='Крепёж бачка';
+  }
   for(let i=0;i<16;i++)box(cooling,steel,-1.902,.435+i*.024,0,.037,.012,.844).name='Ламель радиатора';
   cylinder(cooling,brass,-1.83,.623,0,.074,.066,'x',18).name='Ступица вентилятора';
   for(let i=0;i<6;i++){
@@ -1450,12 +1760,15 @@ function carAssembly() {
   a.shells=[
     {groups:[bodywork,hood,roof],label:'Снять кузов',restoreLabel:'Вернуть кузов'},
     {groups:[block,head],label:'Открыть поршневую группу',restoreLabel:'Вернуть блок и головку'},
+    {groups:[diffHousing],label:'Открыть дифференциал',restoreLabel:'Закрыть дифференциал'},
+    {groups:[transmission],label:'Скрыть выхлоп и трансмиссию',restoreLabel:'Вернуть выхлоп и трансмиссию'},
   ];
   a.views=[
     view('Двигатель',block,[0,.21,0],2.92,[-1,.91,1],[hood]),
     view('Поршни и коленвал',movingParts,[0,.16,0],2.18,[.25,.62,1],[hood,block,head]),
     view('Салон',interior,[-.04,.77,0],2.82,[.73,1,.79],[roof,bodywork]),
     view('Тормоза и подвеска',brakes,[-1.40,.45,.78],2.04,[-.40,.42,1]),
+    view('Дифференциал',differential,[1.41,.34,.04],.91,[.59,-.63,1],[diffHousing,bodywork,transmission]),
   ];
   a.finish=paint;
   a.eye=[-.82,.47,1];
@@ -1553,27 +1866,26 @@ export const catalog = [
   ['staircase','Стальная лестница','industry','Косоуры, решётчатые ступени, перила и анкерные опоры',staircase],
   ['glass-rail','Стеклянное ограждение','industry','Остекление, стойки, зажимы и крепление к основанию',glassRail],
   ['steel-canopy','Навес на фермах','industry','Стальные фермы, прогоны, панели кровли и болтовые соединения',steelCanopy],
-  ['butterfly-valve','Дисковый затвор','industry','Диск в движении, редуктор, фланцы и уплотнение',butterflyValve],
-  ['car','Автомобиль','tech','Кузов, салон, тормоза и отдельная разборка рядного двигателя',carAssembly],
+  ['butterfly-valve','Дисковый затвор','industry','Диск, сменное седло и разборка червячного привода',butterflyValve],
+  ['car','Автомобиль','tech','Кузов, поршни, тормоза и задний дифференциал',carAssembly],
   ['building','Стальное здание','industry','Обшивка, прогоны и болтовые узлы исходного каркаса',buildingAssembly],
   ['flange','Фланцевое соединение','industry','Два фланца, прокладка, шпильки и изменяемые размеры',flangeAssembly],
-  ['turbine','Турбина','industry','Ротор, лопатки и корпус в разборе',turbine],
+  ['turbine','Турбина','industry','Профиль ротора, направляющий аппарат и опора вала',turbine],
   ['cabin','Дом A-frame','architecture','Поднимите крышу и рассмотрите планировку',cabin],
-  ['headphones','Наушники','products','Амбушюры, чашки и варианты отделки',headphones],
-  ['drone','Квадрокоптер','tech','Камера, подвес и вращение винтов',drone],
-  ['pump','Центробежный насос','industry','Рабочее колесо и посадка крышки',pump],
+  ['headphones','Наушники','products','Мембрана в движении, катушка, усилитель и батарея',headphones],
+  ['drone','Квадрокоптер','tech','Винты, ESC, фазные провода и наклон камеры',drone],
+  ['pump','Центробежный насос','industry','Литая улитка, изогнутые лопасти и торцевое уплотнение',pump],
   ['greenhouse','Теплица','architecture','Стеклянная оболочка и схема каркаса',greenhouse],
-  ['camera','Фотокамера','products','Корпус, объектив и защитный фильтр',camera],
-  ['satellite','Спутник','tech','Раскройте солнечные панели ползунком',satellite],
-  ['reducer','Редуктор','industry','Солнце и сателлиты планетарной передачи',reducer],
-  ['cafe','Модульное кафе','architecture','Стойка, посадочные места и свет',cafe],
-  ['coffee','Кофемашина','products','Группа, поддон и панель управления',coffee],
-  ['rover','Марсоход','tech','Шестиколёсная ходовая часть в движении',rover],
-  ['arm','Рука робота','industry','Поворот основания и угол плеча',arm],
+  ['camera','Фотокамера','products','Ход шторок, диафрагма, фокусировка и матрица',camera],
+  ['satellite','Спутник','tech','Солнечные крылья, питание, маховики и антенна',satellite],
+  ['reducer','Редуктор','industry','Зацепление сателлитов, водило, подшипники и выходной вал',reducer],
+  ['cafe','Модульное кафе','architecture','Витраж, рабочая стойка, мойка и коммуникации',cafe],
+  ['coffee','Кофемашина','products','Резервуар, насос, бойлер и демонстрация подачи воды',coffee],
+  ['rover','Марсоход','tech','Коромысло, балансирная тележка и приводы колёс',rover],
+  ['arm','Рука робота','industry','Плечевой редуктор, раскрытие захвата и кабельный рукав',arm],
   ['pavilion','Садовый павильон','architecture','Стойки, стропила и реечный навес',pavilion],
-  ['telescope','Телескоп','tech','Настройте наклон оптической трубы',telescope],
-  ['motor','Электродвигатель','industry','Статор, обмотка, вал и крышка',motor],
+  ['telescope','Телескоп','tech','Линзы, ход лучей, наклон трубы и подвижный фокусёр',telescope],
+  ['motor','Электродвигатель','industry','Обмотка статора, ротор и клеммная коробка',motor],
   ['villa','Вилла с террасой','architecture','Разнесите уровни и рассмотрите этажи',villa],
-  ['lamp','Настольная лампа','products','Угол плафона и варианты цвета',lamp],
   ['charger','Зарядная станция','tech','Снимите панель и посмотрите компоновку',charger],
 ].map(([id,title,category,description,create])=>({id,title,category,description,create}));

@@ -1,4 +1,5 @@
-import { catalog as models } from './catalog-models.js?v=watch-first';
+import { catalog as models } from './catalog-models.js?v=details-28';
+import { hasMechanismDiagram, mechanismDiagram } from './catalog-diagrams.js';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -18,7 +19,10 @@ const categories = {
   all: 'Все модели', industry: 'Промышленность', architecture: 'Архитектура',
   products: 'Предметы', tech: 'Техника', electrical: 'Электротехника',
 };
-const poster = id => `./posters/${id}.webp${id==='watch'?'?v=2':''}`;
+function poster(id) {
+  const version=id==='watch'?'?v=2':hasMechanismDiagram(id)?'?v=details-28':'';
+  return `./posters/${id}.webp${version}`;
+}
 const flashlight = {
   id: 'flashlight', title: 'Фонарь на батарейках', category: 'electrical',
   description: 'Разборка корпуса, плата драйвера и четыре провода',
@@ -29,7 +33,7 @@ const catalog = [
   flashlight, ...firstIds.map(id=>models.find(item=>item.id===id)),
   ...models.filter(item=>!firstIds.includes(item.id)),
 ];
-const electricalIds = new Set(['flashlight', 'motor', 'lamp', 'charger', 'headphones']);
+const electricalIds = new Set(['flashlight', 'motor', 'charger', 'headphones']);
 const byId = new Map(catalog.map(item=>[item.id,item]));
 const films = {
   watch: {title:'Часы 007. Макроразборка', url:'/assets/watch-007-macro.mp4'},
@@ -258,6 +262,16 @@ function partInspector(model) {
   return inspector;
 }
 
+function openView(model,view) {
+  stopSpin();
+  model.visibilityControls.get(view.group)?.reset();
+  const covers = new Set(view.reveal?.map(group=>model.visibilityControls.get(group)));
+  for (const control of covers) control?.hide();
+  const target = view.target.clone();
+  if (view.group) view.group.localToWorld(target);
+  stage.focus(target,view.distance,view.eye);
+}
+
 function extraControls(model,item) {
   const controls = [];
   let explode;
@@ -290,17 +304,8 @@ function extraControls(model,item) {
   if (model.shell) visibility([model.shell.group],model.shell.label,model.shell.restoreLabel || 'Вернуть оболочку');
   for (const {groups,label,restoreLabel} of model.shells || []) visibility(groups,label,restoreLabel);
   if (model.fasteners) visibility(model.fasteners,'Скрыть крепёж','Показать крепёж');
-  for (const view of model.views || []) {
-    controls.push(button(view.label,()=>{
-      stopSpin();
-      model.visibilityControls.get(view.group)?.reset();
-      const covers = new Set(view.reveal?.map(group=>model.visibilityControls.get(group)));
-      for (const control of covers) control?.hide();
-      const target = view.target.clone();
-      if (view.group) view.group.localToWorld(target);
-      stage.focus(target,view.distance,view.eye);
-    }));
-  }
+  for (const view of model.views || [])
+    controls.push(button(view.label,()=>openView(model,view)));
   if (model.motion) controls.push(toggle(model.motionLabel || 'Запустить механизм','Остановить механизм',value=>stage.animate(value)));
   if (model.finish) {
     const colors = [model.finish.color.getHex(),0xb47050,0x4d6587,0x647b65,0x2b333d];
@@ -332,6 +337,11 @@ function extraControls(model,item) {
     controls.unshift(panel);
   }
   if (inspector) controls.push(inspector);
+  const diagram=mechanismDiagram(item.id,model,(current,view)=>{
+    openView(current,view);
+    canvas.scrollIntoView({block:'nearest'});
+  });
+  if(diagram) controls.push(diagram);
   if (model.createControls) {
     const custom = model.createControls({
       stage, canvas, explode, element, button, toggle, stopSpin, signal:controlsLifetime.signal,
