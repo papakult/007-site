@@ -217,7 +217,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
 <style>.cap-item{padding:1.35rem 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.75rem 0}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}</style>  <script src="/assets/metrika.js" defer></script>
-<link rel="stylesheet" href="/directions/3d/featured.css?v=watch-film">
+<link rel="stylesheet" href="/directions/3d/featured.css?v=watch-film2">
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -828,24 +828,27 @@ if(window.matchMedia('(pointer:fine)').matches){
 const scenes=[...document.querySelectorAll('.snap')];
 const watchFilm=document.getElementById('watch-film');
 const watchVideo=watchFilm.querySelector('video');
-let resumeAmbience=false;
+let ambienceWasMuted=false;
 if(typeof watchFilm.showModal==='function'){
   document.querySelectorAll('[data-watch-film]').forEach(link=>{
     link.addEventListener('click',event=>{
       if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
       event.preventDefault();
       watchFilm.showModal();
-      resumeAmbience=!amb.paused;
-      amb.pause();
+      document.documentElement.classList.add('watch-film-open');
+      lenis?.stop();
+      ambienceWasMuted=amb.muted;
+      amb.muted=true;
       if(!watchVideo.src)watchVideo.src=link.href;
       watchVideo.play().catch(()=>{});
     });
   });
   watchFilm.querySelector('.watch-film-close').addEventListener('click',()=>watchFilm.close());
   watchFilm.addEventListener('close',()=>{
+    document.documentElement.classList.remove('watch-film-open');
+    lenis?.start();
     watchVideo.pause();
-    if(resumeAmbience&&soundOn)amb.play().catch(()=>{});
-    resumeAmbience=false;
+    amb.muted=ambienceWasMuted;
   });
 }
 

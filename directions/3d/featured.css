@@ -76,6 +76,7 @@
   position:fixed; inset:0; width:min(900px,calc(100% - 24px),calc((100dvh - 82px) * 16 / 9));
   margin:auto; padding:0; border:1px solid #685744; background:#10141b; color:#f4dfc0; cursor:auto;
 }
+html.watch-film-open { overflow:hidden; }
 .watch-film::backdrop { background:#07090de8; }
 .watch-film-header { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 12px; }
 .watch-film-header h2 { font:400 clamp(16px,3vw,23px)/1.1 Forum,Georgia,serif; margin:0; }
