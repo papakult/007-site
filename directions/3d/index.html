@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090a0b">
   <title>3D-модели и конфигураторы для сайтов | 007-A</title>
-  <meta name="description" content="3D-модели автомобилей, зданий и промышленных деталей для сайтов. Поверните автомобиль, зайдите внутрь каркаса и поменяйте размеры фланца в браузере.">
+  <meta name="description" content="20 интерактивных 3D-демо для сайтов и каталогов. Вращайте модели, разберите турбину, снимите крышу дома и измените положение солнечных панелей.">
   <link rel="canonical" href="https://007-a.ru/directions/3d/">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/demo-fonts.css">
@@ -13,11 +13,12 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="3D-модели для сайтов | 007-A">
-  <meta property="og:description" content="Поверните автомобиль, зайдите внутрь здания и измените размеры детали прямо на странице.">
+  <meta property="og:description" content="Поверните 3D-модели, загляните внутрь сборок и попробуйте конфигураторы прямо на странице.">
   <meta property="og:url" content="https://007-a.ru/directions/3d/">
   <meta property="og:image" content="https://007-a.ru/directions/3d/3d-preview.jpg">
   <meta property="og:image:alt" content="Автомобиль, здание и фланец в галерее 3D-моделей 007-A">
   <script type="module" src="./gallery.js"></script>
+  <script type="module" src="./catalog.js"></script>
   <script src="/assets/metrika.js" defer></script>
 </head>
 <body>
@@ -36,8 +37,52 @@
         <p class="kicker">05 / Интерактивная визуализация</p>
         <h1 id="title">3D-модели</h1>
       </div>
-      <p class="intro-copy">Поверните автомобиль, загляните под крышу здания или измените размеры детали.</p>
+      <p class="intro-copy">Вращайте модели, заглядывайте внутрь и управляйте деталями. 20 демонстраций для сайтов и каталогов.</p>
     </section>
+
+    <section class="model-library" id="library" aria-labelledby="library-title">
+      <div class="library-heading">
+        <div>
+          <p class="kicker">Интерактивная коллекция</p>
+          <h2 id="library-title">Галерея моделей</h2>
+        </div>
+        <p>Выберите модель. Её можно приблизить, повернуть и открыть по отдельной ссылке.</p>
+      </div>
+      <div class="library-tools">
+        <div class="model-filters" id="model-filters" aria-label="Категории моделей"></div>
+        <p id="model-count" aria-live="polite">20 моделей</p>
+      </div>
+      <div class="model-shelf" id="model-shelf"></div>
+      <noscript><p class="gallery-note">Для интерактивного просмотра включите JavaScript.</p></noscript>
+      <p class="gallery-note">Демонстрационные модели с условными размерами.</p>
+    </section>
+
+    <dialog class="model-dialog" id="model-dialog" aria-labelledby="model-title">
+      <div class="model-dialog-head">
+        <div><p class="kicker">Интерактивная 3D-модель</p><h2 id="model-title"></h2></div>
+        <button type="button" data-model-close autofocus>Закрыть</button>
+      </div>
+      <div class="model-stage">
+        <img id="model-fallback" alt="" hidden>
+        <canvas id="model-canvas" tabindex="0" aria-label="3D-модель. Вращайте перетаскиванием или стрелками, меняйте масштаб клавишами плюс и минус." hidden></canvas>
+      </div>
+      <div class="model-dialog-body">
+        <p id="model-description"></p>
+        <div class="model-actions" id="model-extras" aria-label="Управление моделью"></div>
+        <div class="model-actions" aria-label="Управление ракурсом">
+          <button type="button" data-model-minus data-needs-stage aria-label="Уменьшить">−</button>
+          <button type="button" data-model-plus data-needs-stage aria-label="Увеличить">+</button>
+          <button type="button" data-model-reset data-needs-stage>Исходный вид</button>
+          <button type="button" data-model-spin data-needs-stage aria-pressed="false">Автовращение</button>
+          <button type="button" data-model-share>Скопировать ссылку</button>
+        </div>
+        <p id="model-notice" class="model-notice" aria-live="polite"></p>
+        <div class="model-pagination">
+          <button type="button" data-model-prev>Предыдущая</button>
+          <button type="button" data-model-next>Следующая</button>
+        </div>
+      </div>
+    </dialog>
 
     <section class="gallery" id="gallery" aria-label="Галерея интерактивных 3D-моделей">
       <div class="gallery-bar">
