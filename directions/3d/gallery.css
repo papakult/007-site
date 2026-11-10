@@ -170,3 +170,12 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
   .model-dialog { width:calc(100% - 12px); }
   .model-stage { height:clamp(220px,40vh,340px); }
 }
+
+.model-inspector { flex-basis:100%; border:1px solid var(--line); padding:7px 10px; }
+.model-inspector summary { color:var(--accent); cursor:pointer; font-size:12px; }
+.model-part-fields { display:flex; flex-wrap:wrap; align-items:end; gap:8px; padding-top:8px; }
+.model-part-fields label { min-width:min(100%,175px); flex:1; display:grid; gap:3px; color:var(--dim); font-size:11px; }
+.model-part-fields select {
+  min-width:0; width:100%; padding:7px; color:var(--text); background:#202426;
+  border:1px solid var(--line); font:inherit; font-size:12px;
+}

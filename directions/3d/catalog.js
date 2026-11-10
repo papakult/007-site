@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js';
+import { catalog } from './catalog-models.js?v=industrial';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -90,6 +90,7 @@ function slider(label,initial,update) {
   const labelText = element('span',label);
   const input = element('input');
   input.type = 'range';
+  input.setAttribute('aria-label',label);
   input.min = '0';
   input.max = '100';
   input.value = String(initial);
@@ -105,23 +106,94 @@ function slider(label,initial,update) {
 
 function toggle(label,enabledLabel,update) {
   let active = false;
-  const control = button(label,()=>{
-    active = !active;
+  function set(value) {
+    active = value;
     control.textContent = active ? enabledLabel : label;
     control.setAttribute('aria-pressed',String(active));
     update(active);
     stage.schedule();
-  });
+  }
+  const control = button(label,()=>set(!active));
+  control.reset = () => set(false);
   control.setAttribute('aria-pressed','false');
   return control;
+}
+
+function partInspector(model) {
+  const inspector = element('details',null,'model-inspector');
+  const summary = element('summary','Рассмотреть отдельную деталь');
+  const row = element('div',null,'model-part-fields');
+  const groups = model.sections.map(({group})=>{
+    const meshes = [];
+    group.traverse(item=>{if (item.isMesh) meshes.push(item);});
+    return {group,meshes};
+  }).filter(({meshes})=>meshes.length);
+  const groupSelect = element('select');
+  const partSelect = element('select');
+  groupSelect.setAttribute('aria-label','Группа деталей');
+  partSelect.setAttribute('aria-label','Элемент');
+  const groupLabel = element('label','Группа деталей');
+  const partLabel = element('label','Элемент');
+  groupSelect.append(...groups.map(({group,meshes},index)=>
+    new Option(`${group.name || 'Группа '+(index+1)} · ${meshes.length}`,String(index))));
+  groupLabel.append(groupSelect);
+  partLabel.append(partSelect);
+
+  const selectedPart = () => groups[groupSelect.selectedIndex].meshes[partSelect.selectedIndex];
+  const resetParts = () => {
+    const {meshes} = groups[groupSelect.selectedIndex];
+    partSelect.replaceChildren(...meshes.map((item,index)=>
+      new Option(`${index+1} · ${item.name || 'Деталь сборки'}`,String(index))));
+  };
+  let hidden = [];
+  function restore() {
+    for (const item of hidden) item.visible = true;
+    hidden = [];
+  }
+  function focusPart() {
+    stopSpin();
+    const {group} = groups[groupSelect.selectedIndex];
+    if (!group.visible) {
+      group.visible = true;
+      model.visibilityControls?.get(group)?.reset();
+    }
+    stage.focusPart(selectedPart());
+  }
+  function inspectAlone() {
+    restore();
+    const item = selectedPart();
+    model.root.traverse(other=>{
+      if (other.isMesh && other !== item && other.visible) {
+        other.visible = false;
+        hidden.push(other);
+      }
+    });
+    focusPart();
+  }
+  const isolate = toggle('Показать только деталь','Вернуть сборку',value=>{
+    if (value) inspectAlone();
+    else { restore(); stage.reset(); }
+  });
+  function updateFocus() {
+    if (isolate.getAttribute('aria-pressed') === 'true') inspectAlone();
+    else focusPart();
+  }
+  groupSelect.addEventListener('change',()=>{resetParts(); updateFocus();});
+  partSelect.addEventListener('change',updateFocus);
+  resetParts();
+  row.append(groupLabel,partLabel,button('Приблизить деталь',updateFocus),isolate);
+  inspector.append(summary,row);
+  return inspector;
 }
 
 function extraControls(model) {
   const controls = [];
   if (model.sections.some(section=>section.offset.lengthSq()>0)) {
     controls.push(slider('Разборка',0,value=>{
-      for (const section of model.sections)
-        section.group.position.copy(section.origin).addScaledVector(section.offset,value/100);
+      for (const {group,origin,offset,start=0} of model.sections) {
+        const progress = Math.max(0,(value/100-start)/(1-start));
+        group.position.copy(origin).addScaledVector(offset,progress);
+      }
     }));
   }
   if (model.adjust) {
@@ -129,9 +201,25 @@ function extraControls(model) {
     apply(initial);
     controls.push(slider(label,initial,apply));
   }
-  if (model.shell) controls.push(toggle(model.shell.label,'Вернуть оболочку',visible=>{
-    model.shell.group.visible = !visible;
-  }));
+  model.visibilityControls = new Map();
+  function visibility(groups,label,restore) {
+    const control = toggle(label,restore,hidden=>{
+      for (const group of groups) group.visible = !hidden;
+    });
+    for (const group of groups) model.visibilityControls.set(group,control);
+    controls.push(control);
+  }
+  if (model.shell) visibility([model.shell.group],model.shell.label,model.shell.restoreLabel || 'Вернуть оболочку');
+  if (model.fasteners) visibility(model.fasteners,'Скрыть крепёж','Показать крепёж');
+  for (const view of model.views || []) {
+    controls.push(button(view.label,()=>{
+      stopSpin();
+      model.visibilityControls.get(view.group)?.reset();
+      const target = view.target.clone();
+      if (view.group) target.add(view.group.position);
+      stage.focus(target,view.distance,view.eye);
+    }));
+  }
   if (model.motion) controls.push(toggle('Запустить механизм','Остановить механизм',value=>stage.animate(value)));
   if (model.finish) {
     const colors = [model.finish.color.getHex(),0xb47050,0x4d6587,0x647b65,0x2b333d];
@@ -142,6 +230,7 @@ function extraControls(model) {
       stage.schedule();
     }));
   }
+  if (model.views) controls.push(partInspector(model));
   extras.replaceChildren(...controls);
 }
 
@@ -151,7 +240,7 @@ function stopSpin() {
   spin.textContent = 'Автовращение';
 }
 function enableViewer() {
-  if (!stagePromise) stagePromise = import('./catalog-view.js').then(({createStage})=>{
+  if (!stagePromise) stagePromise = import('./catalog-view.js?v=industrial').then(({createStage})=>{
     stage = createStage(canvas);
     stage.controls.addEventListener('start',stopSpin);
     return stage;
@@ -173,16 +262,23 @@ async function openModel(item) {
   extras.replaceChildren();
   if (!dialog.open) dialog.showModal();
   stopSpin();
+  stage?.clear();
   for (const control of dialog.querySelectorAll('[data-needs-stage]')) control.disabled = true;
   try {
     await enableViewer();
     if (version !== transition || !dialog.open) return;
-    const model = item.create();
+    const model = await item.create();
+    if (version !== transition || !dialog.open) {
+      stage.dispose(model.root);
+      return;
+    }
     canvas.hidden = false;
     stage.show(model);
+    canvas.dataset.model = item.id;
     image.hidden = true;
     notice.textContent = 'Поворот перетаскиванием. Масштаб двумя пальцами или кнопками';
     extraControls(model);
+    stage.schedule();
     for (const control of dialog.querySelectorAll('[data-needs-stage]')) control.disabled = false;
   } catch (error) {
     if (version !== transition) return;

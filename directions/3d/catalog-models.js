@@ -563,7 +563,203 @@ function charger() {
   return a;
 }
 
+function joint(g, m, x, y, z, axis = 'y', radius = .07, length = .26) {
+  const bolt = part(g,x,y,z);
+  if (axis === 'z') bolt.rotation.x = PI/2;
+  if (axis === 'x') bolt.rotation.z = -PI/2;
+  cylinder(bolt,m,0,0,0,radius*.56,length,'y',12).name = 'Стержень болта';
+  cylinder(bolt,m,0,length/2,0,radius*1.25,.023,'y',20).name = 'Шайба';
+  cylinder(bolt,m,0,length/2+.042,0,radius,.067,'y',6).name = 'Головка болта';
+  cylinder(bolt,m,0,-length/2,0,radius,.068,'y',6).name = 'Гайка';
+  return bolt;
+}
+
+function glassPanel(g,m,x,y,z,width,height,depth) {
+  const panel = box(g,m,x,y,z,width,height,depth);
+  panel.name = 'Панель остекления';
+  return panel;
+}
+
+function staircase() {
+  const a=assembly(), zinc=mat('steel'), dark=mat('gunmetal'), brass=mat('gold');
+  const frame=a.layer([0,-.35,-.6]), treads=a.layer([0,.9,0]);
+  const rails=a.layer([0,.48,.78]), fix=a.layer([.24,.54,1.10]);
+  frame.name='Косоуры и опоры'; treads.name='Решётчатые ступени';
+  rails.name='Перила и стойки'; fix.name='Болтовые соединения';
+  const step=.34, rise=.223, n=14;
+  for (const z of [-.71,.71]) {
+    beam(frame,dark,[-2.75,.12,z],[2.20,3.34,z],.24,.18).name='Косоур';
+    beam(frame,dark,[2.15,3.25,z],[3.30,3.25,z],.21,.16).name='Балка площадки';
+    for (const x of [-2.6,2.4,3.24]) {
+      if (x>0) box(frame,dark,x,1.59,z,.14,3.18,.14).name='Опорная стойка';
+      box(frame,zinc,x,.048,z,.34,.096,.32).name='Опорная плита';
+      for (const dx of [-.11,.11]) for (const dz of [-.105,.105]) joint(fix,brass,x+dx,.065,z+dz,'y',.043,.12);
+    }
+    for (let i=0;i<n;i+=3) {
+      const x=-2.55+i*step, y=.22+i*rise;
+      box(rails,zinc,x,y+.52,z,.066,1.04,.066).name='Стойка поручня';
+    }
+    for (const height of [.43,.77,1.04]) {
+      beam(rails,zinc,[-2.55,.22+height,z],[1.87,.22+13*rise+height,z],.052).name='Линия перил';
+      beam(rails,zinc,[1.87,.22+13*rise+height,z],[3.28,.22+13*rise+height,z],.052).name='Перила площадки';
+    }
+    box(rails,zinc,3.28,.74+13*rise,z,.065,1.04,.065).name='Стойка площадки';
+  }
+  for (let i=0;i<=n;i++) {
+    const landing=i===n;
+    const x=landing?2.67:-2.55+i*step, y=landing?.22+13*rise:.22+i*rise;
+    const depth=landing?1.20:.32, stepGroup=part(treads,x,y,0);
+    for (const end of [-1,1]) {
+      box(stepGroup,dark,end*(depth/2-.022),0,0,.044,.075,1.51).name='Торец решётки';
+      box(stepGroup,dark,0,0,end*.737,depth,.075,.044).name='Боковина решётки';
+      joint(fix,brass,x,y-.035,end*.77,'z',.047,.17);
+    }
+    const bars=landing?22:6;
+    for (let j=0;j<bars;j++)
+      box(stepGroup,zinc,-depth/2+(j+1)*depth/(bars+1),0,0,.024,.055,1.43).name='Несущая полоса настила';
+    for (const z of [-.45,0,.45])
+      box(stepGroup,zinc,0,.017,z,depth-.085,.027,.018).name='Поперечная полоса настила';
+  }
+  a.fasteners=[fix];
+  a.shell={group:rails,label:'Скрыть перила',restoreLabel:'Показать перила'};
+  a.views=[
+    {label:'Ступень и косоур',target:new Vector3(-.85,1.33,.7),group:treads,distance:2.45},
+    {label:'Анкерная опора',target:new Vector3(2.43,.12,.72),group:fix,distance:1.48},
+  ];
+  return a;
+}
+
+function glassRail() {
+  const a=assembly(), steel=mat('steel'), dark=mat('gunmetal'), bronze=mat('gold');
+  const glass=mat('glass',{transparent:true,opacity:.36,depthWrite:false,side:DoubleSide});
+  const edge=mat('teal',{transparent:true,opacity:.73,depthWrite:false});
+  const base=a.layer([0,-.34,0]), uprights=a.layer([0,0,-.28]);
+  const glazing=a.layer([0,.42,.94]), fixing=a.layer([0,.28,1.55]);
+  base.name='Основание'; uprights.name='Стойки и поручень';
+  glazing.name='Стеклянные секции'; fixing.name='Анкеры и держатели';
+  box(base,mat('concrete'),0,-.19,0,5.05,.38,1.15).name='Основание ограждения';
+  for (const x of [-2.30,-.77,.77,2.30]) {
+    box(uprights,steel,x,.57,0,.078,1.10,.078).name='Стойка';
+    box(uprights,dark,x,.044,0,.24,.088,.29).name='Фланец стойки';
+    for (const dx of [-.082,.082]) for (const z of [-.098,.098])
+      joint(fixing,bronze,x+dx,.075,z,'y',.034,.19);
+  }
+  box(uprights,steel,0,1.13,0,4.86,.068,.10).name='Поручень';
+  for (const x of [-1.535,0,1.535]) {
+    glassPanel(glazing,glass,x,.59,0,1.32,.89,.033);
+    for (const side of [-1,1]) {
+      box(glazing,edge,x+side*.656,.59,0,.008,.89,.036).name='Торец стекла';
+      for (const y of [.30,.85]) {
+        const clampX=x+side*.69;
+        box(fixing,dark,clampX,y,0,.125,.13,.094).name='Зажим стекла';
+        box(fixing,steel,clampX-side*.035,y,.058,.105,.13,.031).name='Прижимная пластина';
+        joint(fixing,bronze,clampX+side*.018,y,.072,'z',.029,.13);
+      }
+    }
+  }
+  a.fasteners=[fixing];
+  a.shell={group:glazing,label:'Скрыть стекло',restoreLabel:'Показать стекло'};
+  a.views=[
+    {label:'Зажим стекла',target:new Vector3(.69,.85,.045),group:fixing,distance:.85},
+    {label:'Анкер и фланец',target:new Vector3(.77,.08,0),group:fixing,distance:1.02},
+  ];
+  return a;
+}
+
+function steelCanopy() {
+  const a=assembly(), steel=mat('steel'), dark=mat('gunmetal'), bronze=mat('gold');
+  const translucent=mat('blue',{transparent:true,opacity:.53,depthWrite:false,side:DoubleSide});
+  const legs=a.layer([0,-.26,0]), trusses=a.layer([0,.64,0]);
+  const roof=a.layer([0,1.30,-.2]), hardware=a.layer([0,.72,1.25]);
+  legs.name='Стойки и основания'; trusses.name='Фермы и прогоны';
+  roof.name='Кровельные панели'; hardware.name='Пластины и болты';
+  const roofY=z=>2.66+.21*(z+1.30);
+  for (const x of [-2.55,0,2.55]) {
+    for (const z of [-1.24,1.24]) {
+      box(legs,dark,x,(roofY(z)-.19)/2,z,.20,roofY(z)-.19,.20).name='Колонна';
+      box(legs,steel,x,.06,z,.44,.12,.40).name='Опорная плита';
+      for (const dx of [-.14,.14]) for (const dz of [-.13,.13])
+        joint(hardware,bronze,x+dx,.10,z+dz,'y',.052,.21);
+      box(hardware,steel,x,roofY(z)-.19,z,.32,.31,.12).name='Соединительная пластина';
+      for (const dx of [-.09,.09]) for (const dy of [-.08,.08])
+        joint(hardware,bronze,x+dx,roofY(z)-.19+dy,z+.09,'z',.04,.20);
+    }
+    for (const dy of [0,-.42])
+      beam(trusses,steel,[x,roofY(-1.67)+dy,-1.67],[x,roofY(1.67)+dy,1.67],.122).name='Пояс фермы';
+    for (let i=0;i<8;i++) {
+      const start=-1.62+i*.40, end=start+.40;
+      beam(trusses,steel,[x,roofY(start)+(i%2?-.42:0),start],
+        [x,roofY(end)+(i%2?0:-.42),end],.065).name='Диагональ фермы';
+    }
+  }
+  for (const z of [-1.55,-.76,0,.76,1.55])
+    beam(trusses,dark,[-2.92,roofY(z)+.07,z],[2.92,roofY(z)+.07,z],.12).name='Кровельный прогон';
+  const cladding=part(roof,0,roofY(0)+.17,0);
+  cladding.rotation.x=-Math.atan(.21);
+  for (let i=0;i<8;i++) {
+    const x=-2.60+i*.743;
+    box(cladding,translucent,x,0,0,.72,.051,3.56).name='Лист кровли';
+    box(cladding,steel,x+.37,0,0,.024,.057,3.58).name='Стыковой профиль';
+  }
+  a.fasteners=[hardware];
+  a.shell={group:roof,label:'Скрыть кровлю',restoreLabel:'Показать кровлю'};
+  a.views=[
+    {label:'Узел фермы',target:new Vector3(0,roofY(1.24)-.2,1.29),group:hardware,distance:1.9},
+    {label:'Каркас снизу',target:new Vector3(0,2.45,0),distance:5.6,eye:[.9,-.37,1]},
+  ];
+  return a;
+}
+
+function butterflyValve() {
+  const a=assembly(), blue=mat('blue'), steel=mat('steel'), dark=mat('gunmetal'), brass=mat('gold');
+  const body=a.layer([0,0,-.92]), seat=a.layer([0,0,0]), cover=a.layer([0,0,1.20]);
+  const fixing=a.layer([0,0,1.95]), actuator=a.layer([0,1.04,0]);
+  body.name='Корпус и задний фланец'; seat.name='Диск, вал и уплотнение';
+  cover.name='Передний фланец'; fixing.name='Комплект крепежа'; actuator.name='Редуктор и маховик';
+  annulus(body,blue,0,0,-.35,1.42,1.12,.67).name='Корпус затвора';
+  annulus(body,steel,0,0,-.68,1.65,1.12,.24).name='Задний фланец';
+  annulus(cover,blue,0,0,.44,1.65,1.12,.26).name='Передний фланец';
+  annulus(seat,dark,0,0,.08,1.154,1.042,.25).name='Сменное уплотнение';
+  const disc=part(seat,0,0,.085);
+  cylinder(disc,steel,0,0,0,1.039,.14,'z',64).name='Поворотный диск';
+  cylinder(disc,brass,0,.10,0,.105,2.50,'y',24).name='Вал';
+  box(disc,steel,0,0,.077,.26,1.97,.12).name='Ребро диска';
+  for (const y of [-.56,.56]) joint(disc,dark,0,y,.075,'z',.069,.19);
+  for (let i=0;i<12;i++) {
+    const angle=2*PI*i/12;
+    joint(fixing,brass,1.49*Math.cos(angle),1.49*Math.sin(angle),.14,'z',.079,1.44);
+  }
+  cylinder(actuator,dark,0,1.47,.075,.28,.39).name='Втулка вала';
+  box(actuator,blue,0,1.87,.10,.73,.43,.71).name='Корпус редуктора';
+  for (const x of [-.28,.28]) for (const z of [-.15,.35])
+    joint(actuator,steel,x,2.10,z,'y',.043,.20);
+  cylinder(actuator,steel,0,2.03,.10,.069,.96,'z').name='Шпиндель маховика';
+  const wheel=part(actuator,0,2.03,.61);
+  torus(wheel,dark,0,0,0,.48,.05).name='Маховик';
+  for (let i=0;i<5;i++) {
+    const angle=i*2*PI/5;
+    beam(wheel,steel,[0,0,0],[.46*Math.cos(angle),.46*Math.sin(angle),0],.062).name='Спица';
+  }
+  cylinder(wheel,brass,0,0,0,.13,.18,'z').name='Ступица маховика';
+  a.adjust={label:'Открытие затвора',initial:38,apply(value) {
+    disc.rotation.y=PI*value/200;
+    wheel.rotation.z=PI*value/18;
+  }};
+  a.fasteners=[fixing];
+  a.shell={group:cover,label:'Скрыть передний фланец',restoreLabel:'Показать передний фланец'};
+  a.views=[
+    {label:'Диск и уплотнение',target:new Vector3(0,0,.16),distance:3.75,eye:[.5,.27,1]},
+    {label:'Редуктор',target:new Vector3(0,1.93,.31),group:actuator,distance:2.55},
+  ];
+  return a;
+}
+
 export const catalog = [
+  ['tolmachevo','Толмачёво','industry','Входная группа по фотографиям объекта СибСТК. Фермы, остекление и крепёж в разборе',()=>import('./tolmachevo.js').then(({createTolmachevo})=>createTolmachevo())],
+  ['staircase','Стальная лестница','industry','Косоуры, решётчатые ступени, перила и анкерные опоры',staircase],
+  ['glass-rail','Стеклянное ограждение','industry','Остекление, стойки, зажимы и крепление к основанию',glassRail],
+  ['steel-canopy','Навес на фермах','industry','Стальные фермы, прогоны, панели кровли и болтовые соединения',steelCanopy],
+  ['butterfly-valve','Дисковый затвор','industry','Диск в движении, редуктор, фланцы и уплотнение',butterflyValve],
   ['turbine','Турбина','industry','Ротор, лопатки и корпус в разборе',turbine],
   ['cabin','Дом A-frame','architecture','Поднимите крышу и рассмотрите планировку',cabin],
   ['headphones','Наушники','products','Амбушюры, чашки и варианты отделки',headphones],

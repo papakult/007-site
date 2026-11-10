@@ -8,7 +8,7 @@ function limits(model) {
   const min = new Vector3(Infinity, Infinity, Infinity);
   const max = new Vector3(-Infinity, -Infinity, -Infinity);
   const corner = new Vector3();
-  model.updateMatrixWorld(true);
+  model.updateWorldMatrix(true,true);
   model.traverse(item => {
     if (!item.isMesh) return;
     item.geometry.computeBoundingBox();
@@ -75,7 +75,7 @@ export function createStage(canvas) {
   }));
   floor.rotation.x = -Math.PI/2;
   scene.add(floor);
-  const camera = new PerspectiveCamera(32,1,.025,120);
+  const camera = new PerspectiveCamera(32,1,.012,180);
   const controls = new OrbitControls(camera,canvas);
   controls.enableDamping = true;
   controls.dampingFactor = .11;
@@ -115,6 +115,7 @@ export function createStage(canvas) {
 
   function reset() {
     if (!bounds) return;
+    bounds = limits(model.root);
     const extent = bounds.size.length();
     const eye = new Vector3(.61,.43,1).normalize();
     const right = new Vector3().crossVectors(camera.up,eye).normalize();
@@ -150,6 +151,19 @@ export function createStage(canvas) {
   document.addEventListener('visibilitychange',schedule);
   return {
     controls, camera, reset, resize, draw, schedule,
+    focus(target, distance, eye = [.61,.43,1]) {
+      controls.target.copy(target);
+      camera.position.copy(target).addScaledVector(new Vector3(...eye).normalize(),distance);
+      controls.minDistance = Math.max(camera.near * 3, distance * .17);
+      controls.update(0);
+      schedule();
+    },
+    focusPart(item) {
+      const {center,size} = limits(item);
+      const width = Math.min(1,camera.aspect);
+      this.focus(center,Math.max(.24,size.length()*2.3/width));
+    },
+    dispose: disposeModel,
     show(item) {
       this.clear();
       model = item;
@@ -177,6 +191,7 @@ export function createStage(canvas) {
       }
       model = bounds = null;
       delete canvas.dataset.ready;
+      delete canvas.dataset.model;
     },
     zoom(factor) {
       const direction = camera.position.clone().sub(controls.target);
