@@ -129,7 +129,11 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
 .model-card-link:hover { outline:1px solid var(--accent); }
 .model-preview,.model-stage { position:relative; isolation:isolate; overflow:hidden; background:radial-gradient(ellipse at 52% 62%,#46545f,#252c35 63%,#16191e); }
 .model-preview[data-group="architecture"],.model-dialog[data-group="architecture"] .model-stage { background:radial-gradient(ellipse at 52% 62%,#55574e,#30332e 63%,#1b1e1c); }
-.model-preview[data-group="products"],.model-dialog[data-group="products"] .model-stage { background:radial-gradient(ellipse at 52% 62%,#574c46,#342c2b 63%,#201b1a); }
+.model-preview[data-group="products"],
+.model-dialog[data-group="products"] .model-stage,
+#watch-model-link .watch-feature-preview {
+  background:radial-gradient(ellipse at 52% 62%,#574c46,#342c2b 63%,#201b1a);
+}
 .model-preview[data-group="tech"],.model-dialog[data-group="tech"] .model-stage { background:radial-gradient(ellipse at 52% 62%,#3b4d65,#222d3d 63%,#151a26); }
 .model-preview { aspect-ratio: 8 / 5; }
 .model-preview img { display:block; width:100%; height:100%; object-fit:contain; }
@@ -185,9 +189,8 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
 .model-presets .model-actions { margin:5px 0; }
 .model-presets button { padding:6px 10px; font-size:12px; }
 
-.model-dialog:has(#model-canvas[data-model="watch"]) .model-stage,
 .model-dialog:has(#model-canvas[data-model="flashlight"]) .model-stage,
-.watch-feature-preview {
+#watch-film-link .watch-feature-preview {
   background:radial-gradient(ellipse at 62% 43%,#343b48,#202731 62%,#11161e);
 }
 
