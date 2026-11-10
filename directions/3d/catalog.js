@@ -106,6 +106,7 @@ function drawShelf(category) {
     bindModelLink(link,item);
     const preview = element('div',null,'model-preview');
     preview.dataset.group = item.category;
+    preview.dataset.model = item.id;
     const picture = element('img');
     picture.src = poster(item.id);
     picture.alt = '';
@@ -365,6 +366,7 @@ async function openModel(item) {
   image.hidden = false;
   canvas.hidden = true;
   dialog.dataset.group = item.category;
+  dialog.dataset.model = item.id;
   notice.textContent = 'Загрузка 3D';
   controlsLifetime?.abort();
   controlsLifetime = new AbortController();
