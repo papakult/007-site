@@ -1,0 +1,93 @@
+.villa-hero { background: #23271e; }
+.villa-hero .hero-image { inset: 0; }
+.villa-hero .hero-image img { object-position: 58% 54%; }
+.villa-hero .hero-image::after {
+  background: linear-gradient(90deg,#151910e8 0%,#1c2116ab 25%,#15191017 60%,transparent 75%),
+              linear-gradient(0deg,#15191091,transparent 30%);
+}
+.villa-hero .hero-inner { min-height: clamp(620px, 81vh, 900px); align-items: center; }
+.villa-hero .hero-copy { max-width: min(66%, 750px); }
+.villa-hero h1 { margin: 25px 0 18px; font-size: clamp(92px, 13vw, 190px); line-height: .82; letter-spacing: -.065em; white-space: nowrap; }
+.villa-hero h1 i { color: #f1d6a1; }
+.villa-hero .hero-copy > p { max-width: 325px; margin-top: 24px; color: #fff5e2; font-size: 17px; }
+.villa-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.villa-secondary { color: #fff9e9; background: #252a1d8c; border-color: #d1c19d; }
+.villa-secondary:hover { background: #2c3624; }
+.landscape-chip { position: absolute; right: 0; bottom: 73px; color: #fff8e7; }
+.landscape-preview {
+  display: grid; grid-template-columns: 124px auto; gap: 13px; align-items: center; min-width: 262px;
+  padding: 7px 11px 7px 7px; background: #1d251dea; border: 1px solid #ffffff55; border-radius: 5px; text-decoration: none;
+}
+.landscape-preview:hover { background: #343e2d; }
+.landscape-preview video { width: 124px; aspect-ratio: 16 / 9; border-radius: 3px; object-fit: cover; }
+.landscape-preview small, .landscape-preview strong { display: block; }
+.landscape-preview small { font-size: 11px; color: #f0dab1; }
+.landscape-preview strong { font: 27px/1 var(--display); }
+.play-icon { display: grid; place-items: center; position: absolute; left: 55px; top: 27px; width: 30px; height: 30px; border-radius: 50%; background: #1d2419e3; border: 1px solid #fff8e7; color: #fff8e7; font-size: 11px; }
+.landscape-motion { position: absolute; bottom: -19px; right: 0; color: #fff9eb; background: #1d2419; border: 1px solid #ffffff66; border-radius: 3px; padding: 4px 8px; min-height: 25px; font-size: 11px; }
+
+.landscape { background: #20281f; color: #fff9e9; padding: 76px 0; }
+.landscape-inner { display: grid; grid-template-columns: minmax(235px,.75fr) minmax(0,1.65fr); align-items: center; gap: clamp(24px,6vw,100px); }
+.landscape .eyebrow { color: #e2c592; margin-bottom: 11px; }
+.landscape h2 { margin-bottom: 17px; }
+.landscape-text > p:last-child { color: #e9e2d0; }
+.landscape-film video { display: block; width: 100%; aspect-ratio: 16/9; border: 1px solid #888a70; border-radius: 5px; background: #11170f; }
+.landscape-film p { font-size: 12px; color: #e8dec6; margin-top: 8px; }
+.landscape-film a { text-underline-offset: 3px; }
+
+.room-dialog { max-width: min(1080px,calc(100% - 24px)); border-color: #bdb095; }
+.detail-photo { isolation: isolate; height: min(58vh, 535px); }
+#detail-panorama, #detail-image { position: absolute; inset: 0; height: 100%; }
+#detail-image { width: 100%; object-fit: cover; aspect-ratio: auto; max-height: none; }
+#detail-panorama:focus-visible { outline-offset: -4px; }
+.tour-badge, .tour-controls, .tour-hotspot { position: absolute; z-index: 2; }
+.tour-badge { top: 12px; left: 12px; padding: 8px 11px; background: #22291eeb; color: #fff3d7; border: 1px solid #f8edc661; border-radius: 3px; font-size: 12px; }
+.tour-controls { display: flex; gap: 4px; bottom: 12px; left: 12px; }
+.look-reset { position: static; min-width: 40px; min-height: 40px; font-size: 13px; }
+.tour-hotspot {
+  transform: translate(-50%, -50%); padding: 8px 12px; min-height: 42px; white-space: nowrap;
+  border: 1px solid #fff4d2; border-radius: 24px; background: #22291eed; color: #fff4d2;
+  box-shadow: 0 2px 12px #0006; font-size: 12px; font-weight: 650;
+}
+.tour-hotspot::before { content: ""; display: inline-block; width: 7px; height: 7px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: rotate(45deg); margin-right: 8px; }
+.tour-hotspot:hover { background: #fff4d2; color: #22291e; }
+#detail-views button { min-width: 92px; }
+
+@media (max-width: 740px) {
+  .villa-hero .hero-inner { min-height: 630px; align-items: end; padding-top: 105px; padding-bottom: 177px; }
+  .villa-hero .hero-copy { max-width: 100%; }
+  .villa-hero h1 { font-size: clamp(69px,15vw,110px); }
+  .villa-hero .hero-image img { object-position: 64% 50%; }
+  .villa-hero .hero-image::after { background: linear-gradient(0deg,#171c12f5,#1b2115ab 38%,#1a201440 70%,transparent); }
+  .landscape-chip { right: auto; bottom: 57px; left: 0; }
+  .landscape-preview { grid-template-columns: 86px auto; gap: 9px; min-width: 207px; }
+  .landscape-preview video { width: 86px; }
+  .landscape-preview strong { font-size: 22px; }
+  .play-icon { left: 39px; top: 17px; width: 27px; height: 27px; }
+  .landscape-motion { bottom: 0; right: -56px; }
+  .landscape { padding: 45px 0; }
+  .landscape-inner { grid-template-columns: 1fr; gap: 19px; }
+  .landscape h2 br { display: none; }
+  .detail-photo { height: min(49vh, 380px); }
+}
+
+.tour-products { padding-block: 62px 70px; }
+.tour-products h3 { margin-top: 9px; font-size: clamp(36px, 4.8vw, 65px); letter-spacing: -.035em; }
+.tour-products-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.product-tour { display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; align-items: center; gap: 12px; text-align: left; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); padding: 9px; min-width: 0; }
+.product-tour:hover { background: #eee8da; border-color: #b4a37e; }
+.product-tour img { width: 84px; height: 64px; border-radius: 2px; }
+.product-tour small, .product-tour strong { display: block; }
+.product-tour small { color: #715924; font-size: 11px; }
+.product-tour strong { margin-top: 2px; font: 27px/1 var(--display); }
+.product-tour-icon { display: grid; place-items: center; width: 31px; height: 31px; border: 1px solid var(--line); border-radius: 50%; font-size: 16px; }
+.tour-products-contact { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
+.tour-products-contact p { color: var(--muted); margin-right: auto; }
+@media (max-width: 850px) {
+  .tour-products-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .bar-note { display: none; }
+  .bar nav { gap: 10px; }
+  .tour-products { padding-block: 36px 44px; }
+}

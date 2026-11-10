@@ -1,0 +1,59 @@
+.planning { background: #ece7da; }
+.planning-heading h2 { max-width: 650px; }
+.calendar { background: #fffdf7; border: 1px solid #cdc5b1; border-radius: 10px; padding: 0; overflow: hidden; box-shadow: 0 24px 64px #312b1912; }
+.calendar-toolbar { margin: 0; min-height: 79px; padding: 14px 21px; color: #fff8e6; background: #252c22; align-items: center; }
+.desk-brand { display: flex; align-items: center; gap: 12px; }
+.desk-brand > span { display: grid; place-items: center; width: 43px; height: 43px; border: 1px solid #877951; color: #ecd19a; border-radius: 50%; font: 25px/1 var(--display); letter-spacing: -.06em; }
+.desk-brand b, .desk-brand small { display: block; }
+.desk-brand b { font-size: 15px; }
+.desk-brand small { color: #ded2b9; font-size: 11px; }
+.calendar-nav .button { border-color: #938264; color: #fff8e6; }
+.calendar-nav .button:hover { background: #454b3b; }
+.desk-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(225px, 26%); }
+.desk-main { min-width: 0; padding: 20px; }
+.desk-period { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 16px; }
+.desk-period h3 { margin-top: 4px; font: 29px/1.1 var(--display); }
+.desk-metrics { display: flex; flex-wrap: wrap; gap: 6px; }
+.desk-metrics > div { background: #f2ecde; min-width: 74px; padding: 6px 8px; text-align: center; border-radius: 4px; }
+.desk-metrics strong, .desk-metrics span { display: block; }
+.desk-metrics strong { font: 600 17px/1.2 var(--text); }
+.desk-metrics span { font-size: 11px; color: #625c4b; }
+.table-scroll { border: 1px solid #e2d9c8; border-radius: 5px; }
+.calendar table { min-width: 618px; border-collapse: separate; border-spacing: 0; }
+.calendar th, .calendar td { border: 0; border-bottom: 1px solid #e7dfd0; border-right: 1px solid #e7dfd0; padding: 4px; }
+.calendar tbody tr:last-child > * { border-bottom: 0; }
+.calendar tr > :last-child { border-right: 0; }
+.calendar th:first-child { position: sticky; left: 0; z-index: 1; width: 136px; background: #fcf9ef; }
+.calendar th[scope=row] b { color: #6b5a2f; display: inline-grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; margin-right: 5px; background: #ede5d2; font-size: 11px; }
+.calendar thead { background: #f7f1e4; }
+.calendar thead button { width: 100%; background: transparent; border: 0; border-radius: 3px; padding: 4px; }
+.calendar thead button span, .calendar thead button b { display: block; }
+.calendar thead button span { font-size: 11px; color: #5c5647; }
+.calendar thead button b { font-size: 15px; }
+.calendar thead button[aria-pressed=true] { color: #fff8e6; background: #363d2c; }
+.calendar thead button[aria-pressed=true] span { color: #f1e5c9; }
+.calendar .selected-day { background: #f4eee0; }
+.calendar-cell { min-height: 43px; font-weight: 650; }
+.calendar-cell.free { background: #edf1e8; color: #384c34; }
+.calendar-cell.booked { border-left: 3px solid #9e7131; background: #f0dcba; color: #5c421b; }
+.calendar-cell.blocked { background: repeating-linear-gradient(135deg,#e9e5db 0 7px,#f2efe6 7px 14px); }
+.calendar-cell.is-selected { border-color: #6a522c; box-shadow: inset 0 0 0 1px #6a522c; }
+.desk-detail { border-left: 1px solid #e0d7c4; background: #f6f0e4; padding: 21px; }
+.desk-detail h3 { font: 30px/1.08 var(--display); margin: 6px 0 15px; }
+#desk-detail-content { display: grid; justify-items: start; gap: 12px; font-size: 13px; }
+.desk-day-item { border-top: 1px solid #dcd1bd; padding-top: 8px; width: 100%; display: grid; }
+.desk-day-item span { color: #605748; }
+.desk-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 13px; margin-top: 15px; }
+@media (max-width: 1050px) {
+  .desk-layout { grid-template-columns: minmax(0, 1fr); }
+  .desk-detail { border-left: 0; border-top: 1px solid #e0d7c4; }
+}
+@media (max-width: 680px) {
+  .calendar-toolbar, .desk-main, .desk-detail { padding: 12px; }
+  .calendar-nav { gap: 4px; }
+  .calendar-nav .button { min-width: 32px; min-height: 38px; font-size: 12px; padding-inline: 6px; }
+  .desk-brand { gap: 7px; }
+  .desk-brand > span { width: 34px; height: 34px; font-size: 20px; }
+  .desk-brand b { font-size: 13px; }
+  .desk-brand small { font-size: 10px; }
+}
