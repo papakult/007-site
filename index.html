@@ -217,7 +217,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
 <style>.cap-item{padding:1.35rem 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.75rem 0}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}</style>  <script src="/assets/metrika.js" defer></script>
-<link rel="stylesheet" href="/directions/3d/featured.css?v=calibre007v2">
+<link rel="stylesheet" href="/directions/3d/featured.css?v=watch-film">
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -249,7 +249,11 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
       <img src="/directions/3d/posters/watch-icon.webp" width="34" height="34" alt="">
       Часы 007 <span aria-hidden="true">↗</span>
     </a>
-    <a class="hero-3d" href="#industrial-models">Все 3D</a>
+    <a class="hero-3d hero-watch-film" href="/assets/watch-007-macro.mp4" data-watch-film aria-label="Смотреть разборку часов 007">
+      <svg class="watch-film-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5 10 6l-7 4.5z" fill="currentColor"/></svg>
+      <span>Клип 24 с</span>
+    </a>
+    <a class="hero-3d hero-gallery" href="#industrial-models">Все 3D</a>
   </nav>
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
@@ -266,10 +270,16 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
     <a href="/directions/3d/">Вся галерея</a>
   </div>
   <div class="industrial-grid">
-    <a class="industrial-card industrial-card--feature industrial-card--watch" href="/directions/3d/#model-watch">
-      <img src="/directions/3d/posters/watch-feature.webp?v=2" alt="" width="900" height="500" loading="lazy" decoding="async">
-      <span><strong>Часы 007</strong><small>От стрелок до анкерного спуска</small></span>
-    </a>
+    <article class="industrial-card industrial-card--feature industrial-card--watch">
+      <a class="watch-model-link" href="/directions/3d/#model-watch">
+        <img src="/directions/3d/posters/watch-feature.webp?v=2" alt="" width="900" height="500" loading="lazy" decoding="async">
+        <span><strong>Часы 007</strong><small>От стрелок до анкерного спуска</small></span>
+      </a>
+      <a class="watch-film-link" href="/assets/watch-007-macro.mp4" data-watch-film aria-label="Смотреть разборку часов 007">
+        <svg class="watch-film-icon" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5 10 6l-7 4.5z" fill="currentColor"/></svg>
+        Видео
+      </a>
+    </article>
     <a class="industrial-card industrial-card--feature" href="/directions/3d/#model-tolmachevo">
       <img src="/directions/3d/posters/tolmachevo.webp" alt="" width="840" height="525" loading="lazy" decoding="async">
       <span><strong>Толмачёво</strong><small>Остекление, фермы и болты</small></span>
@@ -361,6 +371,13 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
   <div class="final-domain">007-A.RU</div>
 </section>
 </main>
+<dialog class="watch-film" id="watch-film" aria-labelledby="watch-film-title">
+  <div class="watch-film-header">
+    <h2 id="watch-film-title">Часы 007. Макроразборка</h2>
+    <button class="watch-film-close" type="button" autofocus>Закрыть</button>
+  </div>
+  <video controls playsinline preload="none" aria-label="Часы 007. Макроразборка"></video>
+</dialog>
 
 <script src="assets/vendor-three.js"></script>
 <script src="assets/vendor-gsap.js"></script>
@@ -809,6 +826,28 @@ if(window.matchMedia('(pointer:fine)').matches){
 }
 
 const scenes=[...document.querySelectorAll('.snap')];
+const watchFilm=document.getElementById('watch-film');
+const watchVideo=watchFilm.querySelector('video');
+let resumeAmbience=false;
+if(typeof watchFilm.showModal==='function'){
+  document.querySelectorAll('[data-watch-film]').forEach(link=>{
+    link.addEventListener('click',event=>{
+      if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      watchFilm.showModal();
+      resumeAmbience=!amb.paused;
+      amb.pause();
+      if(!watchVideo.src)watchVideo.src=link.href;
+      watchVideo.play().catch(()=>{});
+    });
+  });
+  watchFilm.querySelector('.watch-film-close').addEventListener('click',()=>watchFilm.close());
+  watchFilm.addEventListener('close',()=>{
+    watchVideo.pause();
+    if(resumeAmbience&&soundOn)amb.play().catch(()=>{});
+    resumeAmbience=false;
+  });
+}
 
 /* ============ FULLPAGE PAGER ============ */
 // Index of current visible section
@@ -846,7 +885,7 @@ function goToPage(idx){
 
 // Keyboard: arrows / PageUp-Down / Space / Home / End move between sections
 window.addEventListener('keydown',e=>{
-  if(!entered||reduceMotion||e.altKey||e.metaKey||e.ctrlKey)return;
+  if(watchFilm.open||!entered||reduceMotion||e.altKey||e.metaKey||e.ctrlKey)return;
   const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
   const k=e.key;let dir=0;
   if(k==='ArrowDown'||k==='PageDown'||(k===' '&&!e.shiftKey))dir=1;
@@ -859,6 +898,7 @@ window.addEventListener('keydown',e=>{
 // Wheel: one event = one page
 let wheelAcc=0,wheelTimer=null;
 if(!reduceMotion)window.addEventListener('wheel',e=>{
+  if(watchFilm.open)return;
   e.preventDefault();
   if(pageScrollLocked)return;
   wheelAcc+=e.deltaY;
@@ -878,7 +918,7 @@ window.addEventListener('touchstart',e=>{
   tStartX=e.touches[0].clientX;
 },{passive:true});
 window.addEventListener('touchend',e=>{
-  if(pageScrollLocked||reduceMotion)return;
+  if(watchFilm.open||pageScrollLocked||reduceMotion)return;
   const dy=tStart-e.changedTouches[0].clientY;
   const dx=tStartX-e.changedTouches[0].clientX;
   if(Math.abs(dx)>Math.abs(dy)||Math.abs(dy)<40)return; // horizontal or tiny swipe — ignore
