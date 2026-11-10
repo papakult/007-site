@@ -217,7 +217,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
 <style>.cap-item{padding:1.35rem 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.75rem 0}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}</style>  <script src="/assets/metrika.js" defer></script>
-<link rel="stylesheet" href="/directions/3d/featured.css?v=calibre007">
+<link rel="stylesheet" href="/directions/3d/featured.css?v=calibre007v2">
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -244,7 +244,13 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 <!-- HERO: WEBGL FLOATING CLOUD -->
 <main>
 <section id="hero-cloud" class="snap" aria-labelledby="main-heading">
-  <a class="hero-3d" href="#industrial-models">3D <span aria-hidden="true">↗</span></a>
+  <nav class="hero-3d-nav" aria-label="Интерактивные проекты">
+    <a class="hero-3d hero-watch" href="/directions/3d/#model-watch">
+      <img src="/directions/3d/posters/watch-icon.webp" width="34" height="34" alt="">
+      Часы 007 <span aria-hidden="true">↗</span>
+    </a>
+    <a class="hero-3d" href="#industrial-models">Все 3D</a>
+  </nav>
   <canvas id="cloud-canvas"></canvas>
   <div class="hero-overlay">
     <h1 class="hero-name" id="main-heading">007-A<span class="sr-only">: кастомная разработка сайтов и digital-систем премиум-класса</span></h1>
@@ -260,13 +266,13 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
     <a href="/directions/3d/">Вся галерея</a>
   </div>
   <div class="industrial-grid">
+    <a class="industrial-card industrial-card--feature industrial-card--watch" href="/directions/3d/#model-watch">
+      <img src="/directions/3d/posters/watch-feature.webp?v=2" alt="" width="900" height="500" loading="lazy" decoding="async">
+      <span><strong>Часы 007</strong><small>От стрелок до анкерного спуска</small></span>
+    </a>
     <a class="industrial-card industrial-card--feature" href="/directions/3d/#model-tolmachevo">
       <img src="/directions/3d/posters/tolmachevo.webp" alt="" width="840" height="525" loading="lazy" decoding="async">
       <span><strong>Толмачёво</strong><small>Остекление, фермы и болты</small></span>
-    </a>
-    <a class="industrial-card industrial-card--feature industrial-card--watch" href="/directions/3d/#model-watch">
-      <img src="/directions/3d/posters/watch-feature.webp" alt="" width="900" height="500" loading="lazy" decoding="async">
-      <span><strong>Часы 007</strong><small>От стрелок до анкерного спуска</small></span>
     </a>
     <a class="industrial-card" href="/directions/3d/#model-staircase">
       <img src="/directions/3d/posters/staircase.webp" alt="" width="840" height="525" loading="lazy" decoding="async">

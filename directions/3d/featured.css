@@ -17,7 +17,7 @@
   color:#fff; text-decoration:none; background:radial-gradient(ellipse at 52% 60%,#3c4a55,#262e35 65%,#1a2024);
 }
 .industrial-card--feature { grid-column:span 2; height:clamp(140px,31vh,310px); }
-.industrial-card--watch { background:radial-gradient(ellipse at 58% 53%,#42382b,#221d1a 70%,#191719); }
+.industrial-card--watch { background:radial-gradient(ellipse at 58% 53%,#383a47,#1b232e 68%,#131820); }
 .industrial-card--watch img { object-position:65% center; }
 .industrial-card::after {
   content:""; position:absolute; z-index:-1; inset:0;
@@ -47,3 +47,16 @@
   .industrial-foot { font-size:10px; }
 }
 @media(prefers-reduced-motion:reduce) { .industrial-card img { transition:none; } }
+
+.hero-3d-nav {
+  position:absolute; z-index:4; top:clamp(12px,2vw,26px); left:clamp(12px,2vw,26px);
+  display:flex; align-items:center; gap:7px;
+}
+.hero-3d-nav .hero-3d { position:static; padding-inline:10px; letter-spacing:.08em; font-size:12px; }
+.hero-3d-nav .hero-watch { padding-left:5px; gap:5px; color:#f4dfc0; border-color:#ac8b5e; background:#111827d9; }
+.hero-watch img { width:34px; height:34px; object-fit:contain; }
+@media (max-width:390px) {
+  .hero-3d-nav { gap:4px; }
+  .hero-3d-nav .hero-3d { padding-inline:8px; }
+  .hero-3d-nav .hero-watch { padding-left:4px; }
+}

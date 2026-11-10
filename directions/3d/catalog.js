@@ -1,4 +1,4 @@
-import { catalog } from './catalog-models.js?v=calibre007';
+import { catalog } from './catalog-models.js?v=calibre007v2';
 
 const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
@@ -16,7 +16,7 @@ const categories = {
   all: 'Все модели', industry: 'Промышленность', architecture: 'Архитектура',
   products: 'Предметы', tech: 'Техника',
 };
-const poster = id => `./posters/${id}.webp`;
+const poster = id => `./posters/${id}.webp${id==='watch'?'?v=2':''}`;
 const byId = new Map(catalog.map(item => [item.id,item]));
 const modelHash = id => '#model-' + id;
 let selected = null;
@@ -287,7 +287,7 @@ function stopSpin() {
   spin.textContent = 'Автовращение';
 }
 function enableViewer() {
-  if (!stagePromise) stagePromise = import('./catalog-view.js?v=calibre007').then(({createStage})=>{
+  if (!stagePromise) stagePromise = import('./catalog-view.js?v=calibre007v2').then(({createStage})=>{
     stage = createStage(canvas);
     stage.controls.addEventListener('start',stopSpin);
     return stage;

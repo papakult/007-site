@@ -52,7 +52,7 @@ function disposeModel(model) {
     for (const material of [item.material].flat()) materials.add(material);
   });
   geometries.forEach(g => g.dispose());
-  const textures = new Set([...materials].map(m=>m.map).filter(Boolean));
+  const textures = new Set([...materials].flatMap(m=>[m.map,m.bumpMap,m.roughnessMap]).filter(Boolean));
   textures.forEach(texture=>texture.dispose());
   materials.forEach(m => m.dispose());
 }
@@ -71,8 +71,11 @@ export function createStage(canvas) {
   scene.environmentIntensity = .85;
   pmrem.dispose();
   room.dispose();
-  scene.add(lamp(0xe4f2ff,3.45,-4,6,5),lamp(0xffbb87,2.35,5,3,-4),
-    new AmbientLight(0xb9c4db,.48));
+  const key = lamp(0xe4f2ff,3.45,-4,6,5);
+  const rim = lamp(0xffbb87,2.35,5,3,-4);
+  const backlight = lamp(0xb3d4ff,0,-4,2,-6);
+  const ambient = new AmbientLight(0xb9c4db,.48);
+  scene.add(key,rim,backlight,ambient);
   const floor = new Mesh(new PlaneGeometry(1,1),new MeshBasicMaterial({
     map:shadowTexture(),transparent:true,depthWrite:false,
   }));
@@ -154,7 +157,9 @@ export function createStage(canvas) {
   document.addEventListener('visibilitychange',schedule);
   return {
     controls, camera, reset, resize, draw, schedule,
-    frameVisible(eye) { reset(true,eye); },
+    frameVisible(eye) {
+      reset(true,eye || camera.position.clone().sub(controls.target).toArray());
+    },
     focus(target, distance, eye = [.61,.43,1]) {
       controls.target.copy(target);
       camera.position.copy(target).addScaledVector(new Vector3(...eye).normalize(),distance);
@@ -172,6 +177,13 @@ export function createStage(canvas) {
       this.clear();
       model = item;
       active = true;
+      const lighting = item.lighting || {};
+      renderer.toneMappingExposure = lighting.exposure ?? 1.12;
+      key.intensity = lighting.key ?? 3.45;
+      rim.intensity = lighting.rim ?? 2.35;
+      backlight.intensity = lighting.backlight ?? 0;
+      ambient.intensity = lighting.ambient ?? .48;
+      scene.environmentIntensity = lighting.environment ?? .85;
       bounds = limits(item.root);
       scene.add(item.root);
       floor.position.set(bounds.center.x,bounds.min.y-.045,bounds.center.z);

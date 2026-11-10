@@ -184,3 +184,8 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
 .model-presets p { margin:0; color:var(--accent); font-size:12px; }
 .model-presets .model-actions { margin:5px 0; }
 .model-presets button { padding:6px 10px; font-size:12px; }
+
+.model-dialog:has(#model-canvas[data-model="watch"]) .model-stage,
+.model-card:has(a[href="#model-watch"]) .model-preview {
+  background:radial-gradient(ellipse at 62% 43%,#343b48,#202731 62%,#11161e);
+}
