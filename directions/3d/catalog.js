@@ -16,11 +16,16 @@ const spin = dialog.querySelector('[data-model-spin]');
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
 const categories = {
   all: 'Все модели', industry: 'Промышленность', architecture: 'Архитектура',
-  products: 'Предметы', tech: 'Техника',
+  products: 'Предметы', tech: 'Техника', electrical: 'Электротехника',
 };
 const poster = id => `./posters/${id}.webp${id==='watch'?'?v=2':''}`;
 const byId = new Map(catalog.map(item => [item.id,item]));
-const shelfModels = catalog.filter(item => item.id !== 'watch');
+const flashlight = {
+  id: 'flashlight', title: 'Фонарь на батарейках', category: 'electrical',
+  description: 'Разборка корпуса, плата драйвера и четыре провода', href: './flashlight/',
+};
+const electricalIds = new Set(['flashlight', 'motor', 'lamp', 'charger', 'headphones']);
+const shelfModels = [...catalog.filter(item => item.id !== 'watch'), flashlight];
 const modelHash = id => '#model-' + id;
 let selected = null;
 let lastTrigger = null;
@@ -70,13 +75,15 @@ film.querySelector('button').addEventListener('click', () => film.close());
 film.addEventListener('close', () => filmVideo.pause());
 
 function drawShelf(category) {
-  const items = shelfModels.filter(item => category === 'all' || item.category === category);
+  const items = shelfModels.filter(item =>
+    category === 'all' || item.category === category ||
+    (category === 'electrical' && electricalIds.has(item.id)));
   count.textContent = `${items.length} из ${shelfModels.length}`;
   shelf.replaceChildren(...items.map(item => {
     const article = element('article',null,'model-card');
     const link = element('a',null,'model-card-link');
-    link.href = modelHash(item.id);
-    bindModelLink(link,item);
+    link.href = item.href || modelHash(item.id);
+    if (!item.href) bindModelLink(link,item);
     const preview = element('div',null,'model-preview');
     preview.dataset.group = item.category;
     const picture = element('img');
@@ -84,9 +91,10 @@ function drawShelf(category) {
     picture.alt = '';
     picture.width = 560;
     picture.height = 350;
-    picture.loading = catalog.indexOf(item) < 4 ? 'eager' : 'lazy';
+    const index = item.href ? catalog.length : catalog.indexOf(item);
+    picture.loading = index < 4 ? 'eager' : 'lazy';
     picture.decoding = 'async';
-    preview.append(picture,element('span',String(catalog.indexOf(item)+1).padStart(2,'0'),'model-index'));
+    preview.append(picture,element('span',String(index+1).padStart(2,'0'),'model-index'));
     const content = element('div',null,'model-card-copy');
     content.append(element('small',categories[item.category]),element('h3',item.title),
       element('p',item.description),element('span','Открыть 3D','model-open'));
