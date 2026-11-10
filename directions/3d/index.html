@@ -9,7 +9,7 @@
   <link rel="canonical" href="https://007-a.ru/directions/3d/">
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/assets/demo-fonts.css">
-  <link rel="stylesheet" href="./gallery.css?v=calibre007v2">
+  <link rel="stylesheet" href="./gallery.css?v=watch-gallery-film">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="3D-модели для сайтов | 007-A">
@@ -18,7 +18,7 @@
   <meta property="og:image" content="https://007-a.ru/directions/3d/3d-preview.jpg">
   <meta property="og:image:alt" content="Автомобиль, здание и фланец в галерее 3D-моделей 007-A">
   <script type="module" src="./gallery.js"></script>
-  <script type="module" src="./catalog.js?v=watch-first"></script>
+  <script type="module" src="./catalog.js?v=watch-gallery-film"></script>
   <script src="/assets/metrika.js" defer></script>
 </head>
 <body>
@@ -82,6 +82,14 @@
           <button type="button" data-model-next>Следующая</button>
         </div>
       </div>
+    </dialog>
+
+    <dialog class="model-dialog watch-film" id="watch-film" aria-labelledby="watch-film-title">
+      <div class="model-dialog-head">
+        <h2 id="watch-film-title">Часы 007. Макроразборка</h2>
+        <button type="button" autofocus>Закрыть</button>
+      </div>
+      <video controls playsinline preload="none" aria-labelledby="watch-film-title"></video>
     </dialog>
 
     <section class="gallery" id="gallery" aria-label="Галерея интерактивных 3D-моделей">

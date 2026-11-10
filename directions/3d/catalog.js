@@ -4,6 +4,8 @@ const shelf = document.querySelector('#model-shelf');
 const filters = document.querySelector('#model-filters');
 const count = document.querySelector('#model-count');
 const dialog = document.querySelector('#model-dialog');
+const film = document.querySelector('#watch-film');
+const filmVideo = film.querySelector('video');
 const title = dialog.querySelector('#model-title');
 const description = dialog.querySelector('#model-description');
 const image = dialog.querySelector('#model-fallback');
@@ -39,6 +41,18 @@ function button(label,handler,css) {
   return node;
 }
 
+function openWatchFilm(event) {
+  if (typeof film.showModal !== 'function' ||
+      event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  film.showModal();
+  if (!filmVideo.src) filmVideo.src = event.currentTarget.href;
+  filmVideo.play().catch(() => {});
+}
+
+film.querySelector('button').addEventListener('click', () => film.close());
+film.addEventListener('close', () => filmVideo.pause());
+
 function drawShelf(category) {
   const items = catalog.filter(item => category === 'all' || item.category === category);
   count.textContent = `${items.length} из ${catalog.length}`;
@@ -68,6 +82,13 @@ function drawShelf(category) {
       element('p',item.description),element('span','Открыть 3D','model-open'));
     link.append(preview,content);
     article.append(link);
+    if (item.id === 'watch') {
+      const filmLink = element('a', 'Видео 24 с', 'model-film-link');
+      filmLink.href = '/assets/watch-007-macro.mp4';
+      filmLink.setAttribute('aria-label', 'Смотреть разборку часов 007, 24 секунды');
+      filmLink.addEventListener('click', openWatchFilm);
+      article.append(filmLink);
+    }
     return article;
   }));
 }

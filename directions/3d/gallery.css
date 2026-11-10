@@ -189,3 +189,16 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
 .model-card:has(a[href="#model-watch"]) .model-preview {
   background:radial-gradient(ellipse at 62% 43%,#343b48,#202731 62%,#11161e);
 }
+
+.model-card:has(.model-film-link) { position:relative; }
+.model-film-link {
+  position:absolute; right:6px; top:6px; display:inline-flex; align-items:center;
+  min-height:36px; padding:0 8px; border:1px solid #a68b68; border-radius:3px;
+  color:#f4dfc0; background:#111827f5; font-size:12px;
+}
+.model-film-link:hover,.model-film-link:focus-visible { border-color:#f4dfc0; }
+html:has(.watch-film[open]) { overflow:hidden; }
+.watch-film { width:min(900px,calc(100% - 24px),calc((100dvh - 108px) * 16 / 9)); }
+.watch-film .model-dialog-head { padding:8px 12px; }
+.watch-film .model-dialog-head h2 { font-size:clamp(17px,3vw,24px); line-height:1.1; }
+.watch-film video { display:block; width:100%; aspect-ratio:16/9; background:#080b12; }
