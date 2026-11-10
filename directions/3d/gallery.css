@@ -209,6 +209,7 @@ footer { justify-content: space-between; min-height: 78px; border-top: 1px solid
 @media (max-width:560px) {
   .watch-feature { gap:8px; }
   .watch-feature-copy { padding:10px 8px 12px; }
+  .watch-feature-copy strong { font-size:clamp(18px,5.65vw,22px); }
   .watch-feature-copy .kicker { font-size:9px; letter-spacing:.06em; }
   .watch-feature-play { right:5px; bottom:5px; width:30px; height:30px; }
   .watch-feature-play svg { width:15px; height:15px; }

@@ -831,18 +831,18 @@ if(!reduceMotion)window.addEventListener('wheel',e=>{
 },{passive:false});
 
 // Touch: swipe → page
-let tStart=0,tStartX=0;
+let tStart=0,tStartX=0,tStartIdx=0;
 window.addEventListener('touchstart',e=>{
   tStart=e.touches[0].clientY;
   tStartX=e.touches[0].clientX;
+  tStartIdx=getVisibleIdx();
 },{passive:true});
 window.addEventListener('touchend',e=>{
   if(pageScrollLocked||reduceMotion)return;
   const dy=tStart-e.changedTouches[0].clientY;
   const dx=tStartX-e.changedTouches[0].clientX;
   if(Math.abs(dx)>Math.abs(dy)||Math.abs(dy)<40)return; // horizontal or tiny swipe — ignore
-  currentIdx=getVisibleIdx();
-  goToPage(currentIdx+(dy>0?1:-1));
+  goToPage(tStartIdx+(dy>0?1:-1));
 },{passive:true});
 
 /* ============ VIDEO LAZY LOAD + PLAY/PAUSE ============ */
