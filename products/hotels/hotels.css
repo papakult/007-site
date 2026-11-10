@@ -1,4 +1,9 @@
-.hotels-direction .hero .media { display: block; opacity: .76; object-position: 61% 50%; }
+.hotels-direction .hero .media {
+  display: block;
+  opacity: .92;
+  filter: saturate(.86);
+  object-position: 61% 50%;
+}
 .hotel-jump { display: inline-block; border: 1px solid var(--line); padding: 12px 17px; margin-top: 22px; }
 .hotel-jump:hover { border-color: var(--ink); }
 
