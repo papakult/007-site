@@ -19,6 +19,7 @@
   <script src="app.js?v=3" defer></script>
   <script src="cinema.js?v=3" defer></script>
   <title>Тише кофе / чистый вкус</title>
+<link rel="stylesheet" href="/assets/brand-007-chrome/brand.css">
 </head>
 <body>
   <a class="skip" href="#menu">Перейти к кофейной карте</a>
@@ -50,7 +51,7 @@
     </section>
     <section class="closing"><span class="eyebrow">ВАШ МАЛЕНЬКИЙ ЕЖЕДНЕВНЫЙ РИТУАЛ</span><h2>Сначала <em>кофе.</em><br>Потом все остальное.</h2><a class="button button-outline" href="#menu">Выбрать напиток <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><div class="closing-watermark" aria-hidden="true">тише</div></section>
   </main>
-  <footer><a class="brand" href="#home">тише<span>КОФЕ</span></a><p>Авторский концепт вымышленной кофейни.<br>Выбор напитка работает в деморежиме, без приема заказов и оплаты.</p><a class="studio" href="/directions/sites/">Дизайн и разработка<span>007-A.RU</span></a></footer>
+  <footer><a class="brand" href="#home">тише<span>КОФЕ</span></a><p>Авторский концепт вымышленной кофейни.<br>Выбор напитка работает в деморежиме, без приема заказов и оплаты.</p><a class="studio" href="/directions/sites/">Дизайн и разработка<span class="chrome-credit"><img class="brand-chrome-small" src="/assets/brand-007-chrome/wordmark-small.webp" width="136" height="36" alt="007-A" decoding="async"><span>.RU</span></span></a></footer>
   <dialog id="film-dialog" aria-label="Кофейный ролик"><button class="close-film" aria-label="Закрыть ролик">×</button><video controls playsinline preload="none" poster="assets/film/start.jpg"><source src="assets/film/presentation.mp4" type="video/mp4"></video><p>Тише кофе. Постановочная история напитков.</p></dialog>
   <dialog id="order-dialog" aria-labelledby="order-title"><button class="close-dialog" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button><span class="eyebrow">ВАША ЧАШКА / ДЕМО</span><h2 id="order-title">Ваш <em>кофе.</em></h2><div class="order-photo" id="order-photo" aria-hidden="true"></div><form id="order-form"><label for="order-drink">Напиток</label><select id="order-drink" name="drink"></select><fieldset><legend>Объем</legend><div class="size-options" id="size-options"></div></fieldset><div id="milk-label"><label for="order-milk">Молоко</label><select id="order-milk"><option value="0">Обычное</option><option value="60">Овсяное, +60 ₽</option><option value="60">Кокосовое, +60 ₽</option></select></div><div class="order-total"><span>Ваша чашка</span><strong id="total-price">180 ₽</strong></div><button class="button button-cream" type="submit">Выбрать этот кофе <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button><p class="dialog-note">Демонстрация. Оплата и передача заказа в кофейню не подключены.</p></form><div id="order-result" hidden><h3>В вашем вкусе.</h3><p id="result-text"></p><p class="dialog-note">Это тестовый выбор. Заказ никуда не отправлен.</p><button class="button button-cream result-back">Выбрать еще чашку</button></div></dialog>
 </body>
