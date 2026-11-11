@@ -1,7 +1,7 @@
 import {createStage} from '../../catalog-view.js';
 import {Vector3} from '../../engine.js';
-import {createScene} from './scenes.js';
-const [notes,jobs]=await Promise.all(['./notes.json','./jobs.json'].map(async path=>{
+import {createScene} from './scenes.js?v=refined-20261111';
+const [notes,jobs]=await Promise.all(['./notes.json','./jobs.json?v=refined-20261111'].map(async path=>{
  const response=await fetch(path);
  if(!response.ok)throw new Error('Не загрузился список моделей');
  return response.json();
@@ -14,7 +14,7 @@ let stage;
 try { stage=createStage($('model')); }
 catch (error) { $('error').hidden=false; console.warn(error); }
 const steps=Array.from({length:3},(_,i)=>$('step'+i));
-let scene,labels,key,tick,activeStep=0,serial=0;
+let scene,labels,key,job,tick,activeStep=0,serial=0;
 function smooth(t){return t*t*(3-2*t);}
 function mix(a,b,r){return a+(b-a)*r;}
 function vector(a,b,r){return a.map((x,i)=>mix(x,b[i],r));}
@@ -39,11 +39,11 @@ function stop(){
 function snap(i){
  stop();
  const p=[0,.57,.82][i];
- highlight(i);focus(scene.views[i]);setPose(p,1);
+ highlight(i);focus(scene.views[i]);setPose(p,1);correctFraming([0,11,18][i]);
 }
 const timeline=[
- [0,0,0],[2.45,0,0,[-.16,.36,1]],[5.4,1,.57],[7.5,1,.64],
- [9.8,2,.84],[12.7,2,.91],[15.9,0,0],[16.6,0,0]
+ [0,0,0],[3.5,0,0,[-.35,.40,1]],[6.5,0,0],[10,1,.68],[13,1,.91],
+ [16,2,.96],[21,2,1],[25.5,0,0],[27,0,0]
 ];
 function frameAt(t){
  const ix=Math.min(timeline.length-1,Math.max(1,timeline.findIndex(x=>x[0]>t)));
@@ -55,15 +55,37 @@ function frameAt(t){
  focus({target:vector(va.target,vb.target,r),distance:mix(va.distance,vb.distance,r),eye:vector(a[3]||va.eye,b[3]||vb.eye,r)});
  setPose(mix(a[2],b[2],r),t);
 }
-window.renderFrame=frameAt;
+function correctFraming(t){
+ if(!job?.auditFix)return;
+ function bounds(g){
+  const min=new Vector3(Infinity,Infinity,Infinity),max=new Vector3(-Infinity,-Infinity,-Infinity);
+  g.updateWorldMatrix(true,true);g.traverseVisible(o=>{if(o.isMesh){if(!o.geometry.boundingBox)o.geometry.computeBoundingBox();const b=o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld);min.min(b.min);max.max(b.max);}});
+  return {center:min.clone().add(max).multiplyScalar(.5),size:max.clone().sub(min)};
+ }
+ const whole=bounds(scene.root);
+ const detail=job.focusBox?{center:new Vector3(...job.focusBox.center),size:new Vector3(...job.focusBox.size)}:scene.focusRoot?bounds(scene.focusRoot):whole;
+ const k=smooth(Math.max(0,Math.min(1,(t-13)/3)))*(1-smooth(Math.max(0,Math.min(1,(t-21)/3))));
+ const center=whole.center.clone().lerp(detail.center,k),size=whole.size.clone().lerp(detail.size,k);
+ const eye=stage.camera.position.clone().sub(stage.controls.target).normalize();
+ const right=new Vector3().crossVectors(stage.camera.up,eye).normalize();
+ const up=new Vector3().crossVectors(eye,right),corner=new Vector3(),tan=Math.tan(stage.camera.fov*Math.PI/360);
+ let distance=0;
+ for(const x of [-.5,.5])for(const y of [-.5,.5])for(const z of [-.5,.5]){
+  corner.set(x*size.x,y*size.y,z*size.z);
+  distance=Math.max(distance,corner.dot(eye)+Math.max(Math.abs(corner.dot(up))/tan,Math.abs(corner.dot(right))/(tan*stage.camera.aspect)));
+ }
+ stage.focus(center,distance*1.10,eye.toArray());stage.draw();
+}
+const originalFrameAt=frameAt;
+window.renderFrame=t=>{originalFrameAt(t);correctFraming(t)}; window.getScene=()=>scene;
 function play(){
  stop();const start=performance.now();
  $('play').textContent='Остановить демонстрацию';
  document.documentElement.dataset.tour='playing';
  function render(now){
   const t=(now-start)/1000;
-  if(t>=16.6){snap(0);document.documentElement.dataset.tour='done';return;}
-  frameAt(t);tick=requestAnimationFrame(render);
+  if(t>=27){snap(0);document.documentElement.dataset.tour='done';return;}
+  window.renderFrame(t);tick=requestAnimationFrame(render);
  }
  tick=requestAnimationFrame(render);
 }
@@ -78,9 +100,9 @@ async function open(nextKey,nextJob){
  if(!stage)return;
  const selected=await createScene(nextKey,nextJob?.config);
  if(id!==serial){stage.dispose(selected.root);return;}
- key=nextKey;
+ key=nextKey;job=nextJob;
  scene=selected;
- labels=nextJob?.labels||['Изделие в сборе',...notes[key].slice(1,3)];
+ labels=scene.labels||nextJob?.labels||['Изделие в сборе',...notes[key].slice(1,3)];
  steps.forEach((button,i)=>button.textContent='0'+(i+1)+'  '+labels[i]);
  stage.show(scene);snap(0);
  $('model').dataset.scene=key;
@@ -124,7 +146,7 @@ $('picker').onchange=()=>{
 };
 window.addEventListener('popstate',followLocation);
 window.addEventListener('hashchange',followLocation);
-$('explode').oninput=()=>{if(scene){stop();setPose(Number($('explode').value)/100,1.4);}};
+$('explode').oninput=()=>{if(scene){stop();setPose(Number($('explode').value)/100,1.4);correctFraming(activeStep===2?18:11);}};
 steps.forEach((button,i)=>button.onclick=()=>{if(scene)snap(i);});
 $('play').onclick=()=>{if(scene){if(tick)stop();else play();}};
 $('zoom-in').onclick=()=>stage?.zoom(.82);

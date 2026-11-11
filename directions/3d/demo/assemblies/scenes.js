@@ -1,5 +1,6 @@
+import {refinedGas,refinedPumps,refinedCheckpoint} from './refined.js?v=refined-20261111';
 import {Group, Vector3, MeshStandardMaterial, MeshBasicMaterial, SphereGeometry, Shape, Path, ExtrudeGeometry} from '../../engine.js';
-import {part,box,cylinder,torus,plate,rod,wire,screw,label,shape,materials,makeCnc,makeElectronics} from './models.js';
+import {part,box,cylinder,torus,plate,rod,wire,screw,label,shape,materials,makeCnc,makeElectronics} from './models.js?v=refined-20261111';
 import {catalog} from '../../catalog-models.js?v=details-28';
 const PI=Math.PI;
 const red=0xca4b46, amber=0xefa951, cyan=0x67b8ce;
@@ -290,10 +291,10 @@ function exchanger(){
   cylinder(front,steel,x,y,.64,.072,.061,'z',6);
  }
  const pose=p=>{
-  front.position.set(1.56*p,.35*p,.70*p);rear.position.z=-.55*p;
+  front.position.set(2.65*p,.35*p,.38*p);rear.position.z=-.55*p;
   sheets.forEach((v,k)=>{v.position.z=(-.38+k*.062)*(1+2.25*p);v.position.x=(k-6)*.078*p;});
  };
- return {root,pose,views:[cam([0,1.36,0],8.1),cam([0,1.44,0],7.2),cam([.02,1.49,.28],4.55,[.79,.41,1])]};
+ return {root,pose,focusRoot:stack,views:[cam([0,1.36,0],8.1),cam([0,1.44,0],7.2),cam([.02,1.49,.28],4.55,[.79,.41,1])]};
 }
 function platformLadder(){
  const root=new Group(), stair=part(root,0,2.06,.15), back=part(root,0,2.06,.15), top=part(root);
@@ -429,6 +430,15 @@ function scissorLift(){
    pivots.push({g,level,dir});
   }
  }
+ for(const xx of [-.90,.90])for(const zz of [-.78,.78])for(let k=0;k<5;k++){
+  const a=k*PI*2/5;cylinder(base,steel,xx+.072*Math.cos(a),.24+.072*Math.sin(a),zz,.014,.025,'z',6);
+ }
+ for(const xx of [-1.15,1.15])for(const zz of [-.56,.56])screw(deckTop,xx,.15,zz,'y',.023);
+ box(base,dark,1.19,.57,.25,.065,.20,.32);
+ cylinder(base,hot,1.23,.59,.25,.027,.032,'x',20);
+ const ram=part(root,-.72,.68,0),shaft=part(ram);
+ cylinder(ram,steel,0,.28,0,.073,.56,'y',28);torus(ram,dark,0,.54,0,.074,.015,'y');
+ cylinder(shaft,steel,0,0,0,.038,.60,'y',24);
  const pose=p=>{
   const lift=ss(p,.08,.87), angle=.09+.48*lift;
   const delta=1.81*Math.sin(angle);
@@ -437,6 +447,10 @@ function scissorLift(){
    g.rotation.z=dir*angle;
   }
   deckTop.position.y=.73+4*delta;
+  const v=new Vector3(.72,.03+delta*1.5,0),length=v.length();
+  ram.quaternion.setFromUnitVectors(new Vector3(0,1,0),v.normalize());
+  shaft.scale.y=Math.max(.02,(length-.55)/.60);shaft.position.y=(length+.55)/2;
+
  };
  return {root,pose,views:[cam([0,1.22,0],7.9),cam([0,2.25,0],9.4),cam([0,2.36,.12],6.1,[.73,.42,1])]};
 }
@@ -635,6 +649,15 @@ function moduleBlock(mobile=false, spec={}){
  const roof=part(cap,0,h+.11,0);
  if(spec.roof==='lean')roof.rotation.x=.10;
  for(let i=0;i<9;i++)box(roof,i%2?panel:steel,-2.26+i*.565,0,0,.56,.12,d+.16);
+ for(const xx of [-w/2,w/2])for(const zz of [-d/2,d/2])for(const yy of [.16,h-.04]){
+  box(frame,steel,xx,yy,zz+.073,.23,.21,.024);
+  for(const dx of [-.067,.067]){cylinder(frame,steel,xx+dx,yy,zz+.101,.024,.032,'z',6);torus(frame,steel,xx+dx,yy,zz+.083,.029,.005,'z');}
+ }
+ for(const yy of [.49,1.74]){
+  cylinder(front,steel,doorX-doorW*.48,yy,.11,.025,.13,'y',20);
+  screw(front,doorX-doorW*.48+.04,yy,.115,'z',.014);
+ }
+ for(let k=0;k<9;k++)for(const zz of [-d*.42,d*.42])screw(roof,-2.26+k*.565,.079,zz,'y',.020);
  const pose=p=>{
   const t=ss(p,.10,.84);
   front.position.set(-1.15*t,0,d/2+.94*t);
@@ -845,12 +868,18 @@ function mixingTank(spec={}){
   const a=i*2*PI/3;const v=part(agitator,0,h,0);v.rotation.y=a;
   const p=box(v,copper,.29,0,0,.57,.076,.22);p.rotation.x=.19;
  }
+ cylinder(body,steel,0,.76,.97,.086,.25,'z',28);
+ torus(body,steel,0,.76,1.10,.12,.024,'z');
+ for(let k=0;k<6;k++){const a=k*PI/3;screw(body,.112*Math.cos(a),.76+.112*Math.sin(a),1.13,'z',.018);}
+ cylinder(body,copper,0,.93,.99,.035,.23,'y',20);
+ torus(body,hot,0,1.06,.99,.082,.013,'y');
+ for(let k=0;k<14;k++){const a=k*PI/7;box(lid,metal,.256*Math.cos(a),2.72,.256*Math.sin(a),.019,.34,.019);}
  const pose=(p,t=0)=>{
   lid.position.set(0,.54*p,-.13*p);
-  shell.position.set(1.25*p,0,-.26*p);
+  shell.position.set(1.85*p,0,-.26*p);shell.visible=p<.78;lid.visible=p<.82;
   agitator.rotation.y=2.5*t*ss(p,.24,.68);
  };
- return {root,pose,views:[cam([0,1.48,0],8.9),cam([0,1.61,0],7.6),cam([0,1.55,.19],5.0,[.64,.45,1])]};
+ return {root,pose,focusRoot:agitator,views:[cam([0,1.48,0],8.9),cam([0,1.61,0],7.6),cam([0,1.55,.19],5.0,[.64,.45,1])]};
 }
 
 function hookContainer(spec={}){
@@ -1331,7 +1360,9 @@ function toolStorage(spec={},mode='cabinet'){
  }
 
  if(gas)for(const x of [-.51,.51]){
-  cylinder(body,cold,x,.91,0,.292,1.59,'y',40);
+  cylinder(body,hot,x,.91,0,.292,1.49,'y',48);
+  for(const y of [.165,1.65]){const cap=shape(body,new SphereGeometry(.292,32,20),hot,x,y,0);cap.scale.y=.45;}
+  cylinder(body,hot,x,.15,0,.267,.18,'y',40);
   cylinder(body,steel,x,1.76,0,.095,.19,'y',28);
   torus(body,steel,x,1.74,0,.131,.027,'y');
  }
@@ -1354,10 +1385,10 @@ function toolStorage(spec={},mode='cabinet'){
   doors.push({door,side});
  }
  const pose=(p,t=0)=>{
-  for(const {door,side} of doors)door.rotation.y=side*1.35*ss(p,.03,.67);
+  for(const {door,side} of doors)door.rotation.y=side*2.43*ss(p,.03,.67);
   boxes.forEach((g,i)=>{g.position.z=(i%3===0?.74:i%3===1?.32:.49)*ss(p,.37,.91);});
  };
- return {root,pose,views:[cam([0,h*.49,0],bench?9.7:8.5),cam([0,h*.50,.16],7.3),cam([.12,h*.46,.47],4.8,[.66,.43,1])]};
+ return {root,pose,focusRoot:body,views:[cam([0,h*.49,0],bench?9.7:8.5),cam([0,h*.50,.16],7.3),cam([.12,h*.46,.47],4.8,[.66,.43,1])]};
 }
 
 function warehouseRack(spec={},kind='pallet'){
@@ -1439,9 +1470,12 @@ function wheelBin(spec={}){
  for(const x of [-w/2,w/2]){
   box(body,blue,x,1.11,0,.105,h,dep);
   rod(body,steel,[x,1.72,-.68],[x,1.72,.68],.039);
-  for(const z of [-.56,.56]){
-   cylinder(body,rubber,x*.82,.21,z,.202,.13,'x',30);
-   cylinder(body,steel,x*.88,.21,z,.096,.04,'x',20);
+  for(const z of [-.76,.76]){
+   cylinder(body,rubber,x*.91,.21,z,.202,.15,'x',36);
+   box(body,steel,x*.91,.37,z,.18,.15,.11);
+   cylinder(body,steel,x*.91,.45,z,.045,.14,'y',20);
+   for(let k=0;k<6;k++){const a=k*PI/3;cylinder(body,steel,x*1.04,.21+.065*Math.sin(a),z+.065*Math.cos(a),.014,.022,'x',6);}
+   cylinder(body,steel,x*.99,.21,z,.096,.045,'x',24);
   }
  }
  for(const z of [-dep/2,dep/2]){
@@ -1558,6 +1592,10 @@ function utilities(spec={},kind='transformer'){
   for(const c of centers){
    plate(gear,metal,c,1.05,-.30,1.85,.99,1.30,.09,'y');
    plate(gear,steel,c,1.73,-.30,1.90,1.05,.14,.045,'y');
+   for(const xx of [-.76,-.38,0,.38,.76])for(const zz of [-.67,.07])screw(gear,c+xx,1.82,zz,'y',.025);
+   cylinder(gear,copper,c+.73,1.59,.35,.036,.16,'z',20);
+   label(gear,'ТМ',c,1.25,.228,.24,.11,'z','#d8e1e8');
+
    for(const side of [-1,1]){
     for(let k=0;k<9;k++)box(gear,steel,c+side*(.24+k*.077),1.05,.27,.042,1.11,.125);
    }
@@ -1573,6 +1611,22 @@ function utilities(spec={},kind='transformer'){
    const x=count===1?0:(i-.5)*1.48;
    plate(gear,metal,x,1.04,-.21,1.10,1.19,1.27,.077);
    cylinder(gear,copper,x,1.08,.44,.16,.34,'z',28);
+   rectangle(gear,steel,x,1.04,.435,.93,1.05,.018);
+   for(const xx of [-.43,.43])for(const yy of [.56,1.52])screw(gear,x+xx,yy,.455,'z',.018);
+   cylinder(gear,metal,x,1.08,.65,.124,.15,'z',40);
+   torus(gear,steel,x,1.08,.72,.128,.014,'z');
+   for(let k=0;k<8;k++){const a=k*PI/4;cylinder(gear,steel,x+.178*Math.cos(a),1.08+.178*Math.sin(a),.57,.019,.035,'z',6);}
+   for(let k=0;k<6;k++)box(gear,dark,x-.075+k*.03,1.08,.733,.011,.13,.009);
+   cylinder(gear,steel,x+.27,1.40,.474,.077,.038,'z',36);
+   cylinder(gear,materials.ivory,x+.27,1.40,.496,.065,.008,'z',36);
+   rod(gear,dark,[x+.27,1.40,.503],[x+.302,1.437,.503],.004);
+   plate(gear,dark,x-.23,1.40,.46,.23,.14,.027,.02);
+   plate(gear,cold,x-.23,1.40,.48,.185,.093,.009,.012);
+   for(const xx of [-.29,-.23,-.17])cylinder(gear,xx===-.17?hot:steel,x+xx,1.26,.47,.021,.03,'z',16);
+   rod(gear,copper,[x-.40,.43,.54],[x-.40,.99,.54],.026);
+   rod(gear,copper,[x-.40,.99,.54],[x-.10,.99,.54],.026);
+   torus(gear,hot,x-.40,.66,.54,.067,.010,'y');
+
    rod(gear,steel,[x,1.58,-.35],[x,2.16,-.35],.077);
    cylinder(base,steel,x,H+.63,-.55,.113,1.34,'y',32);
    torus(base,metal,x,H+1.16,-.55,.132,.021,'y');
@@ -1590,6 +1644,22 @@ function utilities(spec={},kind='transformer'){
   box(gear,dark,-.56,1.09,-.02,L*.30,.82,D*.53);
   for(let k=0;k<7;k++)box(gear,steel,-.23+k*.14,1.11,.65,.039,.65,.055);
   cylinder(gear,steel,1.00,1.09,0,.32,.82,'x',30);
+  plate(gear,metal,-.58,1.56,-.02,1.55,.50,.11,.04,'y');
+  for(let k=0;k<6;k++){
+   const xx=-1.20+k*.24;
+   cylinder(gear,steel,xx,1.66,-.15,.066,.22,'y',20);
+   rod(gear,copper,[xx,1.55,.22],[xx,1.32,.52],.039);
+   screw(gear,xx,1.63,.03,'y',.025);
+  }
+  cylinder(gear,dark,-.65,1.89,-.19,.14,1.28,'x',32);
+  torus(gear,steel,-1.25,1.89,-.19,.14,.017,'x');
+  cylinder(gear,copper,-1.10,.87,.59,.08,.21,'y',24);
+  for(let k=0;k<16;k++){
+   const a=k*PI/8;box(gear,metal,1,1.09+.324*Math.cos(a),.324*Math.sin(a),.75,.018,.018);
+  }
+  plate(gear,finish,-1.68,1.10,.03,.12,.91,.96,.02,'x');
+  for(let k=0;k<11;k++)box(gear,dark,-1.755,.73+k*.073,.03,.014,.017,.77);
+
  }
  const endDoor=spec.endDoor?part(base,ends,0,-ds):null;
  if(endDoor){
@@ -1600,11 +1670,14 @@ function utilities(spec={},kind='transformer'){
  }
  const pose=p=>{
   if(endDoor)endDoor.rotation.y=1.22*p;
-  doors[0].rotation.y=-1.38*ss(p,.10,.75);
-  doors[1].rotation.y=1.38*ss(p,.10,.75);
-  if(kind!=='transformer')roof.position.set(.25*p,.67*p,-.42*p);
+  doors[0].rotation.y=-2.42*ss(p,.10,.75);
+  doors[1].rotation.y=2.42*ss(p,.10,.75);
+  roof.position.set(.25*p,1.17*p,-.42*p);
+  roof.visible=p<.82;panels.visible=p<.78;
+  for(const child of base.children)if(child.isMesh&&Math.abs(child.position.z-ds)<.02&&Math.abs(child.position.y-H)<.02)child.visible=p<.82;
+
  };
- return {root,pose,views:[cam([0,kind==='boiler'?1.76:1.34,0],11.1),cam([0,1.47,.38],8.95),cam([.07,1.37,.45],6.03,[.10,.48,1])]};
+ return {root,pose,focusRoot:gear,views:[cam([0,kind==='boiler'?1.76:1.34,0],11.1),cam([0,1.47,.38],8.95),cam([.07,1.37,.45],6.03,[.10,.48,1])]};
 }
 
 function fumeHood(spec={}){
@@ -1682,7 +1755,7 @@ function powderOven(spec={}){
  const half=W/2,face=D/2;
  plate(frame,dark,0,.13,0,W+.17,D+.10,.15,.045,'y');
  for(const x of [-half,half])box(frame,coat,x,H/2,0,.14,H,D);
- plate(frame,coat,0,H,0,W+.11,D,.18,.05,'y');
+ const topCover=plate(frame,coat,0,H,0,W+.11,D,.18,.05,'y');
  for(const x of [-half,half])for(const z of [-face,face])box(frame,steel,x,H/2,z,.13,H,.12);
  const leaves=[-1,1].map(side=>{
   const door=part(doors,side*half,0,face);
@@ -1705,9 +1778,11 @@ function powderOven(spec={}){
    leaves[0].position.x=-half-1.28*ss(p,.12,.78);
    leaves[1].position.x=half+1.28*ss(p,.12,.78);
   }else{
-   leaves[0].rotation.y=-1.49*ss(p,.12,.78);
-   leaves[1].rotation.y=1.49*ss(p,.12,.78);
+   leaves[0].rotation.y=-2.40*ss(p,.12,.78);
+   leaves[1].rotation.y=2.40*ss(p,.12,.78);
   }
+  topCover.position.y=H+.86*p;topCover.visible=p<.82;
+  doors.visible=p<.82;
   carrier.position.z=ss(p,.44,.92)*(spec.pass?1.05:.52);
  };
  return {root,pose,views:[cam([0,1.40,0],10.3),cam([0,1.55,.44],8.45),cam([.12,1.51,1.07],5.50,[.19,.39,1])]};
@@ -1912,6 +1987,8 @@ function enclosedMill(spec={}){
  const panel=part(base,w*.48,1.97,d*.52);
  plate(panel,rim,0,0,0,.42,.58,.10,.044);
  box(panel,tint(0x729aa2),0,.08,.061,.29,.23,.014);
+ for(let i=0;i<4;i++)cylinder(panel,i===3?hot:steel,-.12+i*.078,-.16,.064,.020,.025,'z',16);
+ for(const xx of [-w*.38,w*.38])for(const zz of [-d*.35,d*.35])screw(base,xx,1.15,zz,'y',.033);
  const door=part(root,spec.swing?w*.47:0,0,d*.50);
  const dx=spec.swing?-w*.43:0,dw=w*.84;
  rectangle(door,rim,dx,2.03,0,dw,1.71,.19);
@@ -1926,9 +2003,13 @@ function enclosedMill(spec={}){
  plate(tool,rim,0,2.54,-.29,.65,.68,.66,.067);
  cylinder(tool,steel,0,2.14,-.16,.22,.34,'y',26);
  cylinder(tool,copper,0,1.91,-.16,.054,.18,'y',18);
+ torus(tool,steel,0,2.02,-.16,.21,.018,'y');
+ for(let k=0;k<8;k++){const a=k*PI/4;screw(tool,.19*Math.cos(a),2.04,-.16+.19*Math.sin(a),'y',.017);}
+
  return {root,pose:(p,t=0)=>{
-  if(spec.swing)door.rotation.y=1.42*ss(p,.08,.73);
+  if(spec.swing)door.rotation.y=2.35*ss(p,.08,.73);
   else door.position.x=-w*.76*ss(p,.08,.73);
+  door.visible=p<.83;
   tool.position.y=-.25*ss(p,.48,.88);
   slide.position.x=.31*Math.sin(t*1.0)*ss(p,.42,.83);
  },views:[cam([0,1.58,0],9.1),cam([0,1.72,.31],7.2),cam([0,1.77,.44],5.15,[.40,.39,1])]};
@@ -1937,13 +2018,13 @@ function enclosedMill(spec={}){
 const constructors={
  canopyExample,embeddedPc,enclosedMill,
  profileRoll,workwearDryer,
- guardPost,checkpoint,
+ guardPost,checkpoint:refinedCheckpoint,
  blast:blastCabinet,oven:powderOven,augerFeed:()=>screwConveyor(true,true),
  dryDouble:dryingDouble,
- substation:spec=>utilities(spec),boiler:spec=>utilities(spec,'boiler'),pumpHouse:spec=>utilities(spec,'pump'),generatorCab:spec=>utilities(spec,'generator'),fume:fumeHood,
+ substation:spec=>utilities(spec),boiler:spec=>utilities(spec,'boiler'),pumpHouse:refinedPumps,generatorCab:spec=>utilities(spec,'generator'),fume:fumeHood,
  smoker:spec=>cookingBox(spec),grill:spec=>cookingBox(spec,true),spiralStair,
  cableLadder,wheelBin,
- toolCabinet:spec=>toolStorage(spec),toolCart:spec=>toolStorage(spec,'cart'),workbench:spec=>toolStorage(spec,'bench'),gasCabinet:spec=>toolStorage(spec,'gas'),rack:spec=>warehouseRack(spec),shelfRack:spec=>warehouseRack(spec,'shelf'),cantilever:spec=>warehouseRack(spec,'cantilever'),scissorTable,
+ toolCabinet:spec=>toolStorage(spec),toolCart:spec=>toolStorage(spec,'cart'),workbench:spec=>toolStorage(spec,'bench'),gasCabinet:spec=>spec?.singleGas?refinedGas(spec):toolStorage(spec,'gas'),rack:spec=>warehouseRack(spec),shelfRack:spec=>warehouseRack(spec,'shelf'),cantilever:spec=>warehouseRack(spec,'cantilever'),scissorTable,
  ribbon:ribbonMixer,pressBrake:brakePress,
  flange:flangePair,manualBender,damper:airDamper,receiver:airReceiver,stairs:()=>publicModel('staircase'),glassRail:()=>publicModel('glass-rail'),kiosk:()=>publicModel('cafe'),
  router:gantryRouter,pressFrame:hydraulicPress,hydrocyl:hydroCylinder,augerDose:hopperDoser,greenhouse,
