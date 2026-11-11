@@ -458,7 +458,18 @@ export function createRockson(){
   setExplode(value,selected='all'){scope=selected;explosion=value;update();},
   setFasteners(value){fastenerExplode=value;if(inspection)setInspectExplode(value);else update();},
   setRamps(value){rampAngle=.20+value*.68;update();},
-  highlightBolts(enabled){for(const batch of banks)for(const bank of batch.meshes){bank.material.color.setHex(enabled?0xe1b463:0xb4bbc0);bank.material.emissive.setHex(enabled?0x3e2104:0);}},
+  highlightBolts(enabled,selected='all'){
+   for(const batch of banks)for(const bank of batch.meshes){
+    const active=enabled&&(selected==='all'||bank.owner.id===selected),m=bank.material;
+    m.color.setHex(active?0x00caff:0xb4bbc0);m.emissive.setHex(active?0x0088ff:0);m.emissiveIntensity=active?1.6:1;
+    if(m.depthTest===active){m.depthTest=!active;m.depthWrite=!active;m.needsUpdate=true;}
+    for(const mesh of bank.meshes)mesh.renderOrder=active?30:0;
+   }
+   if(inspection)inspection.group.traverse(mesh=>{
+    if(!mesh.isMesh)return;
+    mesh.material.emissive.setHex(enabled?0x0077dd:0);mesh.material.emissiveIntensity=enabled?1.1:1;
+   });
+  },
   setDeckVisible(value){deck.group.visible=value;},
   setStakesVisible(value){stakes.group.visible=value;},
   setIsolation(id){for(const a of assemblies)a.group.visible=!id||a.id===id;},
@@ -467,18 +478,18 @@ export function createRockson(){
    if(data){
     const e=data.entries[hit.instanceId];
     const point=e.p.clone().applyMatrix4(hit.object.parent.parent.matrixWorld);
-    return {name:e.name+' · №'+(e.id+1),assembly:data.owner.id,point,radius:e.diam*7,fastener:true,diameter:e.diam};
+    return {id:'bolt-'+e.id,name:e.name+' · №'+(e.id+1),assembly:data.owner.id,point,radius:e.diam*7,fastener:true,diameter:e.diam};
    }
    const part=parts[hit.object.userData.partId];
    if(!part)return null;
    const b=new Box3().setFromObject(part.object);
-   return {name:part.name,assembly:part.assembly,point:b.getCenter(new T.Vector3()),radius:Math.max(.09,b.getSize(new T.Vector3()).length()*.95),object:part.object};
+   return {id:part.id,name:part.name,assembly:part.assembly,point:b.getCenter(new T.Vector3()),radius:Math.max(.09,b.getSize(new T.Vector3()).length()*.95),object:part.object};
   },
   resolvePart(id){
    if(String(id).startsWith('bolt-'))return fastenerInfo(fastenerParts.find(p=>p.id===id));
    const part=parts[Number(id)];if(!part)return null;
    const b=new Box3().setFromObject(part.object);
-   return {name:part.name,assembly:part.assembly,point:b.getCenter(new T.Vector3()),radius:Math.max(.04,b.getSize(new T.Vector3()).length()*.9),object:part.object};
+   return {id:part.id,name:part.name,assembly:part.assembly,point:b.getCenter(new T.Vector3()),radius:Math.max(.04,b.getSize(new T.Vector3()).length()*.9),object:part.object};
   },
   inspectFastener,
   closeInspection(){if(inspection){root.remove(inspection.group);inspection=null;}for(const owner of assemblies)owner.group.visible=true;},

@@ -1,7 +1,7 @@
 import {createStage} from './stage.js';
 import {Vector3,Mesh,SphereGeometry,MeshBasicMaterial} from '../engine.js';
 import {Raycaster,Vector2,Box3} from '../flashlight-geometry.js';
-import {createRockson} from './model.js';
+import {createRockson} from './model.js?v=20261111-controls2';
 
 const $=id=>document.getElementById(id);
 const canvas=$('model');
@@ -16,11 +16,27 @@ for(const assembly of model.assemblies){
 $('stats').textContent=model.stats.parts.toLocaleString('ru')+' элементов · '+model.stats.fasteners.toLocaleString('ru')+' крепежных соединений · '+model.stats.assemblies+' узлов';
 $('loading').hidden=true;
 document.documentElement.dataset.ready='true';
+document.documentElement.dataset.controlsVersion='2';
 canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();$('loading').hidden=false;$('loading').textContent='Графический просмотр остановлен. Обновите страницу';});
 function stopTour(){
  cancelAnimationFrame(tourFrame);tourFrame=null;$('tour').textContent='Смотреть демонстрацию';
 }
+function inspectionUI(){
+ const isolated=$('isolate').checked&&scope!=='all';
+ $('explode').disabled=inspecting;
+ $('isolate').disabled=inspecting||scope==='all';
+ $('ramp').disabled=inspecting||(isolated&&scope!=='ramps');
+ $('deck').disabled=inspecting||(isolated&&scope!=='deck');
+ $('stakes').disabled=inspecting||(isolated&&scope!=='stakes');
+ $('return').hidden=!inspecting;
+}
+function syncHighlight(){
+ model.highlightBolts(highlighted,scope);
+ $('highlight').setAttribute('aria-pressed',String(highlighted));
+ $('highlight').textContent=highlighted?'Выключить подсветку крепежа':'Подсветить крепеж';
+}
 function apply(){
+ inspectionUI();syncHighlight();
  if(inspecting){model.setFasteners(Number($('fasteners').value)/100);$('fastener-value').textContent=$('fasteners').value+'%';stage.schedule();return;}
  model.setExplode(Number($('explode').value)/100,scope);
  model.setFasteners(Number($('fasteners').value)/100);
@@ -48,29 +64,43 @@ function leaveInspection(){
 }
 function chooseScope(value){
  leaveInspection();
- scope=value;$('scope').value=scope;
- $('explode').value='0';$('fasteners').value='0';
+ scope=value;$('scope').value=scope;selected=null;$('selection').hidden=true;$('inspect').hidden=true;
+ const isolated=scope!=='all';
+ $('isolate').checked=isolated;
+ $('deck').checked=true;$('stakes').checked=true;
+ $('explode').value=isolated?(scope.startsWith('axle')?'82':'55'):'0';
+ $('fasteners').value='0';$('ramp').value=scope==='ramps'?'80':'0';
  updatePartList();apply();
+ if(isolated)focusScope();else{stage.reset();stage.zoom(.84);}
+ if(matchMedia('(max-width:740px)').matches)canvas.parentElement.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function focusScope(){
  const object=model.getScope(scope),box=new Box3().setFromObject(object);
- const point=box.getCenter(new Vector3());
- const size=box.getSize(new Vector3());
- stage.focus(point,Math.max(1.05,size.length()*1.75/Math.min(1,stage.camera.aspect)),[.74,.43,1]);
+ const point=box.getCenter(new Vector3()),size=box.getSize(new Vector3());
+ const eye=new Vector3(.74,.43,1).normalize();
+ const right=new Vector3().crossVectors(stage.camera.up,eye).normalize();
+ const up=new Vector3().crossVectors(eye,right),corner=new Vector3();
+ const tan=Math.tan(stage.camera.fov*Math.PI/360);let distance=0;
+ for(const x of [-.5,.5])for(const y of [-.5,.5])for(const z of [-.5,.5]){
+  corner.set(x*size.x,y*size.y,z*size.z);
+  distance=Math.max(distance,corner.dot(eye)+Math.max(Math.abs(corner.dot(up))/tan,Math.abs(corner.dot(right))/(tan*stage.camera.aspect)));
+ }
+ stage.focus(point,Math.max(.15,distance*1.16),eye.toArray());
 }
 function reset(){
  stopTour();model.reset();inspecting=false;$('return').hidden=true;scope='all';$('scope').value='all';
  for(const id of ['explode','fasteners','ramp'])$(id).value='0';
  for(const id of ['deck','stakes'])$(id).checked=true;
- $('isolate').checked=false;
- $('selection').hidden=true;selected=null;
+ $('isolate').checked=false;highlighted=false;
+ $('selection').hidden=true;$('inspect').hidden=true;selected=null;
  updatePartList();apply();stage.reset();stage.zoom(.84);
 }
 $('scope').onchange=()=>{stopTour();chooseScope($('scope').value);};
 for(const id of ['explode','fasteners','ramp'])$(id).oninput=()=>{stopTour();apply();};
-for(const id of ['deck','stakes','isolate'])$(id).onchange=()=>{stopTour();apply();};
-$('highlight').onclick=()=>{highlighted=!highlighted;model.highlightBolts(highlighted);$('highlight').setAttribute('aria-pressed',String(highlighted));stage.schedule();};
-$('focus-scope').onclick=()=>{stopTour();focusScope();};
+for(const id of ['deck','stakes'])$(id).onchange=()=>{stopTour();apply();};
+$('isolate').onchange=()=>{stopTour();apply();if($('isolate').checked)focusScope();else{stage.reset();stage.zoom(.84);}};
+$('highlight').onclick=()=>{stopTour();highlighted=!highlighted;syncHighlight();stage.schedule();};
+$('focus-scope').onclick=()=>{stopTour();leaveInspection();focusScope();};
 $('plus').onclick=()=>stage.zoom(.77);
 $('minus').onclick=()=>stage.zoom(1.30);
 $('reset').onclick=reset;
@@ -85,15 +115,19 @@ canvas.addEventListener('pointerup',event=>{
  const hits=ray.intersectObjects(model.root.children,true).filter(hit=>{for(let o=hit.object;o;o=o.parent)if(!o.visible)return false;return true;});
  selected=hits.length?model.pick(hits[0]):null;
  $('selection').hidden=!selected;
- if(selected){$('part-name').textContent=selected.name;scope=selected.assembly;$('scope').value=scope;updatePartList();$('inspect').hidden=!selected.fastener;}
+ if(selected){$('part-name').textContent=selected.name;scope=selected.assembly;$('scope').value=scope;updatePartList();$('inspect').hidden=!selected.fastener;inspectionUI();syncHighlight();}
 });
 function focusSelected(){
  if(!selected)return;
+ if(selected.id!==undefined)selected=model.resolvePart(selected.id);
  stage.focus(selected.point,Math.max(.10,selected.radius*1.35/Math.min(1,stage.camera.aspect)),[.60,.35,1]);
 }
 $('part-select').onchange=()=>{
  if(!$('part-select').value)return;
- leaveInspection();selected=model.resolvePart($('part-select').value);
+ stopTour();const id=$('part-select').value;leaveInspection();selected=model.resolvePart(id);
+ if(!selected)return;
+ // Reveal hidden deck/stake details selected from the list.
+ if(scope==='deck')$('deck').checked=true;if(scope==='stakes')$('stakes').checked=true;apply();
  $('selection').hidden=false;$('part-name').textContent=selected.name;$('inspect').hidden=!selected.fastener;
  focusSelected();
 };
@@ -103,16 +137,12 @@ function inspect(){
  const object=model.inspectFastener(selected);inspecting=true;
  $('return').hidden=false;$('fasteners').value='60';$('fastener-value').textContent='60%';$('scope').value=scope;updatePartList();
  stage.focus(new Vector3(0,selected.diameter*1.7,0),selected.diameter*15/Math.min(1,stage.camera.aspect),[.70,.40,1]);
- stage.schedule();$('scene-label').textContent=selected.name;
+ inspectionUI();syncHighlight();stage.schedule();$('scene-label').textContent=selected.name;
 }
 $('inspect').onclick=inspect;
-$('return').onclick=()=>{leaveInspection();stage.reset();stage.zoom(.84);};
+$('return').onclick=()=>{leaveInspection();if(scope==='all'){stage.reset();stage.zoom(.84);}else focusScope();};
 
-$('focus-part').onclick=()=>{
- if(!selected)return;
- stopTour();
- stage.focus(selected.point,Math.max(.10,selected.radius*1.35/Math.min(1,stage.camera.aspect)),[.60,.35,1]);
-};
+$('focus-part').onclick=()=>{stopTour();focusSelected();};
 canvas.addEventListener('keydown',event=>{
  if(!['+','-','='].includes(event.key))return;event.preventDefault();stage.zoom(event.key==='-'?1.22:.82);
 });
@@ -136,7 +166,7 @@ function animate(t){
  if(t>=26&&t<32){
   if(!inspecting){
    selected=model.resolvePart(model.fastenerParts.find(p=>p.assembly==='axle0'&&p.name.includes('M22')).id);
-   model.inspectFastener(selected);inspecting=true;$('return').hidden=false;
+   model.inspectFastener(selected);inspecting=true;inspectionUI();
   }
   const r=(t-26)/6,d=selected.diameter;
   $('fasteners').value=String(Math.round(45+40*r));apply();
@@ -180,5 +210,5 @@ function play(){
  tourFrame=requestAnimationFrame(tick);
 }
 $('tour').onclick=play;
-updatePartList();
+updatePartList();inspectionUI();
 window.rockson={model,stage,view,animate,apply,reset,play,inspect};
