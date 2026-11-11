@@ -113,7 +113,8 @@ canvas.addEventListener('pointerup',event=>{
  ray.setFromCamera(pointer,stage.camera);
  model.root.updateMatrixWorld(true);
  const hits=ray.intersectObjects(model.root.children,true).filter(hit=>{for(let o=hit.object;o;o=o.parent)if(!o.visible)return false;return true;});
- selected=hits.length?model.pick(hits[0]):null;
+ const hit=highlighted?(hits.find(item=>item.object.userData.boltBatch)||hits[0]):hits[0];
+ selected=hit?model.pick(hit):null;
  $('selection').hidden=!selected;
  if(selected){$('part-name').textContent=selected.name;scope=selected.assembly;$('scope').value=scope;updatePartList();$('inspect').hidden=!selected.fastener;inspectionUI();syncHighlight();}
 });
