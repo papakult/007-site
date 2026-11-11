@@ -28,9 +28,13 @@ const flashlight = {
   description: 'Разборка корпуса, плата драйвера и четыре провода',
   create: () => import('./flashlight.js').then(({createFlashlight})=>createFlashlight()),
 };
+const gt007 = {
+  id:'007-gt', title:'007 GT', category:'tech', page:'./007-gt/',
+  description:'Купе в графите и меди. Разборка кузова, салона, оптики и двигателя',
+};
 const firstIds = ['tolmachevo', 'staircase'];
 const catalog = [
-  flashlight, ...firstIds.map(id=>models.find(item=>item.id===id)),
+  flashlight, gt007, ...firstIds.map(id=>models.find(item=>item.id===id)),
   ...models.filter(item=>!firstIds.includes(item.id)),
 ];
 const electricalIds = new Set(['flashlight', 'motor', 'charger', 'headphones']);
@@ -66,6 +70,7 @@ function alternateLinkAction(event) {
 }
 
 function bindModelLink(link,item) {
+  if (item.page) return;
   link.addEventListener('click',event => {
     if (alternateLinkAction(event)) return;
     event.preventDefault();
@@ -106,7 +111,7 @@ function drawShelf(category) {
   shelf.replaceChildren(...items.map(item => {
     const article = element('article',null,'model-card');
     const link = element('a',null,'model-card-link');
-    link.href = modelHash(item.id);
+    link.href = item.page || modelHash(item.id);
     bindModelLink(link,item);
     const preview = element('div',null,'model-preview');
     preview.dataset.group = item.category;
@@ -367,6 +372,7 @@ function enableViewer() {
 }
 
 async function openModel(item) {
+  if (item.page) { location.assign(item.page); return; }
   const version = ++transition;
   selected = item;
   title.textContent = item.title;
