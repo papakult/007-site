@@ -216,7 +216,7 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
 </style>
 <link rel="stylesheet" href="/assets/demo-fonts.css">
 <style>.cap-item{padding:clamp(.55rem,2vh,1.35rem) 0}.cap-item h3 a{display:inline-block}.cap-item h3 a::after{content:" ↗";font-size:.55em;opacity:.5}.cap-item h3 a:hover::after{opacity:1}@media(max-width:768px){.cap-list{padding-top:22px;padding-bottom:22px}.cap-eyebrow{margin-bottom:1rem}.cap-item{padding:.7rem 0!important}.cap-item h3{font-size:clamp(1.05rem,4vw,1.5rem)}.cap-item p{font-size:12px;margin-top:.25rem}}@media(max-width:768px) and (max-height:700px){.cap-visual{height:25vh!important}.cap-item{padding:.5rem 0!important}.cap-list{padding-top:14px;padding-bottom:14px}}@media(min-width:769px) and (max-height:700px){.cap-list{padding-block:clamp(12px,4vh,28px)}.cap-eyebrow{margin-bottom:1.4rem}.cap-item{padding-block:clamp(.35rem,1.65vh,.9rem)}}</style>  <script src="/assets/metrika.js" defer></script>
-<link rel="stylesheet" href="/assets/brand-007-chrome/brand.css">
+<link rel="stylesheet" href="/assets/brand-007-chrome/brand.css?v=stats-20261111">
 </head>
 <body>
 <a class="skip-link" href="#main-heading">К содержанию</a>
@@ -285,9 +285,9 @@ html{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) #000}
   <div class="inner">
     <span class="eyebrow">Опыт</span>
     <div class="stats-row">
-      <div class="stat"><div class="stat-num" data-to="10">0</div><div class="stat-label">лет в digital</div></div>
-      <div class="stat"><div class="stat-num" data-to="770" data-suf="+">0</div><div class="stat-label">реализованных проектов</div></div>
-      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">вариантов реализации</div></div>
+      <div class="stat"><div class="stat-num stat-num-chrome" data-to="10"><img src="/assets/brand-007-chrome/stat-years.webp" width="790" height="624" alt="" aria-hidden="true" loading="lazy"><span class="sr-only">10</span></div><div class="stat-label">лет в digital</div></div>
+      <div class="stat"><div class="stat-num stat-num-chrome" data-to="770" data-suf="+"><img src="/assets/brand-007-chrome/stat-projects.webp" width="792" height="283" alt="" aria-hidden="true" loading="lazy"><span class="sr-only">770+</span></div><div class="stat-label">реализованных проектов</div></div>
+      <div class="stat"><div class="stat-num stat-num-chrome"><img src="/assets/brand-007-chrome/stat-infinity.webp" width="790" height="469" alt="" aria-hidden="true" loading="lazy"><span class="sr-only">∞</span></div><div class="stat-label">вариантов реализации</div></div>
     </div>
     <p class="stats-line">От цифрового образа бренда до сложных систем и AI-интеграций.</p>
   </div>
@@ -749,7 +749,7 @@ gsap.from('.cap-item',{opacity:0,y:30,duration:.9,stagger:.12,ease:'power3.out',
 
 // STATS counters
 function countUp(el){
-  if(!el.dataset.to)return;
+  if(!el.dataset.to || el.classList.contains('stat-num-chrome'))return;
   const to=+el.dataset.to, suf=el.dataset.suf||'', dur=1700, t0=performance.now();
   function step(t){const p=Math.min(1,(t-t0)/dur);const e=1-Math.pow(1-p,3);
     el.innerHTML=Math.round(to*e)+(p>=1&&suf?`<span class="s">${suf}</span>`:'');
