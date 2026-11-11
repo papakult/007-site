@@ -10,3 +10,10 @@
 
 #s-stats .stat-num-chrome{display:flex;align-items:center;justify-content:center;min-height:98px;font-size:0!important;line-height:0}#s-stats .stat-num-chrome>img{display:block;width:auto;height:90px;max-width:290px;object-fit:contain}#s-stats .stats-row{gap:clamp(2rem,5vw,5rem)}
 @media(max-width:768px){#s-stats .stat-num-chrome{min-height:62px}#s-stats .stat-num-chrome>img{height:58px;max-width:250px}}
+
+/* Chrome treatment keeps the original live text and type metrics. */
+@supports ((background-clip:text) or (-webkit-background-clip:text)){
+ #s3 .cap-item h3 a{background-image:linear-gradient(168deg,#f6f7f8 0%,#bbc0c6 14%,#fff 24%,#363c45 41%,#e7edf3 46%,#fff 49%,#767d88 53%,#c7ced8 65%,#f8f9fb 77%,#4d5561 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:.006em #dbe1e8;filter:drop-shadow(0 .025em 0 #979eaa) drop-shadow(0 .055em 0 #30353e) drop-shadow(0 .075em .045em #000)}
+ #s3 .cap-item h3 a::after{-webkit-text-fill-color:#c5cbd3;-webkit-text-stroke:0}
+}
+@media(forced-colors:active){#s3 .cap-item h3 a{background:none;-webkit-text-fill-color:LinkText;color:LinkText;-webkit-text-stroke:0;filter:none}#s3 .cap-item h3 a::after{-webkit-text-fill-color:LinkText}}
