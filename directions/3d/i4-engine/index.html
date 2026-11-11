@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#101316">
+<title>Двигатель I4 в разборе | 007-A</title>
+<meta name="description" content="346 отдельных компонентов двигателя I4. Крутите модель, раздвигайте сборку, рассматривайте кольца, клапаны и уплотнения. Интерактивная демонстрация 007-A.">
+<link rel="canonical" href="https://007-a.ru/directions/3d/i4-engine/">
+<meta property="og:title" content="Двигатель I4 в разборе | 007-A"><meta property="og:description" content="346 компонентов, разборка по узлам и движение механизма"><meta property="og:image" content="https://007-a.ru/directions/3d/i4-engine/assets/poster.webp">
+<link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/assets/demo-fonts.css"><link rel="stylesheet" href="./style.css">
+<script type="importmap">{"imports":{"three":"./vendor/build/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+<script type="module" src="./viewer.js"></script><script src="/assets/metrika.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#controls">К управлению моделью</a>
+<header><a class="brand" href="/" aria-label="007-A, главная"><img src="/assets/brand-007-chrome/wordmark-small.webp" alt="007-A" width="114" height="30"></a><a href="../">Все 3D-модели</a><span>Интерактивная механика</span></header>
+<main>
+<div class="heading"><div><p>Двигатель в деталях</p><h1>I4 <span>DOHC 16V</span></h1></div><div class="intro">От блока до поршневого кольца<br>Выберите узел и загляните внутрь<br><a href="./assets/engine-overview.mp4">Видеообзор, 36 секунд</a></div></div>
+<section class="workbench" aria-label="Интерактивная модель двигателя">
+<div class="scene-column">
+<div class="view-tabs" role="group" aria-label="Режим просмотра"><button data-view="assembly" aria-pressed="true">Сборка</button><button data-view="inside" aria-pressed="false">Внутри</button><button data-view="cut" aria-pressed="false">Разрез</button><button data-view="piston" aria-pressed="false">Поршень и кольца</button><button data-view="seals" aria-pressed="false">Уплотнения</button></div>
+<div id="scene"><div id="loader" role="status"><strong>Собираем двигатель</strong><span id="loading">Загрузка геометрии, 40 МБ</span></div><div class="scene-id">I4 / 346 компонентов</div><div class="scene-guide">Вращайте мышью или пальцем<br>Колесико и щипок меняют масштаб</div><div class="scene-tools"><button id="fit">Вписать</button><button id="rotate" aria-pressed="false">Вращение</button><button id="photo">Сохранить кадр</button></div></div>
+<div class="selection" aria-live="polite"><div><small id="selection-type">Выбор детали</small><strong id="selection">Нажмите на модель или выберите деталь в списке</strong><span id="selection-note">Каждая деталь хранится отдельно</span></div><button id="focus" disabled>Крупный план</button><button id="isolate" disabled aria-pressed="false">Только эта деталь</button></div>
+</div>
+<aside id="controls">
+<div class="control-head"><h2>Разборка</h2><button id="reset">Собрать обратно</button></div>
+<label class="range-label" for="explode">Раздвинуть узлы <output id="explode-out">0%</output></label><input id="explode" type="range" min="0" max="100" value="0">
+<p class="hint" id="mode-hint">Крышки, головка, блок и внутренние узлы расходятся по своим направлениям</p>
+<div class="motion"><button id="play" class="primary" aria-pressed="false">Запустить механизм</button><label for="speed">Темп <output id="speed-out">12 об/мин</output></label><input id="speed" type="range" min="3" max="30" value="12"><p>Замедленная кинематика для просмотра</p></div>
+<div class="parts-head"><h2>Состав двигателя</h2><span id="part-count">346</span></div>
+<label for="search" class="sr-only">Найти деталь</label><input id="search" type="search" placeholder="Например, кольцо или прокладка" autocomplete="off">
+<label for="group" class="sr-only">Узел двигателя</label><select id="group"><option value="all">Все узлы</option></select>
+<div id="parts" aria-label="Список деталей"></div><p id="parts-result" aria-live="polite"></p>
+<a class="download" href="./assets/Состав двигателя.csv" download>Скачать полный список деталей</a>
+</aside>
+</section>
+<section class="diagram-section" aria-labelledby="diagram-title"><div class="diagram-title"><p>Что происходит внутри</p><h2 id="diagram-title">Четыре цилиндра<br>Один рабочий цикл</h2><p>Схема связана с положением коленвала на 3D-модели. Порядок работы 1–3–4–2.</p><div class="legend"><span class="power">Рабочий ход</span><span class="exhaust">Выпуск</span><span class="intake">Впуск</span><span class="compress">Сжатие</span></div><a href="./assets/схема-двигателя.svg" download>Скачать схему SVG</a></div><div class="diagram-canvas"><svg id="diagram" viewBox="0 0 700 390" role="img" aria-label="Схема движения поршней и шатунов четырехцилиндрового двигателя"></svg><div class="cycle-controls"><label for="phase">Положение коленвала <output id="phase-out">45° / 720°</output></label><input id="phase" type="range" min="0" max="720" value="45"></div></div></section>
+<section class="notes"><h2>Что входит в демонстрацию</h2><div><p>346 именованных компонентов. Основа содержит 231 CAD-компонент Innerscene, опубликованный под CC0. Мы добавили 115 объектов, доработали кольца и свечные колодцы, собрали интерактивную разборку и кинематику.</p><p>Это учебный рядный двигатель с двумя распредвалами. Марка и год не заданы. Уплотнения, вкладыши, свечи и привод ГРМ дополнены для демонстрации устройства. Геометрия и схема не заменяют заводскую документацию для ремонта или изготовления.</p><p><a href="https://www.innerscene.com/tools/library/3d-parts/four-cylinder-inline-piston-engine-assembled-bc359a0b" target="_blank" rel="noopener">Исходная CAD-сборка</a> <a href="./assets/SOURCE.txt">Состав и условия использования</a></p></div></section>
+<footer><a href="../">Вернуться в каталог 3D</a><span>007-A / Разработка интерактивных моделей для сайтов</span></footer>
+</main></body></html>

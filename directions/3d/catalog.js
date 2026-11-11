@@ -32,9 +32,14 @@ const gt007 = {
   id:'007-gt', title:'007 GT', category:'tech', page:'./007-gt/',
   description:'Купе в графите и меди. Разборка кузова, салона, оптики и двигателя',
 };
+const engineI4 = {
+  id:'i4-engine', title:'Двигатель I4 в разборе', category:'tech', page:'./i4-engine/',
+  description:'346 компонентов. Поршни, кольца, клапаны, уплотнения и движение механизма',
+};
 const firstIds = ['tolmachevo', 'staircase'];
 const catalog = [
-  flashlight, gt007, ...firstIds.map(id=>models.find(item=>item.id===id)),
+  flashlight, models.find(item=>item.id==='tolmachevo'), engineI4, gt007,
+  models.find(item=>item.id==='staircase'),
   ...models.filter(item=>!firstIds.includes(item.id)),
 ];
 const electricalIds = new Set(['flashlight', 'motor', 'charger', 'headphones']);

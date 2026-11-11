@@ -1,0 +1,347 @@
+﻿Номер;Деталь;Группа;Источник;Изменен исходник;Размер X, мм;Размер Y, мм;Размер Z, мм
+1;Блок цилиндров и картер;block;Innerscene CC0;False;456.0;244.0;385.0
+2;Гильза цилиндра 1;block;Innerscene CC0;False;95.0;95.0;202.0
+3;Гильза цилиндра 2;block;Innerscene CC0;False;95.0;95.0;202.0
+4;Гильза цилиндра 3;block;Innerscene CC0;False;95.0;95.0;202.0
+5;Гильза цилиндра 4;block;Innerscene CC0;False;95.0;95.0;202.0
+6;Масляный поддон;block;Innerscene CC0;False;468.0;254.0;101.0
+7;Болт масляного поддона 1;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+8;Болт масляного поддона 2;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+9;Болт масляного поддона 3;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+10;Болт масляного поддона 4;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+11;Болт масляного поддона 5;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+12;Болт масляного поддона 6;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+13;Болт масляного поддона 7;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+14;Болт масляного поддона 8;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+15;Болт масляного поддона 9;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+16;Болт масляного поддона 10;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+17;Болт масляного поддона 11;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+18;Болт масляного поддона 12;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+19;Болт масляного поддона 13;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+20;Болт масляного поддона 14;fasteners;Innerscene CC0;False;10.0;8.66;15.0
+21;Прилив сливного отверстия;block;Innerscene CC0;False;32.0;18.0;32.0
+22;Сливная пробка;block;Innerscene CC0;False;20.78;14.0;24.0
+23;Крышка коренной опоры 1;bearings;Innerscene CC0;False;18.0;220.0;70.0
+24;Болт коренной опоры 1, 1;bearings;Innerscene CC0;False;14.0;12.12;23.0
+25;Болт коренной опоры 1, 2;bearings;Innerscene CC0;False;14.0;12.12;23.0
+26;Крышка коренной опоры 2;bearings;Innerscene CC0;False;18.0;220.0;70.0
+27;Болт коренной опоры 2, 1;bearings;Innerscene CC0;False;14.0;12.12;23.0
+28;Болт коренной опоры 2, 2;bearings;Innerscene CC0;False;14.0;12.12;23.0
+29;Крышка коренной опоры 3;bearings;Innerscene CC0;False;18.0;220.0;70.0
+30;Болт коренной опоры 3, 1;bearings;Innerscene CC0;False;14.0;12.12;23.0
+31;Болт коренной опоры 3, 2;bearings;Innerscene CC0;False;14.0;12.12;23.0
+32;Крышка коренной опоры 4;bearings;Innerscene CC0;False;18.0;220.0;70.0
+33;Болт коренной опоры 4, 1;bearings;Innerscene CC0;False;14.0;12.12;23.0
+34;Болт коренной опоры 4, 2;bearings;Innerscene CC0;False;14.0;12.12;23.0
+35;Крышка коренной опоры 5;bearings;Innerscene CC0;False;18.0;220.0;70.0
+36;Болт коренной опоры 5, 1;bearings;Innerscene CC0;False;14.0;12.12;23.0
+37;Болт коренной опоры 5, 2;bearings;Innerscene CC0;False;14.0;12.12;23.0
+38;Коленвал с противовесами;crank;Innerscene CC0;False;588.0;130.71;130.71
+39;Шатун цилиндра 1;pistons;Innerscene CC0;True;16.0;80.76;194.25
+40;Нижняя рейка маслосъемного кольца 1;pistons;Innerscene CC0;True;88.5;88.5;0.45
+41;Второе компрессионное кольцо 1;pistons;Innerscene CC0;True;88.5;88.5;1.8
+42;Верхнее компрессионное кольцо 1;pistons;Innerscene CC0;True;88.5;88.5;1.8
+43;Поршень цилиндра 1;pistons;Innerscene CC0;True;88.0;88.0;54.0
+44;Поршневой палец цилиндра 1;pistons;Innerscene CC0;False;80.0;23.6;23.6
+45;Шатун цилиндра 2;pistons;Innerscene CC0;True;16.0;80.76;194.25
+46;Нижняя рейка маслосъемного кольца 2;pistons;Innerscene CC0;True;88.5;88.5;0.45
+47;Второе компрессионное кольцо 2;pistons;Innerscene CC0;True;88.5;88.5;1.8
+48;Верхнее компрессионное кольцо 2;pistons;Innerscene CC0;True;88.5;88.5;1.8
+49;Поршень цилиндра 2;pistons;Innerscene CC0;True;88.0;88.0;54.0
+50;Поршневой палец цилиндра 2;pistons;Innerscene CC0;False;80.0;23.6;23.6
+51;Шатун цилиндра 3;pistons;Innerscene CC0;True;16.0;80.76;194.25
+52;Нижняя рейка маслосъемного кольца 3;pistons;Innerscene CC0;True;88.5;88.5;0.45
+53;Второе компрессионное кольцо 3;pistons;Innerscene CC0;True;88.5;88.5;1.8
+54;Верхнее компрессионное кольцо 3;pistons;Innerscene CC0;True;88.5;88.5;1.8
+55;Поршень цилиндра 3;pistons;Innerscene CC0;True;88.0;88.0;54.0
+56;Поршневой палец цилиндра 3;pistons;Innerscene CC0;False;80.0;23.6;23.6
+57;Шатун цилиндра 4;pistons;Innerscene CC0;True;16.0;80.76;194.25
+58;Нижняя рейка маслосъемного кольца 4;pistons;Innerscene CC0;True;88.5;88.5;0.45
+59;Второе компрессионное кольцо 4;pistons;Innerscene CC0;True;88.5;88.5;1.8
+60;Верхнее компрессионное кольцо 4;pistons;Innerscene CC0;True;88.5;88.5;1.8
+61;Поршень цилиндра 4;pistons;Innerscene CC0;True;88.0;88.0;54.0
+62;Поршневой палец цилиндра 4;pistons;Innerscene CC0;False;80.0;23.6;23.6
+63;Прокладка головки блока;seals;Innerscene CC0;False;434.0;204.0;1.5
+64;Головка блока, 16 клапанов;block;Innerscene CC0;True;447.0;231.0;96.5
+65;Клапан 1.1, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+66;Пружина клапана 1.1;valves;Innerscene CC0;False;17.0;17.0;25.0
+67;Нижняя тарелка пружины 1.1;valves;Innerscene CC0;False;20.0;20.0;7.0
+68;Верхняя тарелка пружины 1.1;valves;Innerscene CC0;False;20.0;20.0;3.0
+69;Клапан 1.2, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+70;Пружина клапана 1.2;valves;Innerscene CC0;False;17.0;17.0;25.0
+71;Нижняя тарелка пружины 1.2;valves;Innerscene CC0;False;20.0;20.0;7.0
+72;Верхняя тарелка пружины 1.2;valves;Innerscene CC0;False;20.0;20.0;3.0
+73;Клапан 1.3, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+74;Пружина клапана 1.3;valves;Innerscene CC0;False;17.0;17.0;25.0
+75;Нижняя тарелка пружины 1.3;valves;Innerscene CC0;False;20.0;20.0;7.0
+76;Верхняя тарелка пружины 1.3;valves;Innerscene CC0;False;20.0;20.0;3.0
+77;Клапан 1.4, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+78;Пружина клапана 1.4;valves;Innerscene CC0;False;17.0;17.0;25.0
+79;Нижняя тарелка пружины 1.4;valves;Innerscene CC0;False;20.0;20.0;7.0
+80;Верхняя тарелка пружины 1.4;valves;Innerscene CC0;False;20.0;20.0;3.0
+81;Клапан 2.1, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+82;Пружина клапана 2.1;valves;Innerscene CC0;False;17.0;17.0;25.0
+83;Нижняя тарелка пружины 2.1;valves;Innerscene CC0;False;20.0;20.0;7.0
+84;Верхняя тарелка пружины 2.1;valves;Innerscene CC0;False;20.0;20.0;3.0
+85;Клапан 2.2, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+86;Пружина клапана 2.2;valves;Innerscene CC0;False;17.0;17.0;25.0
+87;Нижняя тарелка пружины 2.2;valves;Innerscene CC0;False;20.0;20.0;7.0
+88;Верхняя тарелка пружины 2.2;valves;Innerscene CC0;False;20.0;20.0;3.0
+89;Клапан 2.3, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+90;Пружина клапана 2.3;valves;Innerscene CC0;False;17.0;17.0;25.0
+91;Нижняя тарелка пружины 2.3;valves;Innerscene CC0;False;20.0;20.0;7.0
+92;Верхняя тарелка пружины 2.3;valves;Innerscene CC0;False;20.0;20.0;3.0
+93;Клапан 2.4, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+94;Пружина клапана 2.4;valves;Innerscene CC0;False;17.0;17.0;25.0
+95;Нижняя тарелка пружины 2.4;valves;Innerscene CC0;False;20.0;20.0;7.0
+96;Верхняя тарелка пружины 2.4;valves;Innerscene CC0;False;20.0;20.0;3.0
+97;Клапан 3.1, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+98;Пружина клапана 3.1;valves;Innerscene CC0;False;17.0;17.0;25.0
+99;Нижняя тарелка пружины 3.1;valves;Innerscene CC0;False;20.0;20.0;7.0
+100;Верхняя тарелка пружины 3.1;valves;Innerscene CC0;False;20.0;20.0;3.0
+101;Клапан 3.2, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+102;Пружина клапана 3.2;valves;Innerscene CC0;False;17.0;17.0;25.0
+103;Нижняя тарелка пружины 3.2;valves;Innerscene CC0;False;20.0;20.0;7.0
+104;Верхняя тарелка пружины 3.2;valves;Innerscene CC0;False;20.0;20.0;3.0
+105;Клапан 3.3, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+106;Пружина клапана 3.3;valves;Innerscene CC0;False;17.0;17.0;25.0
+107;Нижняя тарелка пружины 3.3;valves;Innerscene CC0;False;20.0;20.0;7.0
+108;Верхняя тарелка пружины 3.3;valves;Innerscene CC0;False;20.0;20.0;3.0
+109;Клапан 3.4, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+110;Пружина клапана 3.4;valves;Innerscene CC0;False;17.0;17.0;25.0
+111;Нижняя тарелка пружины 3.4;valves;Innerscene CC0;False;20.0;20.0;7.0
+112;Верхняя тарелка пружины 3.4;valves;Innerscene CC0;False;20.0;20.0;3.0
+113;Клапан 4.1, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+114;Пружина клапана 4.1;valves;Innerscene CC0;False;17.0;17.0;25.0
+115;Нижняя тарелка пружины 4.1;valves;Innerscene CC0;False;20.0;20.0;7.0
+116;Верхняя тарелка пружины 4.1;valves;Innerscene CC0;False;20.0;20.0;3.0
+117;Клапан 4.2, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+118;Пружина клапана 4.2;valves;Innerscene CC0;False;17.0;17.0;25.0
+119;Нижняя тарелка пружины 4.2;valves;Innerscene CC0;False;20.0;20.0;7.0
+120;Верхняя тарелка пружины 4.2;valves;Innerscene CC0;False;20.0;20.0;3.0
+121;Клапан 4.3, впуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+122;Пружина клапана 4.3;valves;Innerscene CC0;False;17.0;17.0;25.0
+123;Нижняя тарелка пружины 4.3;valves;Innerscene CC0;False;20.0;20.0;7.0
+124;Верхняя тарелка пружины 4.3;valves;Innerscene CC0;False;20.0;20.0;3.0
+125;Клапан 4.4, выпуск;valves;Innerscene CC0;False;23.0;23.0;69.0
+126;Пружина клапана 4.4;valves;Innerscene CC0;False;17.0;17.0;25.0
+127;Нижняя тарелка пружины 4.4;valves;Innerscene CC0;False;20.0;20.0;7.0
+128;Верхняя тарелка пружины 4.4;valves;Innerscene CC0;False;20.0;20.0;3.0
+129;Впускной распределительный вал;timing;Innerscene CC0;False;426.0;26.0;36.0
+130;Выпускной распределительный вал;timing;Innerscene CC0;False;426.0;26.0;36.0
+131;Постель распредвалов 1;timing;Innerscene CC0;False;18.0;190.0;22.0
+132;Болт постели 1, 1;timing;Innerscene CC0;False;10.0;8.66;21.0
+133;Болт постели 1, 2;timing;Innerscene CC0;False;10.0;8.66;21.0
+134;Постель распредвалов 2;timing;Innerscene CC0;False;18.0;190.0;22.0
+135;Болт постели 2, 1;timing;Innerscene CC0;False;10.0;8.66;21.0
+136;Болт постели 2, 2;timing;Innerscene CC0;False;10.0;8.66;21.0
+137;Постель распредвалов 3;timing;Innerscene CC0;False;18.0;190.0;22.0
+138;Болт постели 3, 1;timing;Innerscene CC0;False;10.0;8.66;21.0
+139;Болт постели 3, 2;timing;Innerscene CC0;False;10.0;8.66;21.0
+140;Постель распредвалов 4;timing;Innerscene CC0;False;18.0;190.0;22.0
+141;Болт постели 4, 1;timing;Innerscene CC0;False;10.0;8.66;21.0
+142;Болт постели 4, 2;timing;Innerscene CC0;False;10.0;8.66;21.0
+143;Постель распредвалов 5;timing;Innerscene CC0;False;18.0;190.0;22.0
+144;Болт постели 5, 1;timing;Innerscene CC0;False;10.0;8.66;21.0
+145;Болт постели 5, 2;timing;Innerscene CC0;False;10.0;8.66;21.0
+146;Клапанная крышка DOHC;block;Innerscene CC0;True;447.0;231.0;58.0
+147;Болт клапанной крышки 1;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+148;Болт клапанной крышки 2;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+149;Болт клапанной крышки 3;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+150;Болт клапанной крышки 4;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+151;Болт клапанной крышки 5;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+152;Болт клапанной крышки 6;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+153;Болт клапанной крышки 7;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+154;Болт клапанной крышки 8;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+155;Болт клапанной крышки 9;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+156;Болт клапанной крышки 10;fasteners;Innerscene CC0;False;12.0;10.39;17.0
+157;Маслозаливная горловина;block;Innerscene CC0;False;38.0;38.0;16.0
+158;Крышка маслозаливной горловины;block;Innerscene CC0;False;48.0;48.0;16.0
+159;Передняя торцевая крышка;block;Innerscene CC0;True;18.0;236.0;527.0
+160;Болт передней крышки 1;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+161;Болт передней крышки 2;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+162;Болт передней крышки 3;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+163;Болт передней крышки 4;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+164;Болт передней крышки 5;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+165;Болт передней крышки 6;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+166;Задняя торцевая крышка;block;Innerscene CC0;False;18.0;236.0;527.0
+167;Болт задней крышки 1;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+168;Болт задней крышки 2;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+169;Болт задней крышки 3;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+170;Болт задней крышки 4;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+171;Болт задней крышки 5;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+172;Болт задней крышки 6;fasteners;Innerscene CC0;False;17.0;10.39;12.0
+173;Маховик с зубчатым венцом;crank;Innerscene CC0;False;24.0;246.0;246.0
+174;Фланец маховика;crank;Innerscene CC0;False;9.0;102.0;102.0
+175;Болт маховика 1;crank;Innerscene CC0;False;17.0;12.12;14.0
+176;Болт маховика 2;crank;Innerscene CC0;False;17.0;12.12;14.0
+177;Болт маховика 3;crank;Innerscene CC0;False;17.0;12.12;14.0
+178;Болт маховика 4;crank;Innerscene CC0;False;17.0;12.12;14.0
+179;Болт маховика 5;crank;Innerscene CC0;False;17.0;12.12;14.0
+180;Болт маховика 6;crank;Innerscene CC0;False;17.0;12.12;14.0
+181;Шкив привода навесного оборудования;crank;Innerscene CC0;False;30.0;156.0;156.0
+182;Ступица шкива коленвала;crank;Innerscene CC0;False;14.0;72.0;72.0
+183;Центральный болт шкива;crank;Innerscene CC0;False;23.0;19.05;22.0
+184;Корпус генератора с ребрами;accessories;Innerscene CC0;False;112.0;120.0;120.0
+185;Кронштейн генератора;accessories;Innerscene CC0;False;70.0;80.0;16.0
+186;Вал генератора;accessories;Innerscene CC0;False;48.0;18.0;18.0
+187;Ремень навесного оборудования;accessories;Innerscene CC0;False;12.0;294.2;239.2
+188;Шкив генератора;accessories;Innerscene CC0;False;14.0;76.0;76.0
+189;Опора двигателя 1;block;Innerscene CC0;False;80.0;136.0;98.0
+190;Опора двигателя 2;block;Innerscene CC0;False;80.0;136.0;98.0
+191;Опора двигателя 3;block;Innerscene CC0;False;80.0;136.0;98.0
+192;Опора двигателя 4;block;Innerscene CC0;False;80.0;136.0;98.0
+193;Фланец впуска цилиндра 1;intake;Innerscene CC0;False;64.0;14.0;50.0
+194;Изогнутый канал впуска цилиндра 1;intake;Innerscene CC0;False;40.0;118.36;93.52
+195;Болт фланца впуска 1.1;intake;Innerscene CC0;False;8.66;17.0;10.0
+196;Болт фланца впуска 1.2;intake;Innerscene CC0;False;8.66;17.0;10.0
+197;Фланец впуска цилиндра 2;intake;Innerscene CC0;False;64.0;14.0;50.0
+198;Изогнутый канал впуска цилиндра 2;intake;Innerscene CC0;False;40.0;118.36;93.52
+199;Болт фланца впуска 2.1;intake;Innerscene CC0;False;8.66;17.0;10.0
+200;Болт фланца впуска 2.2;intake;Innerscene CC0;False;8.66;17.0;10.0
+201;Фланец впуска цилиндра 3;intake;Innerscene CC0;False;64.0;14.0;50.0
+202;Изогнутый канал впуска цилиндра 3;intake;Innerscene CC0;False;40.0;118.36;93.52
+203;Болт фланца впуска 3.1;intake;Innerscene CC0;False;8.66;17.0;10.0
+204;Болт фланца впуска 3.2;intake;Innerscene CC0;False;8.66;17.0;10.0
+205;Фланец впуска цилиндра 4;intake;Innerscene CC0;False;64.0;14.0;50.0
+206;Изогнутый канал впуска цилиндра 4;intake;Innerscene CC0;False;40.0;118.36;93.52
+207;Болт фланца впуска 4.1;intake;Innerscene CC0;False;8.66;17.0;10.0
+208;Болт фланца впуска 4.2;intake;Innerscene CC0;False;8.66;17.0;10.0
+209;Впускной ресивер;intake;Innerscene CC0;False;384.0;72.0;72.0
+210;Входной патрубок дросселя;intake;Innerscene CC0;False;54.0;64.0;64.0
+211;Фланец выпуска цилиндра 1;exhaust;Innerscene CC0;False;64.0;14.0;50.0
+212;Изогнутый канал выпуска цилиндра 1;exhaust;Innerscene CC0;False;40.0;123.13;118.79
+213;Болт фланца выпуска 1.1;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+214;Болт фланца выпуска 1.2;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+215;Фланец выпуска цилиндра 2;exhaust;Innerscene CC0;False;64.0;14.0;50.0
+216;Изогнутый канал выпуска цилиндра 2;exhaust;Innerscene CC0;False;40.0;123.13;118.79
+217;Болт фланца выпуска 2.1;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+218;Болт фланца выпуска 2.2;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+219;Фланец выпуска цилиндра 3;exhaust;Innerscene CC0;False;64.0;14.0;50.0
+220;Изогнутый канал выпуска цилиндра 3;exhaust;Innerscene CC0;False;40.0;123.13;118.79
+221;Болт фланца выпуска 3.1;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+222;Болт фланца выпуска 3.2;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+223;Фланец выпуска цилиндра 4;exhaust;Innerscene CC0;False;64.0;14.0;50.0
+224;Изогнутый канал выпуска цилиндра 4;exhaust;Innerscene CC0;False;40.0;123.13;118.79
+225;Болт фланца выпуска 4.1;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+226;Болт фланца выпуска 4.2;exhaust;Innerscene CC0;False;8.66;17.0;10.0
+227;Выпускной коллектор;exhaust;Innerscene CC0;False;384.0;58.0;58.0
+228;Выпускной патрубок;exhaust;Innerscene CC0;False;54.0;52.0;52.0
+229;Кронштейн масляного фильтра;accessories;Innerscene CC0;False;44.0;58.0;44.0
+230;Корпус масляного фильтра;accessories;Innerscene CC0;False;72.0;92.0;72.0
+231;Торцевой обод масляного фильтра;accessories;Innerscene CC0;False;76.0;6.0;76.0
+232;Верхняя рейка маслосъемного кольца цилиндра 1;pistons;007-A: demonstration detail;False;88.5;88.5;0.45
+233;Волнистый расширитель маслосъемного кольца цилиндра 1;pistons;007-A: demonstration detail;False;87.64;87.64;0.65
+234;Верхняя рейка маслосъемного кольца цилиндра 2;pistons;007-A: demonstration detail;False;88.5;88.5;0.45
+235;Волнистый расширитель маслосъемного кольца цилиндра 2;pistons;007-A: demonstration detail;False;87.64;87.64;0.65
+236;Верхняя рейка маслосъемного кольца цилиндра 3;pistons;007-A: demonstration detail;False;88.5;88.5;0.45
+237;Волнистый расширитель маслосъемного кольца цилиндра 3;pistons;007-A: demonstration detail;False;87.64;87.64;0.65
+238;Верхняя рейка маслосъемного кольца цилиндра 4;pistons;007-A: demonstration detail;False;88.5;88.5;0.45
+239;Волнистый расширитель маслосъемного кольца цилиндра 4;pistons;007-A: demonstration detail;False;87.64;87.64;0.65
+240;Прокладка клапанной крышки;seals;007-A: demonstration detail;False;447.0;231.0;1.4
+241;Прокладка масляного поддона;seals;007-A: demonstration detail;False;462.0;248.0;0.9
+242;Прокладка торцевой крышки передняя;seals;007-A: demonstration detail;False;1.2;228.0;519.0
+243;Сальник коленчатого вала передний;seals;007-A: demonstration detail;False;8.0;80.0;80.0
+244;Прокладка торцевой крышки задняя;seals;007-A: demonstration detail;False;1.2;228.0;519.0
+245;Сальник коленчатого вала задний;seals;007-A: demonstration detail;False;8.0;80.0;80.0
+246;Маслосъемный колпачок клапана 1.1;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+247;Маслосъемный колпачок клапана 1.2;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+248;Маслосъемный колпачок клапана 1.3;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+249;Маслосъемный колпачок клапана 1.4;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+250;Прокладка впускного канала цилиндра 1;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+251;Прокладка выпускного канала цилиндра 1;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+252;Стопорное кольцо пальца цилиндра 1, левая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+253;Стопорное кольцо пальца цилиндра 1, правая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+254;Корпус свечи зажигания цилиндра 1;ignition;007-A: demonstration detail;False;18.4;15.93;30.0
+255;Керамический изолятор свечи цилиндра 1;ignition;007-A: demonstration detail;False;12.2;12.2;29.0
+256;Центральный электрод свечи цилиндра 1;ignition;007-A: demonstration detail;False;2.0;2.0;8.0
+257;Боковой электрод свечи цилиндра 1;ignition;007-A: demonstration detail;False;3.9;1.3;6.1
+258;Резиновый наконечник свечи цилиндра 1;ignition;007-A: demonstration detail;False;24.0;24.0;81.0
+259;Уплотнение свечного колодца цилиндра 1;seals;007-A: demonstration detail;False;22.8;22.8;2.4
+260;Маслосъемный колпачок клапана 2.1;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+261;Маслосъемный колпачок клапана 2.2;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+262;Маслосъемный колпачок клапана 2.3;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+263;Маслосъемный колпачок клапана 2.4;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+264;Прокладка впускного канала цилиндра 2;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+265;Прокладка выпускного канала цилиндра 2;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+266;Стопорное кольцо пальца цилиндра 2, левая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+267;Стопорное кольцо пальца цилиндра 2, правая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+268;Корпус свечи зажигания цилиндра 2;ignition;007-A: demonstration detail;False;18.4;15.93;30.0
+269;Керамический изолятор свечи цилиндра 2;ignition;007-A: demonstration detail;False;12.2;12.2;29.0
+270;Центральный электрод свечи цилиндра 2;ignition;007-A: demonstration detail;False;2.0;2.0;8.0
+271;Боковой электрод свечи цилиндра 2;ignition;007-A: demonstration detail;False;3.9;1.3;6.1
+272;Резиновый наконечник свечи цилиндра 2;ignition;007-A: demonstration detail;False;24.0;24.0;81.0
+273;Уплотнение свечного колодца цилиндра 2;seals;007-A: demonstration detail;False;22.8;22.8;2.4
+274;Маслосъемный колпачок клапана 3.1;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+275;Маслосъемный колпачок клапана 3.2;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+276;Маслосъемный колпачок клапана 3.3;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+277;Маслосъемный колпачок клапана 3.4;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+278;Прокладка впускного канала цилиндра 3;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+279;Прокладка выпускного канала цилиндра 3;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+280;Стопорное кольцо пальца цилиндра 3, левая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+281;Стопорное кольцо пальца цилиндра 3, правая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+282;Корпус свечи зажигания цилиндра 3;ignition;007-A: demonstration detail;False;18.4;15.93;30.0
+283;Керамический изолятор свечи цилиндра 3;ignition;007-A: demonstration detail;False;12.2;12.2;29.0
+284;Центральный электрод свечи цилиндра 3;ignition;007-A: demonstration detail;False;2.0;2.0;8.0
+285;Боковой электрод свечи цилиндра 3;ignition;007-A: demonstration detail;False;3.9;1.3;6.1
+286;Резиновый наконечник свечи цилиндра 3;ignition;007-A: demonstration detail;False;24.0;24.0;81.0
+287;Уплотнение свечного колодца цилиндра 3;seals;007-A: demonstration detail;False;22.8;22.8;2.4
+288;Маслосъемный колпачок клапана 4.1;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+289;Маслосъемный колпачок клапана 4.2;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+290;Маслосъемный колпачок клапана 4.3;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+291;Маслосъемный колпачок клапана 4.4;seals;007-A: demonstration detail;False;11.2;11.2;5.0
+292;Прокладка впускного канала цилиндра 4;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+293;Прокладка выпускного канала цилиндра 4;seals;007-A: demonstration detail;False;62.0;1.2;48.0
+294;Стопорное кольцо пальца цилиндра 4, левая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+295;Стопорное кольцо пальца цилиндра 4, правая сторона;pistons;007-A: demonstration detail;False;1.1;25.2;24.95
+296;Корпус свечи зажигания цилиндра 4;ignition;007-A: demonstration detail;False;18.4;15.93;30.0
+297;Керамический изолятор свечи цилиндра 4;ignition;007-A: demonstration detail;False;12.2;12.2;29.0
+298;Центральный электрод свечи цилиндра 4;ignition;007-A: demonstration detail;False;2.0;2.0;8.0
+299;Боковой электрод свечи цилиндра 4;ignition;007-A: demonstration detail;False;3.9;1.3;6.1
+300;Резиновый наконечник свечи цилиндра 4;ignition;007-A: demonstration detail;False;24.0;24.0;81.0
+301;Уплотнение свечного колодца цилиндра 4;seals;007-A: demonstration detail;False;22.8;22.8;2.4
+302;Коренной вкладыш 1, нижняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+303;Коренной вкладыш 1, верхняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+304;Коренной вкладыш 2, нижняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+305;Коренной вкладыш 2, верхняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+306;Коренной вкладыш 3, нижняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+307;Коренной вкладыш 3, верхняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+308;Коренной вкладыш 4, нижняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+309;Коренной вкладыш 4, верхняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+310;Коренной вкладыш 5, нижняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+311;Коренной вкладыш 5, верхняя половина;bearings;007-A: demonstration detail;False;17.0;59.8;29.9
+312;Шатунный вкладыш цилиндра 1, нижняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+313;Шатунный вкладыш цилиндра 1, верхняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+314;Шатунный вкладыш цилиндра 2, нижняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+315;Шатунный вкладыш цилиндра 2, верхняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+316;Шатунный вкладыш цилиндра 3, нижняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+317;Шатунный вкладыш цилиндра 3, верхняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+318;Шатунный вкладыш цилиндра 4, нижняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+319;Шатунный вкладыш цилиндра 4, верхняя половина;bearings;007-A: demonstration detail;False;14.0;34.8;17.4
+320;Зубчатый шкив коленвала, демонстрационный привод;timing;007-A: demonstration detail;False;10.0;67.52;67.52
+321;Зубчатый шкив распредвала, передаточное отношение 2 к 1;timing;007-A: demonstration detail;False;10.0;131.56;131.56
+322;Удлинитель впускного распредвала;timing;007-A: demonstration detail;False;55.0;25.6;25.6
+323;Синхронизирующая шестерня впускного распредвала;timing;007-A: demonstration detail;False;9.0;45.9;45.9
+324;Удлинитель выпускного распредвала;timing;007-A: demonstration detail;False;55.0;25.6;25.6
+325;Синхронизирующая шестерня выпускного распредвала;timing;007-A: demonstration detail;False;9.0;45.9;45.9
+326;Ремень привода ГРМ, демонстрационная трасса;timing;007-A: demonstration detail;False;8.0;134.0;458.0
+327;Болт крышки шатуна цилиндра 1, левая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+328;Шайба болта шатуна цилиндра 1, левая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+329;Болт крышки шатуна цилиндра 1, правая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+330;Шайба болта шатуна цилиндра 1, правая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+331;Крышка шатуна цилиндра 1;pistons;007-A: demonstration detail;False;16.0;57.4;34.86
+332;Болт крышки шатуна цилиндра 2, левая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+333;Шайба болта шатуна цилиндра 2, левая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+334;Болт крышки шатуна цилиндра 2, правая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+335;Шайба болта шатуна цилиндра 2, правая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+336;Крышка шатуна цилиндра 2;pistons;007-A: demonstration detail;False;16.0;57.4;34.86
+337;Болт крышки шатуна цилиндра 3, левая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+338;Шайба болта шатуна цилиндра 3, левая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+339;Болт крышки шатуна цилиндра 3, правая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+340;Шайба болта шатуна цилиндра 3, правая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+341;Крышка шатуна цилиндра 3;pistons;007-A: demonstration detail;False;16.0;57.4;34.86
+342;Болт крышки шатуна цилиндра 4, левая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+343;Шайба болта шатуна цилиндра 4, левая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+344;Болт крышки шатуна цилиндра 4, правая сторона;pistons;007-A: demonstration detail;False;9.2;14.33;40.0
+345;Шайба болта шатуна цилиндра 4, правая сторона;pistons;007-A: demonstration detail;False;9.4;9.39;2.78
+346;Крышка шатуна цилиндра 4;pistons;007-A: demonstration detail;False;16.0;57.4;34.86

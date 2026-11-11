@@ -1,0 +1,16 @@
+I4 DOHC 16V interactive educational assembly
+
+Original source: Innerscene
+https://www.innerscene.com/tools/library/3d-parts/four-cylinder-inline-piston-engine-assembled-bc359a0b
+License supplied in the STEP file: CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+Original assembly: 231 named CAD components
+
+007-A adaptation: 115 supplemental components, 346 total
+Added: piston oil-ring rails and expander rings; wrist-pin circlips; gaskets; crankshaft and valve stem seals; spark plugs and rubber boots; bearing shells; illustrative two-stage DOHC timing drive.
+Modified original components: piston rings, piston crowns and oil-return drillings, connecting rods with separate removable caps, cylinder head, valve cover, front end housing. Added rod cap bolts and washers; lubrication grooves in main-bearing shells.
+Interactive materials, selection, exploded view, schematic and educational kinematics: 007-A
+
+The source does not identify a production engine, vehicle brand or year. Supplemental geometry is illustrative. It is not a manufacturer-certified CAD assembly and must not be used as a manufacturing or repair drawing.
+
+Geometry converted with CadQuery 2.8.0 (Apache-2.0) and Open CASCADE. Browser rendering uses Three.js (MIT), with its license retained under vendor.
