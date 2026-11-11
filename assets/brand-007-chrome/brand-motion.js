@@ -38,3 +38,27 @@
   if (gate) new MutationObserver(sync).observe(gate, { attributes: true, attributeFilter: ['style', 'class'] });
   sync();
 })();
+
+(() => {
+  const section = document.querySelector('#s3');
+  const toggle = document.querySelector('.direction-motion-toggle');
+  if (!section || !toggle) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const forced = matchMedia('(forced-colors: active)');
+  let wanted = true;
+  let visible = false;
+  function sync() {
+    const allowed = !reduce.matches && !forced.matches;
+    section.classList.toggle('directions-shimmering', allowed && wanted && visible && !document.hidden);
+    toggle.disabled = !allowed;
+    toggle.setAttribute('aria-pressed', String(!wanted));
+    toggle.setAttribute('aria-label', !allowed ? 'Направления' : wanted ? 'Остановить перелив названий направлений' : 'Включить перелив названий направлений');
+    toggle.title = !allowed ? 'Направления' : wanted ? 'Нажмите, чтобы остановить перелив' : 'Нажмите, чтобы включить перелив';
+  }
+  toggle.addEventListener('click', () => { wanted = !wanted; sync(); });
+  reduce.addEventListener('change', sync);
+  forced.addEventListener('change', sync);
+  document.addEventListener('visibilitychange', sync);
+  new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }, { threshold: .05 }).observe(section);
+  sync();
+})();

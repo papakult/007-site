@@ -17,3 +17,12 @@
  #s3 .cap-item h3 a::after{-webkit-text-fill-color:#c5cbd3;-webkit-text-stroke:0}
 }
 @media(forced-colors:active){#s3 .cap-item h3 a{background:none;-webkit-text-fill-color:LinkText;color:LinkText;-webkit-text-stroke:0;filter:none}#s3 .cap-item h3 a::after{-webkit-text-fill-color:LinkText}}
+
+.cap-eyebrow.direction-motion-toggle{appearance:none;align-self:stretch;padding:0;border:0;background:none;font-family:inherit;font-weight:inherit;line-height:inherit;text-align:left;cursor:pointer}
+.direction-motion-toggle:focus-visible{outline:1px solid #dbe1e8;outline-offset:7px}.direction-motion-toggle:hover{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:5px}.direction-motion-toggle:disabled{cursor:default;text-decoration:none}
+@supports ((background-clip:text) or (-webkit-background-clip:text)){
+ #s3 .cap-item h3 a{background-size:100% 130%;background-position:50% 25%;animation:direction-chrome-flow 9s ease-in-out infinite;animation-play-state:paused}
+ #s3.directions-shimmering .cap-item h3 a{animation-play-state:running}
+}
+@keyframes direction-chrome-flow{0%,100%{background-position:50% 25%}50%{background-position:50% 75%}}
+@media(prefers-reduced-motion:reduce),(forced-colors:active){#s3 .cap-item h3 a{animation:none!important;background-size:100% 100%;background-position:50% 50%}}
