@@ -8,6 +8,7 @@
     { id: 'latte', name: 'Латте', type: 'milk', price: 300, sizes: [300, 400], extra: 60, note: 'Мягкий и неспешный.' },
     { id: 'filter', name: 'Фильтр-кофе', type: 'black', price: 240, sizes: [250, 350], extra: 50, note: 'Легкий, прозрачный, ароматный.' }
   ];
+  const steam = [[.47,.45,.30],[.47,.32,.27],[.47,.34,.29],[.49,.32,.28],[.49,.135,.13],[.49,.33,.29]];
   const positions = ['0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%'];
   const grid = document.querySelector('#drinks');
   const dialog = document.querySelector('#order-dialog');
@@ -24,7 +25,7 @@
   function renderMenu(filter = 'all') {
     grid.innerHTML = drinks.filter(d => filter === 'all' || d.type === filter).map(d => {
       const index = drinks.indexOf(d);
-      return `<article class="drink-card" style="--photo-position:${positions[index]}"><div class="drink-photo"><span class="drink-number">0${index + 1}</span><button class="photo-select" data-drink="${d.id}" aria-label="Посмотреть ${d.name}"><span class="photo-label">ВАША ЧАШКА</span></button></div><div class="drink-heading"><h3>${d.name}</h3><span class="price">${money(d.price)}</span></div><div class="drink-detail"><p>${d.note}<br><small>${d.sizes.join(' / ')} мл</small></p><button class="add-drink" data-drink="${d.id}" aria-label="Выбрать ${d.name}">${plus}</button></div></article>`;
+      return `<article class="drink-card" style="--photo-position:${positions[index]}"><div class="drink-photo"><span class="drink-number">0${index + 1}</span><canvas class="drink-steam" data-steam="${index}" data-x="${steam[index][0]}" data-y="${steam[index][1]}" data-rise="${steam[index][2]}" aria-hidden="true"></canvas><button class="photo-select" data-drink="${d.id}" aria-label="Посмотреть ${d.name}"><span class="photo-label">ВАША ЧАШКА</span></button></div><div class="drink-heading"><h3>${d.name}</h3><span class="price">${money(d.price)}</span></div><div class="drink-detail"><p>${d.note}<br><small>${d.sizes.join(' / ')} мл</small></p><button class="add-drink" data-drink="${d.id}" aria-label="Выбрать ${d.name}">${plus}</button></div></article>`;
     }).join('');
   }
   renderMenu();

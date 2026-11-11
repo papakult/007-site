@@ -14,8 +14,10 @@
   <link rel="preload" href="assets/prata.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="style.css?v=5">
   <link rel="stylesheet" href="cinema.css?v=5">
-  <script src="app.js?v=5" defer></script>
+  <script src="app.js?v=6" defer></script>
   <script src="cinema.js?v=5" defer></script>
+  <link rel="stylesheet" href="ambience.css?v=1">
+  <script src="ambience.js?v=1" defer></script>
   <title>Тише кофе / чистый вкус</title>
 <link rel="stylesheet" href="/assets/brand-007-chrome/brand.css">
 </head>
@@ -43,11 +45,11 @@
     </section>
     <section class="menu" id="menu" aria-labelledby="menu-title">
       <div class="menu-intro"><div><h2 id="menu-title">Кофейная карта.</h2></div><p>Шесть способов сделать паузу.<br>Выберите тот, что ближе сегодня.</p></div>
-      <div class="menu-toolbar"><div class="menu-filters" role="group" aria-label="Категории кофе"><button class="active" data-filter="all" aria-pressed="true">Весь кофе</button><button data-filter="black" aria-pressed="false">Черный</button><button data-filter="milk" aria-pressed="false">С молоком</button></div><span>СВОЯ ЧАШКА ДЛЯ КАЖДОГО</span></div>
+      <div class="menu-toolbar"><div class="menu-filters" role="group" aria-label="Категории кофе"><button class="active" data-filter="all" aria-pressed="true">Весь кофе</button><button data-filter="black" aria-pressed="false">Черный</button><button data-filter="milk" aria-pressed="false">С молоком</button></div><button class="ambience-toggle" id="ambience-toggle" type="button" aria-pressed="false" aria-label="Остановить анимацию карточек и зерен">Пауза анимации</button></div>
       <div class="drinks-grid" id="drinks" aria-live="polite"></div>
       <p class="demo-note">Иллюстративное меню. Цены, объемы и составы приведены для демонстрации концепта.</p>
     </section>
-    <section class="closing"><span class="eyebrow">ВАШ МАЛЕНЬКИЙ ЕЖЕДНЕВНЫЙ РИТУАЛ</span><h2>Сначала <em>кофе.</em><br>Потом все остальное.</h2><a class="button button-outline" href="#menu">Выбрать напиток <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><div class="closing-watermark" aria-hidden="true">тише</div></section>
+    <section class="closing" id="ritual"><canvas id="closing-beans" class="closing-beans" aria-hidden="true"></canvas><span class="eyebrow">ВАШ МАЛЕНЬКИЙ ЕЖЕДНЕВНЫЙ РИТУАЛ</span><h2>Сначала <em>кофе.</em><br>Потом все остальное.</h2><a class="button button-outline" href="#menu">Выбрать напиток <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><div class="closing-watermark" aria-hidden="true">тише</div></section>
   </main>
   <footer><a class="brand" href="#home">тише<span>КОФЕ</span></a><p>Авторский концепт вымышленной кофейни.<br>Выбор напитка работает в деморежиме, без приема заказов и оплаты.</p><a class="studio" href="/directions/sites/">Дизайн и разработка<span class="chrome-credit"><img class="brand-chrome-small" src="/assets/brand-007-chrome/wordmark-small.webp" width="136" height="36" alt="007-A" decoding="async"><span>.RU</span></span></a></footer>
   <dialog id="film-dialog" aria-label="Кофейный ролик"><button class="close-film" aria-label="Закрыть ролик">×</button><video controls playsinline preload="none" poster="assets/film/start.jpg"><source src="assets/film/presentation.mp4" type="video/mp4"></video><p>Тише кофе. Постановочная история напитков.</p></dialog>
