@@ -7,15 +7,17 @@
   <meta name="description" content="Тише кофе. Только кофе, чистый вкус и ваша маленькая пауза. Авторский концепт кофейни от 007-A.">
   <meta property="og:title" content="Тише кофе / чистый вкус">
   <meta property="og:description" content="Кофейная карта и кинематографичная история кофе. Авторский концепт 007-A.">
-  <meta property="og:image" content="https://007-a.ru/portfolio/tishe-coffee/assets/cover-v2.jpg">
+  <meta property="og:image" content="https://007-a.ru/portfolio/tishe-coffee/assets/cover-v3.jpg">
   <meta property="og:url" content="https://007-a.ru/portfolio/tishe-coffee/">
   <link rel="canonical" href="https://007-a.ru/portfolio/tishe-coffee/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%232b170e'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Georgia' fill='%23e8cba1'%3Eт%3C/text%3E%3C/svg%3E">
   <link rel="preload" href="assets/prata.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="cinema.css?v=3">
   <script src="assets/vendor/gsap.min.js" defer></script>
   <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
-  <script src="app.js?v=2" defer></script>
+  <script src="app.js?v=3" defer></script>
+  <script src="cinema.js?v=3" defer></script>
   <title>Тише кофе / чистый вкус</title>
 </head>
 <body>
@@ -26,22 +28,18 @@
     <a class="nav-cta" href="#menu">Выбрать кофе <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
   </header>
   <main>
-    <section class="hero" id="home" aria-labelledby="hero-title">
-      <picture class="hero-picture"><source media="(max-width:600px)" srcset="assets/hero-mobile.webp"><img src="assets/hero-desktop.webp" alt="Золотистая струя эспрессо и прозрачная стеклянная чашка на темном мраморе" fetchpriority="high" width="1672" height="941"></picture>
+    <section class="cinema-wrap" id="home" aria-labelledby="hero-title">
+      <div id="craft" class="cinema-anchor" aria-hidden="true"></div>
+      <div class="hero cinema-stage">
+      <div class="visual-layer"><picture class="hero-picture"><img src="assets/film/start.jpg" alt="Золотистая струя эспрессо и прозрачная стеклянная чашка на темном мраморе" fetchpriority="high" width="1672" height="941"></picture><canvas id="hero-canvas" aria-hidden="true"></canvas></div>
+      <video id="intro-decoder" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"><source src="assets/film/intro.mp4" type="video/mp4"></video>
       <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-copy"><p class="eyebrow"><span></span> КОФЕ И НИЧЕГО ЛИШНЕГО</p><h1 id="hero-title">Чистый<br><em>вкус.</em></h1><p class="hero-description">В меню только кофе.<br>Все остальное может подождать.</p><a class="button button-cream" href="#menu">Найти свою чашку <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
-      <div class="hero-bottom"><a class="scroll-cue" href="#craft"><span class="scroll-line" aria-hidden="true"></span> ИСТОРИЯ ОДНОГО ГЛОТКА</a><span class="hero-caption">ЭСПРЕССО<br><b>Тихая классика.</b></span></div>
+      <div class="hero-copy scene-copy scene-opening"><p class="eyebrow"><span></span> КОФЕ И НИЧЕГО ЛИШНЕГО</p><h1 id="hero-title">Чистый<br><em>вкус.</em></h1><p class="hero-description">В меню только кофе.<br>Все остальное может подождать.</p><a class="button button-cream" href="#menu">Найти свою чашку <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
+      <div class="scene-copy scene-middle"><span class="eyebrow">01 / ОСНОВА ВКУСА</span><h2>Сначала<br>эспрессо.</h2><p>Капучино, латте и флэт уайт<br>начинаются здесь.</p></div>
+      <div class="scene-copy scene-ending"><span class="eyebrow">02 / ДАЛЬШЕ ВАШ ВЫБОР</span><h2>Шесть<br><em>характеров.</em></h2><p>Покрепче или понежнее.<br>Выберите свою чашку.</p><a class="button button-cream" href="#menu">К кофейной карте <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
+      <div class="hero-bottom"><a class="scroll-cue" href="#craft"><span class="scroll-line" aria-hidden="true"></span><span id="scene-label">ЛИСТАЙТЕ, КОФЕ ПРОДОЛЖАЕТ ИСТОРИЮ</span></a><span class="hero-caption">ЭСПРЕССО<br><b>Тихая классика.</b></span></div>
+      <div class="film-controls"><button id="watch-film" type="button">Смотреть ролик <span aria-hidden="true">▷</span></button><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Остановить движение">Пауза</button></div><div class="scene-rail" aria-hidden="true"><i></i></div>
       <span class="side-note" aria-hidden="true">SLOW MOMENTS / GOOD COFFEE</span>
-    </section>
-    <div class="ribbon" aria-hidden="true"><span>КОФЕ КАК РИТУАЛ</span><i></i><span>ЧИСТЫЙ ВКУС</span><i></i><span>МАЛЕНЬКАЯ ПАУЗА</span><i></i><span>ТИШЕ КОФЕ</span></div>
-    <section class="craft-story" id="craft" aria-label="История приготовления кофе">
-      <div class="craft-stage">
-        <div class="craft-copy">
-          <div class="craft-chapter" data-chapter="0"><span class="eyebrow">01 / В НАЧАЛЕ БЫЛ ЭСПРЕССО</span><h2>Основа<br><em>характера.</em></h2><p>Темный кофе. Золотистая крема.<br>Несколько глотков, в которых есть все.</p><span class="taste-line">ПЛОТНЫЙ / НАСЫЩЕННЫЙ / ВАШ</span></div>
-          <div class="craft-chapter" data-chapter="1" hidden><span class="eyebrow">02 / У КАЖДОГО СВОЙ РИТУАЛ</span><h2>Покрепче.<br><em>Или понежнее.</em></h2><p>Американо, капучино или флэт уайт.<br>Дальше выбираете вы.</p><a class="text-link" href="#menu">К кофейной карте <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
-        </div>
-        <div class="brew-frame"><video id="brew-video" muted playsinline preload="metadata" poster="assets/brew-poster.webp" aria-label="Приготовление эспрессо. Прокрутка страницы управляет моментом видео"><source src="assets/brew.mp4" type="video/mp4"></video><div class="brew-vignette" aria-hidden="true"></div><span class="brew-tag">THE ESPRESSO RITUAL</span></div>
-        <div class="craft-progress"><span id="chapter-count">01 / 02</span><div><i></i></div><span>ЛИСТАЙТЕ</span></div>
       </div>
     </section>
     <section class="menu" id="menu" aria-labelledby="menu-title">
@@ -53,6 +51,7 @@
     <section class="closing"><span class="eyebrow">ВАШ МАЛЕНЬКИЙ ЕЖЕДНЕВНЫЙ РИТУАЛ</span><h2>Сначала <em>кофе.</em><br>Потом все остальное.</h2><a class="button button-outline" href="#menu">Выбрать напиток <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><div class="closing-watermark" aria-hidden="true">тише</div></section>
   </main>
   <footer><a class="brand" href="#home">тише<span>КОФЕ</span></a><p>Авторский концепт вымышленной кофейни.<br>Выбор напитка работает в деморежиме, без приема заказов и оплаты.</p><a class="studio" href="/directions/sites/">Дизайн и разработка<span>007-A.RU</span></a></footer>
+  <dialog id="film-dialog" aria-label="Кофейный ролик"><button class="close-film" aria-label="Закрыть ролик">×</button><video controls playsinline preload="none" poster="assets/film/start.jpg"><source src="assets/film/presentation.mp4" type="video/mp4"></video><p>Тише кофе. Постановочная история напитков.</p></dialog>
   <dialog id="order-dialog" aria-labelledby="order-title"><button class="close-dialog" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button><span class="eyebrow">ВАША ЧАШКА / ДЕМО</span><h2 id="order-title">Ваш <em>кофе.</em></h2><div class="order-photo" id="order-photo" aria-hidden="true"></div><form id="order-form"><label for="order-drink">Напиток</label><select id="order-drink" name="drink"></select><fieldset><legend>Объем</legend><div class="size-options" id="size-options"></div></fieldset><div id="milk-label"><label for="order-milk">Молоко</label><select id="order-milk"><option value="0">Обычное</option><option value="60">Овсяное, +60 ₽</option><option value="60">Кокосовое, +60 ₽</option></select></div><div class="order-total"><span>Ваша чашка</span><strong id="total-price">180 ₽</strong></div><button class="button button-cream" type="submit">Выбрать этот кофе <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button><p class="dialog-note">Демонстрация. Оплата и передача заказа в кофейню не подключены.</p></form><div id="order-result" hidden><h3>В вашем вкусе.</h3><p id="result-text"></p><p class="dialog-note">Это тестовый выбор. Заказ никуда не отправлен.</p><button class="button button-cream result-back">Выбрать еще чашку</button></div></dialog>
 </body>
 </html>
