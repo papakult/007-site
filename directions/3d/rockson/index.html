@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,follow">
+<meta property="og:image" content="https://007-a.ru/directions/3d/rockson/poster.png">
+<meta name="theme-color" content="#0052b6">
+<title>ROCKSON 989150-УГ-45. Детальная 3D-разборка | 007-A</title>
+<meta name="description" content="Демонстрационная 3D-модель высокорамного трала ROCKSON. Рассмотрите раму, колеса и подвеску, откройте аппарели и разберите каждый осевой узел отдельно.">
+<link rel="canonical" href="https://007-a.ru/directions/3d/rockson/">
+<link rel="stylesheet" href="/assets/demo-fonts.css">
+<link rel="stylesheet" href="./style.css">
+<script type="module" src="./viewer.js"></script>
+</head>
+<body>
+<div class="demo-strip">Презентационный модуль · Разработка 007-A</div>
+<header>
+ <div class="brand-row"><a class="brand" href="https://mz-rockson.ru/" aria-label="ROCKSON"><img src="./rockson-logo.jpg" alt="ROCKSON" width="250" height="49"></a><span class="company-description">Производство прицепов<br>и низкорамных тралов</span><a class="our-demo" href="../">Демонстрация на 007-A</a></div>
+ <nav aria-label="Разделы"><a href="https://mz-rockson.ru/o_zavode/">О заводе</a><a href="https://mz-rockson.ru/modeli/">Модели</a><a class="active" href="#model-section">3D-просмотр</a><a href="#references">Чертёж и фотографии</a></nav>
+</header>
+<main>
+<div class="breadcrumbs"><a href="https://mz-rockson.ru/">Главная</a> / <a href="https://mz-rockson.ru/modeli/">Модели</a> / Высокорамные тралы / 3D</div>
+<div class="heading">
+ <div><p class="eyebrow">Высокорамный трал · 45 тонн</p><h1>ROCKSON 989150-УГ-45</h1></div>
+ <p class="lead">Трал крупным планом. Выберите узел, разберите его и приблизьте отдельный болт.</p>
+</div>
+<div class="technical-strip"><span>Грузоподъёмность <strong>45 т</strong></span><span>Оси <strong>3</strong></span><span>Платформа по чертежу <strong>10 740 мм</strong></span><span>Разборка <strong>12 узлов</strong></span></div>
+<div class="workspace" id="model-section">
+ <div class="stage">
+  <canvas id="model" tabindex="0" aria-label="3D-модель трала. Вращайте перетаскиванием, используйте плюс и минус для масштаба"></canvas>
+  <div class="stage-label"><span class="status-dot"></span><span id="scene-label">Трал в сборе</span></div>
+  <div class="stage-help">Поворот мышью · Масштаб колесом · Нажмите на деталь</div>
+  <div class="loading" id="loading">Загрузка 3D-модели</div>
+  <div class="selection" id="selection" hidden><p id="part-name"></p><button type="button" id="focus-part">Приблизить деталь</button></div>
+ </div>
+ <aside>
+  <div class="aside-head"><p class="eyebrow">Управление моделью</p><h2>Рассмотреть устройство</h2></div>
+  <label for="scope">Узел для разборки</label>
+  <select id="scope"><option value="all">Вся сборка</option></select>
+  <button type="button" id="focus-scope">Приблизить выбранный узел</button>
+  <label for="part-select">Детали и крепёж выбранного узла</label>
+  <select id="part-select" aria-label="Выберите деталь"></select>
+  <button type="button" id="inspect" hidden>Осмотреть крепёж отдельно</button>
+  <button type="button" id="return" hidden>Вернуться к тралу</button>
+  <label for="explode">Разборка узла <output id="explode-value">0%</output></label>
+  <input type="range" id="explode" min="0" max="100" value="0">
+  <label for="fasteners">Разборка крепежа <output id="fastener-value">0%</output></label>
+  <input type="range" id="fasteners" min="0" max="100" value="0">
+  <button type="button" id="highlight" aria-pressed="false">Выделить крепёж</button>
+  <label for="ramp">Положение аппарелей <output id="ramp-value">Транспортное</output></label>
+  <input type="range" id="ramp" min="0" max="100" value="0">
+  <div class="toggles">
+   <label><input id="deck" type="checkbox" checked>Показывать настил</label>
+   <label><input id="stakes" type="checkbox" checked>Показывать коники</label>
+   <label><input id="isolate" type="checkbox">Только выбранный узел</label>
+  </div>
+  <div class="view-buttons"><button id="minus" type="button" aria-label="Уменьшить">−</button><button id="plus" type="button" aria-label="Увеличить">+</button><button id="reset" type="button">Собрать всё</button></div>
+  <button id="tour" class="primary" type="button">Смотреть демонстрацию</button>
+  <p class="aside-note" id="stats"></p>
+ </aside>
+</div>
+<div class="quickviews" aria-label="Готовые ракурсы">
+ <button type="button" data-view="assembly">Общий вид</button>
+ <button type="button" data-view="frame">Рама под настилом</button>
+ <button type="button" data-view="axle">Ось и ступица</button>
+ <button type="button" data-view="bolt">Колесная шпилька крупно</button>
+ <button type="button" data-view="ramps">Аппарели и шарниры</button>
+ <button type="button" data-view="exploded">Вся сборка в разборе</button>
+<a class="video-link" href="./rockson-demo.mp4" target="_blank" rel="noopener">Открыть видеодемонстрацию</a>
+</div>
+<section class="details" id="references">
+ <div><p class="eyebrow">Основа модели</p><h2>По чертежу и фотографиям</h2><p>Внешняя компоновка сверена с материалами из карточки ROCKSON 989150-УГ-45. Общая длина по опубликованному чертежу 16 220 мм, основной участок платформы 10 740 мм, межосевое расстояние 1 360 мм.</p></div>
+ <div><p>На странице модели 45 т размещён чертёж с обозначением УГ-36 в имени файла. Внутреннее устройство подвески, тормозов и скрытые соединения показаны демонстрационно. Размеры крепежа и порядок разборки условные.</p><p><a href="https://mz-rockson.ru/modeli/visocoramnie_trali/rockson-989150-ug-45/">Карточка трала и фотографии</a><br><a href="https://mz-rockson.ru/wp-content/uploads/2023/06/vis989150-ug-36-plan1.jpg">Габаритный чертёж производителя</a></p></div>
+</section>
+</main>
+<footer><a href="/">007-A</a><span>Демонстрация интерактивной карточки ROCKSON</span></footer>
+</body>
+</html>
