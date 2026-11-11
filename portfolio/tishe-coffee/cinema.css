@@ -68,3 +68,15 @@
 .visual-layer{transition:transform .48s cubic-bezier(.22,.7,.2,1)}.cinema-stage[data-focusing] .scene-drinks{opacity:0!important;pointer-events:none!important}
 
 @media(min-width:601px){.hero .hero-word{top:11%}}
+
+/* One autonomous film. Native video remains visible underneath the compositing canvas. */
+.cinema-wrap{height:100svh;min-height:640px}.cinema-stage{position:relative;height:100svh;min-height:640px}.cinema-anchor{display:none}
+.hero-film#intro-decoder{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;pointer-events:none;z-index:-5;background:#190c06}
+.menu{margin-top:0;padding-top:110px;background:#21130d;position:relative}.menu:before{content:'';position:absolute;left:0;right:0;top:-80px;height:80px;pointer-events:none;background:linear-gradient(0deg,#21130d,transparent)}
+.scene-ending .text-link{display:inline-flex;border:1px solid #d8bb8955;padding:13px 20px;min-height:46px;align-items:center;margin-top:16px}
+.scene-rail{display:none}.scene-static .hero-word{opacity:1!important}.scene-static .scene-opening{opacity:1!important}
+@media(max-width:600px){.cinema-wrap{height:100svh;min-height:640px}.cinema-stage{height:100svh;min-height:640px}.menu{margin-top:0;padding-top:70px}.hero .hero-word{top:16%}.scene-ending .text-link{font-size:11px}.scene-ending>p{line-height:1.8}.film-controls{bottom:5%}.scene-static .cinema-wrap{min-height:640px}}
+
+.visual-layer .hero-picture{display:none}
+
+.visual-layer{background:transparent}

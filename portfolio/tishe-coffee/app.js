@@ -64,26 +64,6 @@
     const button = event.target.closest('[data-drink]');
     if (button) openOrder(button.dataset.drink, button);
   });
-  const sceneDrinks = document.querySelector('#scene-drinks');
-  const pins = [[57,66],[42,44],[61,35],[77,57],[79,24],[93,43]];
-  sceneDrinks.innerHTML = drinks.map((drink, index) => `<button class="scene-drink" type="button" data-scene-drink="${drink.id}" style="--pin-x:${pins[index][0]};--pin-y:${pins[index][1]}" aria-label="Выбрать ${drink.name}, от ${drink.price} рублей"><i aria-hidden="true"></i><span>${drink.name}<b>${money(drink.price)}</b></span></button>`).join('');
-  sceneDrinks.addEventListener('click', event => {
-    const button = event.target.closest('[data-scene-drink]');
-    if (!button) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      openOrder(button.dataset.sceneDrink, button);
-      return;
-    }
-    const rect = button.getBoundingClientRect();
-    const stageRect = document.querySelector('.cinema-stage').getBoundingClientRect();
-    window.dispatchEvent(new CustomEvent('coffee:focus', { detail: {
-      x: (rect.left + rect.width / 2 - stageRect.left) / stageRect.width,
-      y: (rect.top + rect.height / 2 - stageRect.top) / stageRect.height,
-      sourceX: Number(button.style.getPropertyValue('--pin-x')),
-      sourceY: Number(button.style.getPropertyValue('--pin-y'))
-    } }));
-    setTimeout(() => openOrder(button.dataset.sceneDrink, button), 320);
-  });
   drinkSelect.addEventListener('change', updateDrink);
   form.addEventListener('change', updatePrice);
   function closeOrder() { dialog.close(); }
