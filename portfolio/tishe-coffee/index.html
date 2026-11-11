@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171410">
+  <meta name="description" content="Тише кофе. Авторский концепт кофейни от 007-A. Живая 3D-сцена, кофейная карта и выбор любимого напитка.">
+  <meta property="og:title" content="Тише кофе / кофе и ничего лишнего">
+  <meta property="og:description" content="Интерактивный концепт кофейни. Дизайн и разработка 007-A.">
+  <meta property="og:image" content="https://007-a.ru/portfolio/tishe-coffee/assets/cover.jpg">
+  <link rel="canonical" href="https://007-a.ru/portfolio/tishe-coffee/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23b6cf71'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='44' font-family='Georgia' fill='%23171410'%3Eт%3C/text%3E%3C/svg%3E">
+  <title>Тише кофе / кофе и ничего лишнего</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">{"imports":{"three":"./assets/vendor/three.module.js"}}</script>
+  <script src="assets/vendor/gsap.min.js" defer></script>
+  <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip" href="#menu">Перейти к меню</a>
+  <header class="header">
+    <a class="wordmark" href="#home" aria-label="Тише кофе, в начало">тише<span>кофе</span><i aria-hidden="true"></i></a>
+    <nav aria-label="Основная навигация"><a href="#story">В чем вкус</a><a href="#menu">Кофейная карта</a></nav>
+    <a class="header-cta" href="#menu">Мой кофе <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <div class="scroll-story" id="home">
+      <div class="scene-sticky">
+        <div class="background-word" aria-hidden="true">coffee</div>
+        <div class="halo" aria-hidden="true"></div>
+        <div id="scene" role="img" aria-label="Объемная чашка кофе с паром и обжаренными зернами"></div>
+        <div class="scene-fallback" hidden><div class="fallback-cup"><span>тише.</span></div><p>Ваш кофе уже здесь.</p></div>
+        <div class="scene-copy copy-intro">
+          <div class="eyebrow"><span class="live-dot"></span> КОФЕ И НИЧЕГО ЛИШНЕГО</div>
+          <h1>Хороший<br>день.<br><em>С первого<br class="mobile-break"> глотка.</em></h1>
+          <p>Свежий помол. Теплая чашка.<br>И немного времени для себя.</p>
+          <a class="pill light" href="#menu">Найти свой кофе <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="scene-copy copy-beans" id="story">
+          <div class="eyebrow">01 / ВСЕ НАЧИНАЕТСЯ С ЗЕРНА</div>
+          <h2>Маленькое зерно.<br><em>Большой характер.</em></h2>
+          <p>Шоколадная плотность. Мягкая сладость.<br>Вкус, к которому хочется вернуться.</p>
+          <div class="tasting"><span>какао</span><span>карамель</span><span>фундук</span></div>
+        </div>
+        <div class="scene-copy copy-brew">
+          <div class="eyebrow">02 / НИЧЕГО СЛУЧАЙНОГО</div>
+          <h2>Вся магия.<br><em>В одной чашке.</em></h2>
+          <p>Насыщенный эспрессо или нежный флэт уайт.<br>Мы здесь ради кофе. А вы?</p>
+          <a class="pill light" href="#menu">Посмотреть меню <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="scene-bottom"><span class="scroll-hint"><i></i> ЛИСТАЙТЕ. ВДОХНОВЛЯЙТЕСЬ.</span><span class="scene-note">Один маленький<br>ежедневный ритуал.</span></div>
+        <div class="chapter"><b>01</b><span>/ 03</span></div>
+        <span class="scene-badge">СОЗДАНО, ЧТОБЫ ЗАМЕДЛИТЬСЯ</span>
+      </div>
+    </div>
+    <section class="manifesto" aria-label="О кофейне">
+      <span class="section-index">ТИШЕ / ФИЛОСОФИЯ</span>
+      <p>Не нужно повода.<br>Нужен <em>хороший кофе.</em></p>
+      <div class="manifesto-bottom"><span>Без большого меню.<br>Без лишнего шума.</span><span>Только то, ради чего<br>вы зашли.</span><span class="bean-symbol" aria-hidden="true"></span></div>
+    </section>
+    <section class="menu-section" id="menu">
+      <div class="menu-head"><div><span class="section-index">03 / КОФЕЙНАЯ КАРТА</span><h2>Какой вы <em>сегодня?</em></h2></div><p>Покрепче. Понежнее. Под настроение.<br>Найдите свою чашку.</p></div>
+      <div class="menu-layout">
+        <div class="drink-preview" aria-live="polite">
+          <div class="preview-top"><span id="drink-number">01 / ЧИСТЫЙ ВКУС</span><span>ТИШЕ КОФЕ</span></div>
+          <div class="drink-visual" data-drink="espresso"><div class="drink-shadow"></div><div class="cup-handle"></div><div class="cup-body"><div class="drink-surface"></div><span>тише.</span></div><div class="saucer"></div><div class="preview-steam"></div></div>
+          <div class="preview-bottom"><h3 id="preview-name">Эспрессо</h3><p id="preview-description">Короткий. Плотный. С карамельным послевкусием.</p><span id="preview-volume">30 мл</span></div>
+        </div>
+        <div class="menu-list">
+          <div class="menu-filters" aria-label="Категории кофе"><button class="active" data-filter="all" aria-pressed="true">Весь кофе</button><button data-filter="black" aria-pressed="false">Черный</button><button data-filter="milk" aria-pressed="false">С молоком</button></div>
+          <div id="drinks"></div>
+          <p class="menu-note">Цены и составы приведены для демонстрации концепта.</p>
+        </div>
+      </div>
+    </section>
+    <section class="ritual">
+      <div><span class="section-index">ВАША ПАУЗА В ТЕЧЕНИЕ ДНЯ</span><h2>Мир подождет.<br><em>Кофе стынет.</em></h2><a class="pill dark" href="#menu">Выбрать напиток <span aria-hidden="true">↗</span></a></div>
+      <div class="ritual-stamp" aria-hidden="true"><span>COFFEE / SLOW MOMENTS /</span><b>т.</b><small>маленький ритуал</small></div>
+    </section>
+  </main>
+  <footer><a class="wordmark" href="#home">тише<span>кофе</span></a><p>Авторский концепт вымышленной кофейни.<br>Меню и заказ работают в демонстрационном режиме.</p><a class="studio-link" href="/directions/sites/">Дизайн и разработка<br><b>007-A.RU</b></a></footer>
+  <dialog id="order-dialog" aria-labelledby="order-title">
+    <button class="close-dialog" aria-label="Закрыть">×</button>
+    <div class="eyebrow">ВАША ЧАШКА / ДЕМО</div><h2 id="order-title">Ваш <em>кофе.</em></h2>
+    <form id="order-form">
+      <label for="order-drink">Напиток</label><select id="order-drink" name="drink"></select>
+      <fieldset><legend>Объем</legend><div id="size-options" class="size-options"></div></fieldset>
+      <div id="milk-label"><label for="order-milk">Молоко</label><select id="order-milk"><option value="0">Обычное</option><option value="60">Овсяное, +60 ₽</option><option value="60">Кокосовое, +60 ₽</option></select></div>
+      <div class="order-total"><span>Ваша чашка</span><strong id="total-price">180 ₽</strong></div>
+      <button type="submit" class="pill dark">Выбрать этот кофе <span aria-hidden="true">↗</span></button>
+      <p class="dialog-note">Демонстрация. Оплата и передача заказа в кофейню не подключены.</p>
+    </form>
+    <div id="order-result" hidden><div class="result-mark">т.</div><h3>Хороший выбор.</h3><p id="result-text"></p><p class="dialog-note">Это тестовый выбор. Заказ никуда не отправлен.</p><button class="pill dark result-back">Еще чашку?</button></div>
+  </dialog>
+</body>
+</html>
