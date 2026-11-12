@@ -3,7 +3,7 @@
   document.querySelectorAll('[data-hotel-motion]').forEach(hero => {
     const video = hero.querySelector('.hotel-hero-video');
     const button = hero.querySelector('.hotel-hero-motion');
-    if (!video || !button) return;
+    if (!video) return;
     const film = hero.querySelector('.hotel-film-dialog');
     const filmVideo = film?.querySelector('video');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -11,6 +11,7 @@
     let visible = true;
     let failed = false;
     const updateButton = () => {
+      if (!button) return;
       button.textContent = requested ? 'Пауза видео' : 'Включить видео';
       button.setAttribute('aria-label', requested ? 'Остановить видео на обложке' : 'Включить видео на обложке');
     };
@@ -28,23 +29,23 @@
         if (failed || error.name === 'AbortError') return;
         if (visible && !document.hidden && requested) {
           requested = false;
-          button.hidden = false;
+          if (button) button.hidden = false;
           updateButton();
         }
       });
     };
     video.addEventListener('playing', () => {
       hero.classList.add('hotel-video-ready');
-      button.hidden = false;
+      if (button) button.hidden = false;
       updateButton();
     });
     video.addEventListener('error', () => {
       failed = true;
       video.pause();
       hero.classList.remove('hotel-video-ready');
-      button.hidden = true;
+      if (button) button.hidden = true;
     });
-    button.addEventListener('click', () => {
+    button?.addEventListener('click', () => {
       requested = !requested;
       updateButton();
       sync();
@@ -76,7 +77,7 @@
     reduced.addEventListener('change', () => {
       requested = !reduced.matches && !navigator.connection?.saveData;
       if (reduced.matches) hero.classList.remove('hotel-video-ready');
-      button.hidden = failed;
+      if (button) button.hidden = failed;
       updateButton();
       sync();
     });
