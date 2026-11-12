@@ -17,7 +17,6 @@
   <script defer src="assets/hotel-rooms.js"></script>
   <script defer src="assets/hotel-tour.js?v=3"></script>
   <script defer src="assets/hotel.js?v=4"></script>
-  <script defer src="assets/hotel-landscape.js?v=3"></script>
   <link rel="stylesheet" href="../hero-video.css?v=2">
   <script defer src="../hero-video.js?v=2"></script>
 </head>
@@ -49,19 +48,7 @@
             <button class="button villa-secondary" type="button" data-open-tour="07" aria-haspopup="dialog">Открыть люкс в 3D</button>
           </div>
         </div>
-        <div class="landscape-chip">
-          <button class="landscape-preview" type="button" data-open-hotel-film aria-label="Смотреть видео отеля Villa 007" aria-haspopup="dialog">
-            <video id="preview-video" playsinline muted loop preload="none" poster="assets/villa.webp" src="assets/villa-film-smooth.mp4" aria-hidden="true"></video>
-            <span class="play-icon" aria-hidden="true">▶</span>
-            <span><small>Видео отеля</small><strong>Villa 007</strong></span>
-          </button>
-          <button id="preview-motion" type="button" class="landscape-motion" hidden>Пауза</button>
-        </div>
       </div>
-      <dialog class="hotel-film-dialog" aria-label="Видео отеля Villa 007">
-        <div class="hotel-film-heading"><span>Villa 007</span><button type="button" data-close-hotel-film>Закрыть</button></div>
-        <video controls playsinline preload="none" data-src="assets/villa-film-smooth.mp4" poster="assets/villa.webp" aria-label="Видео отеля, парковки, арок и альпийского пейзажа"></video>
-      </dialog>
     </section>
 
     <section class="stay wrap" id="stay" aria-labelledby="stay-title">
