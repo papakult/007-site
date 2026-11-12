@@ -23,3 +23,23 @@
 @media (prefers-reduced-motion: reduce) {
   [data-hotel-motion] .hotel-hero-video { transition: none; }
 }
+
+.hotel-film-open {
+  display: inline-block; margin: 16px 0 0 12px; padding: 12px 17px;
+  border: 1px solid #ffffff70; border-radius: 0; background: #1d2419a6;
+  color: #fff8e7; font: 14px Arial, sans-serif; cursor: pointer;
+}
+.hotel-film-open:hover { background: #1d2419; }
+.hotel-film-open:focus-visible { outline: 2px solid #f1d6a1; outline-offset: 4px; }
+.landscape-preview { color: #fff8e7; text-align: left; cursor: pointer; }
+.hotel-film-dialog {
+  width: min(1120px, calc(100vw - 32px)); max-width: none;
+  max-height: calc(100dvh - 32px); margin: auto; padding: 0;
+  border: 1px solid #b7a17b; border-radius: 5px; background: #10140f; color: #fff8e7;
+}
+.hotel-film-dialog::backdrop { background: #000d; }
+.hotel-film-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 10px 16px; font: 18px Georgia, serif; }
+.hotel-film-heading button { min-height: 44px; padding: 8px 13px; border: 1px solid #fff8e766; border-radius: 3px; color: #fff8e7; background: transparent; font: 14px Arial, sans-serif; cursor: pointer; }
+.hotel-film-heading button:focus-visible { outline: 2px solid #f1d6a1; outline-offset: 3px; }
+.hotel-film-dialog video { display: block; width: 100%; max-height: calc(100dvh - 106px); object-fit: contain; background: #000; }
+@media (max-width: 450px) { .hotel-film-open { margin-left: 0; margin-right: 12px; } }

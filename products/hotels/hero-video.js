@@ -4,6 +4,8 @@
     const video = hero.querySelector('.hotel-hero-video');
     const button = hero.querySelector('.hotel-hero-motion');
     if (!video || !button) return;
+    const film = hero.querySelector('.hotel-film-dialog');
+    const filmVideo = film?.querySelector('video');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     let requested = !reduced.matches && !navigator.connection?.saveData;
     let visible = true;
@@ -14,7 +16,7 @@
     };
     const sync = () => {
       if (failed) return;
-      if (!requested || !visible || document.hidden) {
+      if (!requested || !visible || document.hidden || film?.open) {
         video.pause();
         return;
       }
@@ -46,6 +48,29 @@
       requested = !requested;
       updateButton();
       sync();
+    });
+    hero.querySelectorAll('[data-open-hotel-film]').forEach(open => {
+      open.addEventListener('click', () => {
+        if (!film || !filmVideo) return;
+        film.showModal();
+        if (!filmVideo.getAttribute('src')) filmVideo.src = filmVideo.dataset.src;
+        const preview = hero.querySelector('#preview-video');
+        preview?.pause();
+        sync();
+        filmVideo.currentTime = 0;
+        filmVideo.play().catch(() => {});
+      });
+    });
+    hero.querySelector('[data-close-hotel-film]')?.addEventListener('click', () => film.close());
+    film?.addEventListener('close', () => {
+      filmVideo.pause();
+      sync();
+    });
+    film?.addEventListener('click', event => {
+      if (event.target === film) {
+        const box = film.getBoundingClientRect();
+        if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) film.close();
+      }
     });
     document.addEventListener('visibilitychange', sync);
     reduced.addEventListener('change', () => {
