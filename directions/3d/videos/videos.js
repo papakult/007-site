@@ -37,7 +37,7 @@ function resetFilter() {
 function openVideo(card, autoplay) {
   if (active === card && dialog.open) return;
   const video = card.querySelector('[data-play]');
-  const assembly = card.querySelector('a[href*="?model="]');
+  const assembly = card.querySelector('a[data-model-link],a[href*="?model="]');
   active = card;
   title.textContent = card.querySelector('h2').textContent;
   direct.href = video.href;

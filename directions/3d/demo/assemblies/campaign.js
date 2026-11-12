@@ -90,6 +90,7 @@ function play(){
  tick=requestAnimationFrame(render);
 }
 async function open(nextKey,nextJob){
+ if(nextJob?.i===125){location.replace(new URL('../../eurocontainer/',import.meta.url));return;}
  stop();const id=++serial;
  const title=nextJob?.title||notes[nextKey][0];
  $('title').textContent=title;
