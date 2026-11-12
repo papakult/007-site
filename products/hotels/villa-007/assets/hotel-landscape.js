@@ -11,7 +11,7 @@ function updatePreviewMotion() {
 }
 
 async function playPreview() {
-  if (reduceMotion.matches || previewPaused) return;
+  if (reduceMotion.matches || previewPaused || document.querySelector('.hotel-hero-video')) return;
   try {
     await previewVideo.play();
     previewMotion.hidden = false;
