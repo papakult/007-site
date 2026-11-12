@@ -18,6 +18,8 @@
   <script defer src="assets/hotel-tour.js?v=3"></script>
   <script defer src="assets/hotel.js?v=4"></script>
   <script defer src="assets/hotel-landscape.js"></script>
+  <link rel="stylesheet" href="../hero-video.css?v=1">
+  <script defer src="../hero-video.js?v=1"></script>
 </head>
 <body>
   <a class="skip" href="#stay">К выбору дат</a>
@@ -34,8 +36,9 @@
   </header>
 
   <main>
-    <section class="hero villa-hero" aria-labelledby="hero-title">
-      <div class="hero-image"><img src="assets/villa.webp" alt="Итальянская вилла с терракотовой крышей на фоне гор" fetchpriority="high"></div>
+    <section class="hero villa-hero" data-hotel-motion aria-labelledby="hero-title">
+      <div class="hero-image"><img src="assets/villa.webp" alt="Итальянская вилла с терракотовой крышей на фоне гор" fetchpriority="high"><video class="hotel-hero-video" muted playsinline loop preload="none" data-src="assets/villa-living.mp4" aria-hidden="true" tabindex="-1"></video></div>
+      <button class="hotel-hero-motion" type="button" hidden aria-label="Остановить видео на обложке">Пауза видео</button>
       <div class="hero-inner">
         <div class="hero-copy">
           <div class="eyebrow"><span></span> Бутик-отель в итальянских Альпах</div>
