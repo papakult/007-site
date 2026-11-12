@@ -40,6 +40,3 @@ previewMotion.addEventListener('click', () => {
 });
 previewVideo.addEventListener('play', updatePreviewMotion);
 previewVideo.addEventListener('pause', updatePreviewMotion);
-document.querySelector('.landscape-preview').addEventListener('click', () => {
-  void landscapeVideo.play().catch(() => {});
-});
