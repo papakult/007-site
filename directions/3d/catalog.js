@@ -1,4 +1,4 @@
-import { catalog as models } from './catalog-models.js?v=details-28';
+import { catalog as models } from './catalog-models.js?v=trim-20261114';
 import { hasMechanismDiagram, mechanismDiagram } from './catalog-diagrams.js';
 
 const shelf = document.querySelector('#model-shelf');
@@ -145,7 +145,14 @@ function setFilter(category) {
   drawShelf(category);
 }
 
+function categoryCount(key) {
+  if (key === 'all') return catalog.length;
+  return catalog.filter(item =>
+    item.category === key || (key === 'electrical' && electricalIds.has(item.id))).length;
+}
+
 for (const [key,label] of Object.entries(categories)) {
+  if (!categoryCount(key)) continue;
   const chip = button(label,()=>setFilter(key),'filter-chip');
   chip.dataset.filter = key;
   filters.append(chip);
