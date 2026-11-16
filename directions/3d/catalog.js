@@ -105,6 +105,7 @@ function filmLink(details) {
 
 bindModelLink(document.querySelector('#watch-model-link'),byId.get('watch'));
 bindFilmLink(document.querySelector('#watch-film-link'),films.watch);
+bindFilmLink(document.querySelector('#watch-screw-link'),{title:'Шнековый конвейер. 3D-ролик', url:'/assets/video/screw-conveyor.mp4'});
 film.querySelector('button').addEventListener('click', () => film.close());
 film.addEventListener('close', () => filmVideo.pause());
 
