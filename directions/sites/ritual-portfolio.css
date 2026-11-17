@@ -1,0 +1,15 @@
+.ritual-portfolio{padding:100px 6vw;background:#101510;color:#eae8df;border-top:1px solid #343a2d}
+.ritual-portfolio-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:35px}
+.ritual-portfolio .label{color:#a6ab8f;font-size:10px;letter-spacing:.18em}
+.ritual-portfolio h2{font-family:Georgia,serif;font-size:clamp(38px,5vw,72px);font-weight:400;line-height:1.2;margin:18px 0 0}
+.ritual-portfolio-head>p{max-width:350px;font-size:13px;line-height:1.8;color:#a6ad9b}
+.ritual-portfolio-cover{position:relative;display:block;overflow:hidden;background:#182016;aspect-ratio:16/8}
+.ritual-portfolio-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
+.ritual-portfolio-cover:hover img{transform:scale(1.025)}
+.ritual-portfolio-cover>span{position:absolute;left:5%;bottom:10%;font-size:12px;color:#e8e4d3;border-bottom:1px solid #9a9e81;padding-bottom:12px;letter-spacing:.05em}
+.ritual-portfolio-cover b{font-weight:400;font-size:22px;margin-left:30px}
+.ritual-portfolio-bottom{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;margin-top:24px;font-size:12px;line-height:1.8;color:#969f87}
+.ritual-portfolio-bottom a{white-space:nowrap;color:#d7d9c7;border-bottom:1px solid #667350;padding:3px 0}
+.ritual-portfolio a:focus-visible{outline:2px solid #c9bb96;outline-offset:6px}
+@media(max-width:700px){.ritual-portfolio{padding:60px 6vw}.ritual-portfolio-head{display:block;margin-bottom:25px}.ritual-portfolio-head>p{font-size:12px;margin-top:20px}.ritual-portfolio-cover{aspect-ratio:4/5}.ritual-portfolio-cover img{object-position:75% center}.ritual-portfolio-cover>span{left:6%;right:6%;bottom:6%;background:rgba(16,21,16,.75);padding:14px;font-size:10px}.ritual-portfolio-cover b{margin-left:12px}.ritual-portfolio-bottom{display:block;font-size:11px}.ritual-portfolio-bottom a{display:inline-block;margin-top:18px}}
+@media(prefers-reduced-motion:reduce){.ritual-portfolio-cover img{transition:none}.ritual-portfolio-cover:hover img{transform:none}}
