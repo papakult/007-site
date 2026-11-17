@@ -1,0 +1,3 @@
+export function Arrow({diagonal=false}:{diagonal?:boolean}){return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d={diagonal?'M5 19 19 5M5 5h14v14':'M4 12h16m-6-6 6 6-6 6'} stroke="currentColor" strokeWidth="1.5"/></svg>}
+export function Mark(){return <svg aria-hidden="true" viewBox="0 0 40 44" fill="none"><path d="M3 40V18L20 3l17 15v22H26V24H14v16H3Z" stroke="currentColor" strokeWidth="2"/><path d="m3 18 17 8 17-8M20 3v23" stroke="currentColor" strokeWidth="1.3"/></svg>}
+export function Close(){return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="m5 5 14 14M19 5 5 19" stroke="currentColor" strokeWidth="1.5"/></svg>}

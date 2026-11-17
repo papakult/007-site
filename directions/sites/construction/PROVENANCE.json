@@ -1,0 +1,40 @@
+{
+  "note": "Generated conceptual architectural illustrations, not photographs of completed company projects.",
+  "assets": [
+    {
+      "filename": "hero-villa.webp",
+      "provider": "Runway",
+      "task_id": "ae15c840-a6a8-435b-ba3e-b55c5a3370f0",
+      "prompt": "A single premium photoreal architectural image for a luxury construction company website hero. Contemporary two-storey monolithic concrete and smoked-glass villa on a quiet landscaped slope near the Black Sea. Long horizontal cantilever, warm bronze metal accents, refined natural stone, subtle warm interior lighting, tiny reflecting pool. Blue hour atmosphere, muted charcoal and warm grey palette, dignified and sophisticated, realistic construction detailing. View from eye level three-quarter front, strong composition with architecture predominantly on the right two thirds, clear dark negative space on left for website typography. Quiet mountains and trees in background. High-end architectural editorial photography, realistic lens, no people, no text, no watermarks. One finished scene only.",
+      "generated_concept": true
+    },
+    {
+      "filename": "apartments.webp",
+      "provider": "Runway",
+      "task_id": "37bce179-2b5e-4e6c-8260-427716043ea7",
+      "prompt": "A single photoreal architectural editorial photograph of an elegant contemporary nine-storey residential building, pale limestone and bronze metal fins, recessed balconies with glass balustrades, generous planted forecourt and cypress trees, refined urban setting. Late afternoon soft warm light, restrained warm grey, charcoal and bronze palette. Building fills composition with straight verticals, sophisticated design and plausible structural detailing. Wide landscape photograph from pedestrian height, no people, no signage, no logos, no text, no collage.",
+      "generated_concept": true
+    },
+    {
+      "filename": "commercial.webp",
+      "provider": "Runway",
+      "task_id": "9451cdec-fce4-4d80-8636-ca3cd98e31e9",
+      "prompt": "A single photoreal architectural editorial photograph of a premium low-rise contemporary business centre, sculptural two-storey horizontal concrete roof slabs, clear full-height glass and bronze frames, elegant entrance plaza in pale stone with minimal landscaping. Dusk with understated warm interior light, charcoal and warm stone palette. Three-quarter street view, crisp realistic geometry, sophisticated commercially plausible building. Wide landscape composition, no people, no signage, no logos, no text, no collage.",
+      "generated_concept": true
+    },
+    {
+      "filename": "industrial.webp",
+      "provider": "Runway",
+      "task_id": "3cdfec99-8a18-4e13-bee6-4951616bf4da",
+      "prompt": "A single photoreal architectural editorial photograph of a sophisticated modern industrial building and logistics centre, silver-grey precision metal facade and charcoal structural bays, refined glazed administration wing, wide clean concrete apron, repeating canopy geometry. Moody early morning light with warm highlights, restrained neutral palette. Aerial view from modest height showing believable scale and precise construction, forest in distance. Premium architectural quality, wide landscape composition, no people, no signs, no logos, no text, no collage.",
+      "generated_concept": true
+    },
+    {
+      "filename": "hero-video.mp4",
+      "provider": "Runway",
+      "task_id": "8879c82c-039f-4769-b427-ae2827f7ab2e",
+      "prompt": "Premium architectural film. The camera makes a very slow, barely perceptible smooth push toward the contemporary villa. Stable horizon, straight architectural lines, constant calm blue-hour light, subtle movement in trees and reflecting water. The exact villa geometry and materials remain unchanged throughout. One continuous quiet shot with no cuts, no rapid fly-through, no people, no text.",
+      "generated_concept": true
+    }
+  ]
+}
