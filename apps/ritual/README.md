@@ -28,6 +28,8 @@ assets available. The existing directory page links to the new experience.
 - Lenis runs on the same GSAP ticker; native touch scrolling is preserved.
 - Reduced motion disables smooth scroll, reveals and idle scene animation.
 - Rendering stops when the hero leaves the viewport or the document is hidden.
+- A tiny WebGL probe, kept out of the Three.js bundle, loads the scene only when it passes. Software renderers such as SwiftShader never mount it.
+- The still-life poster stays visible until the first frames are smooth. Slow frames or a lost WebGL context stop the scene and leave the poster in place.
 - Local fonts; compressed WebP poster before WebGL and on context loss.
 - Visible content and navigation remain available without JavaScript.
 

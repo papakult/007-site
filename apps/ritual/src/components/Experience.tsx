@@ -1,16 +1,14 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { Arrow, LilyMark, ServiceIcon } from './Icons';
 import RequestForm from './RequestForm';
-import type { SceneMotion } from './Scene';
-
-const Scene = dynamic(() => import('./Scene'), { ssr: false });
+import type { SceneMotion, SceneProps } from './sceneMotion';
+import { canMountWebGLScene } from './webglProbe';
 const services = [
   { title: 'Организация\nпрощания', text: 'Внимание к каждой детали церемонии — от выбора места до сопровождения в день прощания.', detail: 'Церемония · сопровождение' },
   { title: 'Оформление\nи принадлежности', text: 'Цветы, ритуальные принадлежности и оформление пространства с уважением к семейным традициям.', detail: 'Флористика · оформление' },
@@ -29,6 +27,8 @@ export default function Experience() {
   const motion = useRef<SceneMotion>({ progress:0, reduced:false });
   const [sceneActive, setSceneActive] = useState(true);
   const [sceneReady, setSceneReady] = useState(false);
+  const [mountScene, setMountScene] = useState(false);
+  const [SceneView, setSceneView] = useState<ComponentType<SceneProps> | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -66,6 +66,19 @@ export default function Experience() {
   }, []);
 
   useEffect(() => {
+    if (!canMountWebGLScene()) return;
+    let cancelled = false;
+    import('./Scene')
+      .then((mod) => {
+        if (cancelled) return;
+        setSceneView(() => mod.default);
+        setMountScene(true);
+      })
+      .catch(() => { if (!cancelled) setMountScene(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
     if (!menuOpen) return;
     function close(event: KeyboardEvent) { if(event.key === 'Escape') { setMenuOpen(false); document.getElementById('menu-toggle')?.focus(); } }
     window.addEventListener('keydown', close);
@@ -75,7 +88,7 @@ export default function Experience() {
   return <div ref={root} className="experience">
     <a href="#main-content" className="skip-link">Перейти к содержанию</a>
     <header className="header">
-      <a className="identity" href="#top" aria-label="Тихий свет, в начало"><LilyMark/><span>ТИХИЙ СВЕТ<small>РИТУАЛЬНАЯ СЛУЖБА</small></span></a>
+      <a className="identity" href="#top"><LilyMark/><span>ТИХИЙ СВЕТ<small>РИТУАЛЬНАЯ СЛУЖБА</small></span></a>
       <nav className={`navigation ${menuOpen ? 'is-open' : ''}`} id="navigation" aria-label="Главная навигация"><a href="#services" onClick={() => setMenuOpen(false)}>Услуги</a><a href="#first-hours" onClick={() => setMenuOpen(false)}>Первые часы</a><a href="#approach" onClick={() => setMenuOpen(false)}>Наш подход</a></nav>
       <a className="header-contact" href="#contact">Обратиться за помощью<Arrow diagonal/></a>
       <button className="menu-toggle" id="menu-toggle" type="button" aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'} aria-controls="navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><span/><span/></button>
@@ -83,7 +96,7 @@ export default function Experience() {
     <main id="main-content">
       <section className="hero" id="top" ref={hero} aria-labelledby="hero-title">
         <div className="hero-stage">
-          <div className="hero-light" aria-hidden="true"/><div className={`hero-poster ${sceneReady ? 'scene-ready' : ''}`} aria-hidden="true"><Image src="/directions/sites/ritual/still-life.webp" alt="" fill sizes="100vw" preload/></div><div className="scene-wrap" role="img" aria-label="Белые каллы и горящая свеча на тёмном каменном постаменте"><Scene motion={motion} active={sceneActive} onReady={() => setSceneReady(true)} onFailure={() => setSceneReady(false)}/></div>
+          <div className="hero-light" aria-hidden="true"/><div className={`hero-poster ${sceneReady ? 'scene-ready' : ''}`} aria-hidden="true"><Image src="/directions/sites/ritual/still-life.webp" alt="" fill sizes="100vw" preload/></div><div className={sceneReady ? 'scene-wrap is-live' : 'scene-wrap'} role="img" aria-label="Белые каллы и горящая свеча на тёмном каменном постаменте">{mountScene && SceneView ? <SceneView motion={motion} active={sceneActive} onReady={() => setSceneReady(true)} onFailure={() => { window.setTimeout(() => { setSceneReady(false); setMountScene(false); }, 0); }}/> : null}</div>
           <div className="scene-vignette" aria-hidden="true"/>
           <div className="hero-copy hero-copy-first">
             <div className="eyebrow"><span className="tiny-line"/> Забота. Уважение. Память.</div>
