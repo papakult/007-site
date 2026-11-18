@@ -16,28 +16,6 @@
   });
   matchMedia('(min-width:761px)').addEventListener('change', event => { if (event.matches) setMenu(false); });
 
-  const frames = Array.from(document.querySelectorAll('[data-frame]'));
-  const dashes = Array.from(document.querySelectorAll('.slide-dashes i'));
-  const captions = ['На повороте', 'Вдоль набережной', 'За рулём'];
-  let index = 0;
-  function changeFrame(delta) {
-    index = (index + delta + frames.length) % frames.length;
-    frames.forEach((frame, i) => { frame.hidden = i !== index; dashes[i].classList.toggle('active', i === index); });
-    document.querySelector('.slide-count b').textContent = String(index + 1).padStart(2, '0');
-    document.querySelector('.slide-label').textContent = captions[index];
-  }
-  document.querySelectorAll('[data-slide]').forEach(button => button.addEventListener('click', () => changeFrame(Number(button.dataset.slide))));
-  const gallery = document.querySelector('.cover-media');
-  let startX, startY;
-  gallery.addEventListener('touchstart', event => {
-    if (event.touches.length === 1) { startX = event.touches[0].clientX; startY = event.touches[0].clientY; }
-  }, { passive: true });
-  gallery.addEventListener('touchend', event => {
-    const dx = event.changedTouches[0].clientX - startX;
-    const dy = event.changedTouches[0].clientY - startY;
-    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) changeFrame(dx < 0 ? 1 : -1);
-  }, { passive: true });
-
   const programs = {
     start: {title:'Первое знакомство с машиной', summary:'Настроите посадку, почувствуете педаль тормоза и проедете свой первый поворот вместе с инструктором.', image:'detail', alt:'Руки водителя на руле учебного автомобиля'},
     city: {title:'Дорога, по которой вы ездите', summary:'Выберите привычный адрес. Вместе разберём сложный съезд, перестроение перед поворотом и парковку в конце пути.', image:'street', alt:'Автомобиль на городской набережной'},

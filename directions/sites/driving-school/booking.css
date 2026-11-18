@@ -148,3 +148,10 @@ html.adb-modal-open { overflow: hidden; }
     to { opacity: 1; transform: translateY(0); }
   }
 }
+.adb-dialog { --adb-red:#762738; --adb-paper:#faf5ef; border-radius:3px; }
+.adb-mast { color:#642335; }
+.adb-track i.adb-active { background:#762738; }
+.adb-dialog .adb-next { background:#702737; }
+.adb-dialog .adb-next:hover { background:#58202d; }
+.adb-next svg { color:#f4dad5; }
+.adb-choice input:checked + .adb-choice-inner { background:#f2e8e3; border-color:#762738; }

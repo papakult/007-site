@@ -107,3 +107,16 @@
 .ad-detail-link:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .ad-detail-link span { font: 18px/1 Arial, sans-serif; }
 @media (max-width: 620px) { .ad-method-link { grid-row: 5; margin-top: -4px; } }
+.ad-garage { background:#201d1e; }
+.ad-car { background:#302b2c; }
+.ad-car h3 { font-weight:450; }
+.ad-method h2 em { color:#762738; }
+.ad-contact { background:#5d1e2c; color:#fbf2e8; }
+.ad-contact-btn { background:#f5e9df; color:#341d21; }
+.ad-contact-btn span { background:#e5cfc7; color:#351c21; }
+.ad-contact-btn:hover { background:white; }
+.ad-method-photo img { object-position:50% 52%; }
+@media (max-width:620px) {
+  .ad-method-grid { grid-template-columns:minmax(0, 1fr); }
+  .ad-method h2 { font-size:clamp(43px, 13.5vw, 68px); }
+}

@@ -1,49 +1,40 @@
 (() => {
-  function initRoute() {
-    const route = document.querySelector('.ad-route');
-    if (!route) return;
-    const markers = [...route.querySelectorAll('[data-route-stop]')];
-    const tabs = [...route.querySelectorAll('[role="tab"]')];
-    const panels = tabs.map(tab => document.getElementById(tab.getAttribute('aria-controls')));
-    function select(index) {
-      tabs.forEach((tab, position) => {
-        const active = position === index;
-        tab.tabIndex = active ? 0 : -1;
-        tab.setAttribute('aria-selected', String(active));
-        markers[position].classList.toggle('is-active', active);
-        markers[position].setAttribute('aria-pressed', String(active));
-        panels[position].hidden = !active;
-      });
-    }
-    const focusNext = (event, index, controls) => {
-      let target;
-      switch (event.key) {
-        case 'Home': target = 0; break;
-        case 'End': target = controls.length - 1; break;
-        case 'ArrowLeft': target = (index + controls.length - 1) % controls.length; break;
-        case 'ArrowRight': target = (index + 1) % controls.length; break;
-        default: return;
-      }
-      event.preventDefault();
-      select(target);
-      controls[target].focus();
-    };
-    tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => select(index));
-      tab.addEventListener('keydown', event => focusNext(event, index, tabs));
-    });
-    markers.forEach((marker, index) => {
-      marker.addEventListener('click', () => select(index));
-      marker.addEventListener('keydown', event => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          select(index);
-        } else {
-          focusNext(event, index, markers);
-        }
-      });
+  const section = document.querySelector('#route.journey');
+  if (!section) return;
+  const pins = Array.from(section.querySelectorAll('.journey__pin'));
+  const tabs = Array.from(section.querySelectorAll('[role="tab"]'));
+  const panels = Array.from(section.querySelectorAll('[role="tabpanel"]'));
+
+  function showStop(index) {
+    tabs.forEach((tab, position) => {
+      const active = position === index;
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+      pins[position].setAttribute('aria-pressed', String(active));
+      const panel = panels[position];
+      const wasHidden = panel.hidden;
+      panel.hidden = !active;
+      panel.classList.toggle('journey__note--enter', active && wasHidden);
     });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initRoute, { once:true });
-  else initRoute();
+
+  section.querySelectorAll('[data-journey-stop]').forEach(button => {
+    button.addEventListener('click', () => showStop(Number(button.dataset.journeyStop)));
+  });
+  section.addEventListener('keydown', event => {
+    const current = event.target.closest('[data-journey-stop]');
+    if (!current || event.altKey || event.ctrlKey || event.metaKey) return;
+    const index = Number(current.dataset.journeyStop);
+    const options = {
+      ArrowLeft: (index - 1 + tabs.length) % tabs.length,
+      ArrowRight: (index + 1) % tabs.length,
+      Home: 0,
+      End: tabs.length - 1,
+    };
+    if (!(event.key in options)) return;
+    event.preventDefault();
+    const target = options[event.key];
+    showStop(target);
+    (current.classList.contains('journey__pin') ? pins : tabs)[target].focus();
+  });
 })();
