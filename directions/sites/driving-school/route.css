@@ -1,0 +1,48 @@
+.ad-route { background:#eeeee3; color:#20221d; font-family:var(--sans,Arial,sans-serif); padding-block:clamp(62px,7.2vw,128px); }
+.ad-route-in { width:min(calc(100% - 2 * clamp(20px,5vw,88px)),1450px); margin:auto; }
+.ad-route-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:clamp(24px,5vw,84px); margin-bottom:clamp(26px,3.2vw,52px); }
+.ad-route-heading .ad-route-kicker { color:#645f4e; margin:0 0 12px; font:600 12px/1.3 var(--sans,Arial,sans-serif); letter-spacing:.03em; }
+.ad-route-heading h2 { font:500 clamp(46px,5.1vw,94px)/1.01 var(--sans,Arial,sans-serif); letter-spacing:-.065em; color:inherit; text-transform:none; margin:0; }
+.ad-route-heading h2 em { font:italic 400 1.03em/1 var(--serif,Georgia,serif); letter-spacing:-.062em; }
+.ad-route-heading > p { font-size:clamp(15px,1.1vw,20px); line-height:1.48; color:#4a4d42; max-width:32ch; margin:0; }
+.ad-route-map { position:relative; overflow:hidden; width:100%; aspect-ratio:2.48; min-height:300px; background:#e0e2cd; }
+.ad-route-drawing { display:block; position:absolute; inset:0; width:100%; height:100%; max-width:none; }
+.ad-map-stop { cursor:pointer; outline:none; }
+.ad-map-stop .ad-map-dot { fill:#fff8e7; stroke:#b53d23; stroke-width:2; }
+.ad-map-stop text { fill:#9b301b; font:650 15px/1 var(--sans,Arial,sans-serif); text-anchor:middle; dominant-baseline:middle; user-select:none; pointer-events:none; }
+.ad-map-stop .ad-map-halo { fill:#cd4528; fill-opacity:0; stroke:transparent; }
+.ad-map-stop.is-active .ad-map-dot { fill:#bb3c23; stroke:white; stroke-width:1.5; }
+.ad-map-stop.is-active text { fill:white; }
+.ad-map-stop.is-active .ad-map-halo { fill-opacity:.25; }
+.ad-map-stop:hover .ad-map-halo { fill-opacity:.18; }
+.ad-map-stop:focus-visible .ad-map-halo { fill:none; stroke:#1d2722; stroke-width:2.5; }
+.ad-map-legend { position:absolute; left:clamp(14px,2.15vw,34px); bottom:clamp(14px,2vw,29px); display:inline-flex; align-items:center; gap:10px; padding:8px 12px; line-height:1.1; font-size:12px; background:#faf7ebe8; color:#404236; }
+.ad-map-legend i { width:22px; height:3px; background:#cf4829; border-radius:3px; }
+.ad-route-caption { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1fr); gap:clamp(26px,5.5vw,96px); border-bottom:1px solid #bbbead; padding-block:clamp(21px,2.5vw,44px); align-items:flex-start; }
+.ad-route-switch { display:flex; flex-wrap:wrap; gap:6px 16px; align-items:baseline; }
+.ad-route-switch button { padding:7px 0; background:none; border:none; color:#51554a; cursor:pointer; font:520 clamp(13px,.98vw,17px)/1.18 var(--sans,Arial,sans-serif); white-space:nowrap; display:inline-flex; align-items:center; gap:7px; }
+.ad-route-switch button span { width:22px; height:22px; font-size:11px; border:1px solid #9c9e8f; border-radius:50%; display:inline-grid; place-items:center; }
+.ad-route-switch button[aria-selected="true"] { color:#8e301a; }
+.ad-route-switch button[aria-selected="true"] span { background:#b83a22; border-color:#b83a22; color:#fff; }
+.ad-route-switch button:focus-visible { outline:2px solid currentColor; outline-offset:4px; }
+.ad-route-story [hidden] { display:none !important; }
+.ad-route-story h3 { margin:0 0 7px; font:550 clamp(24px,2vw,38px)/1.1 var(--sans,Arial,sans-serif); text-transform:none; letter-spacing:-.04em; color:inherit; }
+.ad-route-story p { margin:0; font-size:clamp(15px,1.15vw,20px); line-height:1.5; max-width:53ch; color:#494d42; }
+@media(max-width:810px) {
+ .ad-route-heading { align-items:flex-start; flex-direction:column; gap:15px; }
+ .ad-route-heading > p { max-width:43ch; }
+ .ad-route-caption { gap:16px; grid-template-columns:1fr; }
+ .ad-route-story { min-height:90px; }
+}
+@media(max-width:620px) {
+ .ad-route-map { min-height:0; aspect-ratio:auto; height:clamp(275px,74vw,390px); }
+ .ad-route-heading h2 { font-size:clamp(39px,10.9vw,67px); }
+ .ad-map-legend { font-size:11px; padding:7px 9px; }
+ .ad-route-switch { gap:4px 10px; }
+ .ad-route-switch button { min-height:40px; }
+}
+@media(max-width:365px) {
+ .ad-route-map { height:250px; }
+ .ad-route-switch { gap:4px 7px; }
+ .ad-route-switch button { gap:4px; font-size:12px; }
+}

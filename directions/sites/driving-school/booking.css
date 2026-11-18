@@ -1,0 +1,150 @@
+html.adb-modal-open { overflow: hidden; }
+
+.adb-dialog {
+  --adb-paper: #f3f0e9;
+  --adb-ink: #191a19;
+  --adb-muted: #595950;
+  --adb-line: #c9c6bd;
+  --adb-red: #c13b23;
+  position: fixed;
+  inset: 0;
+  width: min(570px, calc(100vw - 32px));
+  max-width: none;
+  height: fit-content;
+  max-height: calc(100dvh - 32px);
+  overscroll-behavior: contain;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: auto;
+  color: var(--adb-ink);
+  background: var(--adb-paper);
+  box-shadow: 0 28px 110px #13131066;
+  font: 400 16px/1.4 var(--sans, Arial, sans-serif);
+  color-scheme: light;
+}
+.adb-dialog:not([open]), .adb-dialog [hidden] { display: none !important; }
+.adb-dialog *, .adb-dialog *::after, .adb-dialog *::before { box-sizing: border-box; }
+.adb-dialog::backdrop { background: #1718149c; backdrop-filter: blur(5px); }
+.adb-dialog button { font: inherit; cursor: pointer; }
+.adb-body { padding: clamp(22px, 5vw, 44px); }
+.adb-mast, .adb-progress, .adb-actions, .adb-choice-inner { display: flex; align-items: center; justify-content: space-between; }
+.adb-mast { padding-bottom: 16px; border-bottom: 1px solid var(--adb-line); }
+.adb-mast-label, .adb-stage {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 600 10px/1.3 var(--sans, Arial, sans-serif);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.adb-mast-label i { width: 17px; height: 4px; transform: skew(-27deg); background: var(--adb-red); }
+.adb-close {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--adb-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--adb-ink);
+  display: inline-grid;
+  place-items: center;
+}
+.adb-close:hover { background: #e6e3da; }
+.adb-progress { margin-top: 24px; }
+.adb-stage { color: var(--adb-muted); }
+.adb-track { display: flex; gap: 3px; }
+.adb-track i { width: 22px; height: 3px; background: var(--adb-line); }
+.adb-track i.adb-active { background: var(--adb-red); }
+.adb-dialog h2.adb-heading {
+  font: 500 clamp(36px, 5vw, 52px)/.99 var(--sans, Arial, sans-serif);
+  letter-spacing: -.06em;
+  text-transform: none;
+  max-width: 11em;
+  margin: 16px 0 26px;
+  color: var(--adb-ink);
+}
+.adb-heading:focus { outline: 0; }
+.adb-form { margin: 0; }
+.adb-set { margin: 0; padding: 0; border: none; min-width: 0; }
+.adb-set legend {
+  margin: 0 0 10px;
+  padding: 0;
+  font: 600 13px/1.35 var(--sans, Arial, sans-serif);
+  color: var(--adb-ink);
+}
+.adb-choice { margin: 0; display: block; position: relative; cursor: pointer; color: var(--adb-ink); }
+.adb-choice input, .adb-dialog .adb-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  opacity: 0;
+}
+.adb-choice-inner { min-height: 64px; gap: 15px; padding: 12px 14px; border: 1px solid var(--adb-line); }
+.adb-courses .adb-choice + .adb-choice { margin-top: 6px; }
+.adb-choice-copy { display: block; min-width: 0; }
+.adb-choice-copy strong, .adb-choice-copy small { display: block; }
+.adb-choice-copy strong { font-size: 18px; font-weight: 580; line-height: 1.1; letter-spacing: -.03em; }
+.adb-choice-copy small { margin-top: 4px; font-size: 13px; line-height: 1.4; color: var(--adb-muted); }
+.adb-dot { width: 15px; height: 15px; flex: none; border: 1px solid #8d8d82; border-radius: 50%; }
+.adb-choice:hover .adb-choice-inner { border-color: #828279; }
+.adb-choice input:checked + .adb-choice-inner { border-color: var(--adb-ink); background: #ebe8df; }
+.adb-choice input:checked + .adb-choice-inner .adb-dot { border: 4px solid var(--adb-red); background: var(--adb-paper); }
+.adb-dialog button:focus-visible, .adb-choice input:focus-visible + .adb-choice-inner { outline: 2px solid var(--adb-red); outline-offset: 3px; }
+.adb-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.adb-options + .adb-options { margin-top: 22px; }
+.adb-options .adb-choice-inner { height: 100%; min-height: 58px; padding: 9px 6px; justify-content: center; text-align: center; }
+.adb-options .adb-choice-copy strong { font-size: 14px; line-height: 1.25; }
+.adb-options .adb-choice-copy small { font-size: 11px; }
+.adb-options .adb-dot { display: none; }
+.adb-options .adb-choice input:checked + .adb-choice-inner { box-shadow: inset 0 -3px var(--adb-red); }
+.adb-summary { margin: 0; }
+.adb-summary > div { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 12px 0; border-top: 1px solid var(--adb-line); }
+.adb-summary > div:last-child { border-bottom: 1px solid var(--adb-line); }
+.adb-summary dt { color: var(--adb-muted); font-size: 13px; }
+.adb-summary dd { margin: 0; font-size: 16px; font-weight: 600; text-align: right; }
+.adb-note, .adb-status { color: var(--adb-muted); font-size: 13px; line-height: 1.45; }
+.adb-note { margin: 15px 0 0; }
+.adb-status { margin: 12px 0 0; }
+.adb-status:empty { display: none; }
+.adb-actions { margin-top: 26px; gap: 12px; }
+.adb-dialog .adb-back { min-height: 45px; padding: 6px 2px; border: 0; background: transparent; color: var(--adb-ink); text-decoration: underline; text-underline-offset: 4px; font-size: 14px; }
+.adb-dialog .adb-next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-left: auto;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--adb-ink);
+  color: white;
+  font-weight: 550;
+  font-size: 14px;
+}
+.adb-next svg { color: #fe7752; }
+.adb-dialog .adb-next:hover { background: #343630; }
+@media (max-width: 480px) {
+  .adb-dialog { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); }
+  .adb-body { padding: 21px 18px; }
+  .adb-dialog h2.adb-heading { margin-bottom: 21px; }
+  .adb-options .adb-choice-copy strong { font-size: 13px; }
+  .adb-summary dd { font-size: 15px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .adb-dialog[open] { animation: adb-appear .22s ease-out; }
+  @keyframes adb-appear {
+    from { opacity: .4; transform: translateY(9px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4f1ea">
+<title>ATELIER DRIVE — частная автошкола в Москве | Концепция 007‑A</title>
+<meta name="description" content="ATELIER DRIVE — концепция частной автошколы в Москве. Выберите сценарий обучения, познакомьтесь с автопарком и соберите план первого выезда. Дизайн студии 007‑A.">
+<meta property="og:title" content="ATELIER DRIVE — Искусство водить"><meta property="og:description" content="Частная автошкола. Авторская концепция студии 007‑A."><meta property="og:type" content="website"><meta property="og:image" content="https://007-a.ru/directions/sites/driving-school/assets/cover.webp">
+<link rel="canonical" href="https://007-a.ru/directions/sites/driving-school/"><link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
+<link rel="preload" href="./assets/manrope.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="./assets/serif.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="./base.css"><link rel="stylesheet" href="./lower.css"><link rel="stylesheet" href="./booking.css">
+<link rel="stylesheet" href="./route.css"><script src="./route.js" defer></script>
+<script src="./main.js" defer></script><script src="./lower.js" defer></script><script src="./booking.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к содержанию</a>
+<header class="mast" id="top">
+  <div class="mast-inner">
+    <a class="brand" href="./" aria-label="Atelier Drive — главная"><span class="sign" aria-hidden="true"></span><span>Atelier <i>Drive</i></span></a>
+    <nav class="mast-nav" id="navigation" aria-label="Основное меню"><a href="#programs">Программы</a><a href="#garage">Автопарк</a><a href="#method">Как учим</a></nav>
+    <button class="nav-book" data-book aria-label="Первое занятие"><b class="nav-long">Первое занятие</b><b class="nav-short">Запись</b> <span aria-hidden="true">↗</span></button>
+    <button class="menu-switch" aria-expanded="false" aria-controls="navigation" aria-label="Открыть меню"><span></span><span></span></button>
+  </div>
+</header>
+<main id="main">
+  <section class="cover" aria-labelledby="cover-title">
+    <div class="cover-layout">
+      <div class="cover-type">
+        <p class="eyebrow school-location"><span class="location-dot" aria-hidden="true"></span> Частная автошкола <span class="rule"></span> Москва</p>
+        <h1 id="cover-title">Искусство<br><em>водить.</em></h1>
+        <p class="intro-copy">От первого поворота до привычной дороги домой. Персональные занятия за рулём в Москве.</p>
+        <a class="action" href="#programs">Выбрать программу <span class="action-arrow" aria-hidden="true">↓</span></a>
+      </div>
+      <div class="cover-figure" role="region" aria-label="Фотогалерея школы" aria-roledescription="карусель">
+        <div class="cover-media">
+          <picture class="cover-frame" data-frame="0"><source media="(max-width:650px)" srcset="./assets/cover-small.webp"><img src="./assets/cover.webp" width="1536" height="1024" fetchpriority="high" alt="Бордовый спортседан на повороте под бетонной эстакадой"></picture>
+          <picture class="cover-frame" data-frame="1" hidden><img src="./assets/street.webp" loading="lazy" width="1130" height="753" alt="Вечерняя поездка вдоль московской набережной"></picture>
+          <picture class="cover-frame" data-frame="2" hidden><source media="(max-width:650px)" srcset="./assets/detail-small.webp"><img src="./assets/detail.webp" loading="lazy" width="1150" height="767" alt="Водитель держит кожаный руль, за стеклом видна городская улица"></picture>
+          <div class="photo-control"><button type="button" aria-label="Предыдущий кадр" data-slide="-1">←</button><button type="button" aria-label="Следующий кадр" data-slide="1">→</button></div>
+        </div>
+        <div class="figure-caption"><span class="slide-count"><b>01</b><span aria-hidden="true"> / </span>03</span><div class="slide-dashes" aria-hidden="true"><i class="active"></i><i></i><i></i></div><span class="slide-label" aria-live="polite">На повороте</span></div>
+      </div>
+    </div>
+  </section>
+  <section id="programs" class="programs" aria-labelledby="programs-heading">
+    <div class="site-width">
+      <div class="section-top"><div><p class="eyebrow"><span class="short-rule"></span>Программы обучения</p><h2 id="programs-heading">С чего <em>начнём?</em></h2></div><a class="editor-link" href="./programs/">Все программы <span aria-hidden="true">↗</span></a></div>
+      <div class="program-layout">
+        <div class="program-menu" aria-label="Выбор программы">
+          <button type="button" data-course="start" aria-pressed="true"><span><small>Впервые за рулём</small><b>С нуля</b></span><span class="pick-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" data-course="city" aria-pressed="false"><span><small>Для ежедневных поездок</small><b>Мой маршрут</b></span><span class="pick-arrow" aria-hidden="true">↗</span></button>
+          <button type="button" data-course="return" aria-pressed="false"><span><small>После перерыва</small><b>Снова за руль</b></span><span class="pick-arrow" aria-hidden="true">↗</span></button>
+        </div>
+        <div class="course-view" aria-live="polite">
+          <div class="course-view-media"><img id="course-photo" loading="lazy" src="./assets/detail.webp" width="1150" height="767" alt="Руки водителя на руле учебного автомобиля"></div>
+          <div class="course-copy"><div><h3 id="course-heading">Первое знакомство с машиной</h3><p id="course-summary">Настроите посадку, почувствуете педаль тормоза и проедете свой первый поворот вместе с инструктором.</p></div><button class="course-open" type="button" data-book="start" aria-label="Подобрать занятие по программе С нуля">Выбрать <span aria-hidden="true">↗</span></button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+<section class="ad-garage" id="garage" aria-labelledby="garage-title">
+  <div class="ad-container">
+    <div class="ad-garage-head">
+      <h2 id="garage-title">Автопарк</h2>
+      <div class="ad-car-tabs" role="tablist" aria-label="Класс автомобиля">
+        <button type="button" id="tab-sedan" role="tab" aria-selected="true" aria-controls="panel-sedan">Седан</button>
+        <button type="button" id="tab-compact" role="tab" aria-selected="false" aria-controls="panel-compact" tabindex="-1">Компакт</button>
+        <button type="button" id="tab-crossover" role="tab" aria-selected="false" aria-controls="panel-crossover" tabindex="-1">Кроссовер</button>
+      </div>
+    </div>
+    <div class="ad-garage-body">
+      <article id="panel-sedan" class="ad-car" role="tabpanel" aria-labelledby="tab-sedan">
+        <div class="ad-car-image"><img src="./assets/garage-sedan.webp" alt="Учебный автомобиль с кузовом седан" width="1050" height="660" loading="lazy" decoding="async"></div>
+        <div class="ad-car-notes">
+          <span class="ad-car-index"><b>01</b><i></i>03</span>
+          <h3>Седан</h3>
+          <p>Почувствовать длину кузова, рассчитать место для разворота и спокойно припарковаться вдоль тротуара.</p>
+          <div class="ad-car-focus"><span>Задача занятия</span><strong>Габариты и парковка</strong></div>
+        </div>
+      </article>
+      <article id="panel-compact" class="ad-car" role="tabpanel" aria-labelledby="tab-compact" hidden>
+        <div class="ad-car-image"><img src="./assets/garage-compact.webp" alt="Компактный учебный автомобиль" width="1050" height="660" loading="lazy" decoding="async"></div>
+        <div class="ad-car-notes">
+          <span class="ad-car-index"><b>02</b><i></i>03</span>
+          <h3>Компакт</h3>
+          <p>Освоиться в узком дворе, разъехаться со встречной машиной и заехать на место между двумя автомобилями.</p>
+          <div class="ad-car-focus"><span>Задача занятия</span><strong>Манёвры во дворах</strong></div>
+        </div>
+      </article>
+      <article id="panel-crossover" class="ad-car" role="tabpanel" aria-labelledby="tab-crossover" hidden>
+        <div class="ad-car-image"><img src="./assets/garage-crossover.webp" alt="Учебный автомобиль с кузовом кроссовер" width="1050" height="660" loading="lazy" decoding="async"></div>
+        <div class="ad-car-notes">
+          <span class="ad-car-index"><b>03</b><i></i>03</span>
+          <h3>Кроссовер</h3>
+          <p>Привыкнуть к высокой посадке, проверить обзор в зеркалах и выбрать положение в полосе перед поворотом.</p>
+          <div class="ad-car-focus"><span>Задача занятия</span><strong>Обзор и положение в полосе</strong></div>
+        </div>
+      </article>
+    </div>
+    <a class="ad-detail-link ad-garage-link" href="./fleet/">Подробнее об автомобилях <span aria-hidden="true">↗</span></a>
+  </div>
+</section>
+<section class="ad-route" aria-labelledby="ad-route-title">
+  <div class="ad-route-in">
+    <header class="ad-route-heading">
+      <div><p class="ad-route-kicker">Пример занятия</p><h2 id="ad-route-title">Вдоль <em>набережной</em></h2></div>
+      <p>Три точки, три задачи за рулём. Выберите остановку на схеме, чтобы увидеть, что будем отрабатывать.</p>
+    </header>
+    <div class="ad-route-map">
+      <svg class="ad-route-drawing" viewBox="0 0 1000 510" preserveAspectRatio="xMidYMid slice" role="group" aria-labelledby="route-map-title route-map-desc">
+        <title id="route-map-title">Схема учебного маршрута</title>
+        <desc id="route-map-desc">Путь из двора через перекрёсток к набережной. У каждой точки есть кнопка выбора.</desc>
+        <defs>
+          <pattern id="route-paper" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M0 4.5H5" stroke="#5d5e53" opacity=".05" stroke-width=".7"/></pattern>
+          <pattern id="route-park" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(24)"><path d="M1 0v10" stroke="#73846c" stroke-width="1" opacity=".42"/></pattern>
+          <pattern id="route-water" width="36" height="13" patternUnits="userSpaceOnUse"><path d="M2 7q4-2 8 0t8 0" fill="none" stroke="#91aba3" opacity=".33" stroke-width="1"/></pattern>
+          <linearGradient id="route-fold"><stop stop-color="#4a4e47" stop-opacity=".07"/><stop offset=".48" stop-color="#fff" stop-opacity=".13"/><stop offset=".5" stop-color="#697266" stop-opacity=".18"/><stop offset="1" stop-color="#fbf2df" stop-opacity="0"/></linearGradient>
+          <g id="route-yard" fill="#cccebd" stroke="#9fa38f" stroke-width="1.05"><path d="M4 4h46v8H17v20H4zM55 4h21v28h-9V14H55zM9 42h26v11H9zM44 37h33v13H56v8H44z"/></g>
+          <g id="route-lofts" fill="#d7cebd" stroke="#a8a18e" stroke-width="1.05"><path d="M2 2h27v12H2zM37 4h31v21H51v-8H37zM4 23h27v9H17v17H4zM39 34h28v13H39z"/></g>
+          <g id="route-boulevard" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M-50 261 213 259 284 224 450 225 495 201 540 201 620 169 765 128 1055-14"/><path d="m46-55 23 154 80 88 34 65 50 84 111 214"/><path d="m345-30 10 103 65 81 32 68 54 76 62 55 32 87 85 117"/><path d="m567-30 4 90 48 107 53 89 55 71 46 86 33 113"/><path d="m-36 417 136-80 135 1 93 15 100-16 78-39 112-38 99-39 112-61 148-98"/><path d="M-20 68 116 49l135 15 107 7 118-35 106 1 185-68"/></g>
+          <g id="route-side" fill="none" stroke-linejoin="round"><path d="m-20 159 116-27 53 53 112-51 96-62m-119 7 21 58 21 77 45 63 31 75 50 141m-244-12 68-68 67-34 91-25 92-29m29-248 21 84 26 41 56 54 36 15m7-217 38 81 114 14 52 31m-187 36 56 88 36 46 51 56m-129-337 34 85 99-19 83-44m-620 513 111-53 115-20 70-31 114-46 59-24m-147-94 71-40 67-22"/></g>
+        </defs>
+        <rect width="1000" height="510" fill="#e5e4d4"/>
+        <g fill="#c8d0b9"><path d="M0 0h125l-9 38L0 58zM715-10l83 9-41 62-84 20-40-67zM1 376l74-29 46 12 8 82-32 69H0zM555 493l32-37 19 48z"/></g>
+        <g fill="url(#route-park)"><path d="M0 0h125l-9 38L0 58zM715-10l83 9-41 62-84 20-40-67zM1 376l74-29 46 12 8 82-32 69H0z"/></g>
+        <g opacity=".95">
+          <use href="#route-lofts" transform="translate(140 -8) rotate(7)"/><use href="#route-yard" transform="translate(230 -2) rotate(6)"/><use href="#route-lofts" transform="translate(373 -3) rotate(-12)"/>
+          <use href="#route-yard" transform="translate(5 82) rotate(-9)"/><use href="#route-yard" transform="translate(111 68) rotate(9)"/><use href="#route-lofts" transform="translate(194 60) rotate(-6)"/><use href="#route-yard" transform="translate(276 76) rotate(-15)"/>
+          <use href="#route-yard" transform="translate(375 84) rotate(-13)"/><use href="#route-lofts" transform="translate(467 73) rotate(-19)"/><use href="#route-yard" transform="translate(568 81) rotate(-15)"/><use href="#route-lofts" transform="translate(669 77) rotate(-19)"/>
+          <use href="#route-yard" transform="translate(14 178) rotate(-9)"/><use href="#route-lofts" transform="translate(95 189) rotate(-19)"/><use href="#route-yard" transform="translate(179 169) rotate(-20)"/><use href="#route-lofts" transform="translate(287 155) rotate(-9)"/>
+          <use href="#route-yard" transform="translate(356 159) rotate(-8)"/><use href="#route-lofts" transform="translate(455 156) rotate(-19)"/><use href="#route-yard" transform="translate(540 147) rotate(-18)"/>
+          <use href="#route-yard" transform="translate(25 278) rotate(-8)"/><use href="#route-yard" transform="translate(112 277) rotate(-12)"/><use href="#route-lofts" transform="translate(219 271) rotate(-6)"/>
+          <use href="#route-yard" transform="translate(332 246) rotate(-7)"/><use href="#route-lofts" transform="translate(409 248) rotate(-8)"/><use href="#route-yard" transform="translate(512 220) rotate(-18)"/>
+          <use href="#route-lofts" transform="translate(603 205) rotate(-22)"/><use href="#route-yard" transform="translate(678 157) rotate(-22)"/>
+          <use href="#route-yard" transform="translate(22 395) rotate(-25)"/><use href="#route-lofts" transform="translate(138 366) rotate(-9)"/><use href="#route-yard" transform="translate(236 363) rotate(5)"/>
+          <use href="#route-yard" transform="translate(340 368) rotate(-12)"/><use href="#route-lofts" transform="translate(439 344) rotate(-19)"/><use href="#route-yard" transform="translate(525 327) rotate(-21)"/>
+          <use href="#route-lofts" transform="translate(618 282) rotate(-20)"/><use href="#route-yard" transform="translate(669 245) rotate(-25)"/><use href="#route-lofts" transform="translate(718 219) rotate(-25)"/>
+          <use href="#route-lofts" transform="translate(120 447) rotate(-18)"/><use href="#route-yard" transform="translate(227 434) rotate(-18)"/><use href="#route-yard" transform="translate(338 452) rotate(-14)"/>
+          <use href="#route-lofts" transform="translate(451 425) rotate(-22)"/><use href="#route-yard" transform="translate(545 396) rotate(-20)"/><use href="#route-yard" transform="translate(628 364) rotate(-21)"/>
+        </g>
+        <use href="#route-side" stroke="#c4c2b0" stroke-width="6"/><use href="#route-side" stroke="#f3efdf" stroke-width="4.6"/>
+        <use href="#route-boulevard" stroke="#b6b6a2" stroke-width="12"/><use href="#route-boulevard" stroke="#f6f1df" stroke-width="9"/>
+        <path id="route-river" d="M865-15c-24 75-49 137-79 199-22 47-39 93-44 142-9 87 6 148 31 201h227V-15z" fill="#abc6bc"/>
+        <use href="#route-river" fill="url(#route-water)"/>
+        <path d="M858-15c-24 74-50 134-80 197-22 48-39 94-44 143-9 86 5 148 31 202" fill="none" stroke="#869787" stroke-width="2"/>
+        <path d="M862-15c-25 75-49 136-80 198-22 47-39 93-44 142-9 87 5 148 31 202" fill="none" stroke="#e6e5cf" stroke-width="6"/>
+        <path d="m772 192 114 30 136 59" fill="none" stroke="#9f9f8d" stroke-width="13"/><path d="m772 192 114 30 136 59" fill="none" stroke="#ebe6d2" stroke-width="9"/>
+        <g fill="#bec9af" stroke="#98a38b" stroke-width="1"><circle cx="751" cy="235" r="6"/><circle cx="747" cy="249" r="6"/><circle cx="743" cy="263" r="6"/><circle cx="739" cy="277" r="6"/></g>
+        <rect width="1000" height="510" fill="url(#route-paper)" pointer-events="none"/>
+        <g opacity=".59" pointer-events="none"><rect x="291" width="55" height="510" fill="url(#route-fold)"/><rect x="621" width="55" height="510" fill="url(#route-fold)"/></g>
+        <path class="ad-route-trace" d="m267 276 13-8 8-37q1-7 8-7l151 1q5 0 10 7l46 60q3 5 7 4l108-36 98-39 22-12" fill="none" stroke="#fff6de" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m267 276 13-8 8-37q1-7 8-7l151 1q5 0 10 7l46 60q3 5 7 4l108-36 98-39 22-12" fill="none" stroke="#cf4829" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="ad-map-stop is-active" transform="translate(267 276)" data-route-stop="0" role="button" tabindex="0" aria-label="1. Выезд со двора" aria-pressed="true"><circle r="29" fill="transparent"/><circle class="ad-map-halo" r="21"/><circle class="ad-map-dot" r="14"/><text y="1">1</text></g>
+        <g class="ad-map-stop" transform="translate(504 295)" data-route-stop="1" role="button" tabindex="0" aria-label="2. Перекрёсток" aria-pressed="false"><circle r="29" fill="transparent"/><circle class="ad-map-halo" r="21"/><circle class="ad-map-dot" r="14"/><text y="1">2</text></g>
+        <g class="ad-map-stop" transform="translate(738 209)" data-route-stop="2" role="button" tabindex="0" aria-label="3. У набережной" aria-pressed="false"><circle r="29" fill="transparent"/><circle class="ad-map-halo" r="21"/><circle class="ad-map-dot" r="14"/><text y="1">3</text></g>
+      </svg>
+      <span class="ad-map-legend"><i aria-hidden="true"></i> Схема учебного маршрута</span>
+    </div>
+    <div class="ad-route-caption">
+      <div class="ad-route-switch" role="tablist" aria-label="Участок маршрута">
+        <button type="button" id="ad-route-tab-1" role="tab" aria-selected="true" aria-controls="ad-route-panel-1"><span>1</span> Двор</button>
+        <button type="button" id="ad-route-tab-2" role="tab" aria-selected="false" aria-controls="ad-route-panel-2" tabindex="-1"><span>2</span> Перекрёсток</button>
+        <button type="button" id="ad-route-tab-3" role="tab" aria-selected="false" aria-controls="ad-route-panel-3" tabindex="-1"><span>3</span> Набережная</button>
+      </div>
+      <div class="ad-route-story">
+        <div id="ad-route-panel-1" role="tabpanel" aria-labelledby="ad-route-tab-1"><h3>Выезд со двора</h3><p>Выбираем точку с хорошим обзором. Учимся замечать пешеходов и велосипеды ещё до поворота на улицу.</p></div>
+        <div id="ad-route-panel-2" role="tabpanel" aria-labelledby="ad-route-tab-2" hidden><h3>Перекрёсток</h3><p>Заранее выбираем полосу и ищем ориентиры для поворота. После проезда обсуждаем, куда был направлен взгляд.</p></div>
+        <div id="ad-route-panel-3" role="tabpanel" aria-labelledby="ad-route-tab-3" hidden><h3>У набережной</h3><p>Ищем разрешённое место для остановки. Оцениваем длину свободного участка и пробуем поставить машину вдоль бордюра.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ad-method" id="method" aria-labelledby="method-title">
+  <div class="ad-container ad-method-grid">
+    <figure class="ad-method-photo"><img src="./assets/instructor.webp" alt="Практическое занятие в салоне автомобиля" width="800" height="1000" loading="lazy" decoding="async"><figcaption>Практика с инструктором</figcaption></figure>
+    <div class="ad-method-text">
+      <h2 id="method-title">Первый<br><em>выезд</em></h2>
+      <p class="ad-method-intro">До первого поворота успеем познакомиться, устроиться за рулём и договориться, что сегодня попробуем.</p>
+      <div class="ad-method-rows">
+        <details open>
+          <summary>До старта<span aria-hidden="true"></span></summary>
+          <p>Обсудим опыт и выберем одну задачу на урок. Настроим кресло, руль и зеркала так, чтобы вам было удобно смотреть по сторонам.</p>
+        </details>
+        <details>
+          <summary>На маршруте<span aria-hidden="true"></span></summary>
+          <p>Начнём с тихого участка. Потренируем начало движения, поворот и остановку. Каждый манёвр сначала обсудим, затем повторим в вашем темпе.</p>
+        </details>
+        <details>
+          <summary>После остановки<span aria-hidden="true"></span></summary>
+          <p>Вспомним один удачный манёвр и один сложный момент. Вместе решим, чему посвятить следующую поездку.</p>
+        </details>
+      </div>
+      <a class="ad-detail-link ad-method-link" href="./approach/">Как подготовиться к занятию <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<section class="ad-contact" id="contact" aria-labelledby="contact-title">
+  <div class="ad-container ad-contact-content">
+    <h2 id="contact-title">Начнём с первого<br><em>поворота.</em></h2>
+    <button class="ad-contact-btn" data-book type="button">Подобрать занятие <span aria-hidden="true">↗</span></button>
+  </div>
+</section>
+</main>
+<footer class="ad-footer">
+  <div class="ad-container ad-footer-content">
+    <a href="#top" class="ad-footer-logo" aria-label="Atelier Drive, в начало страницы">Atelier Drive</a>
+    <div class="ad-footer-credit"><span>Демонстрационный проект</span><a href="./booking/">Подбор занятия</a><a href="https://007-a.ru/">Студия 007‑A <span aria-hidden="true">↗</span></a></div>
+  </div>
+</footer>
+</body></html>
