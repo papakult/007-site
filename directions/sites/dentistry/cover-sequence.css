@@ -1,0 +1,125 @@
+/* Before enhancement the original cover is an ordinary, short, usable first screen. */
+.cover-sequence { position: relative; }
+.cover-sequence .portrait-art > img:not(:first-child) { display: none; }
+.cover-sequence .portrait-art > img {
+  object-position: var(--scene-x, 64%) var(--scene-y, 35%);
+}
+.cover-sequence.is-ready .portrait-art > img {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: var(--frame-opacity, 0);
+  transform: scale(var(--frame-scale, 1));
+  transform-origin: var(--scene-x, 64%) var(--scene-y, 35%);
+}
+.cover-sequence.is-ready .portrait-art > img:first-child { opacity: 1; }
+.cover-sequence.is-ready .portrait-lead { min-height: 3.3em; }
+
+.cover-scenes {
+  z-index: 2;
+  position: absolute;
+  top: clamp(1rem, 3.5vh, 2.8rem);
+  right: var(--page-edge);
+  display: inline-flex;
+  align-items: stretch;
+  padding: 0 .65rem;
+  border: 1px solid rgba(245, 232, 214, .32);
+  border-radius: 2rem;
+  background: rgba(35, 24, 23, .77);
+  color: #fff5e7;
+}
+.cover-scenes button {
+  position: relative;
+  min-height: 44px;
+  padding: .55rem .75rem;
+  border: 0;
+  background: transparent;
+  color: #e2d4c9;
+  font: 500 .875rem/1.2 Manrope, sans-serif;
+}
+.cover-scenes button[aria-pressed="true"] { color: #fff9ed; }
+.cover-scenes button::after {
+  content: "";
+  position: absolute;
+  inset: auto .75rem .38rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0;
+}
+.cover-scenes button[aria-pressed="true"]::after { opacity: 1; }
+.cover-scenes button:hover { color: white; }
+.cover-scenes button:focus-visible { outline: 2px solid #fff1da; outline-offset: -3px; border-radius: 1.5rem; }
+
+@media (prefers-reduced-motion: no-preference) and (min-height: 570px) {
+  .cover-sequence.is-pinned {
+    --cover-window: calc(100vh - var(--cover-inset, var(--header-height)));
+    --cover-travel: 120vh;
+    min-height: calc(var(--cover-window) + var(--cover-travel));
+  }
+  @supports (height: 100svh) {
+    .cover-sequence.is-pinned {
+      --cover-window: calc(100svh - var(--cover-inset, var(--header-height)));
+      --cover-travel: 120svh;
+    }
+  }
+  .cover-sequence.is-pinned > .portrait-cover {
+    position: sticky;
+    top: var(--cover-inset, var(--header-height));
+    min-height: var(--cover-window);
+  }
+}
+
+@media (max-width: 600px) {
+  .cover-sequence .portrait-art > img,
+  .cover-sequence.is-ready .portrait-art > img {
+    object-position: var(--scene-mobile-x, var(--scene-x, 59%)) var(--scene-mobile-y, var(--scene-y, 30%));
+    transform-origin: var(--scene-mobile-x, 59%) var(--scene-mobile-y, 30%);
+  }
+  .cover-scenes {
+    right: var(--page-edge);
+    top: .8rem;
+    padding-inline: .25rem;
+  }
+  .cover-scenes button { padding-inline: .65rem; font-size: .8125rem; }
+  .cover-scenes button::after { inset-inline: .65rem; }
+}
+@media (max-height: 569px) and (min-width: 601px) {
+  .cover-scenes { top: .7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cover-sequence.is-ready .portrait-art > img { transform: none; }
+}
+@media print {
+  .cover-sequence.is-ready { min-height: auto; }
+  .cover-sequence.is-ready > .portrait-cover { position: relative; min-height: auto; }
+  .cover-scenes { display: none; }
+}
+
+/* The two-shot needs a wider crop than either portrait. A dark matte keeps the
+   previous frame from showing around the differently framed photograph. */
+.cover-sequence.is-ready .portrait-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #281c19;
+  opacity: var(--meeting-mat, 0);
+}
+.cover-sequence.is-ready .portrait-art > img:nth-child(2) {
+  z-index: 2;
+  left: auto;
+  right: 0;
+  width: 92%;
+  mask-image: linear-gradient(90deg, transparent, black 14%);
+}
+.cover-sequence.is-ready .portrait-art > img:nth-child(3) { z-index: 3; }
+@media (max-width: 600px) {
+  .cover-sequence.is-ready .portrait-art > img:nth-child(2) {
+    inset: 1.6rem 0 auto;
+    width: 100%;
+    height: clamp(215px, 72vw, 410px);
+    mask-image: linear-gradient(180deg, black 74%, transparent);
+  }
+}
