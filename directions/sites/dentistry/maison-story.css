@@ -1,0 +1,56 @@
+.visit-film {
+  --visit-ink: #f5f1e9;
+  --visit-muted: #ddd1c9;
+  --visit-rule: #6e5354;
+  background: #311d20;
+  color: var(--visit-ink);
+  padding: clamp(3.25rem, 7vw, 7.5rem) clamp(1.25rem, 5.8vw, 7rem);
+}
+.visit-inner { margin-inline: auto; max-width: 96rem; }
+.visit-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: clamp(1.5rem, 3.3vw, 3.4rem); }
+.visit-film .visit-heading h2 { font: 400 clamp(3.2rem, 6.9vw, 7.2rem)/.96 "Georgia", "Times New Roman", serif; letter-spacing: -.065em; margin: 0; color: inherit; }
+.visit-heading em { font-weight: 400; color: #dec0af; }
+.visit-film .visit-toggle { display: inline-flex; align-items: center; gap: .7rem; color: inherit; font: 500 .925rem/1.3 Manrope, sans-serif; padding: .35rem 0; min-height: 3rem; background: none; border: none; }
+.visit-toggle small { color: var(--visit-muted); font: normal .8rem Manrope, sans-serif; font-variant-numeric: tabular-nums; }
+.visit-toggle-icon { width: 2.6rem; height: 2.6rem; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid #b79995; border-radius: 50%; transition: background .2s, color .2s; }
+.visit-toggle-icon::before { content: ""; display: block; margin-left: 2px; width: 0; height: 0; border-block: 4px solid transparent; border-left: 7px solid currentColor; }
+.visit-toggle[data-playing] .visit-toggle-icon::before { margin: 0; width: 8px; height: 9px; border: 0; border-inline: 2px solid currentColor; }
+.visit-toggle:hover .visit-toggle-icon { background: var(--visit-ink); color: #311d20; }
+.visit-stage { isolation: isolate; position: relative; }
+.visit-chapter { position: relative; margin: 0; background: #211a18; color: #fff9ef; }
+.visit-chapter + .visit-chapter { margin-top: 1rem; }
+.visit-chapter img { display: block; width: 100%; aspect-ratio: 2.13; height: auto; object-fit: cover; object-position: 50% 50%; }
+.visit-chapter figcaption { position: absolute; z-index: 3; inset: auto 0 0; padding: clamp(1.5rem, 3.6vw, 4rem); text-shadow: 0 1px 4px rgba(30,18,18,.3); }
+.visit-chapter figcaption::before { content: ""; position: absolute; inset: -60% 0 0; z-index: -1; background: linear-gradient(0deg, rgba(23,16,15,.9), rgba(23,16,15,.62) 42%, transparent 100%); pointer-events: none; }
+.visit-film .visit-chapter h3 { font: 400 clamp(2.25rem, 4.4vw, 4.75rem)/1.02 Georgia, "Times New Roman", serif; letter-spacing: -.055em; color: inherit; margin: 0; }
+.visit-film .visit-chapter p { max-width: 35rem; font: 400 1rem/1.5 Manrope, sans-serif; margin: .7rem 0 0; color: #fff9ef; }
+.visit-film.is-enhanced .visit-chapter + .visit-chapter { margin: 0; }
+.visit-movie { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; z-index: 1; pointer-events: none; }
+.visit-stage.is-playing .visit-chapter { background: transparent; }
+.visit-stage.is-playing .visit-chapter img { opacity: 0; }
+.visit-chapters { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(.9rem, 2.8vw, 3rem); }
+.visit-pick { position: relative; display: block; padding: 1.15rem 0 .9rem; margin: 0; text-align: left; background: transparent; border: 0; min-height: 3.25rem; color: var(--visit-muted); font: 500 1rem/1.35 Manrope, sans-serif; }
+.visit-pick[aria-pressed=true] { color: #fffaf2; }
+.visit-timeline { display: block; position: relative; overflow: hidden; height: 1px; margin-top: .7rem; background: var(--visit-rule); }
+.visit-timeline i { display: block; height: 100%; background: #e6c9b4; transform: scaleX(0); transform-origin: left; }
+.visit-pick[aria-pressed=true] .visit-timeline { background: #d6b4aa; }
+.visit-film.is-running .visit-pick[aria-pressed=true] .visit-timeline { background: var(--visit-rule); }
+.visit-film button:focus-visible { outline: 2px solid #fff4d9; outline-offset: 4px; }
+.visit-status { clip-path: inset(50%); position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; white-space: nowrap; }
+.visit-film [hidden] { display: none !important; }
+
+@media (max-width: 700px) {
+  .visit-film { padding-inline: 1.15rem; }
+  .visit-heading { align-items: flex-start; flex-direction: column; gap: .8rem; }
+  .visit-chapter img { aspect-ratio: 1.28; }
+  .visit-chapter figcaption { padding: 1.2rem 1.1rem 1.35rem; position: relative; background: #3e292a; min-height: 9.2rem; text-shadow: none; }
+  .visit-chapter figcaption::before { display: none; }
+  .visit-film .visit-chapter h3 { font-size: clamp(1.85rem, 7.3vw, 2.8rem); }
+  .visit-film .visit-chapter p { font-size: .975rem; }
+  .visit-movie { width: 100%; height: auto; aspect-ratio: 1.28; }
+  .visit-pick { font-size: .9125rem; }
+  .visit-chapters { gap: .7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visit-toggle-icon { transition: none; }
+}

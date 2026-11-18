@@ -1,0 +1,275 @@
+.clinic-editorial {
+  --clinic-ink: #133c3c;
+  --clinic-copy: #395453;
+  --clinic-paper: #faf8f2;
+  --clinic-gutter: clamp(22px, 5.2vw, 90px);
+  color: var(--clinic-ink);
+  background: var(--clinic-paper);
+}
+.clinic-editorial :is(h1, h2, h3),
+.profile .profile-copy h1,
+.booking-layout .booking-intro h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: -.055em;
+}
+.clinic-editorial figure { margin: 0; min-width: 0; }
+.clinic-opening, .clinic-visit {
+  max-width: 1780px;
+  margin: 0 auto;
+  padding-inline: var(--clinic-gutter);
+}
+.clinic-opening { padding-top: clamp(20px, 2.2vw, 36px); }
+.clinic-opening .breadcrumb {
+  margin-bottom: clamp(22px, 3vw, 46px);
+  font-size: 12px;
+  color: #526764;
+}
+.clinic-opening-head, .clinic-visit-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(235px, .75fr);
+  gap: 6%;
+  align-items: end;
+}
+.clinic-opening h1 {
+  font-size: clamp(64px, 9vw, 144px);
+  line-height: .96;
+  margin: 0;
+}
+.clinic-opening h1 em {
+  font-weight: 400;
+  color: #16776f;
+  letter-spacing: -.07em;
+}
+.clinic-opening-head > p, .clinic-visit-head > p {
+  font-size: clamp(15px, 1.12vw, 19px);
+  line-height: 1.62;
+  color: var(--clinic-copy);
+  max-width: 36ch;
+  margin: 0 0 .12em auto;
+  width: 100%;
+}
+.clinic-panorama { padding-block: clamp(26px, 3.2vw, 53px) 0; }
+.clinic-panorama > img {
+  aspect-ratio: 2.45;
+  height: auto;
+  background: #dbeae4;
+  object-position: 50% 52%;
+}
+.clinic-panorama figcaption, .clinic-planning figcaption {
+  font-size: 12px;
+  letter-spacing: .025em;
+  color: var(--clinic-copy);
+  line-height: 1.5;
+  padding-top: 10px;
+}
+.clinic-visit { padding-block: clamp(63px, 8vw, 135px); }
+.clinic-visit-head {
+  padding-top: clamp(17px, 2.2vw, 35px);
+  border-top: 1px solid #c1cec6;
+}
+.clinic-editorial h2 {
+  font-size: clamp(42px, 5.6vw, 88px);
+  line-height: 1.02;
+  margin: 0;
+}
+.clinic-pair {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: clamp(22px, 6.3vw, 100px);
+  align-items: start;
+  margin-top: clamp(30px, 4.7vw, 74px);
+}
+.clinic-reception { padding-top: clamp(28px, 5.1vw, 85px); }
+.clinic-pair img {
+  height: auto;
+  background: #dfd6c9;
+  aspect-ratio: 1.55;
+}
+.clinic-reception img { aspect-ratio: 1.24; object-position: 47% 50%; }
+.clinic-pair figcaption { padding: clamp(16px, 1.8vw, 29px) 0 0; }
+.clinic-pair h3 {
+  font-size: clamp(28px, 2.6vw, 44px);
+  margin: 0 0 8px;
+  line-height: 1.1;
+}
+.clinic-pair p, .clinic-planning-copy p {
+  color: var(--clinic-copy);
+  max-width: 49ch;
+  margin: 0;
+  font-size: clamp(14px, 1.08vw, 17px);
+  line-height: 1.75;
+}
+.clinic-planning {
+  display: grid;
+  grid-template-columns: minmax(0, 1.24fr) minmax(0, .76fr);
+  gap: clamp(28px, 6vw, 100px);
+  align-items: center;
+  background: #e5f4f0;
+  padding: clamp(40px, 5.8vw, 94px) max(var(--clinic-gutter), calc((100vw - 1600px) / 2));
+}
+.clinic-planning img {
+  aspect-ratio: 1.47;
+  height: auto;
+  object-position: 50% 50%;
+  background: #d9e7e4;
+}
+.clinic-planning-copy { padding-bottom: 22px; }
+.clinic-planning-copy h2 { max-width: 13.5ch; }
+.clinic-planning-copy p { margin-block: clamp(18px, 2vw, 32px); max-width: 39ch; }
+.clinic-editorial .clinic-planning .button {
+  background: var(--clinic-ink);
+  color: #fff;
+  border-color: var(--clinic-ink);
+}
+.clinic-editorial .clinic-planning .button:hover { background: #205a53; }
+.clinic-editorial .consult-band h2 { font-size: clamp(34px, 4vw, 62px); }
+.clinic-editorial .consult-band > div > p:last-child { font-size: 15px; }
+
+/* Booking and physician portraits share the colors and type of the photo tour. */
+.booking-layout {
+  max-width: 1680px;
+  margin: auto;
+  padding: clamp(30px, 4.4vw, 75px) clamp(22px, 5.2vw, 90px) clamp(60px, 7vw, 110px);
+  gap: clamp(32px, 6vw, 100px);
+  align-items: start;
+  color: #133c3c;
+}
+.booking-layout .booking-intro { max-width: none; }
+.booking-layout .booking-intro h1 {
+  font-size: clamp(44px, 5.4vw, 86px);
+  line-height: 1.03;
+  margin-bottom: 18px;
+}
+.booking-layout .booking-intro .breadcrumb,
+.profile .profile-copy .breadcrumb {
+  color: #516962;
+  font-size: 12px;
+}
+.booking-layout .booking-intro > p:not(.eyebrow) {
+  max-width: 45ch;
+  font-size: 16px;
+  color: #415b58;
+}
+.booking-layout .booking-intro > img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.5;
+  height: auto;
+  object-position: center;
+  margin-top: clamp(22px, 3vw, 45px);
+}
+.booking-layout .booking-help { border-color: #c6d3cc; }
+.booking-layout .booking-help p { color: #415b58; font-size: 13px; }
+.booking-layout .booking-panel {
+  min-width: 0;
+  background: #f2f7f3;
+  border-top: 3px solid #176f66;
+  padding: clamp(18px, 3vw, 48px);
+}
+.booking-layout .booking-panel .demo-note {
+  font-size: 12px;
+  line-height: 1.65;
+  background: #e0ece6;
+  color: #304d49;
+  border-left: 2px solid #59978a;
+  padding: 12px 15px;
+}
+.booking-layout .booking-progress { color: #566b65; border-color: #b6c9c1; }
+.booking-layout .booking-progress .active { color: #133c3c; border-color: #133c3c; }
+.booking-layout .booking-panel h2 { color: #133c3c; }
+.booking-layout .booking-panel label:not(.checkbox),
+.booking-layout .booking-panel .times legend { font-size: 13px; color: #314c47; }
+.booking-layout .booking-panel :is(select, textarea, input:not([type=checkbox])) {
+  color: #173d37;
+  border-color: #a8bfb5;
+}
+.booking-layout .booking-panel :is(select, textarea, input):focus-visible {
+  outline: 2px solid #16796d;
+}
+.booking-layout .booking-panel .times button { border-color: #a8bfb5; min-height: 42px; }
+.booking-layout .booking-panel .times button.active {
+  border-color: #133c3c;
+  background: #133c3c;
+  color: #fff;
+}
+.booking-layout .booking-panel .checkbox,
+.booking-layout .booking-panel .fine { font-size: 12px; color: #475f58; }
+.booking-layout .booking-panel .checkbox input { accent-color: #187869; }
+.booking-layout .visit-summary { background: #e1efe8; color: #173c36; }
+.profile {
+  background: #e5f4f0;
+  color: #133c3c;
+  grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr);
+  min-height: auto;
+}
+.profile .profile-image {
+  min-width: 0;
+  min-height: 100%;
+  max-height: none;
+  position: relative;
+  overflow: hidden;
+  background: #d2cdc5;
+}
+.profile .profile-image img { position: absolute; inset: 0; object-position: 50% 18%; }
+.profile .profile-copy { padding: clamp(36px, 5vw, 85px) clamp(28px, 4.8vw, 77px); }
+.profile .profile-copy h1 { font-size: clamp(42px, 5.1vw, 85px); margin: 0 0 18px; }
+.profile .profile-copy .eyebrow { color: #3b6158; font-size: 10px; }
+.profile .profile-copy .service-subtitle { color: #214e44; }
+.profile .profile-copy > p:not(.eyebrow):not(.service-subtitle):not(.fine) {
+  color: #3e5751;
+  font-size: clamp(14px, 1.15vw, 18px);
+  max-width: 50ch;
+}
+.profile .profile-copy .fine { color: #526861; font-size: 12px; line-height: 1.65; }
+.profile .profile-copy .button { margin-bottom: 18px; }
+.doctor-grid .doctor-photo { background: #e5e0d7; aspect-ratio: .82; }
+.doctor-grid .doctor-photo img { object-position: 50% 16%; }
+.doctor-grid .doctor-role { min-height: 0; font-size: 12px; color: #4e6761; }
+.doctor-grid .doctor-card h3 { color: #133c3c; }
+.doctor-grid .doctor-card .inline-link {
+  color: #a83423;
+  font-size: 12px;
+  min-height: 40px;
+  align-items: center;
+}
+.doctor-grid .doctor-photo .circle {
+  color: #133c3c;
+  opacity: 1;
+  transform: none;
+}
+@media (max-width: 850px) {
+  .clinic-opening-head, .clinic-visit-head { grid-template-columns: 1.15fr 1fr; }
+  .clinic-planning { grid-template-columns: 1fr 1fr; gap: 5%; }
+  .booking-layout { gap: 24px; grid-template-columns: minmax(0,.85fr) minmax(0,1.15fr); }
+}
+@media (max-width: 680px) {
+  .clinic-opening-head, .clinic-visit-head, .clinic-planning { display: block; }
+  .clinic-opening h1 { font-size: clamp(62px, 11.8vw, 84px); }
+  .clinic-opening-head > p, .clinic-visit-head > p { margin: 16px 0 0; max-width: 43ch; }
+  .clinic-panorama img { aspect-ratio: 1.32; }
+  .clinic-pair { grid-template-columns: 1fr; gap: 36px; }
+  .clinic-reception { padding-top: 0; }
+  .clinic-reception img { aspect-ratio: 1.52; }
+  .clinic-planning-copy { padding: 30px 0 0; }
+  .clinic-planning-copy h2 { max-width: 14ch; }
+  .clinic-planning-copy p { margin-block: 16px 21px; }
+  .booking-layout { display: block; }
+  .booking-layout .booking-intro > img {
+    max-height: 195px;
+    aspect-ratio: 2;
+    object-position: 50% 42%;
+    margin-top: 16px;
+  }
+  .booking-layout .booking-help { display: none; }
+  .booking-layout .booking-panel { margin-top: 25px; }
+  .booking-layout .booking-intro .breadcrumb { margin-bottom: 18px; }
+  .booking-layout .booking-intro > p:not(.eyebrow) { font-size: 15px; }
+  .booking-layout .booking-panel :is(input, select, textarea) { min-width: 0; }
+  .profile { display: flex; flex-direction: column; }
+  .profile .profile-image { min-height: 0; height: clamp(340px, 86vw, 490px); }
+  .profile .profile-image img { object-position: 50% 16%; }
+  .profile .profile-copy { width: 100%; padding: 29px 24px 38px; }
+  .doctor-grid .doctor-role, .doctor-grid .doctor-card .inline-link { font-size: 11px; }
+  .doctor-grid .doctor-photo { aspect-ratio: .76; }
+}

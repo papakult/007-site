@@ -1,0 +1,194 @@
+/* Interior pages share a porcelain, walnut and merlot palette. */
+body:not(.maison-home) main {
+  --paper: #f5f1e9;
+  --linen: #ebe4d8;
+  --ink: #311d20;
+  --copy: #574944;
+  --soft: #695852;
+  --wine: #763e45;
+  --rule: #cfc2b3;
+  --serif: Georgia, "Times New Roman", serif;
+  --gutter: clamp(22px, 5.4vw, 96px);
+  color: var(--ink);
+  background: var(--paper);
+}
+body:not(.maison-home) main {
+  & :is(h1, h2, h3, .price-group summary) { font-family: var(--serif); font-weight: 400; letter-spacing: -.045em; }
+  & :is(.eyebrow, .editorial-label) { color: var(--wine); letter-spacing: .13em; font-size: .75rem; }
+  & :is(.breadcrumb, .fine) { font-size: .8rem; color: var(--soft); line-height: 1.65; }
+  & :is(a, button, summary, input, select, textarea):focus-visible { outline: 2px solid var(--wine); outline-offset: 4px; }
+  & .button { min-height: 48px; padding: .8rem 1.4rem; justify-content: center; text-align: center; border: 1px solid var(--ink); border-radius: 2px; background: var(--ink); color: var(--paper); font-size: .9rem; }
+  & .button i { display: none; }
+  & .button:hover { background: var(--wine); border-color: var(--wine); }
+  & .button.secondary { color: var(--ink); border-color: var(--rule); background: transparent; }
+  & .button.secondary:hover { background: var(--linen); }
+  & .inline-link { color: var(--wine); font-size: .9rem; }
+  & .inline-link:hover, & .breadcrumb a:hover { text-decoration: underline; text-underline-offset: .25em; }
+  & :is(.section, .booking-layout) { padding-inline: max(var(--gutter), calc((100vw - 1500px) / 2)); }
+  & .page-top { padding-top: clamp(25px, 3vw, 48px); }
+  & .page-top > .breadcrumb { margin-bottom: clamp(32px, 4vw, 68px); }
+  & .page-top > .section-heading { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(16rem, .65fr); align-items: end; gap: 20px 6%; padding-top: 0; }
+  & .page-top > .section-heading h1 { color: var(--ink); font-size: clamp(3.1rem, 6.15vw, 6.25rem); line-height: .97; font-weight: 400; }
+  & .section-heading h2 { color: var(--ink); font-size: clamp(2.3rem, 4.2vw, 4.75rem); line-height: 1.04; }
+  & .section-heading .intro-text { color: var(--copy); width: auto; max-width: 38ch; margin: 0; font-size: 1rem; line-height: 1.65; }
+  & .page-top:has(.catalog-grid) { color: var(--ink); }
+  & .page-top .search-field { border: 1px solid var(--rule); background: #fcf9f3; padding: .75rem 1.15rem; color: var(--ink); }
+  & .page-top .search-field:focus-within { border-color: var(--wine); }
+  & .page-top .search-field span { color: var(--soft); font-size: .82rem; }
+  & .page-top .search-field span:last-child { font-size: 1.5rem; }
+  & .page-top .search-field input { color: var(--ink); font-size: 1rem; }
+  & .page-top .search-field input::placeholder { color: var(--soft); }
+  & .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(42px, 5vw, 84px) clamp(18px, 2.7vw, 46px); }
+  & .catalog-photo { aspect-ratio: 1.38; background: var(--linen); }
+  & :is(.catalog-photo, .service-hero-image, .plan-photo) img[src*="bright-"] { filter: saturate(.64) sepia(.12) contrast(.98); }
+  & .catalog-grid .catalog-card h2 { font-size: clamp(1.7rem, 2.25vw, 2.7rem); line-height: 1.1; color: var(--ink); }
+  & .catalog-card h2 i { border-color: var(--rule); color: var(--wine); }
+  & .catalog-cover:is(:hover,:focus-visible) h2 i { border-color: var(--wine); background: var(--wine); color: white; }
+  & .catalog-grid .catalog-card > p { font-size: 1rem; line-height: 1.65; color: var(--copy); }
+  & .catalog-grid .catalog-card li { color: var(--ink); font-size: .9rem; border-color: var(--rule); }
+  & .catalog-grid .catalog-card li a { padding: .8rem 0; }
+  & .catalog-card li a:hover { color: var(--wine); }
+
+  & .service-hero { margin: 0; background: var(--ink); color: var(--paper); min-height: clamp(500px, 42vw, 710px); grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  & .service-hero .service-hero-copy { width: 100%; padding: clamp(34px, 5.2vw, 88px) clamp(26px, 4.8vw, 82px) clamp(40px, 5.8vw, 100px) max(var(--gutter), calc((100vw - 1500px) / 2)); }
+  & .service-hero .service-hero-copy h1 { font-size: clamp(2.65rem, 4.75vw, 5.5rem); line-height: 1.03; letter-spacing: -.045em; color: #fff8ef; margin-bottom: .3em; }
+  & .service-hero .service-hero-copy > .eyebrow { display: none; }
+  & .service-hero .breadcrumb { color: #dbcbc3; margin-bottom: clamp(28px, 4vw, 70px); }
+  & .service-hero .breadcrumb a:hover { color: white; }
+  & .service-hero .service-subtitle { font-family: var(--serif); font-style: italic; font-size: clamp(1.4rem, 2.2vw, 2.4rem); line-height: 1.15; color: #e1c9b5; }
+  & .service-hero .service-hero-copy > p:not(.eyebrow):not(.service-subtitle) { color: #ebdfd7; font-size: 1rem; max-width: 47ch; }
+  & .service-hero .button, & .consult-band .button { background: #f5f1e9; color: var(--ink); border-color: #f5f1e9; }
+  & .service-hero .button:hover, & .consult-band .button:hover { background: #e9d7bf; border-color: #e9d7bf; }
+  & :is(.service-hero, .consult-band) :is(a,button):focus-visible { outline-color: #ffdfb0; }
+  & .service-hero .service-hero-image { min-height: 100%; background: #b7a392; }
+  & .service-hero + .section-nav { padding-inline: var(--gutter); border-color: var(--rule); background: var(--linen); color: var(--ink); font-size: .9rem; }
+  & .treatment-layout { align-items: start; }
+  & .treatment-layout .procedure, & :is(.process-grid article,.faq-section,.faq details,.direction-links,.direction-links a) { border-color: var(--rule); }
+  & .procedure > div > .eyebrow { display: none; }
+  & .procedure h3, & .process-grid h3 { font-size: clamp(1.5rem, 2.25vw, 2.7rem); color: var(--ink); }
+  & :is(.procedure, .process-grid, .faq) p, & .specialist-strip > div > p:not(.eyebrow):not(.service-subtitle):not(.fine) { font-size: 1rem; color: var(--copy); }
+  & .treatment-layout .procedure .price { color: var(--wine); font-size: 1rem; margin-block-start: .3rem; }
+  & .treatment-layout .plan-aside { color: var(--ink); background: var(--linen); padding: clamp(22px, 2.5vw, 44px); border-top: 2px solid var(--wine); }
+  & .treatment-layout .plan-aside h3 { font-size: clamp(2rem, 2.8vw, 3rem); }
+  & .treatment-layout .plan-aside p:not(.eyebrow), & .treatment-layout .plan-aside :is(.eyebrow, figcaption) { color: var(--copy); }
+  & .plan-aside .button, & .treatment-layout .plan-aside .inline-link { font-size: .9rem; }
+  & .section.pale { background: var(--linen); }
+  & .specialist-strip { max-width: none; }
+  & .specialist-strip h2, & .faq-section h2 { font-size: clamp(2.4rem, 4.6vw, 5rem); }
+  & .specialist-strip .service-subtitle { font-family: var(--serif); font-size: 1.6rem; color: var(--wine); }
+  & .faq summary, & .direction-links a { font-size: 1rem; }
+  & .consult-band { padding-inline: max(var(--gutter),calc((100vw - 1500px) / 2)); border: 0; background: var(--ink); color: var(--paper); }
+  & .consult-band h2 { color: #fff8ef; }
+  & .consult-band .editorial-label, & .consult-band p:last-child { color: #e2cec3; }
+
+  & .filter-bar { border-top: 1px solid var(--rule); padding-top: 1rem; gap: .55rem; }
+  & .filter-bar button { font-size: .88rem; color: var(--ink); border-color: var(--rule); border-radius: 2px; min-height: 42px; }
+  & .filter-bar button:hover { border-color: var(--wine); }
+  & .filter-bar button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  & .doctor-grid .doctor-photo { aspect-ratio: 4 / 5; }
+  & :is(.doctor-photo, .profile-image, .specialist-photo) img { filter: saturate(.62) sepia(.12) contrast(1.015); }
+  & .doctor-grid .doctor-role { color: var(--soft); font-size: .81rem; }
+  & .doctor-grid .doctor-card h3 { color: var(--ink); font-size: clamp(1.4rem, 2vw, 2.7rem); }
+  & .doctor-grid .doctor-photo .circle { color: var(--ink); background: var(--paper); }
+  & .doctor-grid .doctor-card .inline-link { color: var(--wine); font-size: .86rem; }
+  & .profile { background: var(--linen); color: var(--ink); margin: 0; }
+  & .profile .profile-copy { padding: clamp(35px, 5vw, 90px) var(--gutter); }
+  & .profile .profile-copy :is(.eyebrow, .service-subtitle) { color: var(--wine); }
+  & .profile .profile-copy :is(.breadcrumb, .fine), & .profile .profile-copy > p:not(.eyebrow):not(.service-subtitle):not(.fine) { color: var(--copy); }
+  & .profile .service-subtitle { font: italic clamp(1.5rem, 2vw, 2.4rem)/1.2 var(--serif); }
+
+  & .clinic-editorial { --clinic-ink: var(--ink); --clinic-copy: var(--copy); --clinic-paper: var(--paper); --clinic-gutter: var(--gutter); }
+  & .clinic-opening { background: var(--ink); color: #faf4e9; max-width: none; padding-block: clamp(25px, 3vw, 48px) clamp(25px, 4vw, 70px); }
+  & .clinic-opening :is(.breadcrumb, .clinic-opening-head > p, figcaption) { color: #e6d7c9; }
+  & .clinic-opening .breadcrumb a:hover { color: white; }
+  & .clinic-opening h1 em { color: #e6c8a7; }
+  & .clinic-opening-head > p, & .clinic-visit-head > p, & .clinic-pair p, & .clinic-planning-copy p { font-size: 1rem; }
+  & .clinic-panorama img { filter: saturate(.77) sepia(.08); }
+  & .clinic-visit-head { border-color: var(--rule); }
+  & .clinic-planning { background: var(--linen); }
+  & .clinic-editorial .clinic-planning .button { color: #fff9ef; background: var(--ink); }
+  & .clinic-editorial .clinic-planning .button:hover { background: var(--wine); }
+
+  & .price-group { margin-top: 1.5rem; border-color: var(--wine); }
+  & .price-group summary { color: var(--ink); font-size: clamp(1.75rem, 3vw, 3.5rem); }
+  & .price-row { font-size: 1rem; border-color: var(--rule); }
+  & .price-row > span { color: var(--wine); font-variant-numeric: tabular-nums; }
+  & .demo-note, & .visit-summary { background: var(--linen); color: var(--copy); border-left: 2px solid var(--wine); line-height: 1.6; font-size: .9rem; }
+
+  & .booking-layout { color: var(--ink); max-width: none; }
+  & .booking-layout .booking-intro :is(.breadcrumb, .booking-help p), & .booking-layout .booking-intro > p:not(.eyebrow) { color: var(--copy); }
+  & .booking-layout .booking-help { border-color: var(--rule); }
+  & .booking-layout .booking-panel { background: #efe9df; border: 1px solid var(--rule); border-top: 3px solid var(--wine); }
+  & .booking-layout .booking-panel .demo-note { border-color: var(--wine); background: #e5dacb; color: var(--ink); font-size: .85rem; }
+  & .booking-layout .booking-progress { color: var(--soft); border-color: var(--rule); font-size: .85rem; }
+  & .booking-layout .booking-progress .active { color: var(--ink); border-color: var(--wine); }
+  & .booking-layout .booking-panel h2 { color: var(--ink); font-size: clamp(2rem, 3.1vw, 3.5rem); }
+  & .booking-layout .booking-panel label:not(.checkbox), & .booking-layout .booking-panel .times legend { color: var(--copy); font-size: .9rem; }
+  & :is(.booking-panel, .admin-toolbar) :is(select,textarea,input:not([type=checkbox])) { color: var(--ink); font-size: 1rem; border-color: #b8a89b; background-color: #fffcf6; border-radius: 2px; }
+  & .booking-layout .booking-panel :is(select,textarea,input):focus-visible { outline-color: var(--wine); }
+  & .booking-layout .booking-panel .times button { border-color: #b8a89b; font-size: .875rem; min-height: 44px; }
+  & .booking-layout .booking-panel .times button.active { border-color: var(--ink); background: var(--ink); color: #fff8ee; }
+  & .booking-layout .booking-panel :is(.checkbox,.fine) { color: var(--copy); font-size: .81rem; }
+  & .booking-layout .booking-panel .checkbox input { accent-color: var(--wine); }
+  & .booking-layout .visit-summary { color: var(--ink); background: var(--paper); }
+  & .booking-panel .form-error { color: #8c2437; font-size: .9rem; }
+  & .admin-stats { background: var(--linen); border-top: 2px solid var(--wine); }
+  & .admin-stats span { font-family: var(--serif); color: var(--wine); }
+  & .admin-stats p, & .admin-toolbar label { color: var(--copy); font-size: .82rem; }
+  & .admin-empty, & .appointment-row { background: #fcf8f0; color: var(--ink); border: 1px solid var(--rule); }
+  & .appointment-row { font-size: .93rem; }
+  & .legal { max-width: 58rem; }
+  & .legal p { color: var(--copy); font-size: 1rem; }
+}
+
+@media (max-width: 1000px) {
+  body:not(.maison-home) main .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  body:not(.maison-home) main .page-top > .section-heading { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 1rem; }
+  body:not(.maison-home) main .section-heading .intro-text { max-width: 53ch; }
+}
+@media (max-width: 680px) {
+  body:not(.maison-home) main {
+    & .catalog-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+    & .service-hero { display: flex; flex-direction: column; min-height: auto; }
+    & .service-hero .service-hero-copy { padding: 25px var(--gutter) 35px; }
+    & .service-hero .service-hero-image { width: 100%; height: auto; min-height: 0; aspect-ratio: 1.6; }
+    & .service-hero .service-hero-copy h1 { font-size: clamp(2.6rem, 8.5vw, 4rem); }
+    & .service-hero + .section-nav { font-size: .85rem; }
+    & .booking-layout .booking-panel { padding: 19px 15px 24px; }
+    & .booking-layout .booking-progress { gap: .9rem; }
+    & .booking-panel .times #time-options { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    & .price-row { align-items: baseline; gap: 12px; font-size: .93rem; }
+    & .price-row a { max-width: none; }
+    & .profile .profile-copy { padding: 30px var(--gutter); }
+    & .clinic-opening-head > p { margin-left: 0; }
+  }
+}
+
+/* Three visual treatments introduce a quieter, searchable directory below. */
+body:not(.maison-home) main {
+  & .catalog-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  & .catalog-entry { grid-column: span 3; }
+  & .catalog-feature { grid-column: span 2; }
+  & .catalog-grid .catalog-entry:not(.catalog-feature) { border-top: 1px solid var(--wine); padding-top: 1.25rem; }
+  & .catalog-grid .catalog-entry:not(.catalog-feature) h2 { margin-top: 0; }
+  & .catalog-cover:hover h2, & .catalog-cover:focus-visible h2 { color: var(--wine); text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
+  & .catalog-grid .catalog-entry ul { margin-top: .85rem; }
+  & .catalog-feature .catalog-photo { aspect-ratio: .96; }
+  & .catalog-feature:first-child .catalog-photo img { object-position: 63% 40%; }
+}
+@media (max-width: 760px) {
+  body:not(.maison-home) main {
+    & .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    & .catalog-entry, & .catalog-feature { grid-column: span 1; }
+    & .catalog-feature:first-child { grid-column: 1 / -1; }
+    & .catalog-feature:first-child .catalog-photo { aspect-ratio: 1.65; }
+  }
+}
+@media (max-width: 560px) {
+  body:not(.maison-home) main {
+    & .catalog-grid { grid-template-columns: minmax(0, 1fr); }
+    & .catalog-feature .catalog-photo { aspect-ratio: 1.4; }
+  }
+}

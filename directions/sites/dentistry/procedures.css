@@ -1,0 +1,37 @@
+body.procedure-page main { --serif: "Maison Serif", Georgia, "Times New Roman", serif; }
+.procedure-story { max-width: 1700px; margin-inline: auto; padding: 0 var(--page-edge, 5vw) clamp(50px, 7vw, 108px); }
+.procedure-crumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: .45em .8em; padding: clamp(20px, 3vw, 42px) 0; font-size: .875rem; line-height: 1.5; color: var(--soft); }
+.procedure-crumbs a, .procedure-return { text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: .24em; }
+.procedure-crumbs a:hover, .procedure-return:hover { color: var(--wine); text-decoration-color: currentColor; }
+.procedure-crumbs span { color: #9e8e81; }
+.procedure-intro { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); border-block: 1px solid var(--rule); }
+.procedure-title-panel { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: clamp(32px, 5vw, 86px) clamp(24px, 4vw, 72px) clamp(32px, 5vw, 86px) 0; }
+.procedure-story .procedure-title-panel h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.65rem, 5vw, 5.9rem); line-height: 1.02; letter-spacing: -.047em; line-break: auto; overflow-wrap: anywhere; hyphens: auto; margin: 0; }
+.procedure-lead { max-width: 48ch; margin: 1.4rem 0 0; font-size: clamp(1rem, 1.2vw, 1.22rem); line-height: 1.65; color: var(--copy); }
+.procedure-rate { margin: clamp(26px, 2.7vw, 47px) 0 0; }
+.procedure-rate dt, .procedure-related a > span { font: 600 .82rem/1.5 Manrope, sans-serif; color: var(--soft); }
+.procedure-rate dd { font: 400 clamp(1.8rem, 2.5vw, 2.8rem)/1.15 var(--serif); color: var(--ink); margin: 4px 0 0; }
+.procedure-visit { display: inline-flex; align-items: center; justify-content:center; margin-top: 22px; padding: 13px 21px; min-height: 47px; background: #502c32; color: #fff6e9; border-radius: 2px; font-size: .94rem; font-weight: 600; line-height: 1.4; text-align: center; }
+.procedure-visit:hover { color: #fff; background: #743e46; }
+.procedure-visual { position: relative; min-height: clamp(330px, 38vw, 620px); margin: 0; background: #e4d8ca; overflow: hidden; }
+.procedure-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.procedure-reading { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: start; gap: 6%; margin-block: clamp(38px, 6vw, 94px); }
+.procedure-story .procedure-description h2, .procedure-story .procedure-discussion h2 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 3.24vw, 3.8rem); line-height: 1.08; letter-spacing: -.04em; }
+.procedure-story .procedure-discussion h2 { font-size: clamp(1.65rem, 2.1vw, 2.5rem); }
+.procedure-reading p { margin: 1.15rem 0 0; max-width: 60ch; font-size: 1.06rem; line-height: 1.7; color: var(--copy); }
+.procedure-discussion { padding: clamp(23px, 2.6vw, 43px); background: #ede4d8; border-top: 2px solid #806558; }
+.procedure-related { display: flex; justify-content: space-between; align-items: center; gap: 24px; border-top: 1px solid var(--rule); padding-top: clamp(22px, 2.8vw, 46px); }
+.procedure-related a:first-child { display: flex; flex-direction: column; gap: .55rem; align-items: flex-start; }
+.procedure-related strong { font: 400 clamp(1.45rem, 2.45vw, 2.7rem)/1.15 var(--serif); color: var(--ink); }
+.procedure-related a:hover strong { color: var(--wine); text-decoration: underline; text-underline-offset: .13em; text-decoration-thickness: 1px; }
+.procedure-return { font-size: .94rem; line-height: 1.5; color: var(--copy); }
+@media (max-width: 780px) {
+  .procedure-intro, .procedure-reading { grid-template-columns: minmax(0, 1fr); }
+  .procedure-title-panel { padding: 26px 0 30px; }
+  .procedure-story .procedure-title-panel h1 { font-size: clamp(2.35rem, 7.8vw, 3.9rem); }
+  .procedure-lead { margin-top: .85rem; }
+  .procedure-rate { margin-top: 21px; }
+  .procedure-visual { min-height: 0; aspect-ratio: 1.48; }
+  .procedure-reading { gap: 25px; }
+  .procedure-related { flex-direction: column; align-items: flex-start; }
+}
