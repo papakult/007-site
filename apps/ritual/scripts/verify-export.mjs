@@ -1,42 +1,36 @@
-import { readFile, readdir, stat } from 'node:fs/promises';
-import { resolve, join } from 'node:path';
 import assert from 'node:assert/strict';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { join, resolve, relative } from 'node:path';
 
 const root = resolve('out');
-const html = await readFile(join(root, 'index.html'), 'utf8');
-assert.match(html, /Когда важна/);
-for (const id of ['services','first-hours','approach','contact','guide-title']) assert.ok(html.includes(`id="${id}"`), `Missing ${id}`);
-assert.equal((html.match(/class="service-card"/g) || []).length, 3);
-assert.equal((html.match(/class="step"/g) || []).length, 4);
-assert.match(html, /Демонстрационный проект/);
-assert.match(html, /Памятка для семьи/);
-assert.doesNotMatch(html, /<(?:form|input|textarea|select)\b/i);
-assert.match(html, /noindex/);
-assert.doesNotMatch(html, /aria-label="Тихий свет/);
-const prefix = '/directions/sites/ritual';
-const urls = [...html.matchAll(/(?:src|href)="([^"#?]+)(?:[?#][^"]*)?"/g)].map(m=>m[1]);
-let assets = 0;
-for (const url of new Set(urls)) {
-  if (url.startsWith(prefix + '/_next/')) { assert.ok((await stat(join(root, url.slice(prefix.length)))).isFile(), `Missing ${url}`); assets++; }
+const base = '/directions/sites/ritual/';
+async function filesIn(dir) {
+  const entries = await readdir(dir, {withFileTypes:true});
+  const nested = await Promise.all(entries.map(entry => entry.isDirectory() ? filesIn(join(dir,entry.name)) : join(dir,entry.name)));
+  return nested.flat();
 }
-assert.ok(assets > 3, 'Expected Next.js bundles');
-async function files(dir) { let all=[];for(const e of await readdir(dir,{withFileTypes:true})){ const p=join(dir,e.name);all.push(...(e.isDirectory()?await files(p):[p]));}return all; }
-const all = await files(root);
-const cssText = (await Promise.all(all.filter((file) => file.endsWith('.css')).map((file) => readFile(file, 'utf8')))).join('\n');
-assert.match(cssText, /#5c6155/);
-assert.match(cssText, /#555a4d/);
-assert.match(cssText, /hover:\s*hover/);
-assert.match(cssText, /pointer:\s*fine/);
-assert.match(cssText, /\.hours-footnote\{[^}]*font-size:11px/);
-assert.doesNotMatch(cssText, /\.hours-footnote\{[^}]*font-size:(?:8|9)px/);
-for (const color of ['#73776a', '#7e8373', '#757762', '#8a8571', '#929282', '#74715f', '#85806c', '#6f7368', '#777864', '#828675', '#8a8b78', '#727769']) {
-  assert.equal(cssText.includes(color), false, `Low-contrast color remains: ${color}`);
+const files = await filesIn(root);
+const pages = files.filter(p => p.endsWith('index.html') && !/\/(404|_not-found)\//.test(p));
+const cache = new Map();
+for(const path of pages) cache.set(path, await readFile(path,'utf8'));
+assert.equal(pages.length, 22, 'Expected home, three services, family guide and 17 catalog routes');
+let linksChecked = 0;
+for (const [path,html] of cache) {
+  const url = new URL(base + relative(root,path).replace(/index\.html$/,''), 'https://007-a.ru');
+  assert.match(html, /<h1\b/);
+  assert.match(html, /noindex/);
+  assert.doesNotMatch(html, /<(?:form|input|textarea|select|iframe|video)\b|mc\.yandex\.|googletagmanager\.com|google-analytics\.com/i);
+  for(const match of html.matchAll(/\b(href|src)="([^"]+)"/g)) {
+    const dest = new URL(match[2].replaceAll('&amp;','&'),url);
+    if (dest.origin !== url.origin) { assert.equal(match[1],'href', 'Unexpected external resource '+dest); continue; }
+    if (!dest.pathname.startsWith(base)) continue;
+    const file = join(root,decodeURIComponent(dest.pathname.slice(base.length)),dest.pathname.endsWith('/')?'index.html':'');
+    assert.ok((await stat(file)).isFile(), 'Missing '+dest+' from '+url);
+    if (dest.hash && cache.has(file)) assert.ok(cache.get(file).includes('id="'+decodeURIComponent(dest.hash.slice(1))+'"'), 'Missing anchor '+dest);
+    linksChecked++;
+  }
 }
-const scripts = await Promise.all(all.filter((file) => file.endsWith('.js')).map(async (file) => [file, await readFile(file, 'utf8')]));
-const probeBundles = scripts.filter(([, text]) => text.includes('software rasterizer'));
-assert.ok(probeBundles.length > 0, 'WebGL probe missing from the export');
-for (const [file, text] of probeBundles) {
-  assert.equal(text.includes('WebGL 1 is not supported'), false, `Three.js is bundled with the WebGL probe (${file})`);
-}
-assert.ok(scripts.some(([, text]) => text.includes('WebGL 1 is not supported')), 'Three.js scene chunk missing');
-console.log(`Verified exported page: 3 services, 4 timeline stages, family guide, demo state, ${assets} referenced assets, ${all.length} files.`);
+const home=cache.get(join(root,'index.html'));
+assert.match(home,/Архитектура/);
+for(const scene of ['hero-wide','ceremony','urn','monument']) assert.ok(home.includes('/plates/'+scene+'.webp'));
+console.log(`Verified ${pages.length} public pages, four cover scenes and ${linksChecked} local links and resources.`);
