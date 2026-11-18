@@ -8,11 +8,11 @@
 <link rel="canonical" href="https://007-a.ru/directions/sites/driving-school/"><link rel="icon" href="./assets/mark.svg" type="image/svg+xml">
 <link rel="preload" href="./assets/manrope.woff" as="font" type="font/woff" crossorigin><link rel="preload" href="./assets/serif.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="./base.css"><link rel="stylesheet" href="./lower.css"><link rel="stylesheet" href="./booking.css">
-<link rel="stylesheet" href="./route.css">
+<link rel="stylesheet" href="./route.css?v=city-1">
 <link rel="stylesheet" href="./quiz.css">
 <link rel="stylesheet" href="./cinema.css">
 <script src="./cinema.js" defer></script><script src="./quiz.js" defer></script>
-<script src="./route.js" defer></script>
+<script src="./route.js?v=city-1" defer></script>
 <script src="./main.js" defer></script><script src="./lower.js" defer></script><script src="./booking.js" defer></script>
 </head>
 <body>
@@ -82,19 +82,24 @@
     <div class="journey__head" id="ad-route-title">
       <div>
         <p class="journey__kicker">Маршрут первого занятия</p>
-        <h2 id="journey-title">Из двора <em>к реке.</em></h2>
+        <h2 id="journey-title">Первый выезд <em>в город.</em></h2>
       </div>
-      <p class="journey__lead">Выберите точку на карте, чтобы увидеть дорогу с места водителя и разобрать ситуацию вместе с инструктором.</p>
+      <p class="journey__lead">Выберите остановку в трёхмерном квартале. Инструктор покажет, на что смотреть при выезде со двора, на перекрёстке и у набережной.</p>
     </div>
     <div class="journey__board">
       <div class="journey__map-column">
-        <div class="journey__atlas" role="group" aria-label="Три остановки учебного маршрута">
-          <img class="journey__atlas-image" src="./assets/route-atlas.svg" alt="" width="660" height="405" loading="lazy">
-          <span class="journey__compass" aria-hidden="true"><span>С</span><i></i></span>
-          <button type="button" class="journey__pin" data-journey-stop="0" style="--x:16.436%; --y:25.998%" aria-controls="journey-view-1" aria-label="Остановка 1. Выезд со двора" aria-pressed="true"><span>1</span></button>
-          <button type="button" class="journey__pin" data-journey-stop="1" style="--x:51.592%; --y:33.587%" aria-controls="journey-view-2" aria-label="Остановка 2. Перекрёсток" aria-pressed="false"><span>2</span></button>
-          <button type="button" class="journey__pin" data-journey-stop="2" style="--x:81.370%; --y:56.291%" aria-controls="journey-view-3" aria-label="Остановка 3. Парковка у реки" aria-pressed="false"><span>3</span></button>
-          <span class="journey__map-key" aria-hidden="true"><i></i> Учебный маршрут</span>
+        <div class="journey__atlas" role="group" aria-label="Объёмная карта учебного квартала Москвы">
+          <picture><source media="(max-width: 760px)" srcset="./assets/route-city-mobile.png"><img class="city-poster" src="./assets/route-city.png" width="850" height="510" loading="lazy" decoding="async" alt="Объёмный макет городского квартала. Маршрут проходит от жилого двора через перекрёсток к набережной."></picture>
+          <canvas class="city-viewport" aria-hidden="true"></canvas>
+          <button type="button" class="journey__pin" data-journey-stop="0" style="--x:11.041%;--y:41.753%;--mx:9.417%;--my:43.127%" aria-controls="journey-view-1" aria-label="Остановка 1. Выезд со двора" aria-pressed="true"><span>1</span></button>
+          <button type="button" class="journey__pin" data-journey-stop="1" style="--x:42.730%;--y:39.634%;--mx:42.427%;--my:41.361%" aria-controls="journey-view-2" aria-label="Остановка 2. Перекрёсток" aria-pressed="false"><span>2</span></button>
+          <button type="button" class="journey__pin" data-journey-stop="2" style="--x:81.002%;--y:52.962%;--mx:82.294%;--my:52.469%" aria-controls="journey-view-3" aria-label="Остановка 3. Парковка у реки" aria-pressed="false"><span>3</span></button>
+          <span class="journey__map-key"><i aria-hidden="true"></i> Учебный маршрут</span>
+          <div class="city-tools" role="group" aria-label="Управление картой" hidden>
+            <button type="button" data-left aria-label="Повернуть карту влево" title="Повернуть влево"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5 4 10l6 4 M5 10h8a6 6 0 0 1 6 6v2"/></svg></button>
+            <button type="button" data-right aria-label="Повернуть карту вправо" title="Повернуть вправо"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5 6 5-6 4 M19 10h-8a6 6 0 0 0-6 6v2"/></svg></button>
+            <button type="button" data-pause aria-pressed="false" aria-label="Приостановить движение"><svg class="city-pause-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v12M16 6v12"/></svg><svg class="city-play-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 10 7-10 7Z"/></svg></button>
+          </div>
         </div>
         <div class="journey__stops" role="tablist" aria-label="Остановки маршрута">
           <button type="button" id="journey-stop-1" role="tab" aria-controls="journey-view-1" aria-selected="true" data-journey-stop="0"><span>01</span>Двор</button>
