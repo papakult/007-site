@@ -26,12 +26,48 @@ body.procedure-page main { --serif: "Maison Serif", Georgia, "Times New Roman", 
 .procedure-related a:hover strong { color: var(--wine); text-decoration: underline; text-underline-offset: .13em; text-decoration-thickness: 1px; }
 .procedure-return { font-size: .94rem; line-height: 1.5; color: var(--copy); }
 @media (max-width: 780px) {
-  .procedure-intro, .procedure-reading { grid-template-columns: minmax(0, 1fr); }
-  .procedure-title-panel { padding: 26px 0 30px; }
-  .procedure-story .procedure-title-panel h1 { font-size: clamp(2.35rem, 7.8vw, 3.9rem); }
-  .procedure-lead { margin-top: .85rem; }
-  .procedure-rate { margin-top: 21px; }
-  .procedure-visual { min-height: 0; aspect-ratio: 1.48; }
-  .procedure-reading { gap: 25px; }
-  .procedure-related { flex-direction: column; align-items: flex-start; }
+  .procedure-crumbs { align-items: center; column-gap: .55rem; row-gap: 0; padding-block: 4px; }
+  .procedure-crumbs a, .procedure-return { display: inline-flex; align-items: center; min-height: 44px; }
+  .procedure-intro {
+    container-type: inline-size;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    grid-template-areas: "title title" "visual visual" "rate visit" "lead lead";
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 15px;
+    padding: 14px 0 19px;
+  }
+  .procedure-title-panel { display: contents; }
+  .procedure-story .procedure-title-panel h1 {
+    grid-area: title;
+    font-size: clamp(2rem, 8.5vw, 3.45rem);
+    font-size: clamp(2rem, 12.2cqi, 3.45rem);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .procedure-story .procedure-title-panel h1[data-fit="long"] { font-size: clamp(1.8rem, 10.7cqi, 3.45rem); }
+  .procedure-story .procedure-title-panel h1[data-fit="extended"] { font-size: clamp(1.55rem, 9.4cqi, 3.45rem); }
+  .procedure-visual {
+    grid-area: visual;
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 1.55;
+    max-height: 340px;
+  }
+  .procedure-rate { grid-area: rate; margin: 0; }
+  .procedure-rate dt { font-size: .79rem; }
+  .procedure-rate dd { font-size: clamp(1.52rem, 6.8vw, 2.2rem); line-height: 1.1; white-space: nowrap; }
+  .procedure-visit {
+    grid-area: visit; justify-self: end; min-height: 46px; margin: 0;
+    max-width: 10rem; padding: 7px .65rem; font-size: .875rem; line-height: 1.32;
+  }
+  .procedure-lead { grid-area: lead; margin: 0; max-width: 55ch; }
+  .procedure-reading { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-block: 24px 32px; }
+  .procedure-reading p { margin-top: .75rem; }
+  .procedure-related { flex-direction: column; align-items: stretch; gap: 8px; padding-top: 12px; }
+  .procedure-related a { min-height: 46px; padding-block: 9px; }
+  .procedure-related strong, .procedure-return { overflow-wrap: anywhere; }
+}
+@media (max-width: 460px) {
+  .procedure-crumbs a:first-child, .procedure-crumbs a:first-child + span { display: none; }
 }

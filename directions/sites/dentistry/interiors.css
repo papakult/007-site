@@ -192,3 +192,32 @@ body:not(.maison-home) main {
     & .catalog-feature .catalog-photo { aspect-ratio: 1.4; }
   }
 }
+
+body:not(.maison-home) main {
+  & :is(.catalog-search, #catalog-browse, .catalog-results, .catalog-hit, #catalog-clear, #catalog-empty)[hidden] { display: none; }
+  & .catalog-search { gap: 1.25rem; }
+  & .catalog-search label { flex: none; font-size: .85rem; color: var(--soft); }
+  & .catalog-search input::-webkit-search-cancel-button { appearance: none; }
+  & #catalog-clear { color: var(--wine); font-size: .88rem; text-decoration: underline; text-underline-offset: .2em; min-height: 44px; padding: .4rem; }
+  & .catalog-status { margin: 0; color: var(--copy); }
+  & .catalog-status:not(:empty) { margin: -1rem 0 1rem; }
+  & .catalog-results { display: grid; gap: 0; padding: 0; margin: 0; list-style: none; }
+  & .catalog-hit { border-top: 1px solid var(--rule); }
+  & .catalog-hit:last-child { border-bottom: 1px solid var(--rule); }
+  & .catalog-hit a { display: grid; grid-template-columns: 86px minmax(0,1fr) minmax(10rem,auto); align-items: center; gap: 1.2rem; padding: .9rem .4rem; }
+  & .catalog-hit img { width: 86px; height: 62px; object-fit: cover; background: var(--linen); }
+  & .catalog-hit-category, & .catalog-hit-rate small { color: var(--soft); display: block; font-weight: 400; font-size: .82rem; line-height: 1.4; }
+  & .catalog-hit-copy strong { display: block; margin-top: .15em; font: 400 clamp(1.25rem,2vw,2rem)/1.16 var(--serif); }
+  & .catalog-hit-rate { text-align: right; color: var(--wine); font-size: .95rem; font-variant-numeric: tabular-nums; }
+  & .catalog-hit a:is(:hover,:focus-visible) .catalog-hit-copy strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .14em; }
+}
+@media (max-width: 620px) {
+  body:not(.maison-home) main {
+    & .catalog-search { flex-wrap: wrap; gap: .35rem .6rem; }
+    & .catalog-search label { width: 100%; }
+    & .catalog-hit a { grid-template-columns: 70px minmax(0,1fr); gap: .2rem .85rem; }
+    & .catalog-hit img { width: 70px; height: 64px; grid-row: span 2; }
+    & .catalog-hit-rate { grid-column: 2; text-align: left; font-size: .84rem; }
+    & .catalog-hit-rate small { display: inline; font-size: inherit; margin-right: .4em; }
+  }
+}

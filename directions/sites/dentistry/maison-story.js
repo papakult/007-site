@@ -2,6 +2,8 @@
   const section = document.querySelector('[data-visit]');
   if (!section) return;
 
+  const intro = document.querySelector('.film-intro[href="#visit"]');
+  const preferences = window.matchMedia('(prefers-reduced-motion: reduce)');
   const stage = section.querySelector('.visit-stage');
   const movie = section.querySelector('video');
   const toggle = section.querySelector('[data-visit-toggle]');
@@ -15,6 +17,8 @@
   let position = 0;
   let changing = 0;
   let playerVisible = false;
+  let arrivingFromIntro = false;
+  let arrivalTimer;
 
   const sceneAt = time => {
     for (let i = seekPoints.length - 1; i >= 1; i--) {
@@ -36,7 +40,9 @@
     const playing = !movie.paused && !movie.ended;
     toggle.toggleAttribute('data-playing', playing);
     section.classList.toggle('is-running', playing);
-    label.textContent = playing ? 'Пауза' : position > 0 && !movie.ended ? 'Продолжить фильм' : 'Смотреть фильм';
+    if (playing) label.textContent = 'Пауза';
+    else if (movie.ended && playerVisible) label.textContent = 'Смотреть ещё раз';
+    else label.textContent = position > 0 ? 'Продолжить фильм' : 'Смотреть фильм';
   }
 
   function showPlayer(show) {
@@ -45,7 +51,13 @@
     stage.classList.toggle('is-playing', show);
   }
 
+  function finishArrival() {
+    arrivingFromIntro = false;
+    window.clearTimeout(arrivalTimer);
+  }
+
   function select(index) {
+    finishArrival();
     changing++;
     if (!movie.paused) movie.pause();
     showPlayer(false);
@@ -61,6 +73,7 @@
     if (movie.ended && playerVisible) position = 0;
     try {
       movie.currentTime = position;
+      movie.hidden = false;
       // play() runs inside the visitor's tap, including on mobile Safari.
       await movie.play();
       if (request !== changing) return;
@@ -76,8 +89,7 @@
 
   toggle.addEventListener('click', () => {
     if (!movie.paused && !movie.ended) {
-      changing++;
-      movie.pause();
+      stopOffscreen();
     } else {
       play();
     }
@@ -120,18 +132,39 @@
   });
 
   function stopOffscreen() {
+    finishArrival();
     changing++;
-    if (!movie.paused) movie.pause();
+    if (!movie.paused) {
+      position = movie.currentTime;
+      movie.pause();
+    }
+  }
+
+  function startFromIntro(event) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    finishArrival();
+    arrivingFromIntro = true;
+    // Ignore an initial offscreen notification while moving from the cover to the film.
+    arrivalTimer = window.setTimeout(() => {
+      finishArrival();
+      const bounds = section.getBoundingClientRect();
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) stopOffscreen();
+    }, 1600);
+    if (window.location.hash !== '#visit') window.history.pushState(null, '', '#visit');
+    section.scrollIntoView({ behavior: preferences.matches ? 'instant' : 'smooth', block: 'start' });
+    toggle.focus({ preventScroll: true });
+    if (movie.paused || movie.ended) play();
   }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopOffscreen();
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([item]) => {
-      if (!item.isIntersecting) stopOffscreen();
+      if (item.isIntersecting) finishArrival();
+      else if (!arrivingFromIntro) stopOffscreen();
     }).observe(section);
   }
-  const preferences = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (preferences.addEventListener) {
     preferences.addEventListener('change', event => {
       if (event.matches) stopOffscreen();
@@ -140,6 +173,15 @@
 
   display(0);
   group.hidden = false;
-  if (movie.canPlayType('video/mp4')) toggle.hidden = false;
+  if (movie.canPlayType('video/mp4')) {
+    toggle.hidden = false;
+    if (intro) {
+      intro.querySelector('strong').textContent = 'Смотреть фильм';
+      intro.querySelector('small').textContent = 'Первый визит · 12 секунд';
+      intro.setAttribute('aria-label', 'Смотреть фильм «Первый визит», 12 секунд');
+      intro.setAttribute('aria-controls', movie.id);
+      intro.addEventListener('click', startFromIntro);
+    }
+  }
   section.classList.add('is-enhanced');
 })();
