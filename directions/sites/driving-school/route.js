@@ -8,7 +8,7 @@
   const atlas=section.querySelector('.journey__atlas');
   let selected=null;
   function loadCity() {
-    import('./route-city.js?v=1').then(({mountCity})=>{
+    import('./route-city.js?v=2').then(({mountCity})=>{
       mountCity(atlas,()=>{
         if(selected!==null)atlas.dispatchEvent(new CustomEvent('route-select',{detail:selected}));
       });

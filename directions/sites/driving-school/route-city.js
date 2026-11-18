@@ -472,12 +472,84 @@ function createRenderer(canvas,scene) {
     mesh(scene.city);for(const actor of vehicles(scene,time))mesh(...actor);
   };
 }
+// A depth-buffer renderer for browsers without a WebGL context. Reuse the
+// static district between camera moves; at rest only eight small meshes change.
+function createCanvasRenderer(canvas,scene) {
+  const ctx=canvas.getContext('2d',{alpha:false});
+  if(!ctx)return null;
+  const channel=v=>Math.max(0,Math.min(255,Math.round(v*255)));
+  const rgba=(r,g,b)=>((255<<24)|(b<<16)|(g<<8)|r)>>>0;
+  const background=rgba(219,214,199);
+  let frame,base,baseDepth,liveDepth,output,lastView=null;
+  const lightSize=512,lightDepth=new Float32Array(lightSize*lightSize).fill(2);
+  const xs=new Float64Array(3),ys=new Float64Array(3),zs=new Float64Array(3);
+  const lights=new Float64Array(9);
+  // Both passes use the same triangle coverage and world-space depth convention.
+  function raster(data,view,w,h,depth,colors,ox=0,oy=0,oz=0,yaw=0) {
+    const cs=Math.cos(yaw),sn=Math.sin(yaw),halfW=w*.5,halfH=h*.5;
+    for(let j=0;j<data.length;j+=21) {
+      for(let k=0;k<3;k++){
+        const i=j+k*7,px=data[i],pz=data[i+2];
+        const x=ox+px*cs+pz*sn,y=oy+data[i+1],z=oz-px*sn+pz*cs;
+        xs[k]=(view[0]*x+view[8]*z+view[12]+1)*halfW;
+        ys[k]=(1-view[1]*x-view[5]*y-view[9]*z-view[13])*halfH;
+        zs[k]=view[2]*x+view[6]*y+view[10]*z+view[14];
+        if(colors){
+          lights[k]=(sunlight[0]*x+sunlight[8]*z+sunlight[12]+1)*lightSize*.5;
+          lights[3+k]=(1-sunlight[1]*x-sunlight[5]*y-sunlight[9]*z-sunlight[13])*lightSize*.5;
+          lights[6+k]=sunlight[2]*x+sunlight[6]*y+sunlight[10]*z+sunlight[14];
+        }
+      }
+      const ax=xs[0],ay=ys[0],bx=xs[1]-ax,by=ys[1]-ay,cx=xs[2]-ax,cy=ys[2]-ay;
+      const det=bx*cy-by*cx;if(Math.abs(det)<.00001)continue;
+      const left=Math.max(0,Math.ceil(Math.min(ax,xs[1],xs[2])-.5)),right=Math.min(w-1,Math.floor(Math.max(ax,xs[1],xs[2])-.5));
+      const top=Math.max(0,Math.ceil(Math.min(ay,ys[1],ys[2])-.5)),bottom=Math.min(h-1,Math.floor(Math.max(ay,ys[1],ys[2])-.5));
+      if(left>right||top>bottom)continue;
+      const dxB=cy/det,dyB=-cx/det,dxC=-by/det,dyC=bx/det;
+      const startB=(left+.5-ax)*dxB+(top+.5-ay)*dyB, startC=(left+.5-ax)*dxC+(top+.5-ay)*dyC;
+      const db=zs[1]-zs[0],dc=zs[2]-zs[0];
+      const r=data[j+3],g=data[j+4],b=data[j+5];
+      const lit=colors?rgba(channel(r),channel(g),channel(b)):0;
+      const shade=colors?rgba(channel(r*.77+.011),channel(g*.77+.015),channel(b*.77+.019)):0;
+      for(let row=top;row<=bottom;row++){
+        let u=startB+(row-top)*dyB,v=startC+(row-top)*dyC;
+        let index=row*w+left;
+        for(let col=left;col<=right;col++,index++,u+=dxB,v+=dxC){
+          if(u<-.000001||v<-.000001||u+v>1.000001)continue;
+          const d=zs[0]+db*u+dc*v;
+          if(d>depth[index]+.00000015)continue;
+          depth[index]=d;
+          if(!colors)continue;
+          const lx=(lights[0]+u*(lights[1]-lights[0])+v*(lights[2]-lights[0]))|0;
+          const ly=(lights[3]+u*(lights[4]-lights[3])+v*(lights[5]-lights[3]))|0;
+          const lz=lights[6]+u*(lights[7]-lights[6])+v*(lights[8]-lights[6]);
+          colors[index]=lx>=0&&ly>=0&&lx<lightSize&&ly<lightSize&&lightDepth[ly*lightSize+lx]+.0034<lz?shade:lit;
+        }
+      }
+    }
+  }
+  raster(scene.city,sunlight,lightSize,lightSize,lightDepth,null);
+  return function draw(view,time) {
+    const w=canvas.width,h=canvas.height;
+    if(!frame||frame.width!==w||frame.height!==h){
+      frame=ctx.createImageData(w,h);output=new Uint32Array(frame.data.buffer);
+      base=new Uint32Array(w*h);baseDepth=new Float32Array(w*h);liveDepth=new Float32Array(w*h);lastView=null;
+    }
+    if(!lastView||view.some((value,i)=>Math.abs(lastView[i]-value)>.0000003)){
+      base.fill(background);baseDepth.fill(2);raster(scene.city,view,w,h,baseDepth,base);lastView=view.slice();
+    }
+    output.set(base);liveDepth.set(baseDepth);
+    for(const [data,x,y,z,yaw] of vehicles(scene,time))raster(data,view,w,h,liveDepth,output,x,y,z,yaw);
+    ctx.putImageData(frame,0,0);
+  };
+}
 export function mountCity(atlas,onReady) {
   const canvas=atlas.querySelector('canvas'), pins=Array.from(atlas.querySelectorAll('.journey__pin'));
   const controls=atlas.querySelector('.city-tools'), pause=controls.querySelector('[data-pause]');
   const motion=matchMedia('(prefers-reduced-motion: reduce)'), scene=buildDistrict();
   const presets=[{x:-1,z:5,yaw:-.36,pitch:.66,zoom:1.055},{x:5,z:5,yaw:-.18,pitch:.83,zoom:1.07},{x:8,z:12,yaw:-.56,pitch:.67,zoom:1.065}];
   let camera={...overview},goal={...overview},draw=null,visible=false,frame=0,time=0,previous=0,lastPaint=0;
+  let backup=null;
   let paused=motion.matches,drag=null,width=1,height=1,manualPause=false;
   function pinPositions(matrix) {
     for(let i=0;i<pins.length;i++){
@@ -501,7 +573,7 @@ export function mountCity(atlas,onReady) {
     frame=0;
     if(!visible||document.hidden||!draw)return;
     const moving=Object.keys(goal).some(k=>Math.abs(goal[k]-camera[k])>.00015);
-    if(now-lastPaint<30&&!motion.matches){invalidate();return;}
+    if(now-lastPaint<(backup?45:30)&&!motion.matches){invalidate();return;}
     const dt=previous?Math.min((now-previous)/1000,.10):0;
     previous=lastPaint=now;
     if(!paused)time+=dt;
@@ -523,6 +595,11 @@ export function mountCity(atlas,onReady) {
     const density=Math.min(devicePixelRatio||1,1.75,1600/width);
     const w=Math.max(1,Math.round(width*density)),h=Math.max(1,Math.round(height*density));
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+    if(backup){
+      const scale=Math.min(1.18,900/width,Math.sqrt(490000/(width*height)));
+      const bw=Math.max(1,Math.round(width*scale)),bh=Math.max(1,Math.round(height*scale));
+      if(backup.width!==bw||backup.height!==bh){backup.width=bw;backup.height=bh;}
+    }
     if(!draw)posterPins();invalidate();
   }
   function updatePause(){
@@ -552,14 +629,23 @@ export function mountCity(atlas,onReady) {
   function release(){drag=null;atlas.classList.remove('city-turning');}
   for(const event of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(event,release);
   canvas.addEventListener('pointerleave',()=>{if(drag&&!drag.active)release();});
+  function software(){
+    if(backup)return;
+    backup=document.createElement('canvas');
+    backup.className='city-viewport';backup.setAttribute('aria-hidden','true');
+    atlas.insertBefore(backup,canvas);canvas.style.opacity='0';
+    draw=createCanvasRenderer(backup,scene);
+  }
   function start(){
+    if(backup){backup.remove();backup=null;canvas.style.removeProperty('opacity');}
     try{draw=createRenderer(canvas,scene);}catch{draw=null;}
+    if(!draw)software();
     if(!draw){controls.hidden=true;atlas.classList.remove('city-ready');posterPins();return;}
     resize();invalidate();
   }
   canvas.addEventListener('webglcontextlost',event=>{
     event.preventDefault();draw=null;controls.hidden=true;atlas.classList.remove('city-ready');
-    if(frame)cancelAnimationFrame(frame);frame=0;posterPins();
+    if(frame)cancelAnimationFrame(frame);frame=0;software();resize();invalidate();
   });
   canvas.addEventListener('webglcontextrestored',start);
   atlas.addEventListener('route-select',event=>{const next=presets[event.detail];if(next){goal={...next};invalidate();}});
