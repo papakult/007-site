@@ -1,14 +1,23 @@
-# ОПОРА — construction website concept
+# ОПОРА — генеральный подряд и строительство
 
-Next.js 16 + React 19 static export. GSAP ScrollTrigger, Lenis, React Three Fiber.
-Production path: https://007-a.ru/directions/sites/construction/
+Демонстрационный сайт студии 007-А опубликован по адресу https://007-a.ru/directions/sites/construction/. Сайт знакомит с направлениями строительства, проектами, парком техники и ходом работ. Изображения объектов и техники представляют архитектурные концепции.
 
-`npm ci`; `npm run lint`; `npm run typecheck`; `npm run build`; `npm run verify`; `node scripts/stage-export.mjs`.
+## Редактирование
 
-The generated export is checked into the existing GitHub Pages site. Preserve the full repository tree during publication, including CNAME, root index.html, assets and the ritual project. No Yandex Metrika scripts are added.
+Главные страницы и HTML-шаблоны находятся в `editorial/build.py`, проекты и направления в `editorial/projects.py`, техника, ход работ и сведения о компании в `editorial/operations.py`. Изображения, стили и браузерные скрипты редактируются прямо в `directions/sites/construction/` от корня репозитория. Путь к разделу и общим ресурсам репозитория учитывается при проверке ссылок и предпросмотре.
 
-Runway generated the four architectural concept images and the five-second hero video. Provenance is recorded in public/PROVENANCE.json. These are concept designs, not completed company projects. No contractor credentials, years in business or guarantees have been fabricated.
+## Сборка и публикация
 
-A read-only checklist helps readers prepare for an architecture consultation and links back to the portfolio. WebPage structured data describes this studio concept.
+Выполните команды из `apps/construction`. Для текущего сайта нужны Python 3.9 или новее и Node.js с npm. Генератор и сервер предпросмотра используют стандартную библиотеку Python. Установка npm-зависимостей требуется для дополнительных проверок архивного Next.js-проекта.
 
-Hero motion can be paused. Reduced-motion and save-data preferences are respected. Desktop 3D loads near its section; mobile uses a static visual. Native dialogs support Escape and focus management. Assets are WebP/H.264, pre-rendered HTML and hashed static JS/CSS are delivered through GitHub Pages CDN.
+```sh
+npm run build
+npm run verify
+npm run dev -- --port 3000
+```
+
+Откройте http://127.0.0.1:3000/directions/sites/construction/. Сервер показывает HTML из `out/`, а изображения, стили и скрипты берёт из каталогов репозитория. После изменения Python-шаблона повторите сборку и обновите страницу.
+
+После проверки выполните `npm run stage` или `node scripts/stage-export.mjs`. Команда копирует сгенерированные HTML-страницы из `out/` по их публичным путям, сохраняя стили, скрипты и медиатеку. Включите в один коммит изменения `apps/construction/` и соответствующие файлы `directions/sites/`. GitHub Pages публикует их из ветки `main`.
+
+Предыдущая версия на Next.js хранится в `src/` и `public/`. Её конфигурация и зависимости оставлены для работы с архивом.

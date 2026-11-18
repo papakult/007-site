@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "build": "next build --webpack",
-    "lint": "eslint src && stylelint 'src/**/*.css'",
+    "build": "python3 editorial/manage.py build",
+    "lint": "python3 editorial/manage.py lint && eslint src && stylelint 'src/**/*.css'",
     "typecheck": "tsc --noEmit",
-    "verify": "node scripts/verify-export.mjs"
+    "verify": "node scripts/verify-export.mjs",
+    "stage": "node scripts/stage-export.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "9.8.2",
