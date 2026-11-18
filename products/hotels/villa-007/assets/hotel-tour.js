@@ -9,6 +9,7 @@ const openHotelTour = (() => {
   const hotspot = document.querySelector('#tour-door');
   const controls = document.querySelector('.tour-controls');
   const tabs = [...document.querySelectorAll('[data-scene]')];
+  detail.querySelector('[data-close-dialog]').addEventListener('click', () => detail.close());
   const book = document.querySelector('#book-detail');
   const stageLabel = document.querySelector('#tour-stage-label');
   const scenes = [
@@ -38,7 +39,7 @@ const openHotelTour = (() => {
     if (!scripts.has(file)) {
       const loaded = new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        script.src = new URL(file + '?v=2', tourAssets);
+        script.src = new URL(file + '?v=3', tourAssets);
         script.onload = resolve;
         script.onerror = reject;
         document.head.append(script);

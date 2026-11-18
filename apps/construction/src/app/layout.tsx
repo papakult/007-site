@@ -6,7 +6,7 @@ const url = 'https://007-a.ru/directions/sites/construction/';
 export const metadata: Metadata = {
   metadataBase: new URL('https://007-a.ru'),
   title: 'ОПОРА — архитектура, которая становится жизнью | Концепция 007-A',
-  description: 'Концепция сайта строительной компании от 007-A: коттеджи, жилые комплексы, коммерческие и промышленные объекты. Интерактивная сборка дома и форма расчёта проекта.',
+  description: 'Концепция сайта строительной компании от 007-A: коттеджи, жилые комплексы, коммерческие и промышленные объекты. Интерактивная сборка дома и памятка к встрече с архитектором.',
   alternates: { canonical: url },
   openGraph: { title: 'ОПОРА — создаём пространство для жизни', description: 'Архитектура. Строительство. Внимание к каждой детали. Демонстрационный проект 007-A.', url, locale:'ru_RU', type:'website', images: [{url:'/directions/sites/construction/hero-villa.webp',width:1600,height:900,alt:'Современная вилла из камня и стекла в вечернем свете'}] },
   twitter: {card:'summary_large_image',title:'ОПОРА — архитектура для жизни',images:['/directions/sites/construction/hero-villa.webp']},

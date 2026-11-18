@@ -155,3 +155,9 @@ html.adb-modal-open { overflow: hidden; }
 .adb-dialog .adb-next:hover { background:#58202d; }
 .adb-next svg { color:#f4dad5; }
 .adb-choice input:checked + .adb-choice-inner { background:#f2e8e3; border-color:#762738; }
+
+.adb-dialog .adb-example { min-height: 48px; border: 1px solid var(--adb-line); border-radius: 2px; padding: 9px 7px; font: inherit; font-size: 14px; }
+.adb-example[aria-pressed="true"] { border-color: var(--adb-red); color: var(--adb-ink); background: #f2e8e3; box-shadow: inset 0 -2px var(--adb-red); }
+.adb-focus { font-size: 21px; line-height: 1.25; margin: 24px 0 12px; }
+.adb-steps { padding-inline-start: 24px; line-height: 1.5; }
+.adb-steps li + li { margin-top: 8px; }

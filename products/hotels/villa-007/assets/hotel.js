@@ -10,14 +10,17 @@ const dayName = new Intl.DateTimeFormat('ru-RU', { weekday: 'short', timeZone: '
 const now = new Date();
 const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())).toISOString().slice(0, 10);
 
-const form = document.querySelector('#date-form');
-const arrival = form.elements.arrival;
-const departure = form.elements.departure;
-const guests = form.elements.guests;
+const exampleButtons = [...document.querySelectorAll('[data-stay]')];
+const stays = {
+  short: { offset: 1, nights: 2, people: 2 },
+  three: { offset: 5, nights: 3, people: 2 },
+  week: { offset: 9, nights: 7, people: 2 },
+};
+let activeExample = stays.short;
 const grid = document.querySelector('#room-grid');
 const template = document.querySelector('#room-template');
 const checkout = document.querySelector('#checkout');
-const confirm = document.querySelector('#confirm');
+checkout.querySelector('[data-close-dialog]').addEventListener('click', () => checkout.close());
 const seeBooking = document.querySelector('#see-booking');
 const seeStudio = document.querySelector('#see-studio');
 const table = document.querySelector('.table-scroll');
@@ -27,7 +30,7 @@ let firstDay = today;
 let selectedDate = today;
 let selection;
 let draft;
-let nextBooking = 3;
+
 
 function addDays(iso, count) {
   return new Date(Date.parse(iso) + count * oneDay).toISOString().slice(0, 10);
@@ -42,11 +45,8 @@ function rangeLabel(start, end) {
 }
 
 function getStay() {
-  const start = arrival.value;
-  const end = departure.value;
-  const nights = (Date.parse(end) - Date.parse(start)) / oneDay;
-  if (!start || !end || start < today || !Number.isInteger(nights) || nights < 1 || nights > 30) return null;
-  return { start, end, nights, people: Number(guests.value) };
+  const start = addDays(today, activeExample.offset);
+  return { start, end: addDays(start, activeExample.nights), nights: activeExample.nights, people: activeExample.people };
 }
 
 function getNights(stay) {
@@ -69,10 +69,6 @@ function renderRooms() {
   const stay = getStay();
   const summary = document.querySelector('#availability');
   grid.replaceChildren();
-  if (!stay) {
-    summary.textContent = 'Выберите даты, от одной до 30 ночей.';
-    return;
-  }
   const free = rooms.filter(room => isAvailable(room, stay)).length;
   summary.textContent = 'С ' + rangeLabel(stay.start, stay.end) + ' · ' + nightsLabel(stay.nights) + ' · свободно ' + free + ' из ' + rooms.length;
   for (const room of rooms) {
@@ -88,9 +84,9 @@ function renderRooms() {
     card.querySelector('.room-price').textContent = money.format(room.rate * stay.nights);
     card.querySelector('.room-rate').textContent = money.format(room.rate) + ' за ночь';
     const book = card.querySelector('.room-action button');
-    book.textContent = available ? 'Забронировать' : 'Недоступен';
+    book.textContent = available ? 'Посмотреть' : 'Недоступен';
     book.disabled = !available;
-    book.setAttribute('aria-label', available ? 'Забронировать номер ' + room.name : room.name + ' недоступен');
+    book.setAttribute('aria-label', available ? 'Посмотреть пример для номера ' + room.name : room.name + ' недоступен');
     book.addEventListener('click', () => openCheckout(room));
     const tour = card.querySelector('button.room-image');
     if (tour) {
@@ -105,11 +101,11 @@ function renderRooms() {
 function openDetail(room) {
   const stay = getStay();
   const available = stay && isAvailable(room, stay);
-  openHotelTour(room, available ? 'Выбрать этот номер' : 'Выбрать другие даты', () => {
+  openHotelTour(room, available ? 'Посмотреть стоимость' : 'К примерам поездок', () => {
     if (available) openCheckout(room);
     else {
       document.querySelector('#stay').scrollIntoView();
-      arrival.focus({ preventScroll: true });
+      exampleButtons.find(button => button.getAttribute('aria-pressed') === 'true').focus({ preventScroll: true });
     }
   });
 }
@@ -118,13 +114,10 @@ function openCheckout(room) {
   const stay = getStay();
   if (!stay || !isAvailable(room, stay)) return;
   draft = { ...stay, room };
-  document.querySelector('#checkout-title').textContent = 'Пробная бронь';
+  document.querySelector('#checkout-title').textContent = 'Пример проживания';
   document.querySelector('#checkout-details').textContent =
     room.name + ' · С ' + rangeLabel(stay.start, stay.end) + ' · ' + nightsLabel(stay.nights) + ' · ' + money.format(room.rate * stay.nights);
-  document.querySelector('#checkout-message').textContent = 'Для тестовой брони достаточно подтвердить выбранные даты.';
-  confirm.hidden = false;
-  seeBooking.hidden = true;
-  seeStudio.hidden = true;
+  document.querySelector('#checkout-message').textContent = 'Посмотрите, как эти даты выглядят в календаре.';
   checkout.showModal();
 }
 
@@ -236,20 +229,6 @@ function renderDesk() {
       const price = document.createElement('strong');
       price.textContent = money.format(room.rate * selection.nights);
       content.append(price);
-    } else {
-      const toggle = document.createElement('button');
-      toggle.className = 'button button-dark';
-      toggle.type = 'button';
-      toggle.textContent = blocked ? 'Открыть ночь' : 'Закрыть ночь';
-      toggle.addEventListener('click', () => {
-        if (blocked) occupied.delete(key);
-        else occupied.set(key, 'blocked');
-        renderRooms();
-        renderCalendar();
-        document.querySelector('#desk-detail-content .button').focus({ preventScroll: true });
-        document.querySelector('#calendar-status').textContent = blocked ? 'Ночь открыта для брони.' : 'Ночь закрыта.';
-      });
-      content.append(toggle);
     }
     return;
   }
@@ -293,44 +272,25 @@ function setWeek(day, event) {
   selectDate(day, event);
 }
 
-function setDepartureRange() {
-  if (!arrival.value) return;
-  departure.min = addDays(arrival.value, 1);
-  departure.max = addDays(arrival.value, 30);
-  if (!departure.value || departure.value < departure.min || departure.value > departure.max) {
-    departure.value = addDays(arrival.value, 2);
+exampleButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    activeExample = stays[button.dataset.stay];
+    for (const option of exampleButtons) {
+      option.setAttribute('aria-pressed', String(option === button));
+    }
+    renderRooms();
+  });
+});
+
+seeBooking.addEventListener('click', () => {
+  if (draft) {
+    const day = draft.start;
+    setWeek(day, { room: draft.room, date: day, key: draft.room.id + day });
   }
-}
-
-form.addEventListener('change', event => {
-  if (event.target === arrival) setDepartureRange();
-  renderRooms();
+  checkout.close();
+  requestAnimationFrame(() => document.querySelector('#planning-title').focus({ preventScroll: true }));
 });
-form.addEventListener('submit', event => {
-  event.preventDefault();
-  renderRooms();
-  document.querySelector('#rooms').scrollIntoView({ block: 'start' });
-});
-
-confirm.addEventListener('click', () => {
-  const stay = draft;
-  if (!stay || !isAvailable(stay.room, stay)) return;
-  const number = '№' + String(nextBooking++).padStart(3, '0');
-  const booking = addReservation(number, stay.room, stay.start, stay.end, stay.people);
-  setWeek(stay.start, booking);
-  document.querySelector('#calendar-status').textContent = stay.room.name + ' · тестовая бронь ' + number + ' · ' + rangeLabel(stay.start, stay.end);
-  document.querySelector('#checkout-title').textContent = 'Бронь ' + number + ' готова';
-  document.querySelector('#checkout-message').textContent = 'Тестовая бронь появилась в расписании отельера.';
-  confirm.hidden = true;
-  seeBooking.hidden = false;
-  seeStudio.hidden = false;
-  seeBooking.focus();
-  renderRooms();
-});
-
-for (const link of [seeBooking, seeStudio]) {
-  link.addEventListener('click', () => checkout.close());
-}
+seeStudio.addEventListener('click', () => checkout.close());
 
 for (const button of document.querySelectorAll('[data-open-tour]')) {
   const room = rooms.find(item => item.id === button.dataset.openTour);
@@ -342,8 +302,6 @@ document.querySelector('#today').addEventListener('click', () => setWeek(today))
 
 addReservation('№001', rooms[0], today, addDays(today, 1), 2);
 addReservation('№002', rooms[1], addDays(today, 4), addDays(today, 6), 2);
-arrival.min = today;
-arrival.value = addDays(today, 1);
-setDepartureRange();
+document.querySelector('#planning-title').tabIndex = -1;
 renderRooms();
 renderCalendar();

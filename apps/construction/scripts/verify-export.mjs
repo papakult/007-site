@@ -2,8 +2,9 @@ import {readFile,readdir,stat} from 'node:fs/promises';
 import {resolve,join} from 'node:path';
 const root=resolve('out');
 const html=await readFile(join(root,'index.html'),'utf8');
-for(const s of ['<h1','Наши','application/ld+json','og:image','name="description"','/directions/sites/construction','Рассчитать стоимость','Коттеджи'])if(!html.includes(s))throw Error('Missing '+s);
+for(const s of ['<h1','Наши','application/ld+json','og:image','name="description"','/directions/sites/construction','Три отправные точки','Коттеджи'])if(!html.includes(s))throw Error('Missing '+s);
 if(/mc\.yandex|metrika\.js|googletagmanager/.test(html))throw Error('Unexpected analytics');
+if (/<(?:form|input|textarea|select)\b/i.test(html)) throw Error('Unexpected visitor input');
 const urls=[...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m=>m[1]);
 let checked=0;
 for(const u of urls){if(!u.startsWith('/directions/sites/construction/'))continue;const p=join(root,decodeURIComponent(u.replace('/directions/sites/construction/','').split('?')[0]));await stat(p);checked++;}

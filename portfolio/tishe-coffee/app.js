@@ -12,7 +12,7 @@
   const positions = ['0% 0%', '50% 0%', '100% 0%', '0% 100%', '50% 100%', '100% 100%'];
   const grid = document.querySelector('#drinks');
   const dialog = document.querySelector('#order-dialog');
-  const form = document.querySelector('#order-form');
+  const options = document.querySelector('#cup-options');
   const drinkSelect = document.querySelector('#order-drink');
   const milkSelect = document.querySelector('#order-milk');
   const sizes = document.querySelector('#size-options');
@@ -39,7 +39,7 @@
   }));
   drinkSelect.innerHTML = drinks.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
   function total() {
-    const large = form.querySelector('input[name="size"]:checked')?.value === String(selected.sizes[1]);
+    const large = options.querySelector('input[name="size"]:checked')?.value === String(selected.sizes[1]);
     return selected.price + (large ? selected.extra : 0) + (selected.type === 'milk' ? Number(milkSelect.value) : 0);
   }
   function updatePrice() { document.querySelector('#total-price').textContent = money(total()); }
@@ -54,7 +54,7 @@
   function openOrder(id, opener) {
     lastOpener = opener;
     drinkSelect.value = id;
-    form.hidden = false;
+    options.hidden = false;
     result.hidden = true;
     updateDrink();
     dialog.showModal();
@@ -66,7 +66,7 @@
     if (button) openOrder(button.dataset.drink, button);
   });
   drinkSelect.addEventListener('change', updateDrink);
-  form.addEventListener('change', updatePrice);
+  options.addEventListener('change', updatePrice);
   function closeOrder() { dialog.close(); }
   dialog.querySelector('.close-dialog').addEventListener('click', closeOrder);
   dialog.addEventListener('click', event => {
@@ -78,18 +78,17 @@
     document.body.style.overflow = '';
     requestAnimationFrame(() => lastOpener?.focus({ preventScroll: true }));
   });
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const size = form.querySelector('input[name="size"]:checked').value;
+  document.querySelector('#cup-summary').addEventListener('click', () => {
+    const size = options.querySelector('input[name="size"]:checked').value;
     const milk = selected.type === 'milk' ? `, ${milkSelect.selectedOptions[0].textContent.split(',')[0].toLowerCase()} молоко` : '';
     document.querySelector('#result-text').textContent = `${selected.name}, ${size} мл${milk}. ${money(total())}.`;
-    form.hidden = true;
+    options.hidden = true;
     result.hidden = false;
     result.querySelector('button').focus();
   });
   result.querySelector('.result-back').addEventListener('click', () => {
     result.hidden = true;
-    form.hidden = false;
+    options.hidden = false;
     drinkSelect.focus();
   });
 

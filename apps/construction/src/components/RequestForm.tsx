@@ -1,14 +1,23 @@
-'use client';
-import {useRef,useState,type FormEvent} from 'react';
-import {Arrow} from './Icons';
-export default function RequestForm(){
- const [result,setResult]=useState('');const [status,setStatus]=useState('');const [error,setError]=useState('');const panel=useRef<HTMLDivElement>(null);
- function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();const form=e.currentTarget;const data=new FormData(form);const name=String(data.get('name')||'').trim();const phone=String(data.get('phone')||'').trim();const digits=phone.replace(/\D/g,'');
- if(name.length<2){setError('Введите имя: не менее двух букв.');(form.elements.namedItem('name') as HTMLInputElement).focus();return;}
- if(digits.length<10||digits.length>15){setError('Введите телефон с кодом страны: от 10 до 15 цифр.');(form.elements.namedItem('phone') as HTMLInputElement).focus();return;}
- setError('');setResult(`Запрос на расчёт строительства\nИмя: ${name}\nТелефон: ${phone}\nТип объекта: ${data.get('type')}\nПлощадь: ${data.get('area')||'Не указана'} м²\nПожелания: ${data.get('message')||'Не указаны'}\n\nПодготовлено в демонстрационной форме ОПОРА / 007-A. Не отправлено.`);setStatus('Запрос подготовлен. Сохраните его или скопируйте. В этой концепции приём заявок не подключён, данные не отправлены.');requestAnimationFrame(()=>panel.current?.focus());
- }
- function download(){const url=URL.createObjectURL(new Blob([result],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='zapros-na-stroitelstvo.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
- async function copy(){try{await navigator.clipboard.writeText(result);setStatus('Запрос скопирован. Передайте его выбранной строительной компании.');}catch{setStatus('Копирование недоступно. Сохраните запрос кнопкой «Скачать».');}}
- return <form className="request-form" onSubmit={submit}><div className="form-fields"><label htmlFor="name">Ваше имя<input name="name" id="name" placeholder="Как к вам обращаться" autoComplete="name" required minLength={2} maxLength={80}/></label><label htmlFor="phone">Телефон<input name="phone" id="phone" placeholder="+7 (___) ___-__-__" type="tel" inputMode="tel" autoComplete="tel" maxLength={25} required aria-describedby={error?'form-error':undefined}/></label><label htmlFor="type">Тип объекта<select name="type" id="type" defaultValue="Коттедж"><option>Коттедж</option><option>Жилой комплекс</option><option>Коммерческий объект</option><option>Промышленный объект</option></select></label><label htmlFor="area">Примерная площадь, м²<input name="area" id="area" placeholder="Например, 240" type="number" min={20} max={1000000}/></label><label htmlFor="message" className="full-field">Несколько слов о проекте<textarea id="message" name="message" placeholder="Где планируете строить, что для вас важно" rows={2} maxLength={2000}/></label></div><label className="consent"><input type="checkbox" name="consent" required/><span>Это демонстрационная форма. Она подготовит запрос на моём устройстве без отправки данных.</span></label>{error&&<p className="form-error" id="form-error" role="alert">{error}</p>}<button className="button bronze form-button" type="submit">Рассчитать стоимость<Arrow diagonal/></button><p className="form-note">Стоимость определяют после изучения участка и проекта. Автоматический расчёт цены не производится.</p>{result&&<div ref={panel} tabIndex={-1} className="form-result" role="status"><span className="success-icon" aria-hidden="true">✓</span><h3>Первый шаг сделан</h3><p>{status}</p><div><button type="button" onClick={download}>Скачать запрос<Arrow diagonal/></button><button type="button" onClick={copy}>Скопировать</button></div></div>}</form>
+export default function ProjectGuide() {
+  return (
+    <aside className="request-form" aria-labelledby="guide-title">
+      <span className="eyebrow">До встречи с архитектором</span>
+      <h3 id="guide-title" style={{ margin: "1rem 0 1.5rem", fontSize: "clamp(1.5rem, 3vw, 2.2rem)", lineHeight: 1.2 }}>Три отправные точки</h3>
+      <dl style={{ display: "grid", gap: "1rem", lineHeight: 1.55 }}>
+        <div>
+          <dt style={{ fontWeight: 600 }}>Участок</dt>
+          <dd style={{ margin: 0 }}>Размер, рельеф и подъезд определяют, где разместить дом.</dd>
+        </div>
+        <div>
+          <dt style={{ fontWeight: 600 }}>Образ жизни</dt>
+          <dd style={{ margin: 0 }}>Подумайте, сколько нужно спален, где собираться всей семьёй и какой вид хочется сохранить.</dd>
+        </div>
+        <div>
+          <dt style={{ fontWeight: 600 }}>Приоритеты</dt>
+          <dd style={{ margin: 0 }}>Выберите, что особенно важно для вас в материалах, сроках и бюджете.</dd>
+        </div>
+      </dl>
+      <a className="button bronze" href="#projects" style={{ marginTop: "1.75rem" }}>Посмотреть объекты</a>
+    </aside>
+  );
 }

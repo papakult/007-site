@@ -9,6 +9,6 @@ The generated export is checked into the existing GitHub Pages site. Preserve th
 
 Runway generated the four architectural concept images and the five-second hero video. Provenance is recorded in public/PROVENANCE.json. These are concept designs, not completed company projects. No contractor credentials, years in business or guarantees have been fabricated.
 
-The form validates name, phone and object type and produces a downloadable/copyable brief locally. It does not send personal data or claim that a request was submitted. A real lead destination and business details are required before turning this portfolio concept into a live construction company's lead form. WebPage structured data is used because no real construction business details have been supplied.
+A read-only checklist helps readers prepare for an architecture consultation and links back to the portfolio. WebPage structured data describes this studio concept.
 
 Hero motion can be paused. Reduced-motion and save-data preferences are respected. Desktop 3D loads near its section; mobile uses a static visual. Native dialogs support Escape and focus management. Assets are WebP/H.264, pre-rendered HTML and hashed static JS/CSS are delivered through GitHub Pages CDN.

@@ -7,7 +7,7 @@ const manrope = localFont({ src: '../../public/fonts/manrope.ttf', variable: '--
 
 export const metadata: Metadata = {
   title: 'Тихий свет — ритуальные услуги | Концепт 007-A',
-  description: 'Бережный подход к прощанию. Интерактивный концепт ритуальной службы: помощь, порядок действий и форма обращения. Проект студии 007-A.',
+  description: 'Бережный подход к прощанию. Интерактивный концепт ритуальной службы: помощь, порядок действий и памятка для семьи. Проект студии 007-A.',
   metadataBase: new URL('https://007-a.ru'),
   alternates: { canonical: '/directions/sites/ritual/' },
   robots: { index: false, follow: true },

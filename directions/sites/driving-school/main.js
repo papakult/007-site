@@ -33,6 +33,6 @@
     photo.src = './assets/' + course.image + '.webp';
     photo.alt = course.alt;
     pick.dataset.book = id;
-    pick.setAttribute('aria-label', 'Подобрать занятие по программе ' + button.querySelector('b').textContent);
+    pick.setAttribute('aria-label', 'Посмотреть занятие по программе ' + button.querySelector('b').textContent);
   }));
 })();

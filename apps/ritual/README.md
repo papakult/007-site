@@ -33,16 +33,9 @@ assets available. The existing directory page links to the new experience.
 - Local fonts; compressed WebP poster before WebGL and on context loss.
 - Visible content and navigation remain available without JavaScript.
 
-## Form and content
+## Family guide
 
-This is a clearly labeled portfolio concept, not an operating funeral service.
-There is no invented telephone, address, licence, price or testimonial.
-No tracking or third-party form service was added.
-The form validates name, telephone, topic, contact time and acknowledgement.
-It prepares a local text request with copy/download controls. No data is
-transmitted, stored in localStorage or falsely reported as sent.
-Connecting real submission needs the business's approved receiving endpoint,
-contact details and actual privacy notice. API routes cannot run on Pages.
+A read-only guide helps families prepare for a conversation. In-page links connect the guide and the first-hours timeline.
 
 ## Visual asset
 

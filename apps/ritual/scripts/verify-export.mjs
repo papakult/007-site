@@ -5,11 +5,12 @@ import assert from 'node:assert/strict';
 const root = resolve('out');
 const html = await readFile(join(root, 'index.html'), 'utf8');
 assert.match(html, /Когда важна/);
-for (const id of ['services','first-hours','approach','contact','request-name','request-phone']) assert.ok(html.includes(`id="${id}"`), `Missing ${id}`);
+for (const id of ['services','first-hours','approach','contact','guide-title']) assert.ok(html.includes(`id="${id}"`), `Missing ${id}`);
 assert.equal((html.match(/class="service-card"/g) || []).length, 3);
 assert.equal((html.match(/class="step"/g) || []).length, 4);
 assert.match(html, /Демонстрационный проект/);
-assert.match(html, /Приём реальных заявок не подключён/);
+assert.match(html, /Памятка для семьи/);
+assert.doesNotMatch(html, /<(?:form|input|textarea|select)\b/i);
 assert.match(html, /noindex/);
 assert.doesNotMatch(html, /aria-label="Тихий свет/);
 const prefix = '/directions/sites/ritual';
@@ -38,4 +39,4 @@ for (const [file, text] of probeBundles) {
   assert.equal(text.includes('WebGL 1 is not supported'), false, `Three.js is bundled with the WebGL probe (${file})`);
 }
 assert.ok(scripts.some(([, text]) => text.includes('WebGL 1 is not supported')), 'Three.js scene chunk missing');
-console.log(`Verified exported page: 3 services, 4 timeline stages, form labels, demo state, ${assets} referenced assets, ${all.length} files.`);
+console.log(`Verified exported page: 3 services, 4 timeline stages, family guide, demo state, ${assets} referenced assets, ${all.length} files.`);
