@@ -5,6 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { plate } from '../lib/site';
 
+const scrollCoverQuery = '(min-width: 701px) and (min-height: 621px) and (prefers-reduced-motion: no-preference)';
+
 const scenes = [
   {image:'hero-wide',alt:'Бронзовые двери в арочном портале из известняка, под сенью старого дерева',label:'Бюро',type:'Частное похоронное бюро',title:'Архитектура',last:'памяти',copy:'Камерные церемонии прощания, семейные мемориалы и вещи, которые хранят личную историю.',action:'Выбрать церемонию',url:'/#services'},
   {image:'ceremony',alt:'Гроб из тёмного ореха в частном зале с высокими окнами',label:'Прощание',type:'Традиционное захоронение',title:'Церемония',last:'прощания',copy:'Тихий зал, любимая музыка и время для слов, которые хочется сказать в кругу близких.',action:'О захоронении',url:'/ceremonies/burial/'},
@@ -21,28 +23,43 @@ export default function ScrollCover() {
     const frame=stage.current;
     if(!target||!frame) return;
     target.classList.add('is-ready');
-    const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+    const scrollMode = window.matchMedia(scrollCoverQuery);
     let tick=0;
     const update=()=>{
       tick=0;
-      if(reduced.matches) return;
+      if (!scrollMode.matches) return;
       const box=target.getBoundingClientRect();
       const distance=box.height-frame.offsetHeight;
       if(distance>1) setActive(Math.max(0,Math.min(scenes.length-1,Math.round((parseFloat(getComputedStyle(frame).top)-box.top)/distance*(scenes.length-1)))));
     };
     const schedule=()=>{if(!tick) tick=requestAnimationFrame(update);};
-    const resize=new ResizeObserver(schedule);
-    resize.observe(target);
-    window.addEventListener('scroll',schedule,{passive:true});
-    window.addEventListener('resize',schedule);
-    reduced.addEventListener('change',schedule);
-    schedule();
-    return ()=>{target.classList.remove('is-ready');cancelAnimationFrame(tick);resize.disconnect();window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);reduced.removeEventListener('change',schedule);};
+    const resize = new ResizeObserver(schedule);
+    const syncMode = () => {
+      target.classList.toggle('is-scroll-driven', scrollMode.matches);
+      if (scrollMode.matches) {
+        resize.observe(target);
+        resize.observe(frame);
+        window.addEventListener('scroll', schedule, { passive: true });
+        schedule();
+      } else {
+        resize.disconnect();
+        window.removeEventListener('scroll', schedule);
+      }
+    };
+    scrollMode.addEventListener('change', syncMode);
+    syncMode();
+    return () => {
+      target.classList.remove('is-ready', 'is-scroll-driven');
+      cancelAnimationFrame(tick);
+      resize.disconnect();
+      window.removeEventListener('scroll', schedule);
+      scrollMode.removeEventListener('change', syncMode);
+    };
   },[]);
   function select(index:number) {
     if(!region.current||!stage.current) return;
     setActive(index);
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!region.current.classList.contains('is-scroll-driven')) return;
     const current=region.current.getBoundingClientRect();
     const distance=current.height-stage.current.offsetHeight;
     const top=window.scrollY+current.top-parseFloat(getComputedStyle(stage.current).top)+distance*index/(scenes.length-1);
@@ -59,7 +76,7 @@ export default function ScrollCover() {
         <p className="cover-summary">{scene.copy}</p>
         <Link prefetch={false} className="cover-cta" href={scene.url}>{scene.action}</Link>
       </div>
-      <div className="cover-controls" aria-label="Сцены обложки">{scenes.map((s,i)=><button key={s.label} type="button" aria-pressed={active===i} onClick={()=>select(i)}><span className="scene-rule"/>{s.label}</button>)}</div>
+      <div className="cover-controls" role="group" aria-label="Сцены обложки">{scenes.map((s,i)=><button key={s.label} type="button" aria-pressed={active===i} onClick={()=>select(i)}><span className="scene-rule" aria-hidden="true"/>{s.label}</button>)}</div>
       <div className="cover-caption" aria-hidden="true"><i/> Листайте вниз</div>
     </div>
   </section>;

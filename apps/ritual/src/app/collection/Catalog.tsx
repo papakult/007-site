@@ -21,11 +21,21 @@ function ObjectCard({ piece, priority = false }: { piece: CollectionPiece; prior
 }
 
 function CategoryLinks({ active }: { active?: Category }) {
-  return <nav aria-label="Категории коллекции" className="gallery-filter">
+  const links = <>
     <a aria-current={!active ? 'page' : undefined} href={collectionPath + '#gallery'}>Все предметы</a>
     {categories.map(item =>
       <a key={item.slug} href={collectionPath + item.slug + '/'} aria-current={active?.slug === item.slug ? 'page' : undefined}>{item.title}</a>,
     )}
+  </>;
+  return <nav aria-label="Категории коллекции" className="gallery-filter">
+    <div className="gallery-tabs">{links}</div>
+    <details className="gallery-picker">
+      <summary>
+        <span>Категория</span>
+        <strong>{active?.title ?? 'Все предметы'}</strong>
+      </summary>
+      <div className="gallery-choices">{links}</div>
+    </details>
   </nav>;
 }
 
@@ -76,23 +86,33 @@ export function PieceDetail({ piece }: { piece: CollectionPiece }) {
   return <main className="gallery-site" id="main-content">
     <div className="gallery-section gallery-detail-shell">
       <Crumbs current={piece.title} />
-      <div className="gallery-detail">
+      <article className="gallery-detail" aria-labelledby="piece-title">
+        <header className="gallery-detail-heading">
+          <a className="gallery-kicker" href={collectionPath + category.slug + '/'}>{category.title}</a>
+          <h1 id="piece-title">{piece.title}</h1>
+          <p className="gallery-kind">{piece.kind}<span aria-hidden="true"> · </span>{piece.material}</p>
+        </header>
         <figure className="gallery-detail-art">
           <div className="gallery-detail-image">
             <Plate piece={piece} priority sizes="(max-width: 800px) 95vw, 54vw" />
           </div>
-          <figcaption><span>{piece.material}</span><a href={platePath(piece.image)}>Открыть изображение</a></figcaption>
+          <figcaption>
+            <a href={platePath(piece.image)}>
+              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4">
+                <circle cx="6.5" cy="6.5" r="4.5" />
+                <path d="M10 10l4 4M4.5 6.5h4m-2-2v4" />
+              </svg>
+              Открыть изображение
+            </a>
+          </figcaption>
         </figure>
-        <article className="gallery-detail-copy">
-          <a className="gallery-kicker" href={collectionPath + category.slug + '/'}>{category.title}</a>
-          <h1>{piece.title}</h1>
-          <p className="gallery-kind">{piece.kind}</p>
+        <div className="gallery-detail-copy">
           <p className="gallery-description">{piece.description}</p>
           <dl className="gallery-spec">{piece.details.map(([name, value]) => <div key={name}><dt>{name}</dt><dd>{value}</dd></div>)}</dl>
           <div className="gallery-notes"><h2>Что согласовать</h2><p>{piece.discussion}</p></div>
           <a className="gallery-detail-link" href={bureauPath + '/guide/'}>Открыть памятку для семьи</a>
-        </article>
-      </div>
+        </div>
+      </article>
     </div>
     <section className="gallery-section gallery-related" aria-labelledby="related-heading">
       <div className="gallery-related-heading"><h2 id="related-heading">Ещё в коллекции</h2><a href={collectionPath + '#gallery'}>Все предметы</a></div>
