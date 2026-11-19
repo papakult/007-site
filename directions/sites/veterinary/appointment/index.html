@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#102e2c">
+<title>Запись на приём — ANIMA</title><meta name="description" content="Пример записи в ANIMA. Выберите питомца, направление и удобное время без ввода контактных данных."><meta name="robots" content="noindex,follow"><link rel="canonical" href="https://007-a.ru/directions/sites/veterinary/appointment/">
+<meta property="og:type" content="website"><meta property="og:title" content="Запись на приём — ANIMA"><meta property="og:description" content="Пример записи в ANIMA. Выберите питомца, направление и удобное время без ввода контактных данных."><meta property="og:url" content="https://007-a.ru/directions/sites/veterinary/appointment/"><meta property="og:image" content="https://007-a.ru/directions/sites/veterinary/assets/consult.webp">
+<link rel="icon" type="image/svg+xml" href="/directions/sites/veterinary/assets/mark.svg"><link rel="preload" as="font" type="font/woff" href="/directions/sites/veterinary/assets/prata.woff" crossorigin><link rel="stylesheet" href="/directions/sites/veterinary/assets/site.css"><link rel="stylesheet" href="/directions/sites/veterinary/assets/visit.css"><script defer src="/directions/sites/veterinary/assets/nav.js"></script><script defer src="/directions/sites/veterinary/assets/visit.js"></script></head>
+<body class="an-inner"><a class="skip" href="#main">К содержанию</a>
+<header class="an-head" id="top"><div class="container an-bar"><a class="an-brand" href="/directions/sites/veterinary/" aria-label="ANIMA, главная"><span class="an-star" aria-hidden="true">✳</span><span>anima</span></a><nav class="an-desktop" aria-label="Основные разделы"><a href="/directions/sites/veterinary/services/">Направления</a><a href="/directions/sites/veterinary/doctors/">Врачи</a><a href="/directions/sites/veterinary/about/">Клиника</a><a href="/directions/sites/veterinary/prices/">Цены</a><a href="/directions/sites/veterinary/journal/">Журнал</a><a href="/directions/sites/veterinary/contacts/">Контакты</a></nav><a class="an-book" href="/directions/sites/veterinary/appointment/" aria-current="page"><span class="long-book">Запись на приём</span><span class="short-book">Запись</span></a><details class="an-mobile"><summary aria-label="Меню сайта"><span class="menu-icon" aria-hidden="true"></span></summary><nav aria-label="Разделы мобильного меню"><a href="/directions/sites/veterinary/services/">Направления</a><a href="/directions/sites/veterinary/doctors/">Врачи</a><a href="/directions/sites/veterinary/about/">Клиника</a><a href="/directions/sites/veterinary/prices/">Цены</a><a href="/directions/sites/veterinary/journal/">Журнал</a><a href="/directions/sites/veterinary/contacts/">Контакты</a><a href="/directions/sites/veterinary/appointment/">Запись на приём</a></nav></details></div></header>
+<main id="main" tabindex="-1">
+<div class="visit-page container">
+  <nav class="visit-crumb" aria-label="Путь по сайту"><a href="/directions/sites/veterinary/">Клиника</a><span aria-hidden="true">/</span><span aria-current="page">Запись на приём</span></nav>
+  <div class="visit-layout">
+    <div class="visit-cover">
+      <img src="/directions/sites/veterinary/assets/consult.webp" width="1536" height="1024" fetchpriority="high" alt="Врач встречает рыжего сеттера в кабинете">
+      <div class="visit-cover-copy"><span class="visit-cover-label">ANIMA · Москва</span><h1>Запись<br>на приём</h1></div>
+    </div>
+    <div class="visit-panel">
+      <div class="visit-tag"><span aria-hidden="true"></span>Демонстрация записи</div>
+      <section class="visit-static" data-visit-fallback>
+        <h2>Первое знакомство</h2>
+        <p>Выберите направление, чтобы прочитать о приёме и подготовке. Интерактивный выбор даты доступен при включённом JavaScript.</p>
+        <a href="/directions/sites/veterinary/services/" class="visit-primary">Посмотреть направления</a>
+        <a href="/directions/sites/veterinary/doctors/" class="visit-text-link">Познакомиться с врачами</a>
+      </section>
+      <div class="visit-widget" data-visit hidden>
+        <ol class="visit-track" aria-label="Этапы выбора">
+          <li aria-current="step">Приём</li><li>Время</li><li>Итог</li>
+        </ol>
+        <section class="visit-step" aria-labelledby="visit-reception-title">
+          <h2 tabindex="-1" id="visit-reception-title">Кто придёт<br class="visit-break"> на приём?</h2>
+          <fieldset class="visit-field"><legend>Ваш питомец</legend>
+            <div class="visit-pets">
+              <label><input type="radio" name="visit-pet" value="Собака" checked><span>Собака</span></label>
+              <label><input type="radio" name="visit-pet" value="Кошка"><span>Кошка</span></label>
+            </div>
+          </fieldset>
+          <label class="visit-field" for="visit-service"><span>Направление</span>
+            <span class="visit-select"><select id="visit-service"><option value="therapy">Терапия</option><option value="diagnostics">Диагностика</option><option value="surgery">Хирургия</option><option value="cardiology">Кардиология</option><option value="dentistry">Стоматология</option><option value="dermatology">Дерматология</option><option value="checkup">Профилактика и чекапы</option><option value="inpatient">Стационар и наблюдение</option></select></span>
+          </label>
+          <label class="visit-field" for="visit-doctor"><span>Специалист</span>
+            <span class="visit-select"><select id="visit-doctor"><option value="">По направлению</option></select></span>
+          </label>
+          <button type="button" class="visit-primary" data-visit-go="1">Выбрать день и время</button>
+        </section>
+        <section class="visit-step" aria-labelledby="visit-time-title" hidden>
+          <h2 tabindex="-1" id="visit-time-title">Когда вам<br class="visit-break"> удобно?</h2>
+          <p class="visit-intro">Пример расписания по московскому времени.</p>
+          <fieldset class="visit-field"><legend>День приёма</legend><div class="visit-dates" data-visit-dates></div></fieldset>
+          <fieldset class="visit-field"><legend>Время приёма</legend><div class="visit-times" data-visit-times></div></fieldset>
+          <div class="visit-actions"><button type="button" class="visit-primary" data-visit-go="2" disabled>Посмотреть итог</button>
+          <button type="button" class="visit-quiet" data-visit-go="0">Назад</button></div>
+        </section>
+        <section class="visit-step" aria-labelledby="visit-result-title" hidden>
+          <h2 tabindex="-1" id="visit-result-title">Ваш выбор</h2>
+          <p class="visit-intro">Это пример визита. Время условное, запись в клинике не создана.</p>
+          <dl class="visit-summary">
+           <div><dt>Питомец</dt><dd data-visit-out="pet"></dd></div>
+           <div><dt>Направление</dt><dd data-visit-out="service"></dd></div>
+           <div><dt>Специалист</dt><dd data-visit-out="doctor"></dd></div>
+           <div><dt>Когда</dt><dd data-visit-out="when"></dd></div>
+          </dl>
+          <div class="visit-actions"><button type="button" class="visit-primary" data-visit-go="1">Изменить время</button>
+          <button type="button" class="visit-quiet" data-visit-go="0">Изменить приём</button></div>
+          <a class="visit-text-link" href="/directions/sites/veterinary/journal/first-visit/">Как подготовиться к приёму</a>
+        </section>
+      </div>
+      <p class="visit-disclosure"><a href="/directions/sites/veterinary/privacy/">О демонстрации</a><span> · </span>Без передачи данных в клинику</p>
+    </div>
+  </div>
+</div></main>
+<footer class="an-foot"><div class="container"><div class="an-foot-grid"><div><a class="an-brand" href="/directions/sites/veterinary/" aria-label="ANIMA, главная"><span class="an-star" aria-hidden="true">✳</span><span>anima</span></a><p>Ветеринарная клиника<br>для собак и кошек · Москва</p></div><nav aria-label="Клиника в подвале"><a href="/directions/sites/veterinary/services/">Направления</a><a href="/directions/sites/veterinary/doctors/">Врачи</a><a href="/directions/sites/veterinary/prices/">Цены</a><a href="/directions/sites/veterinary/appointment/">Запись на приём</a></nav><nav aria-label="О проекте"><a href="/directions/sites/veterinary/about/">О клинике</a><a href="/directions/sites/veterinary/journal/">Журнал</a><a href="/directions/sites/veterinary/contacts/">Контакты</a><a href="/directions/sites/veterinary/privacy/">О демозаписи</a></nav></div><div class="an-colophon"><p>Демонстрационный проект. Профили, цены и расписание иллюстративные.</p><a href="/directions/sites/#veterinary-project">Студия 007-А</a></div></div></footer></body></html>
