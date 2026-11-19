@@ -13,7 +13,16 @@
 .story-line:hover { text-decoration-thickness: 2px; }
 .house-spread figure, .house-duet figure, .house-bar figure, .filter-opening figure, .filter-panorama, .milk-opening figure, .espresso-player { margin: 0; }
 .house-panorama img, .story-still img, .house-bar-photo img, .filter-panorama img, .milk-opening img, .journal-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.house-panorama img { aspect-ratio: 2.37; height: auto; object-position: 53% 50%; }
+.house-cover { display: grid; grid-template-columns: repeat(12, minmax(0,1fr)); align-items: end; }
+.house-panorama { grid-area: 1 / 2 / 2 / -1; min-width: 0; }
+.house-panorama img { aspect-ratio: 1.95; height: auto; object-position: 57% 50%; }
+.house-cover .house-opening {
+  z-index: 1; grid-area: 1 / 1 / 2 / 7; display: block;
+  margin: 0 0 -1.4rem; padding: clamp(1.35rem, 3.3vw, 3.8rem);
+  background: #502430; color: #f9efde;
+}
+.house-opening h1 { color: inherit; font-size: clamp(3rem,5.35vw,6.2rem); }
+.house-opening > p { max-width: 42ch; margin: 1rem 0 0; color: #e9d9cb; font-size: 1rem; }
 .house-panorama figcaption, .story-still figcaption, .filter-panorama figcaption, .espresso-player figcaption { padding-top: 10px; color: var(--muted, #655d52); font: 400 .82rem/1.5 var(--sans); }
 .house-duet, .house-bar-inner, .house-screen { display: grid; align-items: center; gap: clamp(35px, 7vw, 126px); padding-block: clamp(60px, 7.8vw, 132px); }
 .house-duet, .house-screen { grid-template-columns: .7fr 1.3fr; }
@@ -37,16 +46,24 @@
 .story-related a:hover strong, .journal-card a:hover h2, .milk-guide a:hover h3 { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .14em; }
 
 .journal-spread { padding-bottom: clamp(64px, 8vw, 128px); }
+.journal-opening { grid-template-columns: minmax(0,1fr) minmax(0,.4fr); gap: clamp(1.5rem,3vw,3.4rem); border-bottom: 1px solid var(--rule); padding-bottom: clamp(1.5rem,2.8vw,3rem); }
+.journal-opening h1 { font-size: clamp(4rem,8.5vw,9.5rem); }
+.journal-opening h1 em { color: var(--wine); }
 .journal-layout { display: grid; grid-template-columns: 1.62fr 1fr; align-items: start; gap: clamp(25px, 4vw, 70px); }
 .journal-card { min-width: 0; }
 .journal-card a { display: block; height: 100%; color: inherit; text-decoration: none; }
 .journal-art { overflow: hidden; background: #c6b699; }
-.journal-lead .journal-art { aspect-ratio: 1.2; }
+.journal-lead a { position: relative; display: grid; align-items: end; isolation: isolate; }
+.journal-lead .journal-art { grid-area: 1 / 1; aspect-ratio: 1.19; }
 .journal-lead .journal-art img { object-position: 64% center; }
 .journal-legend { padding-block: clamp(15px, 1.8vw, 30px); }
 .journal-legend .story-brow { margin: 0 0 .55rem; color: var(--wine, #5b2730); }
 .journal-legend h2 { margin: 0; font: 500 clamp(2.4rem, 4.8vw, 5rem)/.98 var(--display); letter-spacing: -.052em; }
 .journal-legend > p:not(.story-brow) { max-width: 40ch; margin: 12px 0 0; color: var(--muted, #655d52); font: 400 1.04rem/1.55 var(--sans); }
+.journal-lead .journal-legend { z-index: 1; grid-area: 1 / 1; padding: clamp(3.6rem,7vw,8rem) clamp(1.3rem,3vw,3.4rem) clamp(1.35rem,2.7vw,2.8rem); color: #fff7e8; background: linear-gradient(transparent,rgba(32,15,18,.9) 59%,#221315); }
+.journal-lead .journal-legend .story-brow { color: #ffdfb5; }
+.journal-lead .journal-legend > p:not(.story-brow) { margin-top: .6rem; color: #f4eadd; }
+.journal-lead .journal-legend h2 { font-size: clamp(3rem,5.8vw,6.4rem); }
 .journal-side { display: grid; align-items: start; }
 .journal-side .journal-card { border-top: 1px solid var(--rule, #c9bfb2); }
 .journal-side .journal-card:last-child { border-bottom: 1px solid var(--rule, #c9bfb2); }
@@ -57,7 +74,7 @@
 .journal-side h2 { font-size: clamp(1.8rem, 3vw, 3.5rem); }
 .journal-side .journal-legend > p:not(.story-brow) { font-size: 1rem; }
 
-.espresso-stage { color: #f9f0df; background: #3a2023; }
+.espresso-stage { color: #f9f0df; background: linear-gradient(110deg,#411f29,#332021 58%,#201a19); }
 .espresso-stage-inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: center; gap: clamp(30px, 5vw, 90px); padding-block: clamp(35px, 4.5vw, 80px); }
 .espresso-essay h1 { color: inherit; }
 .espresso-titles { max-width: 37rem; }
@@ -76,14 +93,19 @@
 .reading-prose h2:not(:first-child) { margin-top: 1em; }
 .reading-prose p, .filter-reading p, .milk-reading p { font-size: clamp(1.05rem, 1.26vw, 1.19rem); line-height: 1.68; margin: 0 0 1em; }
 .reading-prose p:last-child, .filter-reading p:last-child, .milk-reading p:last-child { margin-bottom: 0; }
+.reading-prose > p:first-of-type::first-letter, .filter-reading section:first-child > p:first-of-type::first-letter {
+  float: left; margin: .035em .07em 0 0; color: var(--wine); font: 500 3.25em/.82 var(--display);
+}
 .filter-opening { display: grid; grid-template-columns: 1fr minmax(23ch, .73fr); gap: clamp(35px, 5vw, 90px); align-items: end; padding: 17px 0 36px; }
 .filter-opening .story-brow, .milk-opening .story-brow { color: var(--wine, #5b2730); }
+.filter-essay h1 em, .milk-essay h1 em, .house-duet h2 em, .house-screen h2 em, .milk-reading h2 em { color: var(--wine); }
 .filter-panorama img { aspect-ratio: 2.04; height: auto; object-position: 50% 57%; }
 .filter-reading { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 8vw, 135px); padding-block: clamp(52px, 6.8vw, 110px); }
 .filter-reading section { max-width: 57ch; }
 .milk-opening { display: grid; grid-template-columns: 1fr .79fr; gap: clamp(28px, 6vw, 104px); align-items: center; }
 .milk-opening figure { width: 100%; max-width: 580px; justify-self: end; }
 .milk-opening img { height: auto; aspect-ratio: .98; object-position: 51% 64%; }
+.milk-opening { padding-block: clamp(1rem,2.4vw,2.5rem); border-block: 1px solid var(--rule); }
 .milk-opening > div > p:not(.story-brow) { max-width: 38ch; margin: 1.5rem 0 0; color: var(--muted, #655d52); font-size: 1.11rem; line-height: 1.6; }
 .milk-reading { display: grid; grid-template-columns: .65fr 1fr; gap: clamp(30px, 7vw, 125px); padding-block: clamp(55px, 7.8vw, 132px); }
 .milk-reading > div { max-width: 62ch; }
@@ -109,8 +131,15 @@
   .story-intro, .house-duet, .house-bar-inner, .house-screen, .journal-layout, .espresso-stage-inner, .reading-spread, .filter-opening, .filter-reading, .milk-opening, .milk-reading { grid-template-columns: 1fr; }
   .story-intro { gap: 18px; margin: 16px 0 24px; }
   .story-intro h1 { font-size: clamp(3rem, 12vw, 5.2rem); }
+  .journal-opening { padding-bottom: 1.3rem; }
+  .journal-opening h1 { font-size: clamp(3.65rem,12.7vw,6.25rem); }
   .story-intro > p { font-size: 1rem; }
-  .house-panorama img { aspect-ratio: 1.25; object-position: 55% center; }
+  .house-cover { grid-template-columns: 1fr; }
+  .house-panorama { grid-area: 1 / 1; }
+  .house-panorama img { aspect-ratio: 1.3; object-position: 52% center; }
+  .house-cover .house-opening { grid-area: 2 / 1; width: min(90%,32rem); margin: -1.75rem 0 0; padding: 1.25rem 1.4rem 1.5rem; }
+  .house-opening h1 { font-size: clamp(2.7rem,8vw,4.25rem); }
+  .house-opening > p { margin-top: .65rem; }
   .house-duet, .house-bar-inner, .house-screen { gap: 25px; padding-block: 46px; }
   .house-duet h2 br, .house-bar h2 br, .house-screen h2 br, .milk-reading h2 br { display: none; }
   .house-duet h2 br::after, .house-bar h2 br::after, .house-screen h2 br::after, .milk-reading h2 br::after { content: " "; }
@@ -119,7 +148,8 @@
   .house-bar-photo { order: 2; }
   .house-screen small { margin-top: 7px; }
   .journal-layout { gap: 16px; }
-  .journal-lead .journal-art { aspect-ratio: 1.51; }
+  .journal-lead .journal-art { aspect-ratio: 1.23; }
+  .journal-lead .journal-legend { padding: 3rem 1.15rem 1.25rem; }
   .journal-side .journal-card a { grid-template-columns: minmax(85px,.65fr) minmax(0,1.2fr); gap: 16px; padding-block: 20px; }
   .journal-side .journal-legend > p:not(.story-brow) { margin-top: 8px; }
   .espresso-stage-inner { gap: 24px; }
@@ -140,6 +170,8 @@
   .milk-guide h3 { margin: 0 0 .25em; font-size: 2rem; }
 }
 @media (max-width: 450px) {
+  .house-cover .house-opening { width: 95%; }
+  .journal-lead .journal-art { aspect-ratio: 1; }
   .story-related ul { grid-template-columns: 1fr; gap: 0; }
   .story-related li + li { border-top: 0; }
   .espresso-player { width: min(80%, 265px); }
