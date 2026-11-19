@@ -1,0 +1,278 @@
+.coffee-directory, .cup-page {
+  --coffee-faint: color-mix(in srgb, var(--ink) 13%, var(--paper));
+  --coffee-tint: color-mix(in srgb, var(--wine) 5%, var(--paper));
+  --coffee-muted: var(--muted, #645851);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
+}
+.coffee-crumb ol {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .25rem .65rem;
+  list-style: none;
+  margin: 0;
+  padding: .8rem 0;
+  font: 400 .84rem/1.5 var(--sans);
+  color: var(--coffee-muted);
+}
+.coffee-crumb li { display: inline-flex; align-items: center; column-gap: .65rem; }
+.coffee-crumb li + li::before { content: '/'; opacity: .65; }
+.coffee-crumb a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-underline-offset: .22em;
+}
+.coffee-crumb [aria-current] { color: var(--ink); }
+.coffee-directory-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(17rem, .65fr);
+  align-items: end;
+  gap: 2rem 4rem;
+  padding: clamp(1.3rem, 3vw, 3rem) 0 clamp(2.3rem, 4vw, 4.4rem);
+  border-bottom: 1px solid var(--rule);
+}
+.coffee-directory h1, .cup-heading h1 {
+  color: var(--ink);
+  font: 500 clamp(4.2rem, 7.9vw, 8.4rem)/.98 var(--display);
+  letter-spacing: -.057em;
+  margin: 0;
+}
+.coffee-directory h1 em, .cup-related h2 em { color: var(--wine); font-weight: 500; }
+.coffee-directory-intro > div > p {
+  margin: 0;
+  max-width: 38ch;
+  color: var(--coffee-muted);
+  font: 400 1rem/1.6 var(--sans);
+}
+.coffee-family-nav { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; margin-top: .55rem; }
+.coffee-family-nav a, .cup-related-top > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font: 500 .9rem/1.35 var(--sans);
+  color: var(--wine);
+  text-decoration: underline;
+  text-underline-offset: .32em;
+  text-decoration-thickness: 1px;
+}
+.coffee-family {
+  padding-top: clamp(2.7rem, 5.5vw, 5.4rem);
+  scroll-margin-top: 5.5rem;
+}
+.coffee-family + .coffee-family {
+  margin-top: clamp(3rem, 5.8vw, 6rem);
+  border-top: 1px solid var(--rule);
+}
+.coffee-family-heading {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  margin-bottom: clamp(1.25rem, 2.4vw, 2.3rem);
+}
+.coffee-family-heading h2, .cup-related h2 {
+  margin: 0;
+  font: 500 clamp(2.75rem, 4.35vw, 4.85rem)/1.02 var(--display);
+  letter-spacing: -.045em;
+}
+.coffee-family-heading > p {
+  justify-self: end;
+  max-width: 38ch;
+  margin: 0;
+  color: var(--coffee-muted);
+  font: 400 .97rem/1.55 var(--sans);
+}
+.coffee-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 2.2vw, 2.4rem); }
+.coffee-card { min-width: 0; display: flex; flex-direction: column; }
+.coffee-card-link { display: block; text-decoration: none; color: inherit; }
+.coffee-card-photo, .cup-portrait {
+  display: block;
+  overflow: hidden;
+  background: #dfcdb9;
+}
+.coffee-card-photo { aspect-ratio: 1.13; }
+.coffee-card-photo img, .cup-portrait img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+}
+.coffee-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: .65rem;
+  padding-top: clamp(.85rem, 1.5vw, 1.55rem);
+}
+.coffee-card-heading h3 {
+  min-width: 0;
+  margin: 0;
+  font: 500 clamp(2rem, 3.25vw, 3.45rem)/1.12 var(--display);
+  letter-spacing: -.05em;
+}
+.coffee-card-action {
+  flex-shrink: 0;
+  font: 500 .78rem/1.3 var(--sans);
+  color: var(--wine);
+  text-decoration: underline;
+  text-underline-offset: .24em;
+}
+.coffee-card-note {
+  margin: .5rem 0 1.1rem;
+  color: var(--coffee-muted);
+  font: 400 1rem/1.5 var(--sans);
+  max-width: 32ch;
+}
+.coffee-card-prices, .cup-static-prices dl {
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto 0 0;
+  border-top: 1px solid var(--rule);
+  padding-top: .75rem;
+}
+.coffee-card-prices > div, .cup-static-prices dl > div {
+  flex: 1 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem .65rem;
+  align-items: baseline;
+  justify-content: space-between;
+  min-width: 6.5rem;
+}
+.coffee-card-prices > div + div, .cup-static-prices dl > div + div {
+  margin-left: .9rem;
+  padding-left: .9rem;
+  border-left: 1px solid var(--rule);
+}
+.coffee-card-prices dt, .cup-static-prices dt { color: var(--coffee-muted); font: 400 .86rem/1.45 var(--sans); }
+.coffee-card-prices dd, .cup-static-prices dd { margin: 0; font: 550 .95rem/1.35 var(--sans); white-space: nowrap; }
+.cup-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-rows: auto 1fr auto;
+  column-gap: clamp(2rem, 6.1vw, 6.3rem);
+  padding-top: clamp(.8rem, 2.3vw, 2.25rem);
+  align-items: start;
+}
+.cup-heading { grid-column: 2; grid-row: 1; }
+.cup-portrait {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  position: relative;
+  margin: 0;
+  aspect-ratio: 1 / 1.04;
+  width: 100%;
+}
+.cup-family {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--wine);
+  text-decoration: underline;
+  text-underline-offset: .3em;
+  font: 500 .88rem/1.3 var(--sans);
+}
+.cup-heading h1 { font-size: clamp(3.45rem, 6.9vw, 7.35rem); overflow-wrap: break-word; }
+.cup-taste { margin: 1rem 0 0; max-width: 36ch; color: var(--coffee-muted); font: 400 1.05rem/1.55 var(--sans); }
+.cup-price-line {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .45rem .8rem;
+  padding: 0; margin: 1.2rem 0 0; line-height: 1.2;
+}
+.cup-price-line strong { color: var(--wine); font: 500 clamp(2.25rem, 3vw, 3.15rem)/1 var(--display); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.035em; }
+.cup-price-line span { color: var(--coffee-muted); font: 400 .95rem/1.5 var(--sans); }
+.cup-selection { grid-column: 2; grid-row: 2; width: 100%; padding-top: 1.4rem; }
+.cup-controls fieldset { padding: 0; border: 0; margin: 0 0 .95rem; min-width: 0; }
+.cup-controls legend, .cup-ingredients h2, .cup-static-prices h2 {
+  padding: 0; margin: 0 0 .45rem; font: 550 .88rem/1.4 var(--sans); color: var(--ink);
+}
+.cup-segments { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .38rem; }
+.cup-milks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cup-segments label { display: block; min-width: 0; cursor: pointer; }
+.cup-segments input {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: 0;
+  overflow: hidden; clip: rect(0,0,0,0); clip-path: inset(50%); white-space: nowrap;
+}
+.cup-segments label > span {
+  min-height: 50px; height: 100%; display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: .2rem .5rem; border: 1px solid var(--rule); padding: .42rem .7rem;
+  background: var(--paper); color: var(--ink);
+}
+.cup-segments b { font: 500 .92rem/1.3 var(--sans); }
+.cup-segments small { font: 400 .8rem/1.3 var(--sans); }
+.cup-segments input:checked + span { background: var(--wine); border-color: var(--wine); color: #fff9f0; }
+.cup-segments input:focus-visible + span { outline: 2px solid var(--wine); outline-offset: 3px; }
+.cup-milks label > span { flex-direction: column; justify-content: center; align-items: flex-start; }
+.cup-static-prices dl { max-width: 27rem; padding: .65rem 0; margin-top: .5rem; }
+.cup-static-prices p, .cup-ingredients p { margin: 0; font: 400 1rem/1.55 var(--sans); }
+.cup-ingredients { border-top: 1px solid var(--rule); margin-top: 1.15rem; padding-top: 1rem; }
+.cup-notes {
+  grid-column: 1 / -1; margin-top: clamp(2rem, 4.4vw, 4.5rem); padding-top: clamp(1.45rem, 2.6vw, 2.65rem);
+  border-top: 1px solid var(--rule); display: grid; grid-template-columns: .9fr 1.1fr; gap: 2rem; align-items: start;
+}
+.cup-notes h2 { margin: 0; font: 500 clamp(2.2rem, 3.4vw, 3.6rem)/1.1 var(--display); letter-spacing: -.04em; }
+.cup-notes p { max-width: 53ch; margin: 0; color: var(--ink); font: 400 1.05rem/1.65 var(--sans); }
+.cup-related { margin-top: clamp(3.5rem, 7vw, 7.5rem); }
+.cup-related-top { display: flex; justify-content: space-between; align-items: baseline; gap: .8rem 2rem; flex-wrap: wrap; }
+.cup-related-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.65rem; margin-top: 1.3rem; }
+.cup-related-item {
+  display: flex; align-items: center; gap: clamp(.8rem, 1.6vw, 1.7rem);
+  border-block: 1px solid var(--rule); color: inherit; text-decoration: none;
+  padding: 1rem 0; min-height: 86px;
+}
+.cup-related-item img { flex: 0 0 auto; width: clamp(4.25rem, 7vw, 6.4rem); height: auto; aspect-ratio: 1; object-fit: cover; }
+.cup-related-item h3 { margin: 0; font: 500 clamp(1.7rem, 2.4vw, 2.6rem)/1.1 var(--display); letter-spacing: -.035em; }
+.cup-related-item p { margin: .35rem 0 0; font: 400 .93rem/1.5 var(--sans); color: var(--coffee-muted); }
+.coffee-directory [hidden], .cup-page [hidden] { display: none !important; }
+@media (hover:hover) {
+  .coffee-card-link:hover h3, .cup-related-item:hover h3 { color: var(--wine); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .14em; }
+  .cup-segments input:not(:checked) + span:hover { background: var(--coffee-tint); border-color: var(--wine); }
+}
+@media (hover:hover) and (prefers-reduced-motion:no-preference) {
+  .coffee-card-photo img { transition: transform .4s ease; }
+  .coffee-card-link:hover img { transform: scale(1.028); }
+}
+@media (max-width: 1020px) {
+  .coffee-card-prices > div { display: grid; justify-content: start; gap: .15rem; min-width: 4rem; }
+  .coffee-card-heading { flex-wrap: wrap; row-gap: .3rem; }
+  .cup-milks b { font-size: .84rem; }
+}
+@media (max-width: 770px) {
+  .coffee-directory-intro { grid-template-columns: 1fr; gap: 1rem; }
+  .coffee-directory-intro > div > p { max-width: 48ch; }
+  .coffee-family-heading { grid-template-columns: 1fr; gap: .6rem; }
+  .coffee-family-heading > p { justify-self: start; max-width: 54ch; }
+  .coffee-cards { gap: 1.1rem; }
+  .coffee-card-heading { display: block; }
+  .coffee-card-action { display: inline-block; margin-top: .35rem; }
+  .coffee-card-note { font-size: .97rem; }
+  .cup-story { column-gap: 1.6rem; }
+  .cup-heading h1 { font-size: clamp(3rem, 6.9vw, 4.25rem); }
+  .cup-milks label > span { padding-inline: .4rem; }
+}
+@media (max-width: 650px) {
+  .coffee-crumb ol { padding: .35rem 0; }
+  .coffee-directory h1 { font-size: clamp(3.6rem, 12vw, 5rem); }
+  .coffee-family-nav { gap: .5rem 1.1rem; }
+  .coffee-cards { grid-template-columns: 1fr; gap: 2.15rem; }
+  .coffee-card-photo { aspect-ratio: 1.5; }
+  .coffee-card-heading { display: flex; }
+  .coffee-card-heading h3 { font-size: clamp(2.3rem, 8.3vw, 3.4rem); }
+  .coffee-card-note { max-width: none; margin-bottom: .85rem; }
+  .coffee-card-prices > div { display: flex; justify-content: space-between; }
+  .cup-story {
+    grid-template-columns: 1fr; grid-template-rows: auto; gap: 1.1rem; padding-top: .2rem;
+  }
+  .cup-heading, .cup-portrait, .cup-selection, .cup-notes { grid-column: auto; grid-row: auto; }
+  .cup-portrait { aspect-ratio: 1.48; }
+  .cup-heading h1 { font-size: clamp(3.15rem, 12vw, 5.4rem); }
+  .cup-taste { margin-top: .65rem; }
+  .cup-price-line { margin-top: .65rem; }
+  .cup-selection { padding-top: .1rem; }
+  .cup-ingredients { margin-top: .9rem; }
+  .cup-notes { display: block; margin-top: .55rem; padding-top: 1.45rem; }
+  .cup-notes p { margin-top: .6rem; }
+  .cup-related-list { grid-template-columns: 1fr; gap: 0; }
+  .cup-related-item + .cup-related-item { border-top: none; }
+  .cup-milks label > span { padding-inline: .6rem; }
+}
+@media (forced-colors: active) {
+  .cup-segments input:checked + span { border: 3px solid Highlight; }
+}
