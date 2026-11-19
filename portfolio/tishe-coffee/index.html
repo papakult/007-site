@@ -2,57 +2,243 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#1c100b">
-  <meta name="description" content="Тише кофе. Только кофе, чистый вкус и ваша маленькая пауза. Авторский концепт кофейни от 007-A.">
-  <meta property="og:title" content="Тише кофе / чистый вкус">
-  <meta property="og:description" content="Кофейная карта и кинематографичная история кофе. Авторский концепт 007-A.">
-  <meta property="og:image" content="https://007-a.ru/portfolio/tishe-coffee/assets/cover-v5.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2e8">
+  <meta name="description" content="Кофейня «Тише». Шесть напитков с фотографиями, составом и ценами. Выберите кофе, объём и молоко в интерактивной карте. Авторский концепт 007-А.">
+  <meta property="og:title" content="Тише кофе — утро потише">
+  <meta property="og:description" content="Эспрессо, фильтр или кофе с молоком. Найдите свою чашку в кофейной карте «Тише».">
+  <meta property="og:image" content="https://007-a.ru/portfolio/tishe-coffee/assets/morning.webp">
   <meta property="og:url" content="https://007-a.ru/portfolio/tishe-coffee/">
   <link rel="canonical" href="https://007-a.ru/portfolio/tishe-coffee/">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%232b170e'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-size='42' font-family='Georgia' fill='%23e8cba1'%3Eт%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%2325382b'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-size='42' font-family='Georgia' fill='%23f6f2e8'%3Eт%3C/text%3E%3C/svg%3E">
   <link rel="preload" href="assets/prata.ttf" as="font" type="font/ttf" crossorigin>
-  <link rel="stylesheet" href="style.css?v=6">
-  <link rel="stylesheet" href="cinema.css?v=5">
-  <script src="app.js?v=7" defer></script>
-  <script src="cinema.js?v=5" defer></script>
-  <link rel="stylesheet" href="ambience.css?v=1">
-  <script src="ambience.js?v=1" defer></script>
-  <title>Тише кофе / чистый вкус</title>
-<link rel="stylesheet" href="/assets/brand-007-chrome/brand.css">
+  <link rel="stylesheet" href="style.css?v=morning-1">
+  <script src="app.js?v=morning-1" defer></script>
+  <title>Тише кофе — кофейная карта</title>
 </head>
 <body>
   <a class="skip" href="#menu">Перейти к кофейной карте</a>
-  <header class="site-header">
-    <a class="brand" href="#home" aria-label="Тише кофе, в начало">тише<span>КОФЕ</span></a>
-    <nav aria-label="Основная навигация"><a href="#menu">Кофейная карта</a></nav>
-    <a class="nav-cta" href="#menu">Выбрать кофе <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
+  <header class="mast" id="home">
+    <div class="mast-inner section-wrap">
+      <a class="wordmark" href="#home" aria-label="Тише кофе, в начало">тише<span>.</span><small>кофейня</small></a>
+      <nav aria-label="Навигация по кофейне">
+        <a href="#menu"><span class="full-label">Кофейная карта</span><span class="short-label">Меню</span></a>
+        <a href="#ritual">О кофейне</a>
+      </nav>
+      <a class="film-link" href="assets/film/presentation.mp4" data-film aria-label="Смотреть фильм о кофе, 12 секунд"><span class="play-glyph" aria-hidden="true"></span><span>Смотреть фильм</span></a>
+    </div>
   </header>
   <main>
-    <section class="cinema-wrap" id="home" aria-labelledby="hero-title">
-      <div id="craft" class="cinema-anchor" aria-hidden="true"></div>
-      <div class="hero cinema-stage">
-      <div class="visual-layer"><picture class="hero-picture"><img src="assets/film/start.jpg" alt="Золотистая струя эспрессо и прозрачная стеклянная чашка на темном мраморе" fetchpriority="high" width="1672" height="941"></picture><canvas id="hero-canvas" aria-hidden="true"></canvas></div><h1 id="hero-title" class="hero-word">Кофе</h1><canvas id="hero-foreground" aria-hidden="true"></canvas>
-      <video id="intro-decoder" class="hero-film" poster="assets/film/start.jpg" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"><source src="assets/film/presentation.mp4" type="video/mp4"></video>
-      <div class="hero-shade" aria-hidden="true"></div>
-      <div class="hero-copy scene-copy scene-opening"><p class="hero-statement">Ничего лишнего.</p><p class="hero-description">От короткого эспрессо<br>до мягкого латте.</p><a class="button button-cream" href="#menu">Выбрать свой кофе <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div>
-      <div class="scene-copy scene-middle"><p class="scene-caption">Все начинается с эспрессо.</p><h2>В самой<br>сути кофе.</h2></div>
-      <div class="scene-copy scene-ending"><h2>Ваш кофе.</h2><p>Эспрессо, американо, капучино.<br>Что выберете сегодня?</p><a class="text-link" href="#menu">Выбрать напиток</a></div>
-      <div class="hero-bottom"><a class="scroll-cue" href="#menu"><span class="scroll-line" aria-hidden="true"></span><span id="scene-label">Кофейная карта ниже</span></a><span class="hero-caption">ЭСПРЕССО<br><b>Тихая классика.</b></span></div>
-      <div class="film-controls"><button id="watch-film" type="button">Смотреть ролик <span aria-hidden="true">▷</span></button><button id="motion-toggle" type="button" aria-pressed="false" aria-label="Остановить анимацию">Пауза</button></div><div class="scene-rail" aria-hidden="true"><i></i></div>
-
+    <section class="opening" aria-labelledby="opening-title" id="craft">
+      <picture class="opening-photo">
+        <source media="(max-width: 640px)" srcset="assets/morning-mobile.webp" width="804" height="941">
+        <img src="assets/morning.webp" width="1672" height="941" fetchpriority="high" alt="Флэт уайт в фарфоровой чашке на деревянной стойке у окна.">
+      </picture>
+      <div class="opening-veil"></div>
+      <div class="opening-inner section-wrap">
+        <div class="opening-copy">
+          <p class="hero-label"><span aria-hidden="true"></span>Кофе в своём ритме</p>
+          <h1 id="opening-title">Утро<br><em>потише.</em></h1>
+          <p class="opening-note">Короткий эспрессо, мягкий латте<br>и неспешный фильтр у окна.</p>
+          <a class="hero-button" href="#menu">Выбрать кофе</a>
+        </div>
+        <div class="photo-caption"><span aria-hidden="true"></span>В кадре <b>Флэт уайт</b></div>
       </div>
     </section>
-    <section class="menu" id="menu" aria-labelledby="menu-title">
-      <div class="menu-intro"><div><h2 id="menu-title">Кофейная карта.</h2></div><p>Шесть способов сделать паузу.<br>Выберите тот, что ближе сегодня.</p></div>
-      <div class="menu-toolbar"><div class="menu-filters" role="group" aria-label="Категории кофе"><button class="active" data-filter="all" aria-pressed="true">Весь кофе</button><button data-filter="black" aria-pressed="false">Черный</button><button data-filter="milk" aria-pressed="false">С молоком</button></div><button class="ambience-toggle" id="ambience-toggle" type="button" aria-pressed="false" aria-label="Остановить анимацию карточек и зерен">Пауза анимации</button></div>
-      <div class="drinks-grid" id="drinks" aria-live="polite"></div>
-      <p class="demo-note">Иллюстративное меню. Цены, объемы и составы приведены для демонстрации концепта.</p>
+    <section class="menu section-wrap" id="menu" aria-labelledby="menu-title">
+      <div class="section-intro">
+        <div><p class="eyebrow">Кофейная карта</p><h2 id="menu-title">Что вам налить?</h2></div>
+        <p>Шесть напитков, два объёма для каждого. Выберите чашку, чтобы посмотреть состав и цену.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Фильтр напитков" hidden>
+        <button type="button" data-filter="all" aria-pressed="true">Все напитки</button>
+        <button type="button" data-filter="black" aria-pressed="false">Чёрный кофе</button>
+        <button type="button" data-filter="milk" aria-pressed="false">С молоком</button>
+      </div>
+      <div class="drink-grid" id="drinks">
+        <article class="drink-card" id="drink-espresso" data-drink="espresso" data-group="black">
+          <div class="drink-image"><img src="assets/drinks/espresso.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>Чёрный кофе</span><span>30 / 60 мл</span></div>
+            <h3 class="drink-name">Эспрессо</h3>
+            <p class="drink-description">Насыщенный кофе с тонкой золотистой пенкой.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 180 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Эспрессо — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Молотый кофе и вода.</span></p>
+                  <ul><li data-size="30" data-price="180">30 мл — 180 ₽</li><li data-size="60" data-price="250">60 мл — 250 ₽</li></ul>
+                  
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+        <article class="drink-card" id="drink-americano" data-drink="americano" data-group="black">
+          <div class="drink-image"><img src="assets/drinks/americano.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>Чёрный кофе</span><span>200 / 300 мл</span></div>
+            <h3 class="drink-name">Американо</h3>
+            <p class="drink-description">Горячая вода смягчает вкус эспрессо и сохраняет его аромат.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 220 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Американо — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Эспрессо и горячая вода.</span></p>
+                  <ul><li data-size="200" data-price="220">200 мл — 220 ₽</li><li data-size="300" data-price="260">300 мл — 260 ₽</li></ul>
+                  
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+        <article class="drink-card" id="drink-cappuccino" data-drink="cappuccino" data-group="milk">
+          <div class="drink-image"><img src="assets/drinks/cappuccino.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>С молоком</span><span>200 / 300 мл</span></div>
+            <h3 class="drink-name">Капучино</h3>
+            <p class="drink-description">Выраженный вкус кофе под плотной шапкой молочной пены.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 280 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Капучино — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Эспрессо, молоко и плотная пена.</span></p>
+                  <ul><li data-size="200" data-price="280">200 мл — 280 ₽</li><li data-size="300" data-price="330">300 мл — 330 ₽</li></ul>
+                  <p>Овсяный или кокосовый напиток вместо молока добавит 60 ₽ к цене любого объёма.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+        <article class="drink-card" id="drink-flatwhite" data-drink="flatwhite" data-group="milk">
+          <div class="drink-image"><img src="assets/drinks/flatwhite.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>С молоком</span><span>200 / 300 мл</span></div>
+            <h3 class="drink-name">Флэт уайт</h3>
+            <p class="drink-description">Двойная порция эспрессо и тонкая шелковистая микропена.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 310 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Флэт уайт — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Двойной эспрессо, молоко и тонкий слой микропены.</span></p>
+                  <ul><li data-size="200" data-price="310">200 мл — 310 ₽</li><li data-size="300" data-price="370">300 мл — 370 ₽</li></ul>
+                  <p>Овсяный или кокосовый напиток вместо молока добавит 60 ₽ к цене любого объёма.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+        <article class="drink-card" id="drink-latte" data-drink="latte" data-group="milk">
+          <div class="drink-image"><img src="assets/drinks/latte.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>С молоком</span><span>300 / 400 мл</span></div>
+            <h3 class="drink-name">Латте</h3>
+            <p class="drink-description">Больше тёплого молока и мягкий кофейный вкус.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 300 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Латте — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Эспрессо, молоко и лёгкая пена.</span></p>
+                  <ul><li data-size="300" data-price="300">300 мл — 300 ₽</li><li data-size="400" data-price="360">400 мл — 360 ₽</li></ul>
+                  <p>Овсяный или кокосовый напиток вместо молока добавит 60 ₽ к цене любого объёма.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+        <article class="drink-card" id="drink-filter" data-drink="filter" data-group="black">
+          <div class="drink-image"><img src="assets/drinks/filter.webp" alt="" width="512" height="512" loading="lazy" decoding="async"></div>
+          <div class="drink-body">
+            <div class="drink-meta"><span>Чёрный кофе</span><span>250 / 350 мл</span></div>
+            <h3 class="drink-name">Фильтр-кофе</h3>
+            <p class="drink-description">Заваренный через бумажный фильтр, лёгкий и чистый на вкус.</p>
+            <div class="drink-bottom">
+              <span class="drink-price">от 240 ₽</span>
+              <details class="drink-options">
+                <summary class="drink-action" aria-label="Фильтр-кофе — состав, объёмы и цены">Варианты <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-7-7v14"/></svg></summary>
+                <div class="drink-fallback">
+                  <p><strong>Состав</strong><br><span class="drink-recipe">Молотый кофе и вода.</span></p>
+                  <ul><li data-size="250" data-price="240">250 мл — 240 ₽</li><li data-size="350" data-price="290">350 мл — 290 ₽</li></ul>
+                  
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+      </div>
     </section>
-    <section class="closing" id="ritual"><canvas id="closing-beans" class="closing-beans" aria-hidden="true"></canvas><span class="eyebrow">ВАШ МАЛЕНЬКИЙ ЕЖЕДНЕВНЫЙ РИТУАЛ</span><h2>Сначала <em>кофе.</em><br>Потом все остальное.</h2><a class="button button-outline" href="#menu">Выбрать напиток <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></a><div class="closing-watermark" aria-hidden="true">тише</div></section>
+    <section class="house" id="ritual" aria-labelledby="house-title">
+      <div class="house-inner section-wrap">
+        <div class="house-copy">
+          <p class="eyebrow">О кофейне</p>
+          <h2 id="house-title">Пока льётся<br><em>кофе.</em></h2>
+          <p>У стойки «Тише» есть свой звук. Сначала щёлкает кофемолка, потом шипит молоко. А когда бариста ставит воронку, слышно только воду.</p>
+          <p>Для такого утра мы собрали короткую карту. Шесть напитков, у каждого свой характер.</p>
+          <a class="house-film" href="assets/film/presentation.mp4" data-film><span class="play-disc" aria-hidden="true"><span class="play-glyph"></span></span><span>Фильм о кофе<small>12 секунд · без звука</small></span></a>
+        </div>
+        <figure class="house-figure">
+          <img src="assets/pourover.webp" width="1200" height="800" loading="lazy" decoding="async" alt="Бариста тонкой струёй наливает воду в стеклянную воронку с молотым кофе.">
+          <figcaption>За стойкой <span>Ручное заваривание</span></figcaption>
+        </figure>
+      </div>
+    </section>
   </main>
-  <footer><a class="brand" href="#home">тише<span>КОФЕ</span></a><p>Авторский концепт вымышленной кофейни.<br>Выбор напитка работает в деморежиме, без приема заказов и оплаты.</p><a class="studio" href="/directions/sites/">Дизайн и разработка<span class="chrome-credit"><img class="brand-chrome-small" src="/assets/brand-007-chrome/wordmark-small.webp" width="136" height="36" alt="007-A" decoding="async"><span>.RU</span></span></a></footer>
-  <dialog id="film-dialog" aria-label="Кофейный ролик"><button class="close-film" aria-label="Закрыть ролик">×</button><video controls playsinline preload="none" poster="assets/film/start.jpg"><source src="assets/film/presentation.mp4" type="video/mp4"></video><p>Тише кофе. Постановочная история напитков.</p></dialog>
-  <dialog id="order-dialog" aria-labelledby="order-title"><button class="close-dialog" aria-label="Закрыть"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button><span class="eyebrow">ВАША ЧАШКА / ДЕМО</span><h2 id="order-title">Ваш <em>кофе.</em></h2><div class="order-photo" id="order-photo" aria-hidden="true"></div><div id="cup-options"><label for="order-drink">Напиток</label><select id="order-drink" ></select><fieldset><legend>Объем</legend><div class="size-options" id="size-options"></div></fieldset><div id="milk-label"><label for="order-milk">Молоко</label><select id="order-milk"><option value="0">Обычное</option><option value="60">Овсяное, +60 ₽</option><option value="60">Кокосовое, +60 ₽</option></select></div><div class="order-total"><span>Ваша чашка</span><strong id="total-price">180 ₽</strong></div><button class="button button-cream" id="cup-summary" type="button">Показать состав и цену <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg></button><p class="dialog-note">Стоимость зависит от объёма и вида молока.</p></div><div id="order-result" hidden><h3>В вашем вкусе.</h3><p id="result-text"></p><p class="dialog-note">Это пример состава. Заказ никуда не отправлен.</p><button class="button button-cream result-back">Выбрать еще чашку</button></div></dialog>
+  <footer class="foot">
+    <div class="foot-inner section-wrap">
+      <a class="wordmark" href="#home" aria-label="Тише кофе, в начало">тише<span>.</span><small>кофейня</small></a>
+      <p>Демонстрационная кофейня.<br>Меню иллюстративное, заказ и оплата не предусмотрены.</p>
+      <a class="studio" href="/directions/sites/"><span>Дизайн и разработка</span><img src="/assets/brand-007-chrome/wordmark-small.webp" alt="Студия 007-А" width="136" height="36" loading="lazy"></a>
+    </div>
+  </footer>
+  <dialog class="film-dialog" id="film-dialog" aria-labelledby="film-title">
+    <div class="film-frame">
+      <header><div><p class="eyebrow">Короткий метр</p><h2 id="film-title">Тише кофе</h2></div><button class="film-close" type="button" aria-label="Закрыть фильм">×</button></header>
+      <video controls playsinline preload="none" aria-label="Эспрессо льётся в чашку, затем появляются шесть напитков кофейной карты"></video>
+      <p class="film-note">От первой струи эспрессо до шести чашек на стойке. <span>12 секунд · без звука</span></p>
+    </div>
+  </dialog>
+  <dialog id="cup-dialog" aria-labelledby="cup-title">
+    <button class="close-dialog" type="button" aria-label="Закрыть выбор напитка" autofocus>
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="cup-layout">
+      <div class="cup-visual"><img id="cup-image" alt="" width="512" height="512"></div>
+      <div class="cup-panel">
+        <p class="eyebrow">Ваша чашка</p>
+        <h2 id="cup-title"></h2>
+        <p class="cup-description" id="cup-description"></p>
+        <div id="cup-options">
+          <div class="field"><label for="cup-drink">Напиток</label><select id="cup-drink"></select></div>
+          <fieldset class="field"><legend>Объём</legend><div class="size-options" id="cup-sizes"></div></fieldset>
+          <div class="field" id="cup-milk-field">
+            <label for="cup-milk">Молоко</label>
+            <select id="cup-milk">
+              <option value="regular" data-price="0">Обычное молоко</option>
+              <option value="oat" data-price="60">Овсяный напиток (+60 ₽)</option>
+              <option value="coconut" data-price="60">Кокосовый напиток (+60 ₽)</option>
+            </select>
+          </div>
+          <div class="total"><span>Стоимость чашки</span><strong id="cup-price" aria-live="polite"></strong></div>
+          <button class="primary" id="cup-show-summary" type="button">Показать состав и цену</button>
+        </div>
+        <div class="summary" id="cup-summary" hidden>
+          <h3 tabindex="-1">Состав вашей чашки</h3>
+          <dl>
+            <div><dt>Напиток</dt><dd id="summary-drink"></dd></div>
+            <div><dt>Объём</dt><dd id="summary-volume"></dd></div>
+            <div><dt>Состав</dt><dd id="summary-recipe"></dd></div>
+          </dl>
+          <div class="total"><span>Стоимость чашки</span><strong id="summary-price"></strong></div>
+          <button class="primary" id="cup-edit" type="button">Изменить выбор</button>
+        </div>
+        <p class="dialog-note">Демонстрационное меню. Здесь можно рассчитать цену чашки.</p>
+      </div>
+    </div>
+  </dialog>
 </body>
 </html>
