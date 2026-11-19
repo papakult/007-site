@@ -8,18 +8,22 @@
 <main id="main" tabindex="-1">
 <div class="visit-page container">
   <nav class="visit-crumb" aria-label="Путь по сайту"><a href="/directions/sites/veterinary/">Клиника</a><span aria-hidden="true">/</span><span aria-current="page">Запись на приём</span></nav>
+  <div class="visit-heading"><h1>Запись на приём</h1><p>Демонстрация записи</p></div>
   <div class="visit-layout">
-    <div class="visit-cover">
-      <img src="/directions/sites/veterinary/assets/consult.webp" width="1536" height="1024" fetchpriority="high" alt="Врач встречает рыжего сеттера в кабинете">
-      <div class="visit-cover-copy"><span class="visit-cover-label">ANIMA · Москва</span><h1>Запись<br>на приём</h1></div>
-    </div>
+    <aside class="visit-context" data-visit-context hidden aria-label="Выбранный приём">
+      <div class="visit-shot"><img data-visit-photo src="/directions/sites/veterinary/assets/care.webp" width="1536" height="1024" loading="lazy" alt=""></div>
+      <div class="visit-context-copy">
+        <div class="visit-context-text"><h2 data-visit-card="service"></h2><p class="visit-unit" data-visit-card="unit"></p>
+          <p class="visit-clinician" data-visit-card="doctor" hidden></p></div>
+        <div class="visit-fee" aria-live="polite" aria-atomic="true"><span>Пример стоимости</span><strong data-visit-card="fee"></strong></div>
+      </div>
+    </aside>
     <div class="visit-panel">
-      <div class="visit-tag"><span aria-hidden="true"></span>Демонстрация записи</div>
       <section class="visit-static" data-visit-fallback>
         <h2>Первое знакомство</h2>
         <p>Выберите направление, чтобы прочитать о приёме и подготовке. Интерактивный выбор даты доступен при включённом JavaScript.</p>
         <a href="/directions/sites/veterinary/services/" class="visit-primary">Посмотреть направления</a>
-        <a href="/directions/sites/veterinary/doctors/" class="visit-text-link">Познакомиться с врачами</a>
+        <a href="/directions/sites/veterinary/prices/" class="visit-text-link">Сравнить примерные цены</a>
       </section>
       <div class="visit-widget" data-visit hidden>
         <ol class="visit-track" aria-label="Этапы выбора">
@@ -34,7 +38,7 @@
             </div>
           </fieldset>
           <label class="visit-field" for="visit-service"><span>Направление</span>
-            <span class="visit-select"><select id="visit-service"><option value="therapy">Терапия</option><option value="diagnostics">Диагностика</option><option value="surgery">Хирургия</option><option value="cardiology">Кардиология</option><option value="dentistry">Стоматология</option><option value="dermatology">Дерматология</option><option value="checkup">Профилактика и чекапы</option><option value="inpatient">Стационар и наблюдение</option></select></span>
+            <span class="visit-select"><select id="visit-service"><option value="therapy" data-fee="4 500 ₽" data-unit="Первичный приём" data-photo="/directions/sites/veterinary/assets/care.webp" data-alt="Ветеринар осматривает золотистого ретривера.">Терапия</option><option value="diagnostics" data-fee="5 500 ₽" data-unit="Базовое исследование" data-photo="/directions/sites/veterinary/assets/ultrasound.webp" data-alt="Кошка проходит ультразвуковое исследование.">Диагностика</option><option value="surgery" data-fee="6 500 ₽" data-unit="Консультация хирурга" data-photo="/directions/sites/veterinary/assets/surgery.webp" data-alt="Два ветеринарных хирурга в операционной.">Хирургия</option><option value="cardiology" data-fee="6 000 ₽" data-unit="Консультация кардиолога" data-photo="/directions/sites/veterinary/assets/cardiology.webp" data-alt="Ветеринар слушает сердце собаки при помощи стетоскопа.">Кардиология</option><option value="dentistry" data-fee="5 000 ₽" data-unit="Консультация стоматолога" data-photo="/directions/sites/veterinary/assets/dentistry.webp" data-alt="Врач бережно осматривает зубы собаки.">Стоматология</option><option value="dermatology" data-fee="5 500 ₽" data-unit="Консультация дерматолога" data-photo="/directions/sites/veterinary/assets/dermatology.webp" data-alt="Ветеринар осматривает ухо кошки.">Дерматология</option><option value="checkup" data-fee="12 000 ₽" data-unit="Пример программы" data-photo="/directions/sites/veterinary/assets/portrait.webp" data-alt="Спокойная светлая собака в профиль.">Профилактика и чекапы</option><option value="inpatient" data-fee="8 000 ₽ за сутки" data-unit="Сутки наблюдения" data-photo="/directions/sites/veterinary/assets/inpatient.webp" data-alt="Кошка на пледе в индивидуальной палате.">Стационар и наблюдение</option></select></span>
           </label>
           <label class="visit-field" for="visit-doctor"><span>Специалист</span>
             <span class="visit-select"><select id="visit-doctor"><option value="">По направлению</option></select></span>
@@ -56,6 +60,8 @@
            <div><dt>Питомец</dt><dd data-visit-out="pet"></dd></div>
            <div><dt>Направление</dt><dd data-visit-out="service"></dd></div>
            <div><dt>Специалист</dt><dd data-visit-out="doctor"></dd></div>
+           <div><dt>Услуга</dt><dd data-visit-out="unit"></dd></div>
+           <div class="visit-summary-fee"><dt>Пример стоимости</dt><dd data-visit-out="fee"></dd></div>
            <div><dt>Когда</dt><dd data-visit-out="when"></dd></div>
           </dl>
           <div class="visit-actions"><button type="button" class="visit-primary" data-visit-go="1">Изменить время</button>

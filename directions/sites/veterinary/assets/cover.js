@@ -5,6 +5,7 @@
   const header = document.querySelector('.an-head');
   const scenes = [...cover.querySelectorAll('.cover-scene')];
   const links = [...cover.querySelectorAll('.scene-link')];
+  const counter = cover.querySelector('[data-frame-count]');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const enoughHeight = matchMedia('(min-height: 475px)');
   const end = scenes.length - .77;
@@ -22,6 +23,7 @@
       else { scene.setAttribute('aria-hidden','true'); links[i].removeAttribute('aria-current'); }
     });
     active = index;
+    counter.textContent = String(index + 1);
     if (focusMoves) links[index].focus({preventScroll:true});
   }
   function render() {

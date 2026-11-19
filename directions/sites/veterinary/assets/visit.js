@@ -3,6 +3,9 @@
   if (!widget) return;
 
   const fallback = document.querySelector('[data-visit-fallback]');
+  const card = document.querySelector('[data-visit-context]');
+  const cardImage = card.querySelector('[data-visit-photo]');
+  const cardText = Array.from(card.querySelectorAll('[data-visit-card]'));
   const steps = Array.from(widget.querySelectorAll('.visit-step'));
   const track = Array.from(widget.querySelectorAll('.visit-track li'));
   const service = widget.querySelector('#visit-service');
@@ -83,10 +86,30 @@
     updateTimes();
   }
 
+  function selectedVisit() {
+    const choice = service.selectedOptions[0];
+    return {service: choice.text, doctor: doctor.value ? doctor.selectedOptions[0].text : '',
+      unit: choice.dataset.unit, fee: choice.dataset.fee};
+  }
+
+  function updateCard() {
+    const choice = service.selectedOptions[0];
+    const selected = selectedVisit();
+    if (cardImage.getAttribute('src') !== choice.dataset.photo) {
+      cardImage.setAttribute('src', choice.dataset.photo);
+    }
+    cardImage.alt = choice.dataset.alt;
+    for (const output of cardText) {
+      const key = output.dataset.visitCard;
+      output.textContent = selected[key];
+      if (key === 'doctor') output.hidden = !selected.doctor;
+    }
+  }
+
   function updateSummary() {
     const fields = {
+      ...selectedVisit(),
       pet: widget.querySelector('input[name="visit-pet"]:checked').value,
-      service: service.selectedOptions[0].text,
       doctor: doctor.selectedOptions[0].text,
       when: longDate.format(appointments.get(chosenDate)) + ', ' + chosenTime + ' (МСК)',
     };
@@ -105,8 +128,8 @@
     });
     const title = steps[index].querySelector('h2');
     title.focus({preventScroll: true});
-    const panel = widget.closest('.visit-panel');
-    if (title.getBoundingClientRect().top < 100) panel.scrollIntoView({block:'start', behavior:'instant'});
+    const layout = widget.closest('.visit-layout');
+    if (layout.getBoundingClientRect().top < 0) layout.scrollIntoView({block:'start', behavior:'instant'});
   }
 
   const params = new URLSearchParams(window.location.search);
@@ -117,7 +140,13 @@
 
   updateDoctors(linkedDoctor?.key);
   populateSchedule();
-  service.addEventListener('change', () => updateDoctors(doctor.value));
+  updateCard();
+  card.hidden = false;
+  service.addEventListener('change', () => {
+    updateDoctors(doctor.value);
+    updateCard();
+  });
+  doctor.addEventListener('change', updateCard);
   datesArea.addEventListener('change', event => {
     if (!appointments.has(event.target.value)) return;
     chosenDate = event.target.value;
