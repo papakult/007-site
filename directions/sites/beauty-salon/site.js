@@ -20,7 +20,7 @@
   });
   const dock = document.createElement('nav'); dock.className = 'mobile-dock'; dock.setAttribute('aria-label', 'Быстрый переход');
   const serviceLink = document.createElement('a'); serviceLink.href = root + 'services/'; serviceLink.textContent = 'Услуги';
-  const visitLink = document.createElement('a'); visitLink.href = root + 'visit/'; visitLink.textContent = 'Выбрать визит'; dock.append(serviceLink, visitLink); document.body.append(dock);
+  const visitLink = document.createElement('a'); visitLink.href = document.querySelector('.procedure-intro .pill')?.href || root + 'visit/'; visitLink.textContent = document.querySelector('.procedure-intro') ? 'Выбрать процедуру' : 'Выбрать визит'; dock.append(serviceLink, visitLink); document.body.append(dock);
 
   const video = document.querySelector('#hero-video');
   const videoButton = document.querySelector('#hero-video-toggle');
@@ -79,8 +79,8 @@
   if (menuPhoto) {
     const lines = [...document.querySelectorAll('[data-preview]')];
     function preview(line) {
-      if (menuPhoto.getAttribute('src') === line.dataset.preview) return;
-      menuPhoto.src = line.dataset.preview;
+      if (menuPhoto.getAttribute('src') === line.dataset.print) return;
+      menuPhoto.src = line.dataset.print;
       menuPhoto.alt = line.dataset.alt;
       for (const item of lines) item.classList.toggle('previewed', item === line);
     }
@@ -123,6 +123,7 @@
       name.textContent = choice.dataset.name;
       caption.textContent = choice.dataset.caption;
       procedure.href = root + 'procedures/' + choice.dataset.procedure + '/';
+      procedure.textContent = choice.dataset.offer;
       counter.textContent = (index + 1) + ' / ' + choices.length;
       choices.forEach((item, n) => item.setAttribute('aria-current', String(n === index)));
       const unhandled = collection.dispatchEvent(new CustomEvent('muse:look-change', {
@@ -134,6 +135,9 @@
         transition.onfinish = () => previous.remove();
       } else previous.remove();
     }
+    const requestedLook = new URLSearchParams(location.search).get('look');
+    const initial = choices.findIndex(choice => choice.dataset.key === requestedLook);
+    if (initial > 0) show(initial);
     controls.hidden = false;
     for (const button of controls.querySelectorAll('[data-step]')) button.addEventListener('click', () => show(index + Number(button.dataset.step)));
     choices.forEach((choice, n) => {
@@ -158,19 +162,35 @@
     const serviceButtons = [...document.querySelectorAll('[data-visit-service]')];
     const timeButtons = [...document.querySelectorAll('[data-visit-time]')];
     const saveButton = document.querySelector('#save-visit');
-    let service = '', duration = '', time = '';
+    let service = '', duration = '', price = '', time = '';
     function render() {
-      summary.textContent = service ? `${service} · ${duration}${time ? ' · ' + time : ''}. Это пример визита; бронирование не производится.` : 'Выберите процедуру — здесь появится ваш план визита.';
+      summary.replaceChildren();
+      const title = document.createElement('h2');
+      title.textContent = service || 'Выберите процедуру';
+      summary.append(title);
+      if (service) {
+        const facts = document.createElement('dl');
+        facts.className = 'visit-facts';
+        for (const [label, value] of [['Стоимость', price], ['Длительность', duration], ['Время дня', time || 'По желанию']]) {
+          const term = document.createElement('dt');
+          const detail = document.createElement('dd');
+          term.textContent = label;
+          detail.textContent = value;
+          facts.append(term, detail);
+        }
+        summary.append(facts);
+      }
       if (saveButton) saveButton.disabled = !service;
     }
     serviceButtons.forEach(button => button.addEventListener('click', () => {
       service = button.querySelector('span').textContent;
+      price = button.dataset.price;
       duration = button.dataset.duration + ' минут'; serviceButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render();
     }));
     timeButtons.forEach(button => button.addEventListener('click', () => { time = button.dataset.visitTime; timeButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render(); }));
     saveButton?.addEventListener('click', () => {
       if (!service) return;
-      const contents = `MUSE — мой план визита\n\n${service}\n${duration}\n${time || 'Время не выбрано'}\n\nДемонстрационный проект 007-A. План не является записью.\nhttps://007-a.ru/directions/sites/beauty-salon/\n`;
+      const contents = `MUSE — мой план визита\n\n${service}\n${price}\n${duration}\n${time || 'Время не выбрано'}\n\nДемонстрационный проект 007-A. План не является записью.\nhttps://007-a.ru/directions/sites/beauty-salon/\n`;
       const url = URL.createObjectURL(new Blob([contents], { type: 'text/plain;charset=utf-8' }));
       const link = document.createElement('a'); link.href = url; link.download = 'MUSE-my-visit.txt'; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
     });

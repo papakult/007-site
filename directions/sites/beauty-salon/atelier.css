@@ -280,3 +280,73 @@ a:focus-visible .center-rule { text-decoration:underline; }
   .film-legend { padding:3px 4px; }
   .visit-intro::before { background:#32152385; }
 }
+
+/* One portrait takes the lead; the smaller still links to its collection plate. */
+:root { --wine:#662b3d; --ink:#312029; --muted:#664d53; --line:#b99c94; }
+.folio-cover { padding:0 var(--pad); background:#39202c; }
+.cover-spread { max-width:1440px; margin-inline:auto; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:0; }
+.cover-story { display:flex; flex-direction:column; justify-content:space-between; min-height:0; padding:clamp(24px,3.5vw,62px) clamp(18px,4vw,68px) clamp(20px,2.4vw,42px) 0; background:transparent; }
+.story-type { padding:0; }
+.story-type p { display:flex; align-items:center; gap:18px; letter-spacing:.09em; font-size:14px; }
+.story-type p span { padding-left:18px; border-left:1px solid #986775; color:#edc7b7; }
+.story-type h1 { font:italic 400 clamp(110px,16vw,255px)/.84 var(--display); letter-spacing:-.095em; margin:.03em 0 .18em -.045em; color:#f8e5d5; text-wrap:nowrap; }
+.story-type h1 em { display:inline; color:#ec9b83; font:inherit; }
+.cover-entry { display:inline-flex; align-items:center; min-height:46px; padding:9px 23px; background:#f7dfca; }
+.collection-inset { display:flex; align-items:center; gap:20px; border-top:1px solid #966875; width:100%; margin-top:26px; padding-top:16px; }
+.collection-inset .cover-print { position:static; width:clamp(84px,8vw,140px); height:clamp(58px,5vw,90px); object-position:center; z-index:auto; }
+.collection-inset small { display:block; font-size:14px; color:#edc7b7; }
+.collection-inset b { font:italic 400 clamp(24px,2.6vw,42px)/1.2 var(--display); }
+.collection-inset:hover b, .collection-inset:focus-visible b { text-decoration:underline; text-underline-offset:.16em; }
+.film-mount { padding:clamp(10px,1.1vw,20px) clamp(15px,3vw,55px) 8px; }
+.folio-film,.film-legend { width:min(100%, 43svh, 420px); }
+.film-legend { padding:0; color:#321e28; background:#f2d4c5; }
+.film-legend>span { padding-left:12px; }
+.film-legend .film-switch { border:0; border-left:1px solid #a87974; border-radius:0; }
+.cover-directory { max-width:1440px; margin:0 auto; border-top:1px solid #855565; }
+.cover-directory a { text-align:left; border:0; }
+.menu-heading h2 em,.price-intro h1 em { color:#803349; }
+.price-intro h1 em { color:#f1c4ae; }
+.look-offer { display:inline-block; padding:6px 0; font-weight:600; color:#ffe3c8; text-decoration:underline; text-underline-offset:4px; }
+.look-thumb[aria-current=true] { outline:2px solid var(--citron); outline-offset:1px; }
+.price-intro .palette-portrait { grid-row:1; min-height:155px; }
+.price-index { display:flex; flex-direction:column; }
+.price-index a,.contents-nav a { display:block; border-top:1px solid var(--line); padding:10px 0; }
+.price-index a { font:400 clamp(22px,2vw,32px)/1.25 var(--display); }
+.price-category { scroll-margin-top:16px; }
+.price-row[href] h3 { text-decoration:underline; text-decoration-color:#a9747e; text-decoration-thickness:1px; text-underline-offset:.18em; }
+.category-crumb { display:inline-block; margin-left:12px; padding-left:12px; border-left:1px solid #a77a84; font-size:14px; color:#f7d5c0; }
+.contents-nav { padding:24px; }
+.contents-nav h2 { font-size:32px; margin-bottom:15px; }
+.after-treatment { margin-top:24px; }
+.visit-card #visit-summary h2 { font-size:clamp(30px,3.5vw,51px); line-height:1.08; }
+.visit-facts { display:grid; grid-template-columns:1fr auto; gap:10px 16px; border-top:1px solid #8e6878; padding-top:16px; margin:18px 0 0; font-size:16px; }
+.visit-facts dt { color:#e2c0c9; }.visit-facts dd { margin:0; font-variant-numeric:tabular-nums; }
+@media(max-width:760px) {
+  .folio-cover { padding:0; }
+  .cover-spread { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .cover-story { padding:18px 10px 14px clamp(14px,4vw,26px); }
+  .story-type p { display:block; font-size:12px; line-height:1.5; letter-spacing:.05em; }
+  .story-type p span { display:block; border:0; padding:0; }
+  .story-type h1 { font-size:clamp(64px,16vw,119px); margin:.08em 0 .22em; }
+  .cover-entry { min-height:44px; padding:8px 13px; }
+  .collection-inset { gap:8px; margin-top:16px; padding-top:10px; }
+  .collection-inset .cover-print { width:38px; height:46px; }
+  .collection-inset small { font-size:12px; line-height:1.25; }
+  .collection-inset b { font-size:17px; line-height:1.05; display:block; margin-top:3px; }
+  .film-mount { padding:6px; }
+  .folio-film,.film-legend { width:min(100%,260px); }
+  .film-legend { flex-wrap:nowrap; }
+  .film-legend>span { font-size:clamp(14px,3.8vw,19px); padding-left:4px; }
+  .cover-directory { padding:0 10px; }.cover-directory a { text-align:center; }
+  .price-index { display:grid; grid-template-columns:1fr 1fr; gap:0 16px; }
+  .price-intro .palette-portrait { grid-row:auto; height:100px; min-height:0; }
+  .price-catalog { gap:20px; padding-top:18px; }
+  .price-category { margin-bottom:23px; }
+  .contents-nav { display:flex; flex-wrap:wrap; align-items:center; padding:12px 14px; gap:5px 16px; }
+  .contents-nav h2 { width:100%; font-size:23px; margin:0; }
+  .contents-nav a { padding:8px 0; border:0; text-decoration:underline; font-size:14px; }
+  .procedure-body { gap:22px; }
+}
+.folio-cover { background-color:#39202c; background-image:linear-gradient(90deg,#361d2b50,#39202c30 54%,#39202c 79%),url("assets/collection-nails.webp"); background-repeat:no-repeat; background-size:100% 100%,240% auto; background-position:center,left 5%; }
+.cover-directory { background:linear-gradient(90deg,#301620d9,#39202c); }
+@media(max-width:760px){ .folio-cover { background-size:100% 100%,305% auto; background-position:center,left top; } }

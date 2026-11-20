@@ -219,7 +219,7 @@ def footer(home=False):
 def document(slug, title, description, content, body_class=""):
     canonical = f"https://007-a.ru{BASE}{slug}/" if slug else f"https://007-a.ru{BASE}"
     return f'''<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#302029"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{escape(title, quote=True)} — MUSE"><meta property="og:image" content="https://007-a.ru{BASE}assets/collection-hero.webp"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=motion4"><link rel="stylesheet" href="{BASE}assets/motion/motion.css?v=4"><script type="module" src="{BASE}assets/motion/motion.js?v=4"></script><script defer src="{BASE}site.js?v=motion4"></script></head><body class="{'home-page' if not slug else 'inner-page'} {escape(body_class)}">{header()}<main id="main">{content}</main>{footer(not slug)}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#302029"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{escape(title, quote=True)} — MUSE"><meta property="og:image" content="https://007-a.ru{BASE}assets/collection-hero.webp"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=folio5"><link rel="stylesheet" href="{BASE}assets/motion/motion.css?v=4"><script type="module" src="{BASE}assets/motion/motion.js?v=4"></script><script defer src="{BASE}site.js?v=folio5"></script></head><body class="{'home-page' if not slug else 'inner-page'} {escape(body_class)}">{header()}<main id="main">{content}</main>{footer(not slug)}</body></html>'''
 
 
 def related(current=None):
@@ -227,15 +227,21 @@ def related(current=None):
     return f'<section class="page-section related-section"><p class="eyebrow">Продолжить знакомство</p><h2>Другие направления</h2><nav class="related-links" aria-label="Другие направления">{links}</nav></section>'
 
 
-def service_page(slug, s):
-    prices = ''
-    for name, duration, price in s["prices"]:
-        procedure_slug = PRICE_PROCEDURES.get(name)
-        body = f'<h3>{escape(name)}</h3><span>{duration}</span><strong>{price}</strong>'
-        if procedure_slug:
-            prices += f'<a class="price-row procedure-price-link" href="{BASE}procedures/{procedure_slug}/">{body}</a>'
+def price_rows(category):
+    rows = []
+    for name, duration, price in category["prices"]:
+        slug = PRICE_PROCEDURES.get(name)
+        title = PROCEDURES[slug]["name"] if slug else name
+        body = f'<h3>{escape(title)}</h3><span>{duration}</span><strong>{price}</strong>'
+        if slug:
+            rows.append(f'<a class="price-row procedure-price-link" href="{BASE}procedures/{slug}/">{body}</a>')
         else:
-            prices += f'<div class="price-row">{body}</div>'
+            rows.append(f'<div class="price-row">{body}</div>')
+    return "".join(rows)
+
+
+def service_page(slug, s):
+    prices = price_rows(s)
     details = ''.join(f'<details><summary>{escape(question)}</summary><p>{escape(answer)}</p></details>' for question, answer in s["notes"])
     content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}services/">Все направления</a><p class="eyebrow">{s["eyebrow"]}</p><h1>{s["name"]}</h1><p>{s["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={PRIMARY_PROCEDURES[slug]}">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/{s["image"]}" alt="{s["alt"]}" width="1200" height="1600" fetchpriority="high"></figure></section>
 <section class="page-section inner-grid"><h2>Услуги и цены</h2><div><p class="body-large">{s["copy"]}</p><p class="eyebrow price-disclaimer">Демонстрационный прайс</p><div class="price-list">{prices}</div><p class="fine-print">Пример услуг и стоимости для вымышленного салона. Время указано ориентировочно.</p></div></section>
@@ -251,8 +257,8 @@ def atelier_page():
 
 
 def visit_page():
-    options = ''.join(f'<button type="button" class="visit-option" data-visit-service="{slug}" data-duration="{p["duration"]}" aria-pressed="false"><span>{p["name"]}</span><small>{p["duration"]} минут · {p["price"]}</small></button>' for slug, p in PROCEDURES.items())
-    content = f'''<section class="visit-intro page-section"><div class="light-field" data-light="waves" aria-hidden="true"></div><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">Демонстрация выбора визита</p><h1>Ваш визит</h1><p class="body-large">Выберите направление и удобную часть дня. Сохраните пример плана, чтобы посмотреть, как может быть устроен визит в MUSE.</p>{palette_portrait("space.webp", "Зеркала и рабочие места ателье")}</section>
+    options = ''.join(f'<button type="button" class="visit-option" data-visit-service="{slug}" data-duration="{p["duration"]}" data-price="{p["price"]}" aria-pressed="false"><span>{p["name"]}</span><small>{p["duration"]} минут · {p["price"]}</small></button>' for slug, p in PROCEDURES.items())
+    content = f'''<section class="visit-intro page-section"><div class="light-field" data-light="waves" aria-hidden="true"></div><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">Демонстрация выбора визита</p><h1>Ваш визит</h1><p class="body-large">Выберите процедуру и, если удобно, время дня. Готовый план с ценой и длительностью можно сохранить.</p>{palette_portrait("space.webp", "Зеркала и рабочие места ателье")}</section>
 <section class="page-section visit-layout"><div class="visit-choices"><fieldset class="visit-fieldset"><legend>С чего начнём?</legend><div class="visit-options">{options}</div></fieldset><fieldset class="visit-fieldset"><legend>Когда вам комфортнее?</legend><div class="time-options"><button type="button" data-visit-time="Утром" aria-pressed="false">Утром</button><button type="button" data-visit-time="Днём" aria-pressed="false">Днём</button><button type="button" data-visit-time="Вечером" aria-pressed="false">Вечером</button></div></fieldset><p class="fine-print">Указанные варианты иллюстрируют интерфейс. Дата и доступность времени здесь не выбираются.</p></div><aside class="visit-card"><p class="eyebrow">Пример вашего визита</p><div id="visit-summary" aria-live="polite"><h2>Начнём<br><em>с желания.</em></h2><p>Выберите направление и часть дня — здесь появится ваш план.</p></div><button class="pill burgundy" id="save-visit" type="button" disabled>Сохранить план</button><p class="fine-print">Это демонстрация: план не создаёт запись и не отправляется в салон.</p></aside></section>
 <section class="page-section inner-grid"><h2>Всё начинается<br><em>с вас.</em></h2><div class="faq-list"><details><summary>Что будет в сохранённом плане?</summary><p>Выбранное направление, ориентировочная длительность и часть дня. Файл нужен только для знакомства с интерфейсом.</p></details><details><summary>Можно ли записаться в MUSE?</summary><p>MUSE — вымышленный салон в портфолио студии 007-A. Реальная запись и отправка заявок в этой концепции не подключены.</p></details></div></section>'''
     return document("visit", "Выбрать визит", "Демонстрация выбора направления и времени визита в вымышленное ателье красоты MUSE.", content)
@@ -268,8 +274,8 @@ def procedure_page(slug, p):
     includes = ''.join(f'<li>{line}</li>' for line in p["includes"])
     faq = ''.join(f'<details><summary>{question}</summary><p>{answer}</p></details>' for question, answer in p["faq"])
     cards = ''.join(procedure_card(related_slug) for related_slug in p["related"])
-    content = f'''<section class="procedure-hero"><div class="procedure-intro"><a class="breadcrumb" href="{BASE}services/">Меню красоты</a><p class="eyebrow">MUSE / {SERVICES[p["category"]]["name"]} / {p["name"]}</p><h1>{p["name"]}</h1><p class="lead-facts">{p["price"]} <span>·</span> {p["duration"]} минут</p><p>{p["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div><figure class="procedure-visual"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" fetchpriority="high"></figure></section>
-<section class="procedure-body page-section"><aside class="procedure-sidebar"><p class="eyebrow">Ваш визит</p><h2>{p["name"]}</h2><dl class="procedure-facts"><div><dt>Стоимость</dt><dd class="procedure-price">{p["price"]}</dd></div><div><dt>Время</dt><dd class="procedure-duration">{p["duration"]} минут</dd></div></dl><a class="pill burgundy" href="{BASE}visit/?service={slug}">Собрать визит</a><p class="fine-print">Демонстрационные цена и длительность. MUSE — вымышленный салон; реальная запись не подключена.</p><a class="text-link" href="{BASE}{p["category"]}/">Всё направление «{SERVICES[p["category"]]["name"]}»</a></aside><div class="procedure-content"><p class="eyebrow">О процедуре</p><h2>{p["name"]}</h2><p class="body-large">{p["description"]}</p><h2>Что <em>входит.</em></h2><ul class="includes-list">{includes}</ul><h2>Как проходит<br><em>визит.</em></h2><div class="treatment-steps">{steps}</div><h2>Ваши <em>вопросы.</em></h2><div class="faq-list">{faq}</div></div></section>
+    content = f'''<section class="procedure-hero"><div class="procedure-intro"><a class="breadcrumb" href="{BASE}services/">Меню красоты</a><a class="category-crumb" href="{BASE}{p["category"]}/">{SERVICES[p["category"]]["name"]}</a><h1>{p["name"]}</h1><p class="lead-facts">{p["price"]} <span>·</span> {p["duration"]} минут</p><p>{p["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div><figure class="procedure-visual"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" fetchpriority="high"></figure></section>
+<section class="procedure-body page-section"><nav class="procedure-sidebar contents-nav" aria-label="На странице"><h2>О процедуре</h2><a href="#includes">Что входит</a><a href="#steps">Как проходит визит</a><a href="#questions">Вопросы</a></nav><div class="procedure-content"><p class="body-large">{p["description"]}</p><h2 id="includes">Что <em>входит</em></h2><ul class="includes-list">{includes}</ul><h2 id="steps">Как проходит <em>визит</em></h2><div class="treatment-steps">{steps}</div><h2 id="questions">Ваши <em>вопросы</em></h2><div class="faq-list">{faq}</div><a class="pill burgundy after-treatment" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div></section>
 <section class="page-section related-procedures"><p class="eyebrow">Продолжить образ</p><h2>К этой процедуре</h2><div class="procedure-grid">{cards}</div></section>'''
     return document(f"procedures/{slug}", p["name"], f'{p["name"]} в концепции MUSE: что входит, этапы визита, {p["duration"]} минут и демонстрационная стоимость {p["price"]}.', content, "procedure-page")
 
@@ -306,7 +312,7 @@ def lookbook(home=False):
     thumbs = []
     for i, (image, name, caption, category) in enumerate(selection):
         small = image.replace(".webp", "-small.webp") if image.startswith("collection-") else image
-        thumbs.append(f'<a class="look-thumb" href="{BASE}assets/{image}" data-look data-name="{name}" data-caption="{caption}" data-procedure="{LOOK_SERVICES[i]}" aria-label="{name}" aria-current="{str(i == 0).lower()}"><img src="{BASE}assets/{small}" alt="" width="72" height="86"></a>')
+        thumbs.append(f'<a class="look-thumb" href="{BASE}assets/{image}" data-look data-key="{image.removesuffix('.webp')}" data-offer="{PROCEDURES[LOOK_SERVICES[i]]['name']} · {PROCEDURES[LOOK_SERVICES[i]]['price']}" data-name="{name}" data-caption="{caption}" data-procedure="{LOOK_SERVICES[i]}" aria-label="{name}" aria-current="{str(i == 0).lower()}"><img src="{BASE}assets/{small}" alt="" width="72" height="86"></a>')
     image, name, caption, _ = selection[0]
     title = '<h2>Образы</h2>' if home else '<h1>Образы</h1>'
     light = '' if home else '<div class="light-field" data-light="net" aria-hidden="true"></div>'
@@ -314,7 +320,7 @@ def lookbook(home=False):
     return f'''<section class="lookbook" aria-label="Коллекция образов">
       <div class="look-heading">{title}{more}</div>
       <div class="look-work"><figure class="look-stage"><img data-look-photo src="{BASE}assets/{image}" alt="{caption}" width="1672" height="941"></figure>
-      <div class="look-controls">{light}<div class="look-caption" aria-live="polite"><h3 data-look-name>{name}</h3><p data-look-copy>{caption}</p><a data-look-link class="edition-link" href="{BASE}procedures/{LOOK_SERVICES[0]}/">К процедуре</a></div>
+      <div class="look-controls">{light}<div class="look-caption" aria-live="polite"><h3 data-look-name>{name}</h3><p data-look-copy>{caption}</p><a data-look-link class="look-offer" href="{BASE}procedures/{LOOK_SERVICES[0]}/">{PROCEDURES[LOOK_SERVICES[0]]["name"]} · {PROCEDURES[LOOK_SERVICES[0]]["price"]}</a></div>
       <div class="look-picker"><div class="look-tools" data-look-tools hidden><button type="button" data-step="-1" aria-label="Предыдущий образ">‹</button><span data-look-count>1 / {len(selection)}</span><button type="button" data-step="1" aria-label="Следующий образ">›</button></div><nav class="look-thumbs" aria-label="Выбор образа">{''.join(thumbs)}</nav></div></div></div></section>'''
 
 
@@ -328,21 +334,20 @@ def home_page():
     for slug in ("precision-cut", "signature-color", "evening-makeup", "manicure", "brow-architecture"):
         p = PROCEDURES[slug]
         thumb = {"precision-cut": "hair-sm.webp", "evening-makeup": "collection-makeup-small.webp", "manicure": "nails-sm.webp", "brow-architecture": "collection-brow-small.webp"}.get(slug, p["image"])
-        featured.append(f'<a class="menu-line" href="{BASE}procedures/{slug}/" data-preview="{BASE}assets/{thumb}" data-alt="{p["alt"]}"><img class="row-sample" src="{BASE}assets/{thumb}" alt="" width="58" height="66" loading="lazy"><span class="service-title">{p["name"]}</span><small>{p["duration"]} мин</small><b>{p["price"]}</b></a>')
+        featured.append(f'<a class="menu-line" aria-label="{p['name']}, {p['duration']} мин, {p['price']}" data-print="{BASE}assets/{p['image']}" href="{BASE}procedures/{slug}/" data-preview="{BASE}assets/{thumb}" data-alt="{p["alt"]}"><img class="row-sample" src="{BASE}assets/{thumb}" alt="" width="58" height="66" loading="lazy"><span class="service-title">{p["name"]}</span><small>{p["duration"]} мин</small><b>{p["price"]}</b></a>')
     content = f'''<section class="folio-cover cover" aria-label="Ателье красоты MUSE">
       <div class="cover-spread">
         <article class="cover-story">
-          <img class="cover-print" src="{BASE}assets/collection-hero.webp" width="1672" height="941" alt="Графичное тёмное каре на винном фоне" fetchpriority="high">
-          <div class="story-type"><p>Москва</p><h1>Ателье <em>красоты</em></h1><a class="cover-entry" href="#service-list">Услуги и цены</a></div>
-          <a class="story-credit" href="{BASE}looks/">Графичное каре · Смотреть образ</a>
+          <div class="story-type"><p>Ателье красоты <span>Москва</span></p><h1 aria-label="MUSE">muse<em>.</em></h1><a class="cover-entry" href="#service-list">Услуги и цены</a></div>
+          <a class="collection-inset" href="{BASE}looks/?look=collection-nails"><img class="cover-print" src="{BASE}assets/collection-nails-small.webp" alt="" width="132" height="96"><span><small>Из коллекции образов</small><b>Вишня на шёлке</b></span></a>
         </article>
         <aside class="film-mount" aria-label="Видеопортрет ателье"><div class="light-field" data-light="fog" aria-hidden="true"></div><div class="folio-film">
           <picture><source media="(max-width:760px)" srcset="{BASE}assets/portrait-film-small.webp"><img src="{BASE}assets/portrait-film.webp" width="900" height="1100" alt="Портрет модели в мягком студийном свете"></picture>
           <video id="hero-video" width="900" height="1100" playsinline muted loop preload="none" aria-hidden="true"><source media="(max-width:760px)" data-src="{BASE}assets/portrait-film-small.mp4" type="video/mp4"><source data-src="{BASE}assets/portrait-film.mp4" type="video/mp4"></video>
         </div><div class="film-legend"><span>Видеопортрет</span><button type="button" id="hero-video-toggle" class="film-switch" aria-label="Воспроизвести видео" title="Воспроизвести видео" hidden><span aria-hidden="true"></span></button></div></aside>
       </div><nav class="cover-directory" aria-label="Направления ателье">{directory}</nav></section>
-      <section class="house-menu" id="service-list"><div class="menu-heading"><h2>Меню ателье</h2><a class="edition-link" href="{BASE}prices/">Весь прайс</a></div>
-        <div class="service-spread"><figure class="service-print"><img data-service-photo src="{BASE}assets/hair-sm.webp" alt="{PROCEDURES['precision-cut']['alt']}" width="427" height="640" loading="lazy"></figure><div class="menu-lines">{''.join(featured)}</div></div></section>
+      <section class="house-menu" id="service-list"><div class="menu-heading"><h2>Услуги <em>и цены</em></h2><a class="edition-link" href="{BASE}prices/">Полный прайс</a></div>
+        <div class="service-spread"><figure class="service-print"><img data-service-photo src="{BASE}assets/hair.webp" alt="{PROCEDURES['precision-cut']['alt']}" width="427" height="640" loading="lazy"></figure><div class="menu-lines">{''.join(featured)}</div></div></section>
     {lookbook(True)}
     <section class="salon-space"><div class="studio-mat" data-floating data-detail="{BASE}assets/collection-makeup-small.webp"><img src="{BASE}assets/space.webp" alt="Интерьер ателье с арочными зеркалами" width="1536" height="1024" loading="lazy"></div><div><h2>Пространство<br><em>MUSE</em></h2><a class="edition-link" href="{BASE}atelier/">Внутри ателье</a></div></section>'''
     return document("", "Ателье красоты", "Услуги, цены и коллекция образов MUSE.", content)
@@ -350,10 +355,11 @@ def home_page():
 def prices_page():
     groups = []
     for category_slug, category in SERVICES.items():
-        rows = ''.join(f'<a class="price-row procedure-price-link" href="{BASE}procedures/{slug}/"><h3>{p["name"]}</h3><span>{p["duration"]} минут</span><strong>{p["price"]}</strong></a>' for slug, p in PROCEDURES.items() if p["category"] == category_slug)
-        groups.append(f'<section class="price-category"><h2>{category["name"]}</h2><div class="price-list">{rows}</div></section>')
-    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Прайс</p><h1>Цены и время</h1><p class="body-large">Стоимость, время и состав визита. Нажмите на процедуру, чтобы узнать подробности перед выбором.</p>{palette_portrait("collection-nails.webp", "Вишнёвый лак и складки шёлка")}</section><section class="page-section price-catalog"><div class="price-catalog-note"><p class="eyebrow">Демонстрационный прайс</p><p>Пример стоимости для вымышленного салона. Продолжительность ориентировочная; состав каждой процедуры раскрыт на её странице.</p><a class="pill burgundy" href="{BASE}visit/">Собрать визит</a></div><div class="price-catalog-groups">{''.join(groups)}</div></section>'''
-    return document("prices", "Цены и продолжительность", "Демонстрационный прайс MUSE: стоимость и время восьми процедур с переходом к подробному описанию.", content, "prices-page")
+        rows = price_rows(category)
+        groups.append(f'<section class="price-category" id="price-{category_slug}"><h2>{category["name"]}</h2><div class="price-list">{rows}</div></section>')
+    links = ''.join(f'<a href="#price-{slug}">{cat["name"]}</a>' for slug, cat in SERVICES.items())
+    content = f'''<section class="page-section catalog-intro price-intro"><div><h1>Цены <em>и время</em></h1><p>Демонстрационный прайс ателье. Время указано ориентировочно.</p></div>{palette_portrait("collection-nails.webp", "Вишнёвый лак и складки шёлка")}</section><section class="page-section price-catalog"><nav class="price-catalog-note price-index" aria-label="Разделы прайса">{links}</nav><div class="price-catalog-groups">{''.join(groups)}</div></section>'''
+    return document("prices", "Цены и продолжительность", "Демонстрационный прайс MUSE. Стоимость и продолжительность услуг по четырём направлениям.", content, "prices-page")
 
 
 def main():
