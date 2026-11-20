@@ -219,7 +219,7 @@ def footer(home=False):
 def document(slug, title, description, content, body_class=""):
     canonical = f"https://007-a.ru{BASE}{slug}/" if slug else f"https://007-a.ru{BASE}"
     return f'''<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#242622"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{escape(title, quote=True)} — MUSE"><meta property="og:image" content="https://007-a.ru{BASE}assets/collection-hero.webp"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=edition2"><script defer src="{BASE}site.js?v=edition2"></script></head><body class="{'home-page' if not slug else 'inner-page'} {escape(body_class)}">{header()}<main id="main">{content}</main>{footer(not slug)}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#302029"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{escape(title, quote=True)} — MUSE"><meta property="og:image" content="https://007-a.ru{BASE}assets/collection-hero.webp"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=folio3"><script defer src="{BASE}site.js?v=folio3"></script></head><body class="{'home-page' if not slug else 'inner-page'} {escape(body_class)}">{header()}<main id="main">{content}</main>{footer(not slug)}</body></html>'''
 
 
 def related(current=None):
@@ -314,7 +314,7 @@ def lookbook(home=False):
       <div class="look-heading">{title}{more}</div>
       <div class="look-work"><figure class="look-stage"><img data-look-photo src="{BASE}assets/{image}" alt="{caption}" width="1672" height="941"></figure>
       <div class="look-controls"><div class="look-caption" aria-live="polite"><h3 data-look-name>{name}</h3><p data-look-copy>{caption}</p><a data-look-link class="edition-link" href="{BASE}procedures/{LOOK_SERVICES[0]}/">К процедуре</a></div>
-      <nav class="look-thumbs" aria-label="Выбор образа">{''.join(thumbs)}</nav></div></div></section>'''
+      <div class="look-picker"><div class="look-tools" data-look-tools hidden><button type="button" data-step="-1" aria-label="Предыдущий образ">‹</button><span data-look-count>1 / {len(selection)}</span><button type="button" data-step="1" aria-label="Следующий образ">›</button></div><nav class="look-thumbs" aria-label="Выбор образа">{''.join(thumbs)}</nav></div></div></div></section>'''
 
 
 def looks_page():
@@ -326,14 +326,22 @@ def home_page():
     featured = []
     for slug in ("precision-cut", "signature-color", "evening-makeup", "manicure", "brow-architecture"):
         p = PROCEDURES[slug]
-        featured.append(f'<a class="menu-line" href="{BASE}procedures/{slug}/"><span>{p["name"]}</span><small>{p["duration"]} мин</small><b>{p["price"]}</b></a>')
-    content = f'''<section class="campaign cover" aria-label="Ателье красоты MUSE">
-    <div class="campaign-type"><p class="city-line">Москва</p><h1>Ателье<br><em>красоты</em></h1><a class="edition-link" href="#service-list">Услуги и цены</a></div>
-    <div class="campaign-film"><picture><source media="(max-width:760px)" srcset="{BASE}assets/portrait-film-small.webp"><img src="{BASE}assets/portrait-film.webp" width="900" height="1100" alt="Студийный портрет модели" fetchpriority="high"></picture>
-    <video id="hero-video" width="900" height="1100" playsinline muted loop preload="none" aria-hidden="true"><source media="(max-width:760px)" data-src="{BASE}assets/portrait-film-small.mp4" type="video/mp4"><source data-src="{BASE}assets/portrait-film.mp4" type="video/mp4"></video></div>
-    <div class="campaign-index"><div class="detail-shot"><img src="{BASE}assets/collection-nails-small.webp" alt="Бордовый лак на шёлке" width="560" height="747"></div><nav aria-label="Направления ателье">{directory}</nav></div>
-    <button type="button" id="hero-video-toggle" class="film-switch" aria-label="Воспроизвести видео" title="Воспроизвести видео" hidden><span aria-hidden="true"></span></button></section>
-    <section class="house-menu" id="service-list"><div class="house-title"><h2>Меню<br><em>ателье</em></h2><a class="edition-link" href="{BASE}prices/">Весь прайс</a></div><div class="menu-lines">{''.join(featured)}</div></section>
+        thumb = {"precision-cut": "hair-sm.webp", "evening-makeup": "collection-makeup-small.webp", "manicure": "nails-sm.webp", "brow-architecture": "collection-brow-small.webp"}.get(slug, p["image"])
+        featured.append(f'<a class="menu-line" href="{BASE}procedures/{slug}/" data-preview="{BASE}assets/{thumb}" data-alt="{p["alt"]}"><img class="row-sample" src="{BASE}assets/{thumb}" alt="" width="58" height="66" loading="lazy"><span>{p["name"]}</span><small>{p["duration"]} мин</small><b>{p["price"]}</b></a>')
+    content = f'''<section class="folio-cover cover" aria-label="Ателье красоты MUSE">
+      <div class="cover-spread">
+        <article class="cover-story">
+          <img class="cover-print" src="{BASE}assets/collection-hero.webp" width="1672" height="941" alt="Графичное тёмное каре на винном фоне" fetchpriority="high">
+          <div class="story-type"><p>Москва</p><h1>Ателье <em>красоты</em></h1><a class="cover-entry" href="#service-list">Услуги и цены</a></div>
+          <a class="story-credit" href="{BASE}looks/">Графичное каре · Смотреть образ</a>
+        </article>
+        <aside class="film-mount" aria-label="Видеопортрет ателье"><div class="folio-film">
+          <picture><source media="(max-width:760px)" srcset="{BASE}assets/portrait-film-small.webp"><img src="{BASE}assets/portrait-film.webp" width="900" height="1100" alt="Портрет модели в мягком студийном свете"></picture>
+          <video id="hero-video" width="900" height="1100" playsinline muted loop preload="none" aria-hidden="true"><source media="(max-width:760px)" data-src="{BASE}assets/portrait-film-small.mp4" type="video/mp4"><source data-src="{BASE}assets/portrait-film.mp4" type="video/mp4"></video>
+        </div><div class="film-legend"><span>Видеопортрет</span><button type="button" id="hero-video-toggle" class="film-switch" aria-label="Воспроизвести видео" title="Воспроизвести видео" hidden><span aria-hidden="true"></span></button></div></aside>
+      </div><nav class="cover-directory" aria-label="Направления ателье">{directory}</nav></section>
+      <section class="house-menu" id="service-list"><div class="menu-heading"><h2>Меню ателье</h2><a class="edition-link" href="{BASE}prices/">Весь прайс</a></div>
+        <div class="service-spread"><figure class="service-print"><img data-service-photo src="{BASE}assets/hair-sm.webp" alt="{PROCEDURES['precision-cut']['alt']}" width="427" height="640" loading="lazy"></figure><div class="menu-lines">{''.join(featured)}</div></div></section>
     {lookbook(True)}
     <section class="salon-space"><img src="{BASE}assets/space.webp" alt="Интерьер ателье с арочными зеркалами" width="1536" height="1024" loading="lazy"><div><h2>Пространство<br><em>MUSE</em></h2><a class="edition-link" href="{BASE}atelier/">Внутри ателье</a></div></section>'''
     return document("", "Ателье красоты", "Услуги, цены и коллекция образов MUSE.", content)

@@ -75,24 +75,77 @@
     sync();
   }
 
+  const menuPhoto = document.querySelector('[data-service-photo]');
+  if (menuPhoto) {
+    const lines = [...document.querySelectorAll('[data-preview]')];
+    function preview(line) {
+      if (menuPhoto.getAttribute('src') === line.dataset.preview) return;
+      menuPhoto.src = line.dataset.preview;
+      menuPhoto.alt = line.dataset.alt;
+      for (const item of lines) item.classList.toggle('previewed', item === line);
+    }
+    lines[0]?.classList.add('previewed');
+    for (const line of lines) {
+      line.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') preview(line); });
+      line.addEventListener('focus', () => preview(line));
+    }
+  }
+
   for (const collection of document.querySelectorAll('.lookbook')) {
-    const photo = collection.querySelector('[data-look-photo]');
+    const stage = collection.querySelector('.look-stage');
     const name = collection.querySelector('[data-look-name]');
     const caption = collection.querySelector('[data-look-copy]');
     const procedure = collection.querySelector('[data-look-link]');
-    const choices = collection.querySelectorAll('[data-look]');
-    for (const choice of choices) {
+    const counter = collection.querySelector('[data-look-count]');
+    const choices = [...collection.querySelectorAll('[data-look]')];
+    const controls = collection.querySelector('[data-look-tools]');
+    let index = 0;
+    let selection = 0;
+    let photo = stage.querySelector('img');
+    let transition;
+    async function show(next) {
+      index = (next + choices.length) % choices.length;
+      const choice = choices[index];
+      const ticket = ++selection;
+      const image = new Image();
+      image.alt = choice.dataset.caption;
+      image.src = choice.href;
+      try { await image.decode(); }
+      catch { if (!image.complete || !image.naturalWidth) return; }
+      if (ticket !== selection) return;
+      transition?.cancel();
+      stage.replaceChildren(photo);
+      const previous = photo;
+      previous.setAttribute('aria-hidden', 'true');
+      stage.append(image);
+      photo = image;
+      name.textContent = choice.dataset.name;
+      caption.textContent = choice.dataset.caption;
+      procedure.href = root + 'procedures/' + choice.dataset.procedure + '/';
+      counter.textContent = (index + 1) + ' / ' + choices.length;
+      choices.forEach((item, n) => item.setAttribute('aria-current', String(n === index)));
+      if (!reduced.matches && image.animate) {
+        transition = image.animate([{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)'}], {duration:310,easing:'cubic-bezier(.22,.68,.2,1)'});
+        transition.onfinish = () => previous.remove();
+      } else previous.remove();
+    }
+    controls.hidden = false;
+    for (const button of controls.querySelectorAll('[data-step]')) button.addEventListener('click', () => show(index + Number(button.dataset.step)));
+    choices.forEach((choice, n) => {
       choice.addEventListener('click', event => {
         if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
-        photo.src = choice.href;
-        photo.alt = choice.dataset.caption;
-        name.textContent = choice.dataset.name;
-        caption.textContent = choice.dataset.caption;
-        procedure.href = root + 'procedures/' + choice.dataset.procedure + '/';
-        for (const item of choices) item.setAttribute('aria-current', String(item === choice));
+        show(n);
       });
-    }
+      choice.addEventListener('keydown', event => {
+        const step = {ArrowRight: 1, ArrowLeft: -1}[event.key];
+        if (!step) return;
+        event.preventDefault();
+        const next = (n + step + choices.length) % choices.length;
+        choices[next].focus({preventScroll:true});
+        show(next);
+      });
+    });
   }
 
   const summary = document.querySelector('#visit-summary');
