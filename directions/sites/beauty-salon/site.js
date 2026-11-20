@@ -104,6 +104,7 @@
     let photo = stage.querySelector('img');
     let transition;
     async function show(next) {
+      const direction = next < index ? -1 : 1;
       index = (next + choices.length) % choices.length;
       const choice = choices[index];
       const ticket = ++selection;
@@ -124,6 +125,10 @@
       procedure.href = root + 'procedures/' + choice.dataset.procedure + '/';
       counter.textContent = (index + 1) + ' / ' + choices.length;
       choices.forEach((item, n) => item.setAttribute('aria-current', String(n === index)));
+      const unhandled = collection.dispatchEvent(new CustomEvent('muse:look-change', {
+        bubbles: true, cancelable: true, detail: { image, previous, caption: name.parentElement, direction }
+      }));
+      if (!unhandled) return;
       if (!reduced.matches && image.animate) {
         transition = image.animate([{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0% 0 0)'}], {duration:310,easing:'cubic-bezier(.22,.68,.2,1)'});
         transition.onfinish = () => previous.remove();
