@@ -96,25 +96,129 @@ SERVICES = {
 }
 
 
+PROCEDURES = {
+    "precision-cut": {
+        "name": "Стрижка и укладка", "category": "hair", "price": "6 500 ₽", "duration": 75,
+        "title": "Ваша форма.<br><em>Ваш почерк.</em>", "image": "hair.webp",
+        "alt": "Медное каре с чётким контуром и живой текстурой",
+        "intro": "Чёткая линия, мягкие слои или короткая длина. Стрижка, которая раскрывает характер и вписывается в вашу повседневность.",
+        "heading": "Форма, с которой<br><em>хочется жить.</em>",
+        "description": "Хорошая стрижка начинается с разговора. Как вы носите волосы, любите ли укладку, готовы ли менять длину? От этих деталей зависит силуэт: плотный край, лёгкое движение или выразительная чёлка. В концепции MUSE стрижка включает завершённую укладку, чтобы новую форму можно было рассмотреть в движении.",
+        "includes": ["Обсуждение длины, силуэта и привычек", "Мытьё и стрижка выбранной формы", "Укладка и рекомендации по домашнему стайлингу"],
+        "steps": [("Найти линию", "Обсудить желаемую длину, направление пробора и референсы. Учесть, как волосы ведут себя без укладки."), ("Создать форму", "Выстроить силуэт, распределить объём и уточнить детали у лица. Сохранить достаточно длины для выбранного движения."), ("Увидеть характер", "Высушить и уложить волосы. Рассмотреть форму с разных сторон и показать, как повторить основные приёмы дома.")],
+        "faq": [("Можно ли прийти без референса?", "Да. Для начала достаточно рассказать, что вам нравится в текущей стрижке и что хочется изменить. Фотографии помогают уточнить пожелание, но не заменяют разговор."), ("Подойдёт ли стрижка кудрявым волосам?", "Структуру волос важно обсудить до выбора формы. В реальном салоне заранее уточняют опыт мастера с вашим типом волос и особенности техники.")],
+        "related": ["signature-color", "hair-care", "evening-makeup"],
+    },
+    "signature-color": {
+        "name": "Окрашивание в один тон", "category": "hair", "price": "9 500 ₽", "duration": 120,
+        "title": "Цвет,<br><em>который ваш.</em>", "image": "color.webp",
+        "alt": "Нанесение красителя кистью на прядь волос",
+        "intro": "Глубокий шоколад, тёплая медь, мягкий каштан. Цельный оттенок с нюансом, который ощущается личным.",
+        "heading": "Найти<br><em>свой оттенок.</em>",
+        "description": "Окрашивание в один тон помогает обновить привычный цвет или изменить его настроение. Здесь важны глубина, температура и то, как оттенок выглядит у лица. Исходный цвет, предыдущие окрашивания и состояние волос определяют, какой результат возможен за один визит.",
+        "includes": ["Обсуждение исходного цвета и желаемого оттенка", "Окрашивание в один согласованный тон", "Завершающее мытьё и укладка"],
+        "steps": [("Выбрать нюанс", "Сопоставить референсы с исходной базой. Обсудить насыщенность и план дальнейшего обновления цвета."), ("Собрать оттенок", "Выполнить согласованное окрашивание с учётом длины и предыдущих работ. Следовать инструкции выбранного состава."), ("Раскрыть цвет", "Завершить уходом и укладкой. Рассмотреть оттенок в разном свете и обсудить привычки домашнего ухода.")],
+        "faq": [("Можно ли сильно осветлить волосы за один визит?", "Окрашивание в один тон не равно сложному осветлению. Если желаемый оттенок значительно светлее исходного, в реальном салоне сначала обсуждают отдельную технику и план работы."), ("От чего зависит итоговая стоимость?", "На этой странице показан демонстрационный прайс. В реальном салоне до начала работы согласуют стоимость с учётом длины, густоты и необходимых этапов.")],
+        "related": ["balayage", "precision-cut", "hair-care"],
+    },
+    "balayage": {
+        "name": "Мягкое осветление", "category": "hair", "price": "16 000 ₽", "duration": 180,
+        "title": "Свет<br><em>в ваших волосах.</em>", "image": "color.webp",
+        "alt": "Нанесение красителя кистью на прядь волос",
+        "intro": "Тонкие переливы, мягкий переход и свет у лица. Цвет, который интересно рассматривать в движении.",
+        "heading": "Больше света.<br><em>Больше нюансов.</em>",
+        "description": "В этой концепции мягкое осветление объединяет индивидуальную работу с прядями и последующее тонирование. Рисунок может быть спокойным или более заметным: его выбирают по исходной базе, желаемой глубине и тому, как вы обычно носите волосы. Точный объём работы определяют после обсуждения истории окрашиваний.",
+        "includes": ["Обсуждение рисунка и истории окрашиваний", "Работа со светлыми прядями и тонирование", "Завершающий уход и укладка"],
+        "steps": [("Нарисовать свет", "Определить зоны акцента: у лица, по длине или на отдельных прядях. Согласовать контраст и ожидаемую глубину."), ("Создать переход", "Выполнить выбранный рисунок осветления. Возможности и число этапов зависят от исходного цвета и состояния волос."), ("Соединить нюансы", "Тонировать пряди в согласованной палитре. Завершить укладкой, которая раскрывает рисунок цвета.")],
+        "faq": [("Подойдёт ли эта техника после тёмного окрашивания?", "Возможность и план осветления зависят от истории волос. В реальном салоне заранее обсуждают предыдущие красители, домашние окрашивания и необходимость тестовой пряди."), ("Почему время указано ориентировочно?", "Три часа — пример для этой концепции. Длина, густота и число необходимых этапов могут изменить продолжительность реального визита.")],
+        "related": ["signature-color", "hair-care", "precision-cut"],
+    },
+    "hair-care": {
+        "name": "Уход и укладка", "category": "hair", "price": "5 500 ₽", "duration": 60,
+        "title": "Мягкость.<br><em>Движение. Блеск.</em>", "image": "styling.webp",
+        "alt": "Укладка длинных волос круглой щёткой",
+        "intro": "Небольшая пауза для себя и внимание к текстуре волос. Уход, после которого хочется оставить время для красивой укладки.",
+        "heading": "Внимание<br><em>к текстуре.</em>",
+        "description": "Уход выбирают по текущему состоянию длины и привычному стайлингу. Волосам после окрашивания, регулярной горячей укладки или просто насыщенной недели могут быть нужны разные средства. Визит в этой концепции заканчивается укладкой — гладкой, объёмной или с мягкой волной.",
+        "includes": ["Обсуждение состояния длины и привычного ухода", "Мытьё и согласованный косметический уход", "Укладка с выбранной текстурой"],
+        "steps": [("Прислушаться к волосам", "Обсудить, как ощущается длина, какие средства вы используете и какой результат хотите видеть после укладки."), ("Выбрать уход", "Подобрать косметический протокол по типу волос. Продолжительность отдельных этапов зависит от выбранных средств."), ("Добавить движение", "Уложить волосы в согласованной текстуре. Обсудить, как поддерживать ощущение мягкости и форму укладки дома.")],
+        "faq": [("Уход меняет структуру волос?", "На странице описан косметический уход и укладка. Он не представлен как лечение или процедура постоянного изменения структуры волос."), ("Можно ли дополнить стрижкой?", "Да, такой визит в реальном салоне планируют заранее с дополнительным временем. Здесь стрижка показана отдельной услугой в каталоге.")],
+        "related": ["precision-cut", "signature-color", "evening-makeup"],
+    },
+    "manicure": {
+        "name": "Маникюр с покрытием", "category": "nails", "price": "4 200 ₽", "duration": 90,
+        "title": "Ваш<br><em>любимый жест.</em>", "image": "nails.webp",
+        "alt": "Тёмно-вишнёвый маникюр на коротких ногтях в скульптурной композиции",
+        "intro": "Чистая форма, точный блик и цвет под ваше настроение. Маленькая деталь, которая сопровождает каждый день.",
+        "heading": "Цвет,<br><em>который чувствуете.</em>",
+        "description": "Маникюр начинается с выбора длины и формы. Затем — оттенок: прозрачный нюд, глубокая вишня или один яркий акцент. В демонстрационную услугу включено однотонное покрытие; дизайн можно обсудить отдельно, чтобы оставить для него достаточно времени.",
+        "includes": ["Выбор длины и формы ногтей", "Маникюр и подготовка ногтевой пластины", "Однотонное покрытие и завершающий уход"],
+        "steps": [("Выбрать настроение", "Обсудить длину, форму и цвет. Заранее уточнить необходимость снятия предыдущего покрытия или дизайна."), ("Уточнить линию", "Выполнить маникюр и подготовить поверхность к выбранному покрытию. Согласовать форму до нанесения цвета."), ("Поставить акцент", "Нанести однотонное покрытие и завершить уходом. Рассмотреть результат при естественном положении руки.")],
+        "faq": [("Снятие входит в указанную стоимость?", "Прайс здесь демонстрационный. В реальном салоне состав услуги, необходимость снятия и итоговую цену уточняют до начала работы."), ("Можно ли добавить дизайн?", "Да. Лаконичный дизайн в каталоге направления показан как дополнение за 1 000 ₽ и ориентировочно 30 минут. Сложность и время согласуют по референсу.")],
+        "related": ["pedicure", "brow-architecture", "evening-makeup"],
+    },
+    "pedicure": {
+        "name": "Педикюр с покрытием", "category": "nails", "price": "5 500 ₽", "duration": 90,
+        "title": "Красота<br><em>в каждом шаге.</em>", "image": "nails.webp",
+        "alt": "Вишнёвый оттенок покрытия из визуальной коллекции MUSE",
+        "intro": "Аккуратная форма, любимый цвет и внимание к деталям. Спокойный визит, который легко вписать в свой ритм.",
+        "heading": "Время<br><em>для лёгкости.</em>",
+        "description": "В этой концепции педикюр — эстетическая услуга с однотонным покрытием. Оттенок может повторять маникюр или стать самостоятельным акцентом. Форму, интенсивность цвета и состав ухода обсуждают до начала визита.",
+        "includes": ["Обсуждение формы и выбранного оттенка", "Эстетический педикюр и подготовка ногтей", "Однотонное покрытие и завершающий уход"],
+        "steps": [("Определить детали", "Выбрать форму и оттенок, обсудить текущий уход и необходимость снятия предыдущего покрытия."), ("Подготовить основу", "Выполнить согласованный эстетический педикюр. Уточнить комфортную длину перед нанесением цвета."), ("Завершить цветом", "Нанести однотонное покрытие и завершающий уход. Рассмотреть оттенок и аккуратность контура.")],
+        "faq": [("Это медицинский педикюр?", "Нет, здесь представлен пример эстетической услуги. Медицинские проблемы стоп и ногтей не входят в описанный визит."), ("Нужно ли выбирать тот же оттенок, что и на руках?", "Цвета могут совпадать, сочетаться по температуре или быть совершенно разными. Полезно сохранить два-три оттенка, которые нравятся.")],
+        "related": ["manicure", "hair-care", "brow-architecture"],
+    },
+    "evening-makeup": {
+        "name": "Вечерний макияж", "category": "makeup", "price": "7 500 ₽", "duration": 75,
+        "title": "Вечер<br><em>вашего характера.</em>", "image": "makeup.webp",
+        "alt": "Редакционный бьюти-портрет с выразительным вечерним макияжем",
+        "intro": "Живой тон, выразительный взгляд и один точный акцент. Для события, которое хочется прожить в своём образе.",
+        "heading": "Оставаться собой.<br><em>Быть заметной.</em>",
+        "description": "Макияж собирается вокруг лица, одежды и света события. Насыщенность может быть разной: от мягкой дымки до графичной линии или ярких губ. Важно заранее обсудить ощущения на коже и тот уровень выразительности, в котором вам комфортно.",
+        "includes": ["Обсуждение события, одежды и референсов", "Подготовка кожи и макияж выбранной интенсивности", "Завершающие акценты и рекомендации для обновления"],
+        "steps": [("Собрать настроение", "Рассмотреть одежду и референсы. Выбрать главный акцент и обсудить, как образ будет выглядеть в свете события."), ("Выстроить баланс", "Подготовить кожу и постепенно собрать тон, глаза и губы. Проверить, комфортна ли выбранная насыщенность."), ("Уточнить детали", "Соединить акценты и рассмотреть макияж в целом. Обсудить, что может понадобиться для небольшого обновления в течение вечера.")],
+        "faq": [("Нужна ли укладка в тот же день?", "Это зависит от задуманного образа. В каталоге направления есть отдельный пример макияжа с укладкой; для комбинированного визита оставляют больше времени."), ("Что рассказать до начала макияжа?", "В реальном салоне заранее сообщают о чувствительности кожи, известных реакциях на косметику и личных предпочтениях по фактуре средств.")],
+        "related": ["hair-care", "brow-architecture", "manicure"],
+    },
+    "brow-architecture": {
+        "name": "Форма и окрашивание бровей", "category": "brows", "price": "3 500 ₽", "duration": 45,
+        "title": "Ваш взгляд.<br><em>Точный акцент.</em>", "image": "makeup.webp",
+        "alt": "Выразительный взгляд и мягкая линия бровей в бьюти-портрете",
+        "intro": "Форма и оттенок, которые поддерживают ваш образ. От едва заметного изменения до более выразительной линии.",
+        "heading": "Найти<br><em>свой баланс.</em>",
+        "description": "Брови меняют впечатление от лица даже при небольшом изменении линии или насыщенности. Перед работой важно договориться, какую форму хочется сохранить, где добавить чёткости и насколько заметным должен быть оттенок. В эту концептуальную услугу входят коррекция формы и окрашивание.",
+        "includes": ["Обсуждение формы и желаемой интенсивности", "Коррекция согласованной линии", "Окрашивание и завершающая укладка бровей"],
+        "steps": [("Определить линию", "Обсудить естественную форму и привычный макияж. Согласовать предполагаемые изменения до коррекции."), ("Подобрать оттенок", "Выбрать насыщенность и температуру цвета с учётом волос и вашего пожелания. Уточнить историю реакций на красители."), ("Собрать взгляд", "Выполнить согласованную форму и окрашивание. Уложить волоски и рассмотреть общий результат.")],
+        "faq": [("Можно ли сделать только форму?", "Да. В направлении «Брови» отдельно показана архитектура без окрашивания за 2 500 ₽, ориентировочно 30 минут."), ("Как сохранить естественное впечатление?", "Заранее обсудите мягкость контура и насыщенность оттенка. Референс лучше выбирать по характеру бровей, а не только по цвету.")],
+        "related": ["evening-makeup", "manicure", "precision-cut"],
+    },
+}
+
+PRIMARY_PROCEDURES = {"hair": "precision-cut", "nails": "manicure", "makeup": "evening-makeup", "brows": "brow-architecture"}
+PRICE_PROCEDURES = {procedure["name"]: slug for slug, procedure in PROCEDURES.items()}
+PRICE_PROCEDURES["Форма и окрашивание"] = "brow-architecture"
+
+
 def header():
     return f'''<a class="skip-link" href="#main">К содержанию</a>
 <header class="site-header">
   <a class="wordmark" href="{BASE}" aria-label="MUSE — на главную">muse<span>✷</span></a>
-  <nav class="desktop-nav" aria-label="Основная навигация"><a href="{BASE}#services">Услуги</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}#mood">Вдохновение</a></nav>
+  <nav class="desktop-nav" aria-label="Основная навигация"><a href="{BASE}services/">Услуги</a><a href="{BASE}looks/">Образы</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}prices/">Цены</a></nav>
   <a class="pill small" href="{BASE}visit/">Выбрать визит</a>
   <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false">Меню</button>
 </header>
-<nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" hidden><a href="{BASE}#services">Услуги</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}#mood">Вдохновение</a><a href="{BASE}visit/">Выбрать визит</a></nav>'''
+<nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" hidden><a href="{BASE}services/">Услуги</a><a href="{BASE}looks/">Образы</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}prices/">Цены</a><a href="{BASE}visit/">Выбрать визит</a></nav>'''
 
 
 def footer():
     return f'''<footer class="site-footer"><a class="wordmark" href="{BASE}">muse<span>✷</span></a><p>Вымышленное ателье красоты. Демонстрационный проект студии 007-A.<br>Образы, услуги и цены иллюстрируют концепцию.</p><a href="/directions/sites/">Другие проекты 007-A</a></footer>'''
 
 
-def document(slug, title, description, content):
+def document(slug, title, description, content, body_class=""):
     canonical = f"https://007-a.ru{BASE}{slug}/"
     return f'''<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#341018"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css"><script defer src="{BASE}site.js"></script></head><body class="inner-page">{header()}<main id="main">{content}</main>{footer()}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#341018"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=premium2"><script defer src="{BASE}site.js?v=premium2"></script></head><body class="inner-page {escape(body_class)}">{header()}<main id="main">{content}</main>{footer()}</body></html>'''
 
 
 def related(current=None):
@@ -123,9 +227,16 @@ def related(current=None):
 
 
 def service_page(slug, s):
-    prices = ''.join(f'<div class="price-row"><h3>{escape(name)}</h3><span>{duration}</span><strong>{price}</strong></div>' for name, duration, price in s["prices"])
+    prices = ''
+    for name, duration, price in s["prices"]:
+        procedure_slug = PRICE_PROCEDURES.get(name)
+        body = f'<h3>{escape(name)}</h3><span>{duration}</span><strong>{price}</strong>'
+        if procedure_slug:
+            prices += f'<a class="price-row procedure-price-link" href="{BASE}procedures/{procedure_slug}/">{body}</a>'
+        else:
+            prices += f'<div class="price-row">{body}</div>'
     details = ''.join(f'<details><summary>{escape(question)}</summary><p>{escape(answer)}</p></details>' for question, answer in s["notes"])
-    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}#services">Все направления</a><p class="eyebrow">{s["eyebrow"]}</p><h1>{s["title"]}</h1><p>{s["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/{s["image"]}" alt="{s["alt"]}" width="1200" height="1600" fetchpriority="high"></figure></section>
+    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}services/">Все направления</a><p class="eyebrow">{s["eyebrow"]}</p><h1>{s["title"]}</h1><p>{s["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={PRIMARY_PROCEDURES[slug]}">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/{s["image"]}" alt="{s["alt"]}" width="1200" height="1600" fetchpriority="high"></figure></section>
 <section class="page-section inner-grid"><h2>{s["heading"]}</h2><div><p class="body-large">{s["copy"]}</p><p class="eyebrow price-disclaimer">Демонстрационный прайс</p><div class="price-list">{prices}</div><p class="fine-print">Пример услуг и стоимости для вымышленного салона. Время указано ориентировочно.</p></div></section>
 <section class="page-section inner-grid"><h2>Перед<br><em>визитом.</em></h2><div class="faq-list">{details}</div></section>{related(slug)}'''
     return document(slug, s["name"], f'{s["name"]} в концепции MUSE: направление, демонстрационные услуги и цены.', content)
@@ -139,22 +250,66 @@ def atelier_page():
 
 
 def visit_page():
-    options = ''.join(f'<button type="button" class="visit-option" data-visit-service="{slug}" data-duration="{duration}" aria-pressed="false"><span>{label}</span><small>{duration} минут · {price}</small></button>' for slug, label, duration, price in [
-        ("hair", "Стрижка и укладка", "75", "6 500 ₽"),
-        ("nails", "Маникюр с покрытием", "90", "4 200 ₽"),
-        ("makeup", "Вечерний макияж", "75", "7 500 ₽"),
-        ("brows", "Форма и окрашивание бровей", "45", "3 500 ₽"),
-    ])
+    options = ''.join(f'<button type="button" class="visit-option" data-visit-service="{slug}" data-duration="{p["duration"]}" aria-pressed="false"><span>{p["name"]}</span><small>{p["duration"]} минут · {p["price"]}</small></button>' for slug, p in PROCEDURES.items())
     content = f'''<section class="visit-intro page-section"><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">Демонстрация выбора визита</p><h1>Ваше время.<br><em>Ваше настроение.</em></h1><p class="body-large">Выберите направление и удобную часть дня. Сохраните пример плана, чтобы посмотреть, как может быть устроен визит в MUSE.</p></section>
 <section class="page-section visit-layout"><div class="visit-choices"><fieldset class="visit-fieldset"><legend>С чего начнём?</legend><div class="visit-options">{options}</div></fieldset><fieldset class="visit-fieldset"><legend>Когда вам комфортнее?</legend><div class="time-options"><button type="button" data-visit-time="Утром" aria-pressed="false">Утром</button><button type="button" data-visit-time="Днём" aria-pressed="false">Днём</button><button type="button" data-visit-time="Вечером" aria-pressed="false">Вечером</button></div></fieldset><p class="fine-print">Указанные варианты иллюстрируют интерфейс. Дата и доступность времени здесь не выбираются.</p></div><aside class="visit-card"><p class="eyebrow">Пример вашего визита</p><div id="visit-summary" aria-live="polite"><h2>Начнём<br><em>с желания.</em></h2><p>Выберите направление и часть дня — здесь появится ваш план.</p></div><button class="pill burgundy" id="save-visit" type="button" disabled>Сохранить план</button><p class="fine-print">Это демонстрация: план не создаёт запись и не отправляется в салон.</p></aside></section>
 <section class="page-section inner-grid"><h2>Всё начинается<br><em>с вас.</em></h2><div class="faq-list"><details><summary>Что будет в сохранённом плане?</summary><p>Выбранное направление, ориентировочная длительность и часть дня. Файл нужен только для знакомства с интерфейсом.</p></details><details><summary>Можно ли записаться в MUSE?</summary><p>MUSE — вымышленный салон в портфолио студии 007-A. Реальная запись и отправка заявок в этой концепции не подключены.</p></details></div></section>'''
     return document("visit", "Выбрать визит", "Демонстрация выбора направления и времени визита в вымышленное ателье красоты MUSE.", content)
 
 
+def procedure_card(slug, loading="lazy"):
+    p = PROCEDURES[slug]
+    return f'''<a class="procedure-card" href="{BASE}procedures/{slug}/"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" loading="{loading}"><div class="procedure-card-body"><p class="eyebrow">{SERVICES[p["category"]]["name"]}</p><h2>{p["name"]}</h2><p>{p["intro"]}</p><div class="procedure-meta"><span>{p["price"]}</span><span>{p["duration"]} минут</span></div><span class="procedure-card-action">Узнать о процедуре</span></div></a>'''
+
+
+def procedure_page(slug, p):
+    steps = ''.join(f'<article><h3>{title}</h3><p>{copy}</p></article>' for title, copy in p["steps"])
+    includes = ''.join(f'<li>{line}</li>' for line in p["includes"])
+    faq = ''.join(f'<details><summary>{question}</summary><p>{answer}</p></details>' for question, answer in p["faq"])
+    cards = ''.join(procedure_card(related_slug) for related_slug in p["related"])
+    content = f'''<section class="procedure-hero"><div class="procedure-intro"><a class="breadcrumb" href="{BASE}services/">Меню красоты</a><p class="eyebrow">MUSE / {SERVICES[p["category"]]["name"]} / {p["name"]}</p><h1>{p["title"]}</h1><p>{p["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div><figure class="procedure-visual"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" fetchpriority="high"></figure></section>
+<section class="procedure-body page-section"><aside class="procedure-sidebar"><p class="eyebrow">Ваш визит</p><h2>{p["name"]}</h2><dl class="procedure-facts"><div><dt>Стоимость</dt><dd class="procedure-price">{p["price"]}</dd></div><div><dt>Время</dt><dd class="procedure-duration">{p["duration"]} минут</dd></div></dl><a class="pill burgundy" href="{BASE}visit/?service={slug}">Собрать визит</a><p class="fine-print">Демонстрационные цена и длительность. MUSE — вымышленный салон; реальная запись не подключена.</p><a class="text-link" href="{BASE}{p["category"]}/">Всё направление «{SERVICES[p["category"]]["name"]}»</a></aside><div class="procedure-content"><p class="eyebrow">О процедуре</p><h2>{p["heading"]}</h2><p class="body-large">{p["description"]}</p><h2>Что <em>входит.</em></h2><ul class="includes-list">{includes}</ul><h2>Как проходит<br><em>визит.</em></h2><div class="treatment-steps">{steps}</div><h2>Ваши <em>вопросы.</em></h2><div class="faq-list">{faq}</div></div></section>
+<section class="page-section related-procedures"><p class="eyebrow">Продолжить образ</p><h2>Детали,<br><em>которые сочетаются.</em></h2><div class="procedure-grid">{cards}</div></section>'''
+    return document(f"procedures/{slug}", p["name"], f'{p["name"]} в концепции MUSE: что входит, этапы визита, {p["duration"]} минут и демонстрационная стоимость {p["price"]}.', content, "procedure-page")
+
+
+def catalog_page():
+    cards = ''.join(procedure_card(slug, "eager" if i < 2 else "lazy") for i, slug in enumerate(PROCEDURES))
+    category_links = ''.join(f'<a href="{BASE}{slug}/"><span>{service["name"]}</span><span class="related-note">Все услуги направления</span></a>' for slug, service in SERVICES.items())
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Меню красоты</p><h1>Выберите<br><em>свой акцент.</em></h1><p class="body-large">Форма волос, оттенок, взгляд и детали. У каждой процедуры — собственная страница с описанием, этапами и понятным составом визита.</p><nav class="related-links" aria-label="Направления салона">{category_links}</nav></section><section class="page-section procedure-catalog" aria-label="Каталог процедур"><div class="procedure-grid">{cards}</div><p class="fine-print">Услуги, цены, время и изображения иллюстрируют вымышленный салон. Реальная запись не подключена.</p></section>'''
+    return document("services", "Услуги и процедуры", "Меню красоты MUSE: восемь отдельных страниц процедур с описанием, стоимостью и временем.", content, "catalog-page")
+
+
+def looks_page():
+    looks = [
+        ("hair.webp", "Медный характер", "Чёткая линия каре. Тёплый цвет. Свободная текстура.", "Волосы"),
+        ("color.webp", "Свет в движении", "Нанесение красителя кистью на прядь волос.", "Цвет"),
+        ("makeup.webp", "Один точный акцент", "Живой тон и выразительный взгляд для особенного вечера.", "Макияж"),
+        ("nails.webp", "Тёмная вишня", "Глубокий цвет и чистая форма. Красота маленького жеста.", "Ногти"),
+        ("styling.webp", "Мягкая волна", "Укладка длинных волос круглой щёткой.", "Укладка"),
+    ]
+    cards = ''.join(f'''<button type="button" class="look-card" data-lightbox="assets/{image}" data-caption="{caption}" aria-haspopup="dialog"><img src="{BASE}assets/{image}" alt="{caption}" width="1024" height="1536" loading="lazy"><span>{name}<i>{category}</i></span></button>''' for image, name, caption, category in looks)
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Коллекция образов</p><h1>Узнайте<br><em>своё настроение.</em></h1><p class="body-large">Рассмотрите цвет, форму и фактуру. Сохраните ощущение, с которого мог бы начаться ваш следующий образ.</p></section><section class="looks page-section"><div class="look-grid">{cards}</div><p class="editorial-note">Художественная коллекция, созданная для этого проекта. Изображения иллюстрируют концепцию и не являются фотографиями выполненных услуг.</p></section><section class="page-section inner-grid"><h2>Образ начинается<br><em>с детали.</em></h2><div><p class="body-large">Медное каре, глубокая вишня или мягкий вечерний акцент. В каталоге можно открыть соответствующую процедуру и узнать, как устроен визит.</p><a class="pill burgundy" href="{BASE}services/">Исследовать процедуры</a></div></section><dialog id="image-dialog" class="image-dialog"><button type="button" data-close-dialog aria-label="Закрыть изображение">Закрыть</button><img src="{BASE}assets/hair.webp" alt=""><p></p></dialog>'''
+    return document("looks", "Образы и вдохновение", "Редакционная коллекция образов MUSE: волосы, цвет, макияж, маникюр и укладка.", content, "looks-page")
+
+
+def prices_page():
+    groups = []
+    for category_slug, category in SERVICES.items():
+        rows = ''.join(f'<a class="price-row procedure-price-link" href="{BASE}procedures/{slug}/"><h3>{p["name"]}</h3><span>{p["duration"]} минут</span><strong>{p["price"]}</strong></a>' for slug, p in PROCEDURES.items() if p["category"] == category_slug)
+        groups.append(f'<section class="price-category"><h2>{category["name"]}</h2><div class="price-list">{rows}</div></section>')
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Прайс</p><h1>Красота<br><em>в деталях.</em></h1><p class="body-large">Стоимость, время и состав визита. Нажмите на процедуру, чтобы узнать подробности перед выбором.</p></section><section class="page-section price-catalog"><div class="price-catalog-note"><p class="eyebrow">Демонстрационный прайс</p><p>Пример стоимости для вымышленного салона. Продолжительность ориентировочная; состав каждой процедуры раскрыт на её странице.</p><a class="pill burgundy" href="{BASE}visit/">Собрать визит</a></div><div class="price-catalog-groups">{''.join(groups)}</div></section>'''
+    return document("prices", "Цены и продолжительность", "Демонстрационный прайс MUSE: стоимость и время восьми процедур с переходом к подробному описанию.", content, "prices-page")
+
+
 def main():
     pages = {slug: service_page(slug, service) for slug, service in SERVICES.items()}
     pages["atelier"] = atelier_page()
     pages["visit"] = visit_page()
+    pages["services"] = catalog_page()
+    pages["looks"] = looks_page()
+    pages["prices"] = prices_page()
+    pages.update({f"procedures/{slug}": procedure_page(slug, procedure) for slug, procedure in PROCEDURES.items()})
     for slug, html in pages.items():
         path = OUT / slug / "index.html"
         path.parent.mkdir(parents=True, exist_ok=True)

@@ -1,73 +1,83 @@
 'use strict';
 (() => {
   const root = '/directions/sites/beauty-salon/';
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const menuButton = document.querySelector('.menu-toggle');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const menu = document.querySelector('.menu-toggle');
   const mobileNav = document.querySelector('#mobile-nav');
-  function closeMenu() { if (!mobileNav) return; mobileNav.hidden = true; menuButton?.setAttribute('aria-expanded', 'false'); }
-  menuButton?.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; menuButton.setAttribute('aria-expanded', String(open)); mobileNav.hidden = !open; });
-  mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-  addEventListener('keydown', event => { if (event.key === 'Escape' && mobileNav && !mobileNav.hidden) { closeMenu(); menuButton?.focus(); } });
-  matchMedia('(min-width: 761px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
-
-  const serviceImage = document.querySelector('#service-image');
-  const serviceTag = document.querySelector('#service-tag');
-  document.querySelectorAll('[data-service-image]').forEach(link => {
-    const select = () => {
-      if (!serviceImage) return;
-      document.querySelectorAll('.service-item').forEach(item => item.classList.toggle('is-active', item === link));
-      serviceImage.src = root + 'assets/' + link.dataset.serviceImage;
-      serviceImage.alt = link.dataset.serviceAlt;
-      serviceTag.textContent = link.dataset.serviceTag;
-    };
-    link.addEventListener('mouseenter', select); link.addEventListener('focus', select);
+  function closeMenu() {
+    if (!mobileNav) return;
+    mobileNav.hidden = true; menu?.setAttribute('aria-expanded', 'false'); document.body.classList.remove('nav-open');
+  }
+  menu?.addEventListener('click', () => {
+    const open = menu.getAttribute('aria-expanded') !== 'true';
+    menu.setAttribute('aria-expanded', String(open)); mobileNav.hidden = !open; document.body.classList.toggle('nav-open', open);
   });
+  mobileNav?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav && !mobileNav.hidden) { closeMenu(); menu?.focus(); } });
+  matchMedia('(min-width:761px)').addEventListener('change', e => { if (e.matches) closeMenu(); });
+  document.querySelectorAll('.desktop-nav a, .mobile-nav a').forEach(a => {
+    if (new URL(a.href).pathname === location.pathname) a.setAttribute('aria-current', 'page');
+  });
+  const dock = document.createElement('nav'); dock.className = 'mobile-dock'; dock.setAttribute('aria-label', 'Быстрый переход');
+  const serviceLink = document.createElement('a'); serviceLink.href = root + 'services/'; serviceLink.textContent = 'Услуги';
+  const visitLink = document.createElement('a'); visitLink.href = root + 'visit/'; visitLink.textContent = 'Выбрать визит'; dock.append(serviceLink, visitLink); document.body.append(dock);
 
-  const moodSection = document.querySelector('.mood');
-  const words = ['смелая.', 'утончённая.', 'в моменте.'];
-  const captions = ['Медный оттенок. Чистая линия. Новое ощущение себя.', 'Глубокая вишня. Точная деталь. Тихая уверенность.', 'Тёплый свет. Мягкое кресло. Время только для себя.'];
-  let currentMood = 0;
-  const moodButtons = [...document.querySelectorAll('[data-mood]')];
-  function setMood(index) {
-    currentMood = index;
-    document.querySelectorAll('.mood-frame').forEach((frame, i) => frame.classList.toggle('is-active', i === index));
-    moodButtons.forEach((button, i) => { button.classList.toggle('is-active', i === index); button.setAttribute('aria-pressed', String(i === index)); });
-    const word = document.querySelector('#mood-word'); if (word) word.textContent = words[index];
-    const caption = document.querySelector('#mood-description'); if (caption) caption.textContent = captions[index];
-  }
-  let pending = false;
-  function updateScrollMood() {
-    pending = false;
-    if (!moodSection || reduceMotion.matches) return;
-    const rect = moodSection.getBoundingClientRect();
-    const travel = rect.height - innerHeight;
-    if (rect.top > 0 || rect.bottom < innerHeight || travel <= 0) return;
-    const progress = Math.max(0, Math.min(.999, -rect.top / travel));
-    const next = Math.min(2, Math.floor(progress * 3));
-    if (next !== currentMood) setMood(next);
-  }
-  if (moodSection) {
-    addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(updateScrollMood); } }, { passive: true });
-    moodButtons.forEach((button, index) => button.addEventListener('click', () => {
-      setMood(index);
-      if (!reduceMotion.matches) {
-        const top = scrollY + moodSection.getBoundingClientRect().top;
-        const travel = moodSection.offsetHeight - innerHeight;
-        scrollTo({ top: top + Math.max(0, travel) * ((index + .2) / 3), behavior: 'instant' });
-      }
-    }));
-    updateScrollMood();
+  const video = document.querySelector('#hero-video');
+  const videoButton = document.querySelector('#hero-video-toggle');
+  if (video) {
+    let userPaused = false, visible = true;
+    if (matchMedia('(max-width:760px)').matches) video.poster = root + 'assets/hero-mobile-poster.webp';
+    video.muted = true; video.defaultMuted = true; video.playsInline = true;
+    function syncVideoButton() {
+      if (!videoButton) return;
+      const playing = !video.paused;
+      videoButton.firstChild.nodeValue = playing ? 'Пауза' : 'Смотреть';
+      videoButton.setAttribute('aria-label', playing ? 'Приостановить фоновое видео' : 'Воспроизвести фоновое видео');
+      videoButton.querySelector('span').textContent = playing ? 'Ⅱ' : '✷';
+    }
+    function resumeVideo() {
+      if (userPaused || reduced.matches || document.hidden || !visible) return;
+      video.play().catch(syncVideoButton);
+    }
+    video.addEventListener('play', syncVideoButton); video.addEventListener('pause', syncVideoButton);
+    videoButton?.addEventListener('click', () => {
+      if (video.paused) { userPaused = false; video.play().catch(syncVideoButton); }
+      else { userPaused = true; video.pause(); }
+    });
+    reduced.addEventListener('change', e => { if (e.matches) video.pause(); else resumeVideo(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else resumeVideo(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      if (visible) resumeVideo(); else video.pause();
+    }, { threshold: .01 }).observe(video);
+    if (reduced.matches) { video.autoplay = false; video.pause(); syncVideoButton(); } else resumeVideo();
   }
 
-  let previousFocus;
-  function openDialog(dialog) {
-    if (!dialog) return;
-    previousFocus = document.activeElement; dialog.showModal(); document.body.classList.add('modal-open');
-  }
+  const treatments = {
+    'precision-cut': { name: 'Стрижка и укладка', copy: 'Форма с учётом текстуры волос и вашего ритма. Обсуждение длины, точная стрижка и завершающая укладка.', price: '6 500 ₽', duration: '75 минут', image: 'styling.webp', alt: 'Работа стилиста с формой и текстурой волос' },
+    'signature-color': { name: 'Окрашивание Signature', copy: 'Ровный оттенок с глубиной и блеском. Обсуждение цвета, окрашивание и завершающая укладка.', price: '9 500 ₽', duration: '120 минут', image: 'color.webp', alt: 'Нанесение красителя на прядь волос' },
+    'balayage': { name: 'Мягкое осветление', copy: 'Световые пряди и мягкая растяжка оттенка. Обсуждение рисунка, осветление, тонирование и укладка.', price: '16 000 ₽', duration: '180 минут', image: 'color.webp', alt: 'Точная работа с осветлением волос' },
+    'hair-care': { name: 'Уход и укладка', copy: 'Внимание к длине и фактуре. Подбор ухода, работа с волосами и мягкая укладка, которая завершает образ.', price: '5 500 ₽', duration: '60 минут', image: 'styling.webp', alt: 'Укладка каштановых волн с брашингом' },
+    'manicure': { name: 'Маникюр с покрытием', copy: 'Аккуратная форма, выбранная вами палитра и точный блик. Все детали любимого жеста.', price: '4 200 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Маникюр глубокого вишнёвого оттенка' },
+    'pedicure': { name: 'Педикюр с покрытием', copy: 'Обработка стоп и ногтей, выбор формы и оттенка. Самостоятельная процедура с понятным составом визита.', price: '5 500 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Палитра вишнёвого оттенка для ногтевого сервиса' },
+    'evening-makeup': { name: 'Вечерний макияж', copy: 'Живой тон и выразительные акценты для вашего события. Свет, одежда и настроение помогают собрать образ.', price: '7 500 ₽', duration: '75 минут', image: 'makeup.webp', alt: 'Вечерний макияж с бронзовым акцентом' },
+    'brow-architecture': { name: 'Форма и окрашивание', copy: 'Линия и оттенок, которые подчёркивают ваш взгляд. Обсуждение насыщенности, форма и аккуратный цвет.', price: '3 500 ₽', duration: '45 минут', image: 'hero.webp', alt: 'Естественная форма бровей в портрете MUSE' }
+  };
+  const treatmentButtons = [...document.querySelectorAll('[data-treatment]')];
+  treatmentButtons.forEach(button => button.addEventListener('click', () => {
+    const slug = button.dataset.treatment, item = treatments[slug]; if (!item) return;
+    treatmentButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    const image = document.querySelector('#treat-image'); image.src = root + 'assets/' + item.image; image.alt = item.alt;
+    document.querySelector('#treat-name').textContent = item.name; document.querySelector('#treat-copy').textContent = item.copy;
+    document.querySelector('#treat-price').textContent = item.price; document.querySelector('#treat-duration').textContent = item.duration;
+    document.querySelector('#treat-link').href = root + 'procedures/' + slug + '/';
+  }));
+
+  let priorFocus;
   document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => button.closest('dialog')?.close()));
   document.querySelectorAll('dialog').forEach(dialog => {
-    dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); });
-    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); dialog.querySelector('video')?.pause(); previousFocus?.focus(); });
+    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); priorFocus?.focus(); });
+    dialog.addEventListener('click', e => { const box = dialog.getBoundingClientRect(); if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) dialog.close(); });
   });
   const imageDialog = document.querySelector('#image-dialog');
   document.querySelectorAll('[data-lightbox]').forEach(button => button.addEventListener('click', () => {
@@ -75,27 +85,33 @@
     imageDialog.querySelector('img').src = root + button.dataset.lightbox;
     imageDialog.querySelector('img').alt = button.dataset.caption;
     imageDialog.querySelector('p').textContent = button.dataset.caption;
-    openDialog(imageDialog);
+    priorFocus = document.activeElement; imageDialog.showModal(); document.body.classList.add('modal-open');
   }));
 
-  const visitSummary = document.querySelector('#visit-summary');
-  if (visitSummary) {
-    let service = '', duration = '', time = '';
+  const summary = document.querySelector('#visit-summary');
+  if (summary) {
     const serviceButtons = [...document.querySelectorAll('[data-visit-service]')];
     const timeButtons = [...document.querySelectorAll('[data-visit-time]')];
     const saveButton = document.querySelector('#save-visit');
-    const summaryText = () => service ? `${service} · ${duration || 'Продолжительность уточняется'}${time ? ' · ' + time : ''}. Это пример визита; бронирование не производится.` : 'Выберите направление, чтобы увидеть свой план визита.';
-    const renderVisit = () => { visitSummary.textContent = summaryText(); if (saveButton) saveButton.disabled = !service; };
-    serviceButtons.forEach(button => button.addEventListener('click', () => { service = button.querySelector('span')?.textContent || button.dataset.visitService; duration = button.dataset.duration + ' минут'; serviceButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); renderVisit(); }));
-    timeButtons.forEach(button => button.addEventListener('click', () => { time = button.dataset.visitTime; timeButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); renderVisit(); }));
+    let service = '', duration = '', time = '';
+    function render() {
+      summary.textContent = service ? `${service} · ${duration}${time ? ' · ' + time : ''}. Это пример визита; бронирование не производится.` : 'Выберите процедуру — здесь появится ваш план визита.';
+      if (saveButton) saveButton.disabled = !service;
+    }
+    serviceButtons.forEach(button => button.addEventListener('click', () => {
+      service = button.querySelector('span')?.textContent || treatments[button.dataset.visitService]?.name || button.dataset.visitService;
+      duration = button.dataset.duration + ' минут'; serviceButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render();
+    }));
+    timeButtons.forEach(button => button.addEventListener('click', () => { time = button.dataset.visitTime; timeButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render(); }));
     saveButton?.addEventListener('click', () => {
       if (!service) return;
-      const contents = `MUSE — мой план визита\n\n${service}\n${duration || ''}\n${time || 'Время не выбрано'}\n\nДемонстрационный концепт студии 007-A. План не является записью.\nhttps://007-a.ru/directions/sites/beauty-salon/\n`;
+      const contents = `MUSE — мой план визита\n\n${service}\n${duration}\n${time || 'Время не выбрано'}\n\nДемонстрационный проект 007-A. План не является записью.\nhttps://007-a.ru/directions/sites/beauty-salon/\n`;
       const url = URL.createObjectURL(new Blob([contents], { type: 'text/plain;charset=utf-8' }));
       const link = document.createElement('a'); link.href = url; link.download = 'MUSE-my-visit.txt'; document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
     });
-    const requestedService = new URLSearchParams(location.search).get('service');
-    const requestedButton = serviceButtons.find(button => button.dataset.visitService === requestedService);
-    if (requestedButton) requestedButton.click(); else renderVisit();
+    const aliases = { hair: 'precision-cut', nails: 'manicure', makeup: 'evening-makeup', brows: 'brow-architecture' };
+    const query = new URLSearchParams(location.search).get('service');
+    const chosen = serviceButtons.find(b => b.dataset.visitService === (aliases[query] || query));
+    if (chosen) chosen.click(); else render();
   }
 })();
