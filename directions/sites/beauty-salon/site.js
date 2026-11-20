@@ -28,12 +28,12 @@
     let manualChoice = null;
     let visible = true;
     let sourcesLoaded = false;
-    const label = videoButton.querySelector('.film-label');
+
 
     function showState() {
       const playing = !video.paused && !video.ended;
       videoButton.classList.toggle('is-playing', playing);
-      label.textContent = playing ? 'Пауза' : 'Смотреть';
+      videoButton.title = playing ? 'Приостановить видео' : 'Воспроизвести видео';
       videoButton.setAttribute('aria-label', playing ? 'Приостановить видео' : 'Воспроизвести видео');
     }
     function play() {
@@ -75,40 +75,25 @@
     sync();
   }
 
-  const treatments = {
-    'precision-cut': { name: 'Стрижка и укладка', copy: 'Форма с учётом текстуры волос и вашего ритма. Обсуждение длины, точная стрижка и завершающая укладка.', price: '6 500 ₽', duration: '75 минут', image: 'styling.webp', alt: 'Работа стилиста с формой и текстурой волос' },
-    'signature-color': { name: 'Окрашивание Signature', copy: 'Ровный оттенок с глубиной и блеском. Обсуждение цвета, окрашивание и завершающая укладка.', price: '9 500 ₽', duration: '120 минут', image: 'color.webp', alt: 'Нанесение красителя на прядь волос' },
-    'balayage': { name: 'Мягкое осветление', copy: 'Световые пряди и мягкая растяжка оттенка. Обсуждение рисунка, осветление, тонирование и укладка.', price: '16 000 ₽', duration: '180 минут', image: 'color.webp', alt: 'Точная работа с осветлением волос' },
-    'hair-care': { name: 'Уход и укладка', copy: 'Внимание к длине и фактуре. Подбор ухода, работа с волосами и мягкая укладка, которая завершает образ.', price: '5 500 ₽', duration: '60 минут', image: 'styling.webp', alt: 'Укладка каштановых волн с брашингом' },
-    'manicure': { name: 'Маникюр с покрытием', copy: 'Аккуратная форма, выбранная вами палитра и точный блик. Все детали любимого жеста.', price: '4 200 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Маникюр глубокого вишнёвого оттенка' },
-    'pedicure': { name: 'Педикюр с покрытием', copy: 'Обработка стоп и ногтей, выбор формы и оттенка. Самостоятельная процедура с понятным составом визита.', price: '5 500 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Палитра вишнёвого оттенка для ногтевого сервиса' },
-    'evening-makeup': { name: 'Вечерний макияж', copy: 'Живой тон и выразительные акценты для вашего события. Свет, одежда и настроение помогают собрать образ.', price: '7 500 ₽', duration: '75 минут', image: 'makeup.webp', alt: 'Вечерний макияж с бронзовым акцентом' },
-    'brow-architecture': { name: 'Форма и окрашивание', copy: 'Линия и оттенок, которые подчёркивают ваш взгляд. Обсуждение насыщенности, форма и аккуратный цвет.', price: '3 500 ₽', duration: '45 минут', image: 'collection-brow.webp', alt: 'Естественная линия брови крупным планом' }
-  };
-  const treatmentButtons = [...document.querySelectorAll('[data-treatment]')];
-  treatmentButtons.forEach(button => button.addEventListener('click', () => {
-    const slug = button.dataset.treatment, item = treatments[slug]; if (!item) return;
-    treatmentButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-    const image = document.querySelector('#treat-image'); image.src = root + 'assets/' + item.image; image.alt = item.alt;
-    document.querySelector('#treat-name').textContent = item.name; document.querySelector('#treat-copy').textContent = item.copy;
-    document.querySelector('#treat-price').textContent = item.price; document.querySelector('#treat-duration').textContent = item.duration;
-    document.querySelector('#treat-link').href = root + 'procedures/' + slug + '/';
-  }));
-
-  let priorFocus;
-  document.querySelectorAll('[data-close-dialog]').forEach(button => button.addEventListener('click', () => button.closest('dialog')?.close()));
-  document.querySelectorAll('dialog').forEach(dialog => {
-    dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); priorFocus?.focus(); });
-    dialog.addEventListener('click', e => { const box = dialog.getBoundingClientRect(); if (e.clientX < box.left || e.clientX > box.right || e.clientY < box.top || e.clientY > box.bottom) dialog.close(); });
-  });
-  const imageDialog = document.querySelector('#image-dialog');
-  document.querySelectorAll('[data-lightbox]').forEach(button => button.addEventListener('click', () => {
-    if (!imageDialog) return;
-    imageDialog.querySelector('img').src = root + button.dataset.lightbox;
-    imageDialog.querySelector('img').alt = button.dataset.caption;
-    imageDialog.querySelector('p').textContent = button.dataset.caption;
-    priorFocus = document.activeElement; imageDialog.showModal(); document.body.classList.add('modal-open');
-  }));
+  for (const collection of document.querySelectorAll('.lookbook')) {
+    const photo = collection.querySelector('[data-look-photo]');
+    const name = collection.querySelector('[data-look-name]');
+    const caption = collection.querySelector('[data-look-copy]');
+    const procedure = collection.querySelector('[data-look-link]');
+    const choices = collection.querySelectorAll('[data-look]');
+    for (const choice of choices) {
+      choice.addEventListener('click', event => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        photo.src = choice.href;
+        photo.alt = choice.dataset.caption;
+        name.textContent = choice.dataset.name;
+        caption.textContent = choice.dataset.caption;
+        procedure.href = root + 'procedures/' + choice.dataset.procedure + '/';
+        for (const item of choices) item.setAttribute('aria-current', String(item === choice));
+      });
+    }
+  }
 
   const summary = document.querySelector('#visit-summary');
   if (summary) {
@@ -121,7 +106,7 @@
       if (saveButton) saveButton.disabled = !service;
     }
     serviceButtons.forEach(button => button.addEventListener('click', () => {
-      service = button.querySelector('span')?.textContent || treatments[button.dataset.visitService]?.name || button.dataset.visitService;
+      service = button.querySelector('span').textContent;
       duration = button.dataset.duration + ' минут'; serviceButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render();
     }));
     timeButtons.forEach(button => button.addEventListener('click', () => { time = button.dataset.visitTime; timeButtons.forEach(b => b.setAttribute('aria-pressed', String(b === button))); render(); }));
