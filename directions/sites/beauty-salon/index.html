@@ -13,8 +13,8 @@
   <meta property="og:image" content="https://007-a.ru/directions/sites/beauty-salon/assets/hero.webp">
   <link rel="icon" href="/directions/sites/beauty-salon/assets/mark.svg" type="image/svg+xml">
   <link rel="preload" href="/portfolio/tishe-coffee/assets/editorial/fonts/cormorant-medium.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/directions/sites/beauty-salon/style.css">
-  <script defer src="/directions/sites/beauty-salon/site.js"></script>
+  <link rel="stylesheet" href="/directions/sites/beauty-salon/style.css?v=film1">
+  <script defer src="/directions/sites/beauty-salon/site.js?v=film1"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">К содержанию</a>
@@ -33,7 +33,7 @@
       <div class="hero-grid">
         <div class="hero-photo">
           <picture><source media="(max-width:650px)" srcset="assets/hero-sm.webp"><img src="assets/hero.webp" width="1672" height="941" alt="Тёмные волосы в мягком движении и естественный макияж — образ MUSE" fetchpriority="high"></picture>
-          <div class="photo-caption"><span>Коллекция настроений MUSE</span><button class="film-trigger" data-open-film aria-haspopup="dialog"><span class="play-icon" aria-hidden="true"></span>Смотреть историю</button></div>
+          <div class="photo-caption"><span>Коллекция настроений MUSE</span><a class="film-trigger" href="#film"><span class="play-icon" aria-hidden="true"></span>Смотреть фильм</a></div>
         </div>
         <div class="hero-copy"><span class="eyebrow">Ваше время. Ваш характер.</span><h1 id="hero-title">Красота<br>вашего<br><em>характера.</em></h1><p>Волосы, цвет и детали,<br>в которых вы узнаёте себя.</p><a class="pill light" href="#services">Найти своё настроение</a><span class="hero-note">Концепт салона красоты<br>от студии 007-A</span></div>
       </div>
@@ -58,6 +58,11 @@
       </div>
     </section>
 
+    <section id="film" class="film-section section-pad" aria-labelledby="film-title">
+      <div class="film-heading"><div><span class="eyebrow">MUSE в движении</span><h2 id="film-title">Почувствуйте<br><em>настроение.</em></h2></div><p>Волосы, цвет и свет.<br>Четыре настроения одной истории.</p></div>
+      <figure class="film-figure"><video id="muse-film" class="inline-film" controls playsinline preload="none" poster="assets/hero.webp" width="1280" height="720" aria-label="Фильм MUSE: четыре фотосцены, 12 секунд"><source src="assets/muse-story.mp4" type="video/mp4">Ваш браузер не поддерживает встроенное видео. <a href="assets/muse-story.mp4">Открыть ролик MUSE</a></video><figcaption><span>Визуальный этюд MUSE</span><span>12 секунд · Без звука</span></figcaption></figure>
+    </section>
+
     <section id="mood" class="mood" aria-labelledby="mood-title">
       <div class="mood-sticky">
         <div class="mood-frames" aria-hidden="true"><img class="mood-frame is-active" src="assets/hair.webp" alt="" loading="lazy" data-frame="0"><img class="mood-frame" src="assets/nails.webp" alt="" loading="lazy" data-frame="1"><img class="mood-frame" src="assets/space.webp" alt="" loading="lazy" data-frame="2"></div>
@@ -75,7 +80,6 @@
     <section class="visit-cta"><span class="eyebrow">Следующее настроение — ваше</span><h2>Вы прекрасны.<br><em>Начнём с этого.</em></h2><a class="pill light" href="visit/">Собрать свой визит</a><span class="cta-note">Выберите направление и удобный ритм</span><span class="cta-flower" aria-hidden="true">✷</span></section>
   </main>
   <footer class="site-footer"><div class="footer-top"><a class="wordmark" href="/directions/sites/beauty-salon/">muse<span>✷</span></a><p>Красота вашего характера.</p><a href="/directions/sites/">Другие проекты 007-A</a></div><div class="footer-bottom"><span>Демонстрационный проект студии 007-A · 2026</span><p>MUSE — вымышленный салон. Услуги, цены и интерьер иллюстративны. Запись не подключена.</p></div></footer>
-  <dialog id="film-dialog" class="media-dialog" aria-labelledby="film-label"><div class="dialog-top"><span id="film-label">Коллекция настроений MUSE</span><button data-close-dialog aria-label="Закрыть историю">Закрыть</button></div><div class="story-stage"><img class="story-frame is-active" src="assets/hero.webp" alt="Естественный макияж и тёмные волосы"><img class="story-frame" src="assets/hair.webp" alt="Выразительное медное каре"><img class="story-frame" src="assets/nails.webp" alt="Вишнёвый маникюр"><img class="story-frame" src="assets/space.webp" alt="Тёплый свет ателье MUSE"></div><div class="story-controls"><div role="group" aria-label="Кадры визуальной истории"><button data-story-index="0" aria-pressed="true">Образ</button><button data-story-index="1" aria-pressed="false">Волосы</button><button data-story-index="2" aria-pressed="false">Детали</button><button data-story-index="3" aria-pressed="false">Пространство</button></div><button id="story-pause">Пауза</button></div><p class="dialog-caption">Визуальная история из четырёх кадров, созданных для концепта.</p></dialog>
   <dialog id="image-dialog" class="image-dialog"><button data-close-dialog aria-label="Закрыть изображение">Закрыть</button><img src="assets/hero.webp" alt=""><p></p></dialog>
 </body>
 </html>

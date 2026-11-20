@@ -69,27 +69,6 @@
     dialog.addEventListener('click', event => { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); });
     dialog.addEventListener('close', () => { document.body.classList.remove('modal-open'); dialog.querySelector('video')?.pause(); previousFocus?.focus(); });
   });
-  const filmDialog = document.querySelector('#film-dialog');
-  const storyFrames = [...document.querySelectorAll('.story-frame')];
-  const storyButtons = [...document.querySelectorAll('[data-story-index]')];
-  const storyPause = document.querySelector('#story-pause');
-  let storyTimer = null, storyIndex = 0;
-  const stopStory = () => { clearInterval(storyTimer); storyTimer = null; if (storyPause) storyPause.textContent = 'Продолжить'; };
-  function setStory(index) {
-    storyIndex = index;
-    storyFrames.forEach((frame, i) => { frame.classList.toggle('is-active', i === index); frame.setAttribute('aria-hidden', String(i !== index)); });
-    storyButtons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-  }
-  function playStory() {
-    stopStory();
-    if (storyIndex === storyFrames.length - 1) setStory(0);
-    if (storyPause) storyPause.textContent = 'Пауза';
-    storyTimer = setInterval(() => { if (storyIndex < storyFrames.length - 1) setStory(storyIndex + 1); else stopStory(); }, 3500);
-  }
-  storyButtons.forEach((button, index) => button.addEventListener('click', () => { stopStory(); setStory(index); }));
-  storyPause?.addEventListener('click', () => { if (storyTimer) stopStory(); else playStory(); });
-  filmDialog?.addEventListener('close', stopStory);
-  document.querySelectorAll('[data-open-film]').forEach(button => button.addEventListener('click', () => { openDialog(filmDialog); setStory(0); if (!reduceMotion.matches) playStory(); else stopStory(); }));
   const imageDialog = document.querySelector('#image-dialog');
   document.querySelectorAll('[data-lightbox]').forEach(button => button.addEventListener('click', () => {
     if (!imageDialog) return;
