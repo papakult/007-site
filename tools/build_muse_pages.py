@@ -203,7 +203,7 @@ PRICE_PROCEDURES["Форма и окрашивание"] = "brow-architecture"
 def header():
     return f'''<a class="skip-link" href="#main">К содержанию</a>
 <header class="site-header">
-  <a class="wordmark" href="{BASE}" aria-label="MUSE — на главную">muse<span>✷</span></a>
+  <a class="wordmark" href="{BASE}" aria-label="MUSE — на главную">muse<span class="brand-period">.</span></a>
   <nav class="desktop-nav" aria-label="Основная навигация"><a href="{BASE}services/">Услуги</a><a href="{BASE}looks/">Образы</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}prices/">Цены</a></nav>
   <a class="pill small" href="{BASE}visit/">Выбрать визит</a>
   <button class="menu-toggle" type="button" aria-controls="mobile-nav" aria-expanded="false">Меню</button>
@@ -211,19 +211,20 @@ def header():
 <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация" hidden><a href="{BASE}services/">Услуги</a><a href="{BASE}looks/">Образы</a><a href="{BASE}atelier/">Ателье</a><a href="{BASE}prices/">Цены</a><a href="{BASE}visit/">Выбрать визит</a></nav>'''
 
 
-def footer():
-    return f'''<footer class="site-footer"><a class="wordmark" href="{BASE}">muse<span>✷</span></a><p>Вымышленное ателье красоты. Демонстрационный проект студии 007-A.<br>Образы, услуги и цены иллюстрируют концепцию.</p><a href="/directions/sites/">Другие проекты 007-A</a></footer>'''
+def footer(home=False):
+    credit = '<span class="film-credit">Видеопортрет — <a href="https://www.pexels.com/video/close-up-portrait-of-woman-in-studio-lighting-35088447/">Khezez / Pexels</a></span>' if home else ""
+    return f'''<footer class="site-footer"><a class="wordmark" href="{BASE}">muse<span class="brand-period">.</span></a><p>Вымышленное ателье красоты. Демонстрационный проект студии 007-A.<br>Образы, услуги и цены иллюстрируют концепцию.</p><a href="/directions/sites/">Другие проекты 007-A</a>{credit}</footer>'''
 
 
 def document(slug, title, description, content, body_class=""):
-    canonical = f"https://007-a.ru{BASE}{slug}/"
+    canonical = f"https://007-a.ru{BASE}{slug}/" if slug else f"https://007-a.ru{BASE}"
     return f'''<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#24171c"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=pigment1"><script defer src="{BASE}site.js?v=portrait3"></script></head><body class="inner-page {escape(body_class)}">{header()}<main id="main">{content}</main>{footer()}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#242622"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{escape(title, quote=True)} — MUSE"><meta property="og:image" content="https://007-a.ru{BASE}assets/collection-hero.webp"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><link rel="stylesheet" href="{BASE}atelier.css?v=edition2"><script defer src="{BASE}site.js?v=edition2"></script></head><body class="{'home-page' if not slug else 'inner-page'} {escape(body_class)}">{header()}<main id="main">{content}</main>{footer(not slug)}</body></html>'''
 
 
 def related(current=None):
     links = ''.join(f'<a href="{BASE}{slug}/"><span>{s["name"]}</span><span class="related-note">О направлении</span></a>' for slug, s in SERVICES.items() if slug != current)
-    return f'<section class="page-section related-section"><p class="eyebrow">Продолжить знакомство</p><h2>Ещё немного<br><em>вдохновения.</em></h2><nav class="related-links" aria-label="Другие направления">{links}</nav></section>'
+    return f'<section class="page-section related-section"><p class="eyebrow">Продолжить знакомство</p><h2>Другие направления</h2><nav class="related-links" aria-label="Другие направления">{links}</nav></section>'
 
 
 def service_page(slug, s):
@@ -236,22 +237,22 @@ def service_page(slug, s):
         else:
             prices += f'<div class="price-row">{body}</div>'
     details = ''.join(f'<details><summary>{escape(question)}</summary><p>{escape(answer)}</p></details>' for question, answer in s["notes"])
-    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}services/">Все направления</a><p class="eyebrow">{s["eyebrow"]}</p><h1>{s["title"]}</h1><p>{s["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={PRIMARY_PROCEDURES[slug]}">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/{s["image"]}" alt="{s["alt"]}" width="1200" height="1600" fetchpriority="high"></figure></section>
-<section class="page-section inner-grid"><h2>{s["heading"]}</h2><div><p class="body-large">{s["copy"]}</p><p class="eyebrow price-disclaimer">Демонстрационный прайс</p><div class="price-list">{prices}</div><p class="fine-print">Пример услуг и стоимости для вымышленного салона. Время указано ориентировочно.</p></div></section>
+    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}services/">Все направления</a><p class="eyebrow">{s["eyebrow"]}</p><h1>{s["name"]}</h1><p>{s["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={PRIMARY_PROCEDURES[slug]}">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/{s["image"]}" alt="{s["alt"]}" width="1200" height="1600" fetchpriority="high"></figure></section>
+<section class="page-section inner-grid"><h2>Услуги и цены</h2><div><p class="body-large">{s["copy"]}</p><p class="eyebrow price-disclaimer">Демонстрационный прайс</p><div class="price-list">{prices}</div><p class="fine-print">Пример услуг и стоимости для вымышленного салона. Время указано ориентировочно.</p></div></section>
 <section class="page-section inner-grid"><h2>Перед<br><em>визитом.</em></h2><div class="faq-list">{details}</div></section>{related(slug)}'''
     return document(slug, s["name"], f'{s["name"]} в концепции MUSE: направление, демонстрационные услуги и цены.', content)
 
 
 def atelier_page():
-    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">MUSE / Пространство</p><h1>Время<br><em>для себя.</em></h1><p>Свет на зеркале, тёплое дерево, глубокий вишнёвый акцент. Пространство, где можно замедлиться и уделить внимание себе.</p><a class="pill burgundy" href="{BASE}visit/">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/space.webp" alt="Концептуальный интерьер салона красоты с большими зеркалами, тёмным деревом и каменной стойкой" width="1600" height="1000" fetchpriority="high"></figure></section>
-<section class="page-section inner-grid"><h2>Красота<br><em>в своём ритме.</em></h2><div><p class="body-large">MUSE — вымышленное ателье красоты, созданное как дизайн-концепция. В нём соединены работа с волосами, маникюр, макияж и брови. Основа идеи — спокойный разговор о пожеланиях и внимание к деталям образа.</p><p>На сайте можно исследовать направления, рассмотреть визуальную историю и составить пример визита. Все изображения представляют художественную концепцию пространства и образов.</p></div></section>
+    content = f'''<section class="inner-hero"><div class="inner-copy"><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">MUSE / Пространство</p><h1>Пространство<br><em>MUSE</em></h1><p>Свет на зеркале, тёплое дерево, глубокий вишнёвый акцент. Пространство, где можно замедлиться и уделить внимание себе.</p><a class="pill burgundy" href="{BASE}visit/">Подобрать визит</a></div><figure class="inner-image"><img src="{BASE}assets/space.webp" alt="Концептуальный интерьер салона красоты с большими зеркалами, тёмным деревом и каменной стойкой" width="1600" height="1000" fetchpriority="high"></figure></section>
+<section class="page-section inner-grid"><h2>Внутри ателье</h2><div><p class="body-large">MUSE — вымышленное ателье красоты, созданное как дизайн-концепция. В нём соединены работа с волосами, маникюр, макияж и брови. Основа идеи — спокойный разговор о пожеланиях и внимание к деталям образа.</p><p>На сайте можно исследовать направления, рассмотреть визуальную историю и составить пример визита. Все изображения представляют художественную концепцию пространства и образов.</p></div></section>
 <section class="page-section atelier-values"><p class="eyebrow">Характер ателье</p><div class="value-grid"><article><h2>Личный<br><em>взгляд.</em></h2><p>Ваши привычки и представление о красоте становятся отправной точкой для образа.</p></article><article><h2>Точное<br><em>прикосновение.</em></h2><p>Цвет, форма и фактура работают вместе — от оттенка волос до маленького акцента на ногтях.</p></article><article><h2>Ваше<br><em>время.</em></h2><p>Понятные направления и ориентиры по длительности помогают представить будущий визит.</p></article></div></section>{related()}'''
     return document("atelier", "Ателье", "Пространство и характер вымышленного ателье красоты MUSE.", content)
 
 
 def visit_page():
     options = ''.join(f'<button type="button" class="visit-option" data-visit-service="{slug}" data-duration="{p["duration"]}" aria-pressed="false"><span>{p["name"]}</span><small>{p["duration"]} минут · {p["price"]}</small></button>' for slug, p in PROCEDURES.items())
-    content = f'''<section class="visit-intro page-section"><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">Демонстрация выбора визита</p><h1>Ваше время.<br><em>Ваше настроение.</em></h1><p class="body-large">Выберите направление и удобную часть дня. Сохраните пример плана, чтобы посмотреть, как может быть устроен визит в MUSE.</p>{palette_portrait("space.webp", "Зеркала и рабочие места ателье")}</section>
+    content = f'''<section class="visit-intro page-section"><a class="breadcrumb" href="{BASE}">На главную</a><p class="eyebrow">Демонстрация выбора визита</p><h1>Ваш визит</h1><p class="body-large">Выберите направление и удобную часть дня. Сохраните пример плана, чтобы посмотреть, как может быть устроен визит в MUSE.</p>{palette_portrait("space.webp", "Зеркала и рабочие места ателье")}</section>
 <section class="page-section visit-layout"><div class="visit-choices"><fieldset class="visit-fieldset"><legend>С чего начнём?</legend><div class="visit-options">{options}</div></fieldset><fieldset class="visit-fieldset"><legend>Когда вам комфортнее?</legend><div class="time-options"><button type="button" data-visit-time="Утром" aria-pressed="false">Утром</button><button type="button" data-visit-time="Днём" aria-pressed="false">Днём</button><button type="button" data-visit-time="Вечером" aria-pressed="false">Вечером</button></div></fieldset><p class="fine-print">Указанные варианты иллюстрируют интерфейс. Дата и доступность времени здесь не выбираются.</p></div><aside class="visit-card"><p class="eyebrow">Пример вашего визита</p><div id="visit-summary" aria-live="polite"><h2>Начнём<br><em>с желания.</em></h2><p>Выберите направление и часть дня — здесь появится ваш план.</p></div><button class="pill burgundy" id="save-visit" type="button" disabled>Сохранить план</button><p class="fine-print">Это демонстрация: план не создаёт запись и не отправляется в салон.</p></aside></section>
 <section class="page-section inner-grid"><h2>Всё начинается<br><em>с вас.</em></h2><div class="faq-list"><details><summary>Что будет в сохранённом плане?</summary><p>Выбранное направление, ориентировочная длительность и часть дня. Файл нужен только для знакомства с интерфейсом.</p></details><details><summary>Можно ли записаться в MUSE?</summary><p>MUSE — вымышленный салон в портфолио студии 007-A. Реальная запись и отправка заявок в этой концепции не подключены.</p></details></div></section>'''
     return document("visit", "Выбрать визит", "Демонстрация выбора направления и времени визита в вымышленное ателье красоты MUSE.", content)
@@ -267,9 +268,9 @@ def procedure_page(slug, p):
     includes = ''.join(f'<li>{line}</li>' for line in p["includes"])
     faq = ''.join(f'<details><summary>{question}</summary><p>{answer}</p></details>' for question, answer in p["faq"])
     cards = ''.join(procedure_card(related_slug) for related_slug in p["related"])
-    content = f'''<section class="procedure-hero"><div class="procedure-intro"><a class="breadcrumb" href="{BASE}services/">Меню красоты</a><p class="eyebrow">MUSE / {SERVICES[p["category"]]["name"]} / {p["name"]}</p><h1>{p["title"]}</h1><p>{p["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div><figure class="procedure-visual"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" fetchpriority="high"></figure></section>
-<section class="procedure-body page-section"><aside class="procedure-sidebar"><p class="eyebrow">Ваш визит</p><h2>{p["name"]}</h2><dl class="procedure-facts"><div><dt>Стоимость</dt><dd class="procedure-price">{p["price"]}</dd></div><div><dt>Время</dt><dd class="procedure-duration">{p["duration"]} минут</dd></div></dl><a class="pill burgundy" href="{BASE}visit/?service={slug}">Собрать визит</a><p class="fine-print">Демонстрационные цена и длительность. MUSE — вымышленный салон; реальная запись не подключена.</p><a class="text-link" href="{BASE}{p["category"]}/">Всё направление «{SERVICES[p["category"]]["name"]}»</a></aside><div class="procedure-content"><p class="eyebrow">О процедуре</p><h2>{p["heading"]}</h2><p class="body-large">{p["description"]}</p><h2>Что <em>входит.</em></h2><ul class="includes-list">{includes}</ul><h2>Как проходит<br><em>визит.</em></h2><div class="treatment-steps">{steps}</div><h2>Ваши <em>вопросы.</em></h2><div class="faq-list">{faq}</div></div></section>
-<section class="page-section related-procedures"><p class="eyebrow">Продолжить образ</p><h2>Детали,<br><em>которые сочетаются.</em></h2><div class="procedure-grid">{cards}</div></section>'''
+    content = f'''<section class="procedure-hero"><div class="procedure-intro"><a class="breadcrumb" href="{BASE}services/">Меню красоты</a><p class="eyebrow">MUSE / {SERVICES[p["category"]]["name"]} / {p["name"]}</p><h1>{p["name"]}</h1><p class="lead-facts">{p["price"]} <span>·</span> {p["duration"]} минут</p><p>{p["intro"]}</p><a class="pill burgundy" href="{BASE}visit/?service={slug}">Выбрать эту процедуру</a></div><figure class="procedure-visual"><img src="{BASE}assets/{p["image"]}" alt="{p["alt"]}" width="1024" height="1536" fetchpriority="high"></figure></section>
+<section class="procedure-body page-section"><aside class="procedure-sidebar"><p class="eyebrow">Ваш визит</p><h2>{p["name"]}</h2><dl class="procedure-facts"><div><dt>Стоимость</dt><dd class="procedure-price">{p["price"]}</dd></div><div><dt>Время</dt><dd class="procedure-duration">{p["duration"]} минут</dd></div></dl><a class="pill burgundy" href="{BASE}visit/?service={slug}">Собрать визит</a><p class="fine-print">Демонстрационные цена и длительность. MUSE — вымышленный салон; реальная запись не подключена.</p><a class="text-link" href="{BASE}{p["category"]}/">Всё направление «{SERVICES[p["category"]]["name"]}»</a></aside><div class="procedure-content"><p class="eyebrow">О процедуре</p><h2>{p["name"]}</h2><p class="body-large">{p["description"]}</p><h2>Что <em>входит.</em></h2><ul class="includes-list">{includes}</ul><h2>Как проходит<br><em>визит.</em></h2><div class="treatment-steps">{steps}</div><h2>Ваши <em>вопросы.</em></h2><div class="faq-list">{faq}</div></div></section>
+<section class="page-section related-procedures"><p class="eyebrow">Продолжить образ</p><h2>К этой процедуре</h2><div class="procedure-grid">{cards}</div></section>'''
     return document(f"procedures/{slug}", p["name"], f'{p["name"]} в концепции MUSE: что входит, этапы визита, {p["duration"]} минут и демонстрационная стоимость {p["price"]}.', content, "procedure-page")
 
 
@@ -279,13 +280,12 @@ def palette_portrait(image, alt):
 
 def catalog_page():
     cards = ''.join(procedure_card(slug, "eager" if i < 2 else "lazy") for i, slug in enumerate(PROCEDURES))
-    category_links = ''.join(f'<a href="{BASE}{slug}/"><span>{service["name"]}</span><span class="related-note">Все услуги направления</span></a>' for slug, service in SERVICES.items())
-    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Меню красоты</p><h1>Выберите<br><em>свой акцент.</em></h1><p class="body-large">Форма волос, оттенок, взгляд и детали. У каждой процедуры — собственная страница с описанием, этапами и понятным составом визита.</p>{palette_portrait("color.webp", "Колорист кистью наносит оттенок на прядь")}<nav class="related-links" aria-label="Направления салона">{category_links}</nav></section><section class="page-section procedure-catalog" aria-label="Каталог процедур"><div class="procedure-grid">{cards}</div><p class="fine-print">Услуги, цены, время и изображения иллюстрируют вымышленный салон. Реальная запись не подключена.</p></section>'''
+    category_links = ''.join(f'<a href="{BASE}{slug}/"><span>{service["name"]}</span><span class="related-note">Смотреть услуги</span></a>' for slug, service in SERVICES.items())
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Меню красоты</p><h1>Меню услуг</h1><p class="body-large">Форма волос, оттенок, взгляд и детали. У каждой процедуры — собственная страница с описанием, этапами и понятным составом визита.</p>{palette_portrait("color.webp", "Колорист кистью наносит оттенок на прядь")}<nav class="related-links" aria-label="Направления салона">{category_links}</nav></section><section class="page-section procedure-catalog" aria-label="Каталог процедур"><div class="procedure-grid">{cards}</div><p class="fine-print">Услуги, цены, время и изображения иллюстрируют вымышленный салон. Реальная запись не подключена.</p></section>'''
     return document("services", "Услуги и процедуры", "Меню красоты MUSE: восемь отдельных страниц процедур с описанием, стоимостью и временем.", content, "catalog-page")
 
 
-def looks_page():
-    looks = [
+LOOKS = [
         ("collection-hero.webp", "Графичное каре", "Чёткий срез тёмного каре на фоне цвета марсала.", "Стрижка"),
         ("collection-makeup.webp", "Медный сатин", "Медные тени и мягкий свет на коже.", "Макияж"),
         ("collection-nails.webp", "Вишня на шёлке", "Глянцевый вишнёвый лак в складках шёлка.", "Маникюр"),
@@ -296,22 +296,60 @@ def looks_page():
         ("nails.webp", "Тёмная вишня", "Глубокий цвет и чистая форма. Красота маленького жеста.", "Ногти"),
         ("styling.webp", "Мягкая волна", "Укладка длинных волос круглой щёткой.", "Укладка"),
     ]
-    cards = ''.join(f'''<button type="button" class="look-card" data-lightbox="assets/{image}" data-caption="{caption}" aria-haspopup="dialog"><img src="{BASE}assets/{image}" alt="{caption}" width="1024" height="1536" loading="lazy"><span>{name}<i>{category}</i></span></button>''' for image, name, caption, category in looks)
-    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Коллекция образов</p><h1>Коллекция<br><em>образов.</em></h1><p class="body-large">Откройте кадр, чтобы рассмотреть линию среза, оттенок или фактуру крупным планом.</p>{palette_portrait("collection-hero.webp", "Портрет модели с графичным каре на фоне марсала")}</section><section class="looks page-section"><div class="look-grid">{cards}</div><p class="editorial-note">Художественная коллекция, созданная для этого проекта. Изображения иллюстрируют концепцию и не являются фотографиями выполненных услуг.</p></section><section class="page-section inner-grid"><h2>Образ начинается<br><em>с детали.</em></h2><div><p class="body-large">Медное каре, глубокая вишня или мягкий вечерний акцент. В каталоге можно открыть соответствующую процедуру и узнать, как устроен визит.</p><a class="pill burgundy" href="{BASE}services/">Исследовать процедуры</a></div></section><dialog id="image-dialog" class="image-dialog"><button type="button" data-close-dialog aria-label="Закрыть изображение">Закрыть</button><img src="{BASE}assets/hair.webp" alt=""><p></p></dialog>'''
-    return document("looks", "Образы и вдохновение", "Редакционная коллекция образов MUSE: волосы, цвет, макияж, маникюр и укладка.", content, "looks-page")
 
+LOOK_SERVICES = ("precision-cut", "evening-makeup", "manicure", "brow-architecture",
+                 "precision-cut", "signature-color", "evening-makeup", "manicure", "hair-care")
+
+
+def lookbook(home=False):
+    selection = LOOKS[:3] if home else LOOKS
+    thumbs = []
+    for i, (image, name, caption, category) in enumerate(selection):
+        small = image.replace(".webp", "-small.webp") if image.startswith("collection-") else image
+        thumbs.append(f'<a class="look-thumb" href="{BASE}assets/{image}" data-look data-name="{name}" data-caption="{caption}" data-procedure="{LOOK_SERVICES[i]}" aria-label="{name}" aria-current="{str(i == 0).lower()}"><img src="{BASE}assets/{small}" alt="" width="72" height="86"></a>')
+    image, name, caption, _ = selection[0]
+    title = '<h2>Образы</h2>' if home else '<h1>Образы</h1>'
+    more = f'<a class="edition-link" href="{BASE}looks/">Все девять образов</a>' if home else ''
+    return f'''<section class="lookbook" aria-label="Коллекция образов">
+      <div class="look-heading">{title}{more}</div>
+      <div class="look-work"><figure class="look-stage"><img data-look-photo src="{BASE}assets/{image}" alt="{caption}" width="1672" height="941"></figure>
+      <div class="look-controls"><div class="look-caption" aria-live="polite"><h3 data-look-name>{name}</h3><p data-look-copy>{caption}</p><a data-look-link class="edition-link" href="{BASE}procedures/{LOOK_SERVICES[0]}/">К процедуре</a></div>
+      <nav class="look-thumbs" aria-label="Выбор образа">{''.join(thumbs)}</nav></div></div></section>'''
+
+
+def looks_page():
+    return document("looks", "Коллекция образов", "Девять образов MUSE с переходом к соответствующей процедуре.", lookbook(), "looks-page")
+
+
+def home_page():
+    directory = ''.join(f'<a href="{BASE}{slug}/">{service["name"]}</a>' for slug, service in SERVICES.items())
+    featured = []
+    for slug in ("precision-cut", "signature-color", "evening-makeup", "manicure", "brow-architecture"):
+        p = PROCEDURES[slug]
+        featured.append(f'<a class="menu-line" href="{BASE}procedures/{slug}/"><span>{p["name"]}</span><small>{p["duration"]} мин</small><b>{p["price"]}</b></a>')
+    content = f'''<section class="campaign cover" aria-label="Ателье красоты MUSE">
+    <div class="campaign-type"><p class="city-line">Москва</p><h1>Ателье<br><em>красоты</em></h1><a class="edition-link" href="#service-list">Услуги и цены</a></div>
+    <div class="campaign-film"><picture><source media="(max-width:760px)" srcset="{BASE}assets/portrait-film-small.webp"><img src="{BASE}assets/portrait-film.webp" width="900" height="1100" alt="Студийный портрет модели" fetchpriority="high"></picture>
+    <video id="hero-video" width="900" height="1100" playsinline muted loop preload="none" aria-hidden="true"><source media="(max-width:760px)" data-src="{BASE}assets/portrait-film-small.mp4" type="video/mp4"><source data-src="{BASE}assets/portrait-film.mp4" type="video/mp4"></video></div>
+    <div class="campaign-index"><div class="detail-shot"><img src="{BASE}assets/collection-nails-small.webp" alt="Бордовый лак на шёлке" width="560" height="747"></div><nav aria-label="Направления ателье">{directory}</nav></div>
+    <button type="button" id="hero-video-toggle" class="film-switch" aria-label="Воспроизвести видео" title="Воспроизвести видео" hidden><span aria-hidden="true"></span></button></section>
+    <section class="house-menu" id="service-list"><div class="house-title"><h2>Меню<br><em>ателье</em></h2><a class="edition-link" href="{BASE}prices/">Весь прайс</a></div><div class="menu-lines">{''.join(featured)}</div></section>
+    {lookbook(True)}
+    <section class="salon-space"><img src="{BASE}assets/space.webp" alt="Интерьер ателье с арочными зеркалами" width="1536" height="1024" loading="lazy"><div><h2>Пространство<br><em>MUSE</em></h2><a class="edition-link" href="{BASE}atelier/">Внутри ателье</a></div></section>'''
+    return document("", "Ателье красоты", "Услуги, цены и коллекция образов MUSE.", content)
 
 def prices_page():
     groups = []
     for category_slug, category in SERVICES.items():
         rows = ''.join(f'<a class="price-row procedure-price-link" href="{BASE}procedures/{slug}/"><h3>{p["name"]}</h3><span>{p["duration"]} минут</span><strong>{p["price"]}</strong></a>' for slug, p in PROCEDURES.items() if p["category"] == category_slug)
         groups.append(f'<section class="price-category"><h2>{category["name"]}</h2><div class="price-list">{rows}</div></section>')
-    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Прайс</p><h1>Красота<br><em>в деталях.</em></h1><p class="body-large">Стоимость, время и состав визита. Нажмите на процедуру, чтобы узнать подробности перед выбором.</p>{palette_portrait("collection-nails.webp", "Вишнёвый лак и складки шёлка")}</section><section class="page-section price-catalog"><div class="price-catalog-note"><p class="eyebrow">Демонстрационный прайс</p><p>Пример стоимости для вымышленного салона. Продолжительность ориентировочная; состав каждой процедуры раскрыт на её странице.</p><a class="pill burgundy" href="{BASE}visit/">Собрать визит</a></div><div class="price-catalog-groups">{''.join(groups)}</div></section>'''
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Прайс</p><h1>Цены и время</h1><p class="body-large">Стоимость, время и состав визита. Нажмите на процедуру, чтобы узнать подробности перед выбором.</p>{palette_portrait("collection-nails.webp", "Вишнёвый лак и складки шёлка")}</section><section class="page-section price-catalog"><div class="price-catalog-note"><p class="eyebrow">Демонстрационный прайс</p><p>Пример стоимости для вымышленного салона. Продолжительность ориентировочная; состав каждой процедуры раскрыт на её странице.</p><a class="pill burgundy" href="{BASE}visit/">Собрать визит</a></div><div class="price-catalog-groups">{''.join(groups)}</div></section>'''
     return document("prices", "Цены и продолжительность", "Демонстрационный прайс MUSE: стоимость и время восьми процедур с переходом к подробному описанию.", content, "prices-page")
 
 
 def main():
     pages = {slug: service_page(slug, service) for slug, service in SERVICES.items()}
+    pages[""] = home_page()
     pages["atelier"] = atelier_page()
     pages["visit"] = visit_page()
     pages["services"] = catalog_page()
