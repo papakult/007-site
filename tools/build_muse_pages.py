@@ -56,8 +56,8 @@ SERVICES = {
         "eyebrow": "MUSE / Макияж и укладки",
         "title": "Момент — ваш.<br><em>Акценты — тоже.</em>",
         "intro": "Невесомый тон, выразительный взгляд или один смелый цвет. Образ для вечера, съёмки и просто особенного дня.",
-        "image": "hero.webp",
-        "alt": "Портрет женщины с естественным макияжем и длинными тёмными волосами",
+        "image": "collection-makeup.webp",
+        "alt": "Медный макияж век в студийном свете",
         "heading": "Узнавать себя.<br><em>Любить детали.</em>",
         "copy": "Макияж строится вокруг вашего лица и настроения события. Свет, одежда, причёска и желаемая интенсивность помогают найти верные акценты. Визит можно дополнить укладкой и собрать образ в одном пространстве.",
         "prices": [
@@ -77,8 +77,8 @@ SERVICES = {
         "eyebrow": "MUSE / Брови и ресницы",
         "title": "Выразительность.<br><em>В тон вам.</em>",
         "intro": "Направление, оттенок и мягкая линия. Небольшое изменение, которое помогает собрать образ и подчеркнуть взгляд.",
-        "image": "hero.webp",
-        "alt": "Выразительный взгляд и естественная форма бровей в крупном портрете",
+        "image": "collection-brow.webp",
+        "alt": "Натуральная линия брови крупным планом",
         "heading": "Точность<br><em>в деталях.</em>",
         "copy": "Форма бровей начинается с ваших пожеланий: сохранить естественную линию, сделать оттенок заметнее или добавить укладку. Перед работой важно обсудить желаемую интенсивность и особенности ухода.",
         "prices": [
@@ -183,8 +183,8 @@ PROCEDURES = {
     },
     "brow-architecture": {
         "name": "Форма и окрашивание бровей", "category": "brows", "price": "3 500 ₽", "duration": 45,
-        "title": "Ваш взгляд.<br><em>Точный акцент.</em>", "image": "makeup.webp",
-        "alt": "Выразительный взгляд и мягкая линия бровей в бьюти-портрете",
+        "title": "Ваш взгляд.<br><em>Точный акцент.</em>", "image": "collection-brow.webp",
+        "alt": "Форма брови и направление волосков крупным планом",
         "intro": "Форма и оттенок, которые поддерживают ваш образ. От едва заметного изменения до более выразительной линии.",
         "heading": "Найти<br><em>свой баланс.</em>",
         "description": "Брови меняют впечатление от лица даже при небольшом изменении линии или насыщенности. Перед работой важно договориться, какую форму хочется сохранить, где добавить чёткости и насколько заметным должен быть оттенок. В эту концептуальную услугу входят коррекция формы и окрашивание.",
@@ -218,7 +218,7 @@ def footer():
 def document(slug, title, description, content, body_class=""):
     canonical = f"https://007-a.ru{BASE}{slug}/"
     return f'''<!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#341018"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=premium2"><script defer src="{BASE}site.js?v=premium2"></script></head><body class="inner-page {escape(body_class)}">{header()}<main id="main">{content}</main>{footer()}</body></html>'''
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#341018"><meta name="robots" content="noindex,follow"><title>{escape(title)} — MUSE</title><meta name="description" content="{escape(description, quote=True)}"><link rel="canonical" href="{canonical}"><link rel="icon" type="image/svg+xml" href="{BASE}assets/mark.svg"><link rel="stylesheet" href="{BASE}style.css?v=portrait3"><script defer src="{BASE}site.js?v=portrait3"></script></head><body class="inner-page {escape(body_class)}">{header()}<main id="main">{content}</main>{footer()}</body></html>'''
 
 
 def related(current=None):
@@ -282,6 +282,10 @@ def catalog_page():
 
 def looks_page():
     looks = [
+        ("collection-hero.webp", "Графичное каре", "Чёткий срез тёмного каре на фоне цвета марсала.", "Стрижка"),
+        ("collection-makeup.webp", "Медный сатин", "Медные тени и мягкий свет на коже.", "Макияж"),
+        ("collection-nails.webp", "Вишня на шёлке", "Глянцевый вишнёвый лак в складках шёлка.", "Маникюр"),
+        ("collection-brow.webp", "Линия брови", "Естественный изгиб и направление волосков крупным планом.", "Брови"),
         ("hair.webp", "Медный характер", "Чёткая линия каре. Тёплый цвет. Свободная текстура.", "Волосы"),
         ("color.webp", "Свет в движении", "Нанесение красителя кистью на прядь волос.", "Цвет"),
         ("makeup.webp", "Один точный акцент", "Живой тон и выразительный взгляд для особенного вечера.", "Макияж"),
@@ -289,7 +293,7 @@ def looks_page():
         ("styling.webp", "Мягкая волна", "Укладка длинных волос круглой щёткой.", "Укладка"),
     ]
     cards = ''.join(f'''<button type="button" class="look-card" data-lightbox="assets/{image}" data-caption="{caption}" aria-haspopup="dialog"><img src="{BASE}assets/{image}" alt="{caption}" width="1024" height="1536" loading="lazy"><span>{name}<i>{category}</i></span></button>''' for image, name, caption, category in looks)
-    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Коллекция образов</p><h1>Узнайте<br><em>своё настроение.</em></h1><p class="body-large">Рассмотрите цвет, форму и фактуру. Сохраните ощущение, с которого мог бы начаться ваш следующий образ.</p></section><section class="looks page-section"><div class="look-grid">{cards}</div><p class="editorial-note">Художественная коллекция, созданная для этого проекта. Изображения иллюстрируют концепцию и не являются фотографиями выполненных услуг.</p></section><section class="page-section inner-grid"><h2>Образ начинается<br><em>с детали.</em></h2><div><p class="body-large">Медное каре, глубокая вишня или мягкий вечерний акцент. В каталоге можно открыть соответствующую процедуру и узнать, как устроен визит.</p><a class="pill burgundy" href="{BASE}services/">Исследовать процедуры</a></div></section><dialog id="image-dialog" class="image-dialog"><button type="button" data-close-dialog aria-label="Закрыть изображение">Закрыть</button><img src="{BASE}assets/hair.webp" alt=""><p></p></dialog>'''
+    content = f'''<section class="page-section catalog-intro"><p class="eyebrow">MUSE / Коллекция образов</p><h1>Коллекция<br><em>образов.</em></h1><p class="body-large">Откройте кадр, чтобы рассмотреть линию среза, оттенок или фактуру крупным планом.</p></section><section class="looks page-section"><div class="look-grid">{cards}</div><p class="editorial-note">Художественная коллекция, созданная для этого проекта. Изображения иллюстрируют концепцию и не являются фотографиями выполненных услуг.</p></section><section class="page-section inner-grid"><h2>Образ начинается<br><em>с детали.</em></h2><div><p class="body-large">Медное каре, глубокая вишня или мягкий вечерний акцент. В каталоге можно открыть соответствующую процедуру и узнать, как устроен визит.</p><a class="pill burgundy" href="{BASE}services/">Исследовать процедуры</a></div></section><dialog id="image-dialog" class="image-dialog"><button type="button" data-close-dialog aria-label="Закрыть изображение">Закрыть</button><img src="{BASE}assets/hair.webp" alt=""><p></p></dialog>'''
     return document("looks", "Образы и вдохновение", "Редакционная коллекция образов MUSE: волосы, цвет, макияж, маникюр и укладка.", content, "looks-page")
 
 

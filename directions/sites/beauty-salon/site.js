@@ -24,33 +24,55 @@
 
   const video = document.querySelector('#hero-video');
   const videoButton = document.querySelector('#hero-video-toggle');
-  if (video) {
-    let userPaused = false, visible = true;
-    if (matchMedia('(max-width:760px)').matches) video.poster = root + 'assets/hero-mobile-poster.webp';
-    video.muted = true; video.defaultMuted = true; video.playsInline = true;
-    function syncVideoButton() {
-      if (!videoButton) return;
-      const playing = !video.paused;
-      videoButton.firstChild.nodeValue = playing ? 'Пауза' : 'Смотреть';
-      videoButton.setAttribute('aria-label', playing ? 'Приостановить фоновое видео' : 'Воспроизвести фоновое видео');
-      videoButton.querySelector('span').textContent = playing ? 'Ⅱ' : '✷';
+  if (video && videoButton) {
+    let manualChoice = null;
+    let visible = true;
+    let sourcesLoaded = false;
+    const label = videoButton.querySelector('.film-label');
+
+    function showState() {
+      const playing = !video.paused && !video.ended;
+      videoButton.classList.toggle('is-playing', playing);
+      label.textContent = playing ? 'Пауза' : 'Смотреть';
+      videoButton.setAttribute('aria-label', playing ? 'Приостановить видео' : 'Воспроизвести видео');
     }
-    function resumeVideo() {
-      if (userPaused || reduced.matches || document.hidden || !visible) return;
-      video.play().catch(syncVideoButton);
+    function play() {
+      if (!sourcesLoaded) {
+        video.querySelectorAll('source').forEach(source => { source.src = source.dataset.src; });
+        sourcesLoaded = true;
+        video.load();
+      }
+      video.play().catch(showState);
     }
-    video.addEventListener('play', syncVideoButton); video.addEventListener('pause', syncVideoButton);
-    videoButton?.addEventListener('click', () => {
-      if (video.paused) { userPaused = false; video.play().catch(syncVideoButton); }
-      else { userPaused = true; video.pause(); }
+    function sync() {
+      if (visible && !document.hidden && (manualChoice ?? !reduced.matches)) play();
+      else video.pause();
+    }
+    videoButton.hidden = false;
+    videoButton.addEventListener('click', () => {
+      manualChoice = video.paused;
+      sync();
     });
-    reduced.addEventListener('change', e => { if (e.matches) video.pause(); else resumeVideo(); });
-    document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); else resumeVideo(); });
-    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-      if (visible) resumeVideo(); else video.pause();
-    }, { threshold: .01 }).observe(video);
-    if (reduced.matches) { video.autoplay = false; video.pause(); syncVideoButton(); } else resumeVideo();
+    video.addEventListener('playing', () => {
+      video.classList.add('has-frame');
+      showState();
+    });
+    video.addEventListener('pause', showState);
+    video.addEventListener('error', () => {
+      video.classList.remove('has-frame');
+      videoButton.hidden = true;
+    });
+    reduced.addEventListener('change', () => { manualChoice = null; sync(); });
+    document.addEventListener('visibilitychange', sync);
+    if ('IntersectionObserver' in window) {
+      dock.hidden = true;
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      }).observe(video);
+      new IntersectionObserver(([entry]) => { dock.hidden = entry.isIntersecting; }).observe(document.querySelector('.cover'));
+    }
+    sync();
   }
 
   const treatments = {
@@ -61,7 +83,7 @@
     'manicure': { name: 'Маникюр с покрытием', copy: 'Аккуратная форма, выбранная вами палитра и точный блик. Все детали любимого жеста.', price: '4 200 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Маникюр глубокого вишнёвого оттенка' },
     'pedicure': { name: 'Педикюр с покрытием', copy: 'Обработка стоп и ногтей, выбор формы и оттенка. Самостоятельная процедура с понятным составом визита.', price: '5 500 ₽', duration: '90 минут', image: 'nails.webp', alt: 'Палитра вишнёвого оттенка для ногтевого сервиса' },
     'evening-makeup': { name: 'Вечерний макияж', copy: 'Живой тон и выразительные акценты для вашего события. Свет, одежда и настроение помогают собрать образ.', price: '7 500 ₽', duration: '75 минут', image: 'makeup.webp', alt: 'Вечерний макияж с бронзовым акцентом' },
-    'brow-architecture': { name: 'Форма и окрашивание', copy: 'Линия и оттенок, которые подчёркивают ваш взгляд. Обсуждение насыщенности, форма и аккуратный цвет.', price: '3 500 ₽', duration: '45 минут', image: 'hero.webp', alt: 'Естественная форма бровей в портрете MUSE' }
+    'brow-architecture': { name: 'Форма и окрашивание', copy: 'Линия и оттенок, которые подчёркивают ваш взгляд. Обсуждение насыщенности, форма и аккуратный цвет.', price: '3 500 ₽', duration: '45 минут', image: 'collection-brow.webp', alt: 'Естественная линия брови крупным планом' }
   };
   const treatmentButtons = [...document.querySelectorAll('[data-treatment]')];
   treatmentButtons.forEach(button => button.addEventListener('click', () => {
