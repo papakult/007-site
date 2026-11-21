@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: url },
   openGraph: { title: 'ОПОРА — создаём пространство для жизни', description: 'Архитектура. Строительство. Внимание к каждой детали. Демонстрационный проект 007-A.', url, locale:'ru_RU', type:'website', images: [{url:'/directions/sites/construction/hero-villa.webp',width:1600,height:900,alt:'Современная вилла из камня и стекла в вечернем свете'}] },
   twitter: {card:'summary_large_image',title:'ОПОРА — архитектура для жизни',images:['/directions/sites/construction/hero-villa.webp']},
-  robots: {index:true,follow:true}, icons: {icon:'/favicon.ico'},
+  robots: {index:false,follow:true}, icons: {icon:'/favicon.ico'},
 };
 export const viewport: Viewport = {themeColor:'#191b18',width:'device-width',initialScale:1};
 export default function RootLayout({children}:{children:React.ReactNode}) {
