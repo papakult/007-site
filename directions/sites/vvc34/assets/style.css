@@ -683,3 +683,18 @@ body.clinic-interior:has(.centre-spread) main{padding-bottom:0}
  .reception-panel .reception-mail a{overflow-wrap:anywhere}
  .clinic-interior .paper-story img{height:auto;aspect-ratio:2.45}
 }
+
+body header .bar .head-services {
+ box-sizing:border-box; width:56px; height:56px; min-height:56px; flex:0 0 56px;
+ padding:4px; border-radius:0; display:grid; place-content:center; text-align:center;
+ white-space:normal; font-size:13px; line-height:1.12; gap:0;
+}
+body header .bar .head-services::after {content:none}
+.centre-copy .actions a[href*="services"] {border-radius:0}
+@media(max-width:760px){
+ .clinic-interior header .bar {grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:"brand services menu";align-items:center}
+ .clinic-interior header .bar .brand {grid-area:brand;max-width:100%}
+ .clinic-interior header .bar .brand small {display:none}
+ .clinic-interior header .bar .menu {grid-area:menu;position:static}
+ .clinic-interior header .bar nav {grid-column:1/-1;grid-row:2}
+}

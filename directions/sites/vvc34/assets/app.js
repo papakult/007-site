@@ -23,10 +23,8 @@ const navSection = data.doctors.some(d=>d.slug===page)?'team':
   (data.articles||[]).some(a=>a.slug===page)?'articles':
   /^procedure-/.test(page)?'prices':page;
 const homePage = page === 'index';
-const headerHours = homePage ? '' : '<small class="header-hours">Ежедневно, 10:00–19:00</small>';
-const headerPhones = homePage ? '' : '<div class="headphones">'+icon('phone')+'<div>'+phoneLinks()+'</div></div>';
 const brand='<span aria-hidden="true" class="crossmark"><i></i></span><b>ВВЦ</b><small>Волгоградский ветеринарный центр хирургии и травматологии</small>';
-document.body.insertAdjacentHTML('afterbegin','<a class="skip-content" href="#main-content">К содержанию</a><header><div class="bar wrap"><a class="brand" aria-label="ВВЦ — главная" href="'+href('index')+'">'+brand+'</a><nav aria-label="Основное меню" id="nav">'+nav.map(([p,t])=>'<a '+(navSection===p?'aria-current="page"':'')+' href="'+href(p)+'">'+t+'</a>').join('')+'</nav>'+headerHours+'<a class="head-services" '+(svcIsActive()?'aria-current="'+(page==='services'?'page':'location')+'"':'')+' href="'+href('services')+'">Все услуги</a>'+headerPhones+'<button type="button" class="menu" aria-controls="nav" aria-expanded="false"><span class="visually-hidden">Меню</span><span aria-hidden="true">☰</span></button></div></header>');
+document.body.insertAdjacentHTML('afterbegin','<a class="skip-content" href="#main-content">К содержанию</a><header><div class="bar wrap"><a class="brand" aria-label="ВВЦ — главная" href="'+href('index')+'">'+brand+'</a><nav aria-label="Основное меню" id="nav">'+nav.map(([p,t])=>'<a '+(navSection===p?'aria-current="page"':'')+' href="'+href(p)+'">'+t+'</a>').join('')+'</nav><a class="head-services" '+(svcIsActive()?'aria-current="'+(page==='services'?'page':'location')+'"':'')+' href="'+href('services')+'">Все услуги</a><button type="button" class="menu" aria-controls="nav" aria-expanded="false"><span class="visually-hidden">Меню</span><span aria-hidden="true">☰</span></button></div></header>');
 const menu=document.querySelector('.menu'), bar=document.querySelector('.bar');
 menu.onclick=()=>{
  const open=bar.classList.toggle('open');
@@ -42,7 +40,6 @@ root.id='main-content';root.tabIndex=-1;
 document.querySelector('.skip-content').onclick=e=>{
  e.preventDefault();root.focus();root.scrollIntoView({block:'start'});
 };
-if (!homePage) document.body.insertAdjacentHTML('beforeend','<footer><div class="wrap"><div>Волгоград, ул. Донецкая, 16А<br><small>Ежедневно с 10:00 до 19:00</small></div><div class="inline">'+phoneLinks()+'</div></div></footer>');
 const svc=k=>services.find(s=>s[0]===k);
 const crumb=(title,anc)=>'<nav aria-label="Хлебные крошки" class="bread">'+link('index','Главная')+' / '+(anc?link(anc[0],anc[1])+' / ':'')+esc(title)+'</nav>';
 const title=(s)=>{document.title=s+' · ВВЦ Волгоград'};
@@ -102,7 +99,7 @@ function priceRow(p){
  return '<a class="cost-entry" href="'+esc(url)+'"><span class="cost-name">'+esc(p.name)+(variant?'<small>'+esc(variant)+'</small>':'')+'</span><strong>'+esc(summaryMoney(p))+'</strong><span class="details-button">Подробнее <span aria-hidden="true">→</span></span></a>';
 }
 function callPanel(){
-  const primary='<div class="callbox">'+icon('phone')+'<div><a class="call-title" href="tel:+78442269908">Позвонить в клинику</a><div class="call-numbers">'+phoneLinks()+'</div></div></div>';
+  const primary='<div class="callbox">'+icon('phone')+'<div><strong class="call-title">Позвонить в клинику</strong><div class="call-numbers">'+phoneLinks()+'</div></div></div>';
   return '<div class="call-actions">'+primary+'</div><p class="call-caption">Запись на приём по телефону</p>';
 }
 function home(){
@@ -153,7 +150,7 @@ function startCoverFilm(){
  sync();
 }
 function service(s){title(s[1]);const d=doctors.find(d=>d.slug===s[8]);return '<div class="wrap">'+crumb(s[1],['services','Услуги'])+'<div class="split pagehead"><div class="spaced"><div class="kicker">Услуги центра</div><h1>'+esc(s[1])+'</h1><p class="lead">'+esc(s[4])+'</p>'+actions()+'</div>'+img(s[3],s[1],'feature-img',true)+'</div></div><section class="block tint"><div class="wrap split"><h2>'+esc(s[5])+'</h2><p class="lead">'+esc(s[6])+'</p></div></section><section class="wrap block"><div class="sectiontop"><h2>Стоимость услуг</h2>'+link('prices','Все цены направления','btn',{direction:s[0]})+'</div>'+prices.map((p,i)=>({...p,i})).filter(p=>direction(p)===s[0]).slice(0,5).map(priceRow).join('')+'</section>'+(d?'<section class="wrap content article spaced"><h2>Специалист направления</h2><h3>'+link(d.slug,d.name,'textlink')+'</h3><p>'+esc(d.summary)+'</p></section>':'')}
-function bio(d){title(d.name);return '<div class="wrap">'+crumb(d.name,['team','Врачи'])+'<section class="pagehead split staff-bio"><div class="bio-portrait">'+portrait(d,true)+'</div><div class="spaced">'+roleBadge(d)+'<h1>'+personName(d)+'</h1><p class="lead">'+esc(d.summary)+'</p><div class="actions">'+(/администратор|учредитель/i.test(d.role)?'':'<a class="btn primary" href="tel:+78442269908">Позвонить для записи</a>')+link('team','Вся команда','btn')+'</div>'+'</div></section></div>'+(d.details.length?'<section class="block tint"><div class="wrap split"><h2>Образование<br>и опыт</h2><div class="article">'+d.details.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div></div></section>':'')}
+function bio(d){title(d.name);return '<div class="wrap">'+crumb(d.name,['team','Врачи'])+'<section class="pagehead split staff-bio"><div class="bio-portrait">'+portrait(d,true)+'</div><div class="spaced">'+roleBadge(d)+'<h1>'+personName(d)+'</h1><p class="lead">'+esc(d.summary)+'</p>'+(/администратор|учредитель/i.test(d.role)?'':callPanel())+'<div class="actions">'+link('team','Вся команда','btn')+'</div>'+'</div></section></div>'+(d.details.length?'<section class="block tint"><div class="wrap split"><h2>Образование<br>и опыт</h2><div class="article">'+d.details.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div></div></section>':'')}
 function about(){
  title('О центре');
  return `<section class="wrap centre-spread"><div class="centre-copy"><h1>О центре</h1>
@@ -380,3 +377,9 @@ else if(currentService)root.innerHTML=service(currentService);
 else if(person)root.innerHTML=bio(person);
 
 else root.innerHTML=head('Страница не найдена')+link('index','Вернуться на главную','btn');
+
+if (!homePage && page !== 'contacts') {
+ const address = page === 'about' ? '' : 'Волгоград, ул. Донецкая, 16А<br>';
+ const numbers = root.querySelector('a[href^="tel:"]') ? '' : '<div class="inline">'+phoneLinks()+'</div>';
+ document.body.insertAdjacentHTML('beforeend','<footer><div class="wrap"><div>'+address+'<small>Ежедневно с 10:00 до 19:00</small></div>'+numbers+'</div></footer>');
+}
