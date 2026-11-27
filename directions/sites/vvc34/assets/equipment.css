@@ -225,3 +225,39 @@
 
 .equipment-credits{margin:24px 0 0;border-top:1px solid var(--line);padding:14px 0;color:var(--muted);font-size:.94rem}.equipment-credits summary{display:list-item;min-height:40px;cursor:pointer;color:var(--rust-dark)}.equipment-credits p{max-width:72ch}.equipment-credits ul{padding-left:1.3rem}.equipment-credits a{text-decoration:underline;text-underline-offset:.2em}
 .equipment-gallery a,.equipment-source-link{text-decoration:underline;text-underline-offset:.2em;color:var(--rust-dark)}
+
+.equipment-news {
+  margin: clamp(22px, 3.7vw, 50px) 0 30px;
+  padding: clamp(24px, 4vw, 50px) 0 18px;
+  border-block: 1px solid var(--equipment-rule);
+  scroll-margin-top: 1rem;
+}
+.equipment-news-top {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px 32px;
+  padding-bottom: clamp(18px, 2.6vw, 30px);
+}
+.equipment-news-top time {display: block; margin-bottom: 9px; color: var(--muted); font-size: .94rem}
+.equipment-news-list {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: clamp(14px, 2.5vw, 32px);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.equipment-news-list li {border-top: 2px solid var(--equipment-rule); padding-top: 14px}
+.equipment-news-list h3 {margin: 0; font: 400 clamp(1.5rem,2.3vw,2.15rem)/1.1 var(--serif); letter-spacing: -.02em}
+.equipment-news-list h3 a {display: inline-flex; align-items:center; min-height: 44px; text-decoration: underline; text-decoration-color:var(--equipment-rule); text-decoration-thickness:1px; text-underline-offset:.16em}
+.equipment-news-list h3 a:hover {color: var(--rust-dark); text-decoration-color: currentColor}
+.equipment-news-list p {margin: 6px 0 10px; font-size: 1rem; line-height: 1.5}
+.equipment-news a:focus-visible {outline: 2px solid var(--rust-dark); outline-offset: 3px}
+@media(max-width: 760px) {
+  .equipment-news-top {display: block}
+  .equipment-news-top .equipment-link {margin-top: 7px}
+  .equipment-news-list {grid-template-columns: 1fr; gap: 14px}
+  .equipment-news-list li {padding-top: 8px}
+  .equipment-news-list p {margin: 0}
+}
