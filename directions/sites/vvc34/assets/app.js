@@ -22,8 +22,11 @@ function svcIsActive(){return page==='services'||services.some(s=>s[0]===page)}
 const navSection = data.doctors.some(d=>d.slug===page)?'team':
   (data.articles||[]).some(a=>a.slug===page)?'articles':
   /^procedure-/.test(page)?'prices':page;
+const homePage = page === 'index';
+const headerHours = homePage ? '' : '<small class="header-hours">Ежедневно, 10:00–19:00</small>';
+const headerPhones = homePage ? '' : '<div class="headphones">'+icon('phone')+'<div>'+phoneLinks()+'</div></div>';
 const brand='<span aria-hidden="true" class="crossmark"><i></i></span><b>ВВЦ</b><small>Волгоградский ветеринарный центр хирургии и травматологии</small>';
-document.body.insertAdjacentHTML('afterbegin','<a class="skip-content" href="#main-content">К содержанию</a><header><div class="bar wrap"><a class="brand" aria-label="ВВЦ — главная" href="'+href('index')+'">'+brand+'</a><nav aria-label="Основное меню" id="nav">'+nav.map(([p,t])=>'<a '+(navSection===p?'aria-current="page"':'')+' href="'+href(p)+'">'+t+'</a>').join('')+'</nav><small class="header-hours">Ежедневно, 10:00–19:00</small>'+'<a class="head-services" '+(svcIsActive()?'aria-current="'+(page==='services'?'page':'location')+'"':'')+' href="'+href('services')+'">Все услуги</a>'+'<div class="headphones">'+icon('phone')+'<div>'+phoneLinks()+'</div></div><button type="button" class="menu" aria-controls="nav" aria-expanded="false"><span class="visually-hidden">Меню</span><span aria-hidden="true">☰</span></button></div></header>');
+document.body.insertAdjacentHTML('afterbegin','<a class="skip-content" href="#main-content">К содержанию</a><header><div class="bar wrap"><a class="brand" aria-label="ВВЦ — главная" href="'+href('index')+'">'+brand+'</a><nav aria-label="Основное меню" id="nav">'+nav.map(([p,t])=>'<a '+(navSection===p?'aria-current="page"':'')+' href="'+href(p)+'">'+t+'</a>').join('')+'</nav>'+headerHours+'<a class="head-services" '+(svcIsActive()?'aria-current="'+(page==='services'?'page':'location')+'"':'')+' href="'+href('services')+'">Все услуги</a>'+headerPhones+'<button type="button" class="menu" aria-controls="nav" aria-expanded="false"><span class="visually-hidden">Меню</span><span aria-hidden="true">☰</span></button></div></header>');
 const menu=document.querySelector('.menu'), bar=document.querySelector('.bar');
 menu.onclick=()=>{
  const open=bar.classList.toggle('open');
@@ -39,7 +42,7 @@ root.id='main-content';root.tabIndex=-1;
 document.querySelector('.skip-content').onclick=e=>{
  e.preventDefault();root.focus();root.scrollIntoView({block:'start'});
 };
-document.body.insertAdjacentHTML('beforeend','<footer><div class="wrap"><div>Волгоград, ул. Донецкая, 16А<br><small>Ежедневно с 10:00 до 19:00</small></div><div class="inline">'+phoneLinks()+'</div></div></footer>');
+if (!homePage) document.body.insertAdjacentHTML('beforeend','<footer><div class="wrap"><div>Волгоград, ул. Донецкая, 16А<br><small>Ежедневно с 10:00 до 19:00</small></div><div class="inline">'+phoneLinks()+'</div></div></footer>');
 const svc=k=>services.find(s=>s[0]===k);
 const crumb=(title,anc)=>'<nav aria-label="Хлебные крошки" class="bread">'+link('index','Главная')+' / '+(anc?link(anc[0],anc[1])+' / ':'')+esc(title)+'</nav>';
 const title=(s)=>{document.title=s+' · ВВЦ Волгоград'};
@@ -98,9 +101,9 @@ function priceRow(p){
  const url=href(procedurePage(p.i)), variant=priceVariant(p);
  return '<a class="cost-entry" href="'+esc(url)+'"><span class="cost-name">'+esc(p.name)+(variant?'<small>'+esc(variant)+'</small>':'')+'</span><strong>'+esc(summaryMoney(p))+'</strong><span class="details-button">Подробнее <span aria-hidden="true">→</span></span></a>';
 }
-function callPanel(withServices=false){
+function callPanel(){
   const primary='<div class="callbox">'+icon('phone')+'<div><a class="call-title" href="tel:+78442269908">Позвонить в клинику</a><div class="call-numbers">'+phoneLinks()+'</div></div></div>';
-  return '<div class="call-actions">'+primary+(withServices?link('services','Все услуги','btn cover-services'):'')+'</div><p class="call-caption">Запись на приём по телефону</p>';
+  return '<div class="call-actions">'+primary+'</div><p class="call-caption">Запись на приём по телефону</p>';
 }
 function home(){
   title('Волгоградский ветеринарный центр хирургии и травматологии');
@@ -117,7 +120,7 @@ function home(){
   ];
   const imageKey=!window.preview.heroFilm&&window.matchMedia('(max-width:760px)').matches?'pdf-hero-mobile':'pdf-hero';
   return '<section class="home-cover"><div class="wrap cover-grid"><div class="cover-copy"><div class="kicker">Ветеринарная клиника в Волгограде</div><h1>Диагностика <br>и лечение<br><span>в одном центре</span></h1>'+
-    '<p class="lead">Хирургия, ортопедия и травматология для собак и кошек. Эндоскопия, рентген, УЗИ и собственная лаборатория.</p>'+callPanel(true)+'</div>'+
+    '<p class="lead">Хирургия, ортопедия и травматология для собак и кошек. Эндоскопия, рентген, УЗИ и собственная лаборатория.</p><div class="call-actions"><a class="callbox" href="tel:+'+phones[0][1]+'">'+icon('phone')+'<span><strong class="call-title">Позвонить в клинику</strong><span class="call-numbers">'+esc(phones[0][0])+'</span></span></a></div></div>'+
     ('<div class="cover-film">'+img(imageKey,'Ветеринар с золотистым ретривером на приёме','cover-picture',true)+'<video class="hero-motion" autoplay muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture></video></div>')+'</div></section>'+
     '<div class="home-ribbon"><div class="shortcut wrap">'+shortcuts.map(([k,n,t])=>'<a href="'+href(k)+'">'+icon(k)+'<span><strong>'+n+'</strong><small class="desktop-sub">'+t+'</small><small class="mobile-sub">'+({surgery:'Эндоскопия',orthopedics:'Травмы и переломы',diagnostics:'Рентген и УЗИ',lab:'Анализы в клинике'})[k]+'</small></span></a>').join('')+'</div>'+
     '<div class="stats"><div class="wrap"><div><strong>10+ лет</strong><small>работы центра</small></div><div><strong>10:00–19:00</strong><small>ежедневно</small></div><a href="'+href('contacts')+'"><strong>Донецкая, 16А</strong><small>Волгоград</small></a></div></div></div>'+
