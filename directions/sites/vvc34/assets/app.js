@@ -23,7 +23,7 @@ const navSection = data.doctors.some(d=>d.slug===page)?'team':
   (data.articles||[]).some(a=>a.slug===page)?'articles':
   /^procedure-/.test(page)?'prices':page;
 const homePage = page === 'index';
-const brand='<span aria-hidden="true" class="crossmark"><i></i></span><b>ВВЦ</b><span class="vvc-brand-mobile">Ветцентр<br>Волгоград</span><small>Волгоградский ветеринарный центр хирургии и травматологии</small>';
+const brand='<span aria-hidden="true" class="crossmark"><i></i></span><b>ВВЦ</b><small>Волгоградский ветеринарный центр хирургии и травматологии</small>';
 document.body.insertAdjacentHTML('afterbegin','<a class="skip-content" href="#main-content">К содержанию</a><header><div class="bar wrap"><a class="brand" aria-label="ВВЦ — главная" href="'+href('index')+'">'+brand+'</a><nav aria-label="Основное меню" id="nav">'+nav.map(([p,t])=>'<a '+(navSection===p?'aria-current="page"':'')+' href="'+href(p)+'">'+t+'</a>').join('')+'</nav><a class="head-services" '+(svcIsActive()?'aria-current="'+(page==='services'?'page':'location')+'"':'')+' href="'+href('services')+'">Все услуги</a><button type="button" class="menu" aria-controls="nav" aria-expanded="false"><span class="visually-hidden">Меню</span><span aria-hidden="true">☰</span></button></div></header>');
 const menu=document.querySelector('.menu'), bar=document.querySelector('.bar');
 menu.onclick=()=>{
@@ -67,18 +67,14 @@ function teamPage(){
  const chief=doctors.find(d=>d.role.trim().toLowerCase()==='главный ветеринарный врач');
  const remaining=doctors.filter(d=>d!==chief);
  const administrative=d=>/администратор|учредитель/i.test(d.role);
- const sections=[
-  {id:'clinical-team',name:'Клиническая команда',members:remaining.filter(d=>!administrative(d))},
-  {id:'administration',name:'Администрация',members:remaining.filter(administrative)}
- ].filter(section=>section.members.length);
- const teamNavigation='<nav class="staff-jumps" aria-label="Разделы команды">'+sections.map(section=>
-  '<a href="#'+section.id+'">'+esc(section.name)+'</a>').join('')+'</nav>';
+ const sections=[['Клиническая команда',remaining.filter(d=>!administrative(d))],
+  ['Администрация',remaining.filter(administrative)]];
  const feature=chief?'<article class="team-feature"><div class="chief-portrait">'+portrait(chief,true)+'</div>'+
  '<div class="chief-copy"><a class="chief-role-link" href="'+esc(href(chief.slug))+'">'+roleBadge(chief)+'</a><h2>'+personName(chief)+'</h2><p>'+esc(chief.summary)+'</p>'+
  '<a class="chief-action" href="'+esc(href(chief.slug))+'" aria-label="'+esc('О специалисте — '+chief.name)+'">'+profileAction+'</a></div></article>':'';
  return '<div class="wrap team-directory">'+crumb('Специалисты центра')+
- '<div class="team-mast"><h1>Специалисты центра</h1>'+teamNavigation+'</div>'+feature+
- sections.map(section=>'<section class="staff-section"><h2 id="'+section.id+'" tabindex="-1">'+esc(section.name)+'</h2><div class="staff-grid">'+section.members.map(personCard).join('')+'</div></section>').join('')+'</div>';
+ '<div class="team-mast"><h1>Специалисты центра</h1></div>'+feature+
+ sections.filter(([,members])=>members.length).map(([label,members])=>'<section class="staff-section"><h2>'+esc(label)+'</h2><div class="staff-grid">'+members.map(personCard).join('')+'</div></section>').join('')+'</div>';
 }
 const pricesFor=s=>prices.map((p,i)=>({...p,i})).filter(p=>(p.category+' '+p.name).toLowerCase().includes(s.toLowerCase()));
 function money(value){
@@ -100,45 +96,46 @@ function priceVariant(p){
 }
 function priceRow(p){
  const url=href(procedurePage(p.i)), variant=priceVariant(p);
- return '<a class="cost-entry" href="'+esc(url)+'"><span class="cost-name">'+esc(p.name)+(variant?'<small>'+esc(variant)+'</small>':'')+'</span><strong>'+esc(summaryMoney(p))+'</strong><span class="cost-arrow" aria-hidden="true">→</span></a>';
+ return '<a class="cost-entry" href="'+esc(url)+'"><span class="cost-name">'+esc(p.name)+(variant?'<small>'+esc(variant)+'</small>':'')+'</span><strong>'+esc(summaryMoney(p))+'</strong><span class="details-button">Подробнее <span aria-hidden="true">→</span></span></a>';
 }
 function callPanel(){
   const primary='<div class="callbox">'+icon('phone')+'<div><strong class="call-title">Позвонить в клинику</strong><div class="call-numbers">'+phoneLinks()+'</div></div></div>';
   return '<div class="call-actions">'+primary+'</div><p class="call-caption">Запись на приём по телефону</p>';
 }
 function home(){
- title('Волгоградский ветеринарный центр хирургии и травматологии');
- const directions=[
-  ['surgery','Хирургия','Малоинвазивные операции'],
-  ['orthopedics','Травматология','Ортопедия и переломы'],
-  ['diagnostics','Диагностика','УЗИ, рентген, эндоскопия'],
-  ['lab','Лаборатория','Исследования в центре']
- ];
- return `<div class="vvc-front wrap">
- <section class="vvc-lead" aria-labelledby="front-title">
-  <div class="vvc-intro"><p class="vvc-eyebrow">Ветеринарный центр · Волгоград</p>
-   <h1 id="front-title">Хирургия <span>и травматология</span></h1>
-   <p class="vvc-deck">Для собак и кошек. От обследования до операции — с командой врачей одного центра.</p>
-   <div class="home-call" role="group" aria-labelledby="home-call-title"><strong id="home-call-title">Позвонить в клинику</strong><div class="home-call-links">${phoneLinks()}</div></div>
-  </div>
-  <div class="vvc-film"><img class="vvc-film-poster" src="assets/media/clinic-visit.webp" alt="Врач ВВЦ Ирина Галимова с котёнком" fetchpriority="high"><video class="hero-motion" autoplay muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture></video></div>
- </section>
- <div class="vvc-directory">
-  <nav class="vvc-directions" aria-label="Направления центра">${directions.map(([slug,name,description])=>`<a href="${href(slug)}"><span>${name}</span><small>${description}</small></a>`).join('')}</nav>
-  <a class="vvc-clinician" href="${href('mikhail-dubinin')}"><img src="assets/media/vvc-surgeon.webp" alt="" width="108" height="116"><span><small>Хирург, травматолог-ортопед</small><strong>Михаил Дубинин</strong><span class="vvc-profile-link">О враче</span></span></a>
- </div>
- <div class="vvc-visit"><span class="vvc-founded">Работаем с 2012 года</span><a href="${href('contacts')}">Донецкая, 16А</a><span>Ежедневно <strong>10:00–19:00</strong></span></div>
- </div>`;
+  title('Волгоградский ветеринарный центр хирургии и травматологии');
+  const shortcuts=[
+    ['surgery','Хирургия','Малоинвазивные операции'],
+    ['orthopedics','Травматология','Травмы, переломы и ортопедия'],
+    ['diagnostics','Диагностика','Эндоскопия, рентген и УЗИ'],
+    ['lab','Лаборатория','Исследования на месте']
+  ];
+  const featured=[
+    ['surgery','Хирургия','Плановые и сложные операции'],
+    ['orthopedics','Ортопедия','Травмы и заболевания суставов'],
+    ['diagnostics','Диагностика','Эндоскопия, рентген, УЗИ и анализы']
+  ];
+  const imageKey=!window.preview.heroFilm&&window.matchMedia('(max-width:760px)').matches?'pdf-hero-mobile':'pdf-hero';
+  return '<section class="home-cover"><div class="wrap cover-grid"><div class="cover-copy"><div class="kicker">Ветеринарная клиника в Волгограде</div><h1>Диагностика <br>и лечение<br><span>в одном центре</span></h1>'+
+    '<p class="lead">Хирургия, ортопедия и травматология для собак и кошек. Эндоскопия, рентген, УЗИ и собственная лаборатория.</p><div class="home-call" role="group" aria-labelledby="home-call-title"><strong id="home-call-title">Позвонить в клинику</strong><div class="home-call-links">'+phoneLinks()+'</div></div></div>'+
+    ('<div class="cover-film">'+img(imageKey,'Ветеринар с золотистым ретривером на приёме','cover-picture',true)+'<video class="hero-motion" autoplay muted loop playsinline preload="none" aria-hidden="true" disablepictureinpicture></video></div>')+'</div></section>'+
+    '<div class="home-ribbon"><div class="shortcut wrap">'+shortcuts.map(([k,n,t])=>'<a href="'+href(k)+'">'+icon(k)+'<span><strong>'+n+'</strong><small class="desktop-sub">'+t+'</small><small class="mobile-sub">'+({surgery:'Эндоскопия',orthopedics:'Травмы и переломы',diagnostics:'Рентген и УЗИ',lab:'Анализы в клинике'})[k]+'</small></span></a>').join('')+'</div>'+
+    '<div class="stats"><div class="wrap"><div><strong>10+ лет</strong><small>работы центра</small></div><div><strong>10:00–19:00</strong><small>ежедневно</small></div><a href="'+href('contacts')+'"><strong>Донецкая, 16А</strong><small>Волгоград</small></a></div></div></div>'+
+    '<section class="wrap home-services"><div class="home-intro"><div><div class="kicker">Услуги центра</div><h2>Как мы <br>помогаем</h2></div></div><div class="grid">'+
+    featured.map(([k,n,t])=>{return '<a class="card" href="'+href(k)+'">'+img('pdf-'+k,'')+'<div class="caption"><h3>'+n+'</h3><p>'+t+'</p></div><span class="arrow" aria-hidden="true">→</span></a>'}).join('')+'</div></section>';
 }
 function startCoverFilm(){
  const video=root.querySelector('.hero-motion');
- if(!video)return;
+ if(!video||!window.preview.heroFilm)return;
  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
- let onscreen=true;
+ let onscreen=true,source;
  async function sync(){
   if(document.hidden||reduce.matches||!onscreen){video.pause();return}
   try{
-   if(!video.getAttribute('src'))video.src='assets/clinic-visit.mp4';
+   source??=Promise.resolve(window.preview.heroFilm());
+   const url=await source;
+   if(document.hidden||reduce.matches||!onscreen)return;
+   if(!video.src)video.src=url;
    await video.play();
   }catch{video.classList.remove('playing')}
  }
@@ -156,22 +153,19 @@ function service(s){title(s[1]);const d=doctors.find(d=>d.slug===s[8]);return '<
 function bio(d){title(d.name);return '<div class="wrap">'+crumb(d.name,['team','Врачи'])+'<section class="pagehead split staff-bio"><div class="bio-portrait">'+portrait(d,true)+'</div><div class="spaced">'+roleBadge(d)+'<h1>'+personName(d)+'</h1><p class="lead">'+esc(d.summary)+'</p>'+(/администратор|учредитель/i.test(d.role)?'':callPanel())+'<div class="actions">'+link('team','Вся команда','btn')+'</div>'+'</div></section></div>'+(d.details.length?'<section class="block tint"><div class="wrap split"><h2>Образование<br>и опыт</h2><div class="article">'+d.details.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div></div></section>':'')}
 function about(){
  title('О центре');
- return `<section class="wrap vvc-about"><div class="vvc-about-copy">
- <p class="vvc-eyebrow">Волгоградский ветеринарный центр</p>
- <h1>О центре</h1>
- <p class="vvc-about-intro">На Донецкой, 16А мы принимаем питомцев с 2012 года.</p>
- <p class="vvc-about-body">Здесь работают терапевты, хирурги, травматологи-ортопеды, анестезиолог и врач-лаборант. Для разных животных есть отдельные кабинеты. При центре работает ветаптека.</p>
- <div class="vvc-equipment"><h2>Диагностика в клинике</h2><div>${link('endoscopy','Эндоскопия')}${link('diagnostics','Рентген и УЗИ')}${link('lab','Лаборатория')}</div></div>
- <a class="vvc-team-link" href="${href('team')}">Познакомиться с командой</a>
- </div><figure class="vvc-about-portrait"><img src="assets/media/vvc-chief.webp" alt="Главный ветеринарный врач Ирина Лакеева в клинике" fetchpriority="high">
- <figcaption><a href="${href('irina-lakeeva')}"><strong>Ирина Лакеева</strong><span>Главный ветеринарный врач</span></a></figcaption></figure></section>`;
+ return `<section class="wrap centre-spread"><div class="centre-copy"><h1>О центре</h1>
+ <p class="centre-intro">С 2012 года принимаем собак, кошек и других питомцев на Донецкой, 16А.</p>
+ <p>В команде — терапевты, хирурги, травматологи-ортопеды, анестезиолог и врач-лаборант. Для разных животных есть отдельные кабинеты. При центре работает ветаптека.</p>
+ <div class="centre-equipment"><h2>Диагностика в центре</h2><div>${link('endoscopy','Эндоскопия')}${link('diagnostics','Рентген и УЗИ')}${link('lab','Лаборатория')}</div></div>
+ <div class="actions">${link('team','Наши специалисты','btn primary')}${link('services','Все услуги','btn')}</div></div>
+ <figure class="centre-image">${img('pdf-hero','Ветеринар осматривает золотистого ретривера','',true)}</figure></section>`;
 }
 function contact(){
  title('Контакты');
  return `<section class="wrap visit-contact"><h1>Контакты</h1><div class="contact-pair"><section class="address-panel"><h2>Как нас найти</h2>
- <address>Волгоград<br><strong>Донецкая, 16А</strong></address><p>Напротив стадиона «Динамо». Над входом — оранжевая вывеска ВВЦ с белым крестом.</p>
+ <address>Волгоград<br><strong>Донецкая, 16А</strong></address><p>Напротив стадиона «Динамо»</p>
  <a class="map-action" rel="noreferrer" href="https://yandex.ru/maps/org/1066278690/">Открыть в Яндекс Картах</a>
- <a class="front-photo" rel="noreferrer" href="https://avatars.mds.yandex.net/get-altay/17695349/2a0000019b1b0c888a7e0e2e7f0937b19ba9/XXXL">Посмотреть фото входа</a><div class="visit-hours"><span>Ежедневно</span><strong>10:00–19:00</strong></div></section>
+ <div class="visit-hours"><span>Ежедневно</span><strong>10:00–19:00</strong></div></section>
  <section class="reception-panel"><h2>Запись на приём</h2><p>Позвоните по любому из двух номеров. Администратор поможет выбрать врача и время приёма.</p>
  <div class="reception-phones">${phones.map(([label,tel])=>'<a href="tel:+'+tel+'">'+icon('phone')+esc(label)+'</a>').join('')}</div>
  <p class="reception-mail">Электронная почта<br><a href="mailto:volgovet@mail.ru">volgovet@mail.ru</a></p></section></div></section>`;
@@ -262,14 +256,8 @@ function procedureVisit(p,s){
  return [s[5],s[6]];
 }
 function catalogue(){
- title('Услуги и цены');
- return '<section class="wrap catalogue-heading">'+crumb('Услуги и цены')+'<h1>Услуги и цены</h1></section>'+
- '<section class="wrap price-layout content" aria-label="Прайс-лист"><aside aria-label="Фильтры прайса"><label for="find">Поиск услуги</label><input class="search" type="search" id="find" placeholder="Например, УЗИ или приём"><label for="category" class="visually-hidden">Раздел прайса</label><select class="category-mobile" id="category"></select><div class="categories" id="categories" role="group" aria-label="Раздел прайса"></div></aside><div class="price-results"><div class="results-tools"><div class="priceres" role="status" aria-atomic="true"></div><button class="filter-reset" id="reset-filters" type="button" hidden>Сбросить фильтры</button></div><div id="results"></div></div></section>';
-}
-function servicesDirectory(){
- title('Услуги центра');
- return '<section class="wrap catalogue-heading">'+crumb('Услуги центра')+'<div class="directory-title"><h1>Услуги центра</h1><a class="catalogue-price-link" href="'+esc(href('prices'))+'">Услуги и цены <span aria-hidden="true">→</span></a></div></section>'+
- '<div class="wrap content"><div class="grid service-directory">'+services.map(sCard).join('')+'</div></div>';
+ return head('Услуги и цены','Выберите раздел или введите название услуги. Откройте процедуру, чтобы посмотреть стоимость по прайсу клиники.','Прайс-лист клиники')+
+ '<section class="wrap price-layout content"><aside><label for="find">Поиск услуги</label><input class="search" type="search" id="find" placeholder="Например, УЗИ или приём"><label for="category" class="visually-hidden">Раздел прайса</label><select class="category-mobile" id="category"></select><div class="categories" id="categories"></div></aside><div><div class="results-tools"><div class="priceres" role="status"></div><button class="filter-reset" id="reset-filters" type="button" hidden>Сбросить фильтры</button></div><div id="results"></div></div></section>';
 }
 const searchWords=text=>String(text??'').toLowerCase().replaceAll('ё','е').match(/[а-яa-z0-9]+/g)||[];
 function searchStem(word){
@@ -314,15 +302,10 @@ function bindPrices(){
 }
 const articles=data.articles||[];
 const currentArticle=articles.find(a=>a.slug===page);
-const isTypeCover=article=>article.slug==='dentalnyy-rentgen-sobak-i-koshek';
 function articleListing(){
  title('Наши статьи');
  return `<section class="wrap paper-index"><div class="paper-mast"><h1>Наши статьи</h1><p>Обзоры ветеринарных исследований для владельцев собак и кошек</p></div>
- <div class="paper-stories">${articles.map((a,i)=>{
-  const heading='<h2>'+esc(a.title)+'</h2>';
-  const cover=isTypeCover(a)?'<section class="story-type-cover">'+heading+'</section>':img(a.image,'','',i===0);
-  return `<a class="paper-story" href="${esc(href(a.slug))}">${cover}<div>${isTypeCover(a)?'':heading}<p>${esc(a.dek)}</p><span class="paper-read">Читать статью</span></div></a>`;
- }).join('')}</div></section>`;
+ <div class="paper-stories">${articles.map((a,i)=>`<a class="paper-story" href="${esc(href(a.slug))}">${img(a.image,'','',i===0)}<div><h2>${esc(a.title)}</h2><p>${esc(a.dek)}</p><span class="paper-read">Читать статью</span></div></a>`).join('')}</div></section>`;
 }
 function articlePage(a){
  title(a.title);
@@ -335,7 +318,7 @@ function articlePage(a){
  const other=articles[(articles.indexOf(a)+1)%articles.length];
  const direction=svc(a.service);
  return `<article class="wrap edition"><div class="edition-strip">${link('articles','Все статьи')}<span>Демонстрационный материал</span></div>
- <div class="edition-spread"><div class="edition-cover${isTypeCover(a)?' edition-type-cover':''}"><h1>${esc(a.title)}</h1><p>${esc(a.dek)}</p>${isTypeCover(a)?'':`<figure>${img(a.image,a.alt,'',true)}${credit}</figure>`}</div>
+ <div class="edition-spread"><div class="edition-cover"><h1>${esc(a.title)}</h1><p>${esc(a.dek)}</p><figure>${img(a.image,a.alt,'',true)}${credit}</figure></div>
  <div class="edition-leaf"><div class="edition-controls"><label for="leaf-index">Содержание</label><select id="leaf-index">${[...a.sections.map(s=>s.heading),'Источники'].map((t,i)=>`<option value="${i+1}">${esc(t)}</option>`).join('')}</select></div>
  <div class="leaf-body">${a.sections.map(part=>`<section class="print-leaf"><h2 tabindex="-1">${esc(part.heading)}</h2>${part.paragraphs.map(t=>'<p>'+marked(t)+'</p>').join('')}</section>`).join('')}
  <section class="print-leaf"><h2 tabindex="-1">Источники</h2><ol>${a.sources.map(s=>`<li><a href="${esc(s.url)}">${esc(s.title)}</a></li>`).join('')}</ol>
@@ -383,16 +366,8 @@ else if(currentArticle){
  root.innerHTML=articlePage(currentArticle);
  bindEdition(currentArticle);
 }
-else if(page==='services')root.innerHTML=servicesDirectory();
-else if(page==='team'){
- root.innerHTML=teamPage();
- if(window.preview.external)root.querySelector('.staff-jumps').addEventListener('click',event=>{
-  const anchor=event.target.closest('a[href^="#"]');
-  if(!anchor||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-  const heading=document.getElementById(anchor.hash.slice(1));
-  if(heading){event.preventDefault();heading.focus({preventScroll:true});heading.scrollIntoView({block:'start'})}
- });
-}
+else if(page==='services')root.innerHTML=head('Услуги центра','От профилактического приёма до эндоскопической операции. Выберите направление, чтобы узнать, как проходит визит и какие процедуры доступны.')+'<div class="wrap content"><div class="catalog-callout"><div><h2>Стоимость каждой услуги</h2><p>Консультации, процедуры, исследования и операции.</p></div>'+link('prices','Открыть услуги и цены','btn primary')+'</div><div class="grid service-directory">'+services.map(sCard).join('')+'</div></div>';
+else if(page==='team')root.innerHTML=teamPage();
 else if(page==='about')root.innerHTML=about();
 else if(page==='contacts')root.innerHTML=contact();
 else if(/^procedure-[0-9]{3}$/.test(page)&&prices[Number(page.slice(10))-1])root.innerHTML=procedure(Number(page.slice(10))-1);
