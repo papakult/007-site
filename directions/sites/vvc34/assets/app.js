@@ -17,9 +17,9 @@ const icon=k=>'<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d=
 const phones=[['+7 (8442) 26-99-08','78442269908'],['+7 (927) 524-97-88','79275249788']];
 const phoneLinks=(buttons=false)=>phones.map(([name,tel])=>'<a href="tel:+'+tel+'"'+(buttons?' class="btn primary">'+icon('phone'):'>')+esc(name)+'</a>').join('');
 const actions=()=>'<div class="actions">'+phoneLinks(true)+'</div>';
-const nav=[['about','О центре'],['team','Врачи'],['prices','Цены'],['articles','Наши статьи'],['contacts','Контакты']];
+const nav=[['about','О центре'],['team','Врачи'],['prices','Цены'],['articles','Наши статьи'],['reviews','Отзывы'],['contacts','Контакты']];
 function svcIsActive(){return page==='services'||services.some(s=>s[0]===page)}
-const navSection = data.doctors.some(d=>d.slug===page)?'team':
+const navSection = page==='equipment'?'about':data.doctors.some(d=>d.slug===page)?'team':
   (data.articles||[]).some(a=>a.slug===page)?'articles':
   /^procedure-/.test(page)?'prices':page;
 const homePage = page === 'index';
@@ -158,7 +158,7 @@ function about(){
  <p>В команде — терапевты, хирурги, травматологи-ортопеды, анестезиолог и врач-лаборант. Для разных животных есть отдельные кабинеты. При центре работает ветаптека.</p>
  <div class="centre-equipment"><h2>Диагностика в центре</h2><div>${link('endoscopy','Эндоскопия')}${link('diagnostics','Рентген и УЗИ')}${link('lab','Лаборатория')}</div></div>
  <div class="actions">${link('team','Наши специалисты','btn primary')}${link('services','Все услуги','btn')}</div></div>
- <figure class="centre-image">${img('pdf-hero','Ветеринар осматривает золотистого ретривера','',true)}</figure></section>`;
+ <figure class="centre-image centre-instruments"><a href="${href('equipment')}" aria-label="Посмотреть оборудование клиники"><img src="assets/media/endoscopy.webp" alt="Оптические наконечники эндоскопов крупным планом" fetchpriority="high"><span class="centre-instrument-legend"><strong>Оборудование клиники</strong><span>Посмотреть раздел</span></span></a></figure></section>`;
 }
 function contact(){
  title('Контакты');
@@ -360,7 +360,8 @@ function bindEdition(a){
  window.addEventListener('popstate',()=>turn(fromURL(),false));turn(fromURL(),false);
 }
 const currentService=svc(page), person=doctors.find(d=>d.slug===page);
-if(page==='index'){root.innerHTML=home();startCoverFilm()}
+if(root.dataset.sectionTitle && root.firstElementChild){title(root.dataset.sectionTitle)}
+else if(page==='index'){root.innerHTML=home();startCoverFilm()}
 else if(page==='articles')root.innerHTML=articleListing();
 else if(currentArticle){
  root.innerHTML=articlePage(currentArticle);

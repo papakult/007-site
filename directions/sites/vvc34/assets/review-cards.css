@@ -1,0 +1,134 @@
+.vvc-reviews {
+  max-width: 1180px;
+  padding-bottom: clamp(30px, 6vw, 80px);
+}
+.vvc-reviews__mast {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.25rem 2.5rem;
+  padding: clamp(14px, 2.7vw, 38px) 0 clamp(14px, 2vw, 28px);
+  border-bottom: 1px solid var(--line);
+}
+.vvc-reviews__mast h1 {
+  margin: 0;
+  font: 400 clamp(3rem, 6.8vw, 6rem)/.98 var(--serif);
+  letter-spacing: -.045em;
+}
+.vvc-reviews__mast p {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.vvc-reviews__selection {
+  width: min(100%, 850px);
+  margin: clamp(18px, 3.5vw, 52px) auto clamp(20px, 3vw, 44px);
+}
+.vvc-reviews [hidden] {display: none !important}
+.vvc-reviews__track {
+  display: flex;
+  overflow-x: auto;
+  gap: 14px;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.vvc-reviews__track:focus-visible,
+.vvc-reviews :is(a,button):focus-visible {outline: 2px solid var(--rust); outline-offset: 2px}
+.vvc-reviews__card {
+  position: relative;
+  display: flex;
+  flex: 0 0 100%;
+  flex-direction: column;
+  min-width: 0;
+  justify-content: center;
+  min-height: clamp(250px, 23vw, 320px);
+  margin: 0;
+  padding: clamp(22px, 4.4vw, 60px) clamp(24px, 5.2vw, 74px);
+  border: 1px solid #d9bca7;
+  border-radius: 12px;
+  background: #f6eadb;
+  color: var(--ink);
+  scroll-snap-align: center;
+}
+.vvc-reviews__card h2 {
+  max-width: 36ch;
+  margin: 0;
+  font: 400 clamp(1.35rem, 2.6vw, 2.25rem)/1.25 var(--serif);
+  letter-spacing: -.013em;
+  overflow-wrap: anywhere;
+}
+.vvc-reviews__byline {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: .2rem 1rem;
+  margin-top: clamp(16px, 2.7vw, 36px);
+}
+.vvc-reviews__byline strong {color: var(--rust-dark); font-size: 1rem}
+.vvc-reviews__byline time {color: var(--muted); font-size: .92rem}
+.vvc-reviews__controls, .vvc-reviews__yandex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2.4vw, 30px);
+}
+.vvc-reviews__controls {margin-top: 14px}
+.vvc-reviews__step, .vvc-reviews__load {
+  appearance: none;
+  min-height: 46px;
+  border: 1px solid var(--rust);
+  background: transparent;
+  color: var(--rust-dark);
+  cursor: pointer;
+}
+.vvc-reviews__step {
+  width: 46px;
+  padding: 0;
+  border-radius: 50%;
+  font: 400 1.3rem/1 Georgia,serif;
+}
+.vvc-reviews__step[aria-disabled="true"] {color: var(--muted); border-color: var(--line); cursor: default}
+.vvc-reviews__step[aria-disabled="false"]:hover {background: var(--sand)}
+.vvc-reviews__count {min-width: 55px; text-align: center; font-variant-numeric: tabular-nums}
+.vvc-reviews__yandex {flex-wrap: wrap; padding: 17px 0; border-top: 1px solid var(--line)}
+.vvc-reviews__load {border-radius: 7px; padding: 8px 17px; font-weight: 700}
+.vvc-reviews__load:hover {background: var(--sand)}
+.vvc-reviews__external {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--rust-dark);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.vvc-reviews__widget {width: min(100%, 760px); margin: 12px auto}
+.vvc-reviews__widget iframe {width:100%; display:block; border:1px solid var(--line); border-radius:10px; background:#fff; height: clamp(500px, 75vh, 720px)}
+@media(max-width: 650px) {
+  .vvc-reviews__mast {align-items:start; flex-direction:column; gap:.7rem; padding-top:.25rem}
+  .vvc-reviews__mast h1 {font-size:clamp(2.65rem,13vw,4rem)}
+  .vvc-reviews__mast p {max-width:100%}
+  .vvc-reviews__selection {margin-block:18px}
+  .vvc-reviews__card {min-height:210px; padding:24px 20px}
+  .vvc-reviews__yandex {flex-direction:column; gap:2px}
+}
+
+.vvc-reviews__summary {
+  max-width: 57ch;
+  margin: 12px 0 0;
+  font-size: clamp(1rem, 1.45vw, 1.15rem);
+  line-height: 1.55;
+}
+.vvc-reviews__original {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 3px;
+  color: var(--rust-dark);
+  text-underline-offset: .2em;
+  text-decoration: underline;
+}

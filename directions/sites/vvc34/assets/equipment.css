@@ -1,0 +1,227 @@
+/* Clinic equipment */
+.equipment-editorial {
+  --equipment-paper: #fcf7f0;
+  --equipment-ink: #32241e;
+  --equipment-rule: #d8bca8;
+  --equipment-rust: #703724;
+  margin-inline: auto;
+}
+.equipment-editorial .equipment-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr);
+  align-items: end;
+  gap: 8%;
+  padding: clamp(24px, 3vw, 45px) 0 clamp(28px, 3.3vw, 48px);
+  background: transparent;
+  color: var(--equipment-ink);
+}
+.equipment-editorial h1 {
+  max-width: 13ch;
+  margin: 0;
+  font-size: clamp(3rem, 5.7vw, 5.8rem);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+.equipment-editorial h2 {
+  margin: 0;
+  font-size: clamp(2.25rem, 4vw, 4.25rem);
+  line-height: 1.02;
+}
+.equipment-editorial p {
+  max-width: 48ch;
+  margin-block: 20px;
+  font-size: clamp(1rem, 1.15vw, 1.17rem);
+  line-height: 1.55;
+}
+.equipment-editorial .equipment-intro p {
+  max-width: 40ch;
+  margin: 0 0 3px;
+}
+.equipment-editorial figure {
+  min-width: 0;
+  margin: 0;
+}
+.equipment-editorial figure img {
+  display: block;
+  width: 100%;
+}
+.equipment-editorial figcaption {
+  margin: 7px 0 0;
+  color: #6b584e;
+  font-size: .81rem;
+  line-height: 1.4;
+}
+.equipment-editorial .equipment-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 2px 0;
+  color: var(--equipment-rust);
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .24em;
+}
+.equipment-link span {
+  flex: none;
+  font-size: 1.2em;
+}
+.equipment-radiology {
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, .84fr);
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: var(--equipment-rust);
+  color: var(--equipment-paper);
+}
+.equipment-radiology .equipment-radiograph {
+  position: relative;
+  display: grid;
+  background: #252a2a;
+}
+.equipment-radiograph img {
+  height: 100%;
+  max-height: 440px;
+  min-height: 320px;
+  object-fit: cover;
+}
+.equipment-radiology figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 7px 12px;
+  margin: 0;
+  background: #282724;
+  color: #f7eee5;
+}
+.equipment-xray-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(26px, 4.5vw, 70px);
+}
+.equipment-editorial .equipment-xray-copy .equipment-link {
+  color: #fff5eb;
+}
+.equipment-xray-copy .equipment-link:focus-visible {
+  outline-color: #fff5eb;
+}
+.equipment-endoscopy {
+  display: grid;
+  grid-template-columns: minmax(0, .83fr) minmax(0, 1.17fr);
+  align-items: center;
+  gap: 9%;
+  padding: clamp(34px, 5.5vw, 76px) 0;
+  border-bottom: 1px solid var(--equipment-rule);
+}
+.equipment-scope-photo img {
+  aspect-ratio: 16 / 8.7;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.equipment-lower {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+  column-gap: clamp(28px, 5vw, 72px);
+  padding: clamp(32px, 4.8vw, 64px) 0;
+}
+.equipment-ultrasound {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.equipment-ultrasound-photo,
+.equipment-lab-photo {
+  width: 100%;
+}
+.equipment-ultrasound-photo img {
+  aspect-ratio: 2.35;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.equipment-ultrasound h2 {
+  margin-top: 20px;
+}
+.equipment-laboratory {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: clamp(24px, 4vw, 56px);
+  border-left: 1px solid var(--equipment-rule);
+}
+.equipment-laboratory h2 {
+  max-width: 14ch;
+  font-size: clamp(2rem, 3.2vw, 3.8rem);
+}
+.equipment-laboratory .equipment-lab-photo {
+  margin-top: 18px;
+}
+.equipment-lab-photo img {
+  aspect-ratio: 2.4;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 3px;
+}
+@media (max-width: 760px) {
+  .equipment-editorial .equipment-intro {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-block: 22px 24px;
+  }
+  .equipment-editorial h1 {
+    font-size: clamp(2.45rem, 8.8vw, 3.5rem);
+    overflow-wrap: break-word;
+  }
+  .equipment-editorial p {
+    margin-block: 13px;
+  }
+  .equipment-editorial h2 {
+    font-size: clamp(2rem, 7.6vw, 3rem);
+  }
+  .equipment-radiology,
+  .equipment-endoscopy,
+  .equipment-lower {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .equipment-radiograph img {
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 1.75;
+  }
+  .equipment-xray-copy {
+    padding: 20px 20px 17px;
+  }
+  .equipment-endoscopy {
+    gap: 13px;
+    padding-block: 29px;
+  }
+  .equipment-lower {
+    padding-block: 28px 12px;
+  }
+  .equipment-ultrasound {
+    align-items: stretch;
+  }
+  .equipment-ultrasound h2 {
+    margin-top: 15px;
+  }
+  .equipment-laboratory {
+    margin-top: 24px;
+    padding: 28px 0 0;
+    border-left: 0;
+    border-top: 1px solid var(--equipment-rule);
+  }
+  .equipment-laboratory .equipment-lab-photo {
+    margin-top: 12px;
+  }
+}
+
+.equipment-credits{margin:24px 0 0;border-top:1px solid var(--line);padding:14px 0;color:var(--muted);font-size:.94rem}.equipment-credits summary{display:list-item;min-height:40px;cursor:pointer;color:var(--rust-dark)}.equipment-credits p{max-width:72ch}.equipment-credits ul{padding-left:1.3rem}.equipment-credits a{text-decoration:underline;text-underline-offset:.2em}
+.equipment-gallery a,.equipment-source-link{text-decoration:underline;text-underline-offset:.2em;color:var(--rust-dark)}
