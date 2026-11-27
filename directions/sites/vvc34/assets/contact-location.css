@@ -24,9 +24,6 @@
 }
 
 .contact-location__entrance { position: relative; background: #fffaf4; }
-.contact-location__entrance a { color: var(--rust-dark); }
-.contact-location__entrance a::after { content: ""; position: absolute; inset: 0; }
-
 .contact-location__entrance img {
   display: block;
   width: 100%;
@@ -45,9 +42,7 @@
 }
 
 .contact-location__entrance strong { font: 400 1.25rem/1.1 var(--serif); }
-.contact-location__entrance span { font-size: .82rem; text-decoration: underline; text-underline-offset: .18em; }
-.contact-location__entrance a:focus-visible::after { outline: 3px solid var(--rust-dark); outline-offset: -4px; }
-
+.contact-location__entrance figcaption span { font-size: .82rem; color: var(--muted); }
 @media (max-width: 760px) {
   .contact-location { grid-template-columns: minmax(0, 1fr); }
   .contact-location__map iframe { height: clamp(270px, 41svh, 350px); min-height: 0; }
