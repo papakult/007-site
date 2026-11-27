@@ -151,8 +151,25 @@ function startCoverFilm(){
 }
 function service(s){title(s[1]);const d=doctors.find(d=>d.slug===s[8]);return '<div class="wrap">'+crumb(s[1],['services','Услуги'])+'<div class="split pagehead"><div class="spaced"><div class="kicker">Услуги центра</div><h1>'+esc(s[1])+'</h1><p class="lead">'+esc(s[4])+'</p>'+actions()+'</div>'+img(s[3],s[1],'feature-img',true)+'</div></div><section class="block tint"><div class="wrap split"><h2>'+esc(s[5])+'</h2><p class="lead">'+esc(s[6])+'</p></div></section><section class="wrap block"><div class="sectiontop"><h2>Стоимость услуг</h2>'+link('prices','Все цены направления','btn',{direction:s[0]})+'</div>'+prices.map((p,i)=>({...p,i})).filter(p=>direction(p)===s[0]).slice(0,5).map(priceRow).join('')+'</section>'+(d?'<section class="wrap content article spaced"><h2>Специалист направления</h2><h3>'+link(d.slug,d.name,'textlink')+'</h3><p>'+esc(d.summary)+'</p></section>':'')}
 function bio(d){title(d.name);return '<div class="wrap">'+crumb(d.name,['team','Врачи'])+'<section class="pagehead split staff-bio"><div class="bio-portrait">'+portrait(d,true)+'</div><div class="spaced">'+roleBadge(d)+'<h1>'+personName(d)+'</h1><p class="lead">'+esc(d.summary)+'</p><div class="actions">'+(/администратор|учредитель/i.test(d.role)?'':'<a class="btn primary" href="tel:+78442269908">Позвонить для записи</a>')+link('team','Вся команда','btn')+'</div>'+'</div></section></div>'+(d.details.length?'<section class="block tint"><div class="wrap split"><h2>Образование<br>и опыт</h2><div class="article">'+d.details.map(t=>'<p>'+esc(t)+'</p>').join('')+'</div></div></section>':'')}
-function about(){return head('О центре','Волгоградский ветеринарный центр хирургии и травматологии работает на Донецкой улице с 2012 года. Здесь принимают собак, кошек и других домашних животных.','Волгоград · Донецкая, 16А')+'<section class="block tint"><div class="wrap split">'+img('pdf-hero','Ветеринар с собакой на осмотре','feature-img')+'<div class="spaced"><h2>От осмотра до операции</h2><p>В одном центре работают терапевты, хирурги, травматологи-ортопеды, анестезиолог-реаниматолог и врач-лаборант. В клинике есть кабинеты для разных видов животных и ветеринарная аптека.</p>'+link('team','Познакомиться с командой','btn')+'</div></div></section><section class="wrap block"><div class="sectiontop"><h2>Оборудование центра</h2></div><div class="grid">'+['endoscopy','diagnostics','lab'].map(k=>sCard(svc(k))).join('')+'</div></section>'}
-function contact(){return head('Контакты','Записаться на приём и уточнить стоимость можно по любому из двух телефонов.')+'<section class="wrap split contact-layout content"><div class="contactbox"><div class="kicker">Волгоград</div><h2>Донецкая, 16А</h2><dl><dt>Ориентир</dt><dd>Напротив стадиона «Динамо»</dd><dt>Часы работы</dt><dd>Ежедневно с 10:00 до 19:00</dd><dt>Электронная почта</dt><dd><a href="mailto:volgovet@mail.ru">volgovet@mail.ru</a></dd></dl><div class="actions"><a class="btn" rel="noreferrer" target="_blank" href="https://yandex.ru/maps/org/1066278690/">Открыть в Яндекс Картах ↗</a></div></div><div class="spaced"><h2>Запись в клинику</h2>'+actions()+'<p class="lead">При звонке назовите вид животного и кратко опишите повод обращения. Администратор подскажет, к кому записаться и что взять на приём.</p></div></section>'}
+function about(){
+ title('О центре');
+ return `<section class="wrap centre-spread"><div class="centre-copy"><h1>О центре</h1>
+ <p class="centre-intro">С 2012 года принимаем собак, кошек и других питомцев на Донецкой, 16А.</p>
+ <p>В команде — терапевты, хирурги, травматологи-ортопеды, анестезиолог и врач-лаборант. Для разных животных есть отдельные кабинеты. При центре работает ветаптека.</p>
+ <div class="centre-equipment"><h2>Диагностика в центре</h2><div>${link('endoscopy','Эндоскопия')}${link('diagnostics','Рентген и УЗИ')}${link('lab','Лаборатория')}</div></div>
+ <div class="actions">${link('team','Наши специалисты','btn primary')}${link('services','Все услуги','btn')}</div></div>
+ <figure class="centre-image">${img('pdf-hero','Ветеринар осматривает золотистого ретривера','',true)}</figure></section>`;
+}
+function contact(){
+ title('Контакты');
+ return `<section class="wrap visit-contact"><h1>Контакты</h1><div class="contact-pair"><section class="address-panel"><h2>Как нас найти</h2>
+ <address>Волгоград<br><strong>Донецкая, 16А</strong></address><p>Напротив стадиона «Динамо»</p>
+ <a class="map-action" rel="noreferrer" href="https://yandex.ru/maps/org/1066278690/">Открыть в Яндекс Картах</a>
+ <div class="visit-hours"><span>Ежедневно</span><strong>10:00–19:00</strong></div></section>
+ <section class="reception-panel"><h2>Запись на приём</h2><p>Позвоните по любому из двух номеров. Администратор поможет выбрать врача и время приёма.</p>
+ <div class="reception-phones">${phones.map(([label,tel])=>'<a href="tel:+'+tel+'">'+icon('phone')+esc(label)+'</a>').join('')}</div>
+ <p class="reception-mail">Электронная почта<br><a href="mailto:volgovet@mail.ru">volgovet@mail.ru</a></p></section></div></section>`;
+}
 const cats=[...new Set(prices.map(p=>p.category))];
 const photoCredits={"reptile": {"file": "reptile.webp", "source": "https://www.pexels.com/photo/close-up-shot-of-a-bearded-dragon-13028640/", "creator": "Kostiantyn Klymovets", "license": "Pexels License", "license_url": "https://www.pexels.com/license/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Бородатая агама в террариуме"}, "rodent": {"file": "rodent.webp", "source": "https://www.pexels.com/photo/adorable-guinea-pig-sitting-on-a-cozy-blanket-30468830/", "creator": "Vika Glitter", "license": "Pexels License", "license_url": "https://www.pexels.com/license/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Морская свинка на мягкой подстилке"}, "grooming": {"file": "grooming.webp", "source": "https://www.pexels.com/photo/dog-groomer-trimming-dogs-nails-19145872/", "creator": "Goochie Poochie Grooming", "license": "Pexels License", "license_url": "https://www.pexels.com/license/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Уход за лапой собаки"}, "ward": {"file": "ward.webp", "source": "https://commons.wikimedia.org/wiki/File:Animals_Hospitalization_cages.jpg", "creator": "Ariel Palmon", "license": "CC BY-SA 3.0", "license_url": "https://creativecommons.org/licenses/by-sa/3.0/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Боксы ветеринарного стационара, иллюстрация"}, "radiograph": {"file": "radiograph.webp", "source": "https://commons.wikimedia.org/wiki/File:Radiographie_thoracique_chien.jpg", "creator": "Ophélie TISSIER", "license": "CC BY-SA 4.0", "license_url": "https://creativecommons.org/licenses/by-sa/4.0/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Рентгенограмма грудной клетки собаки в боковой проекции"}, "dental": {"file": "dental.webp", "source": "https://www.pexels.com/photo/a-veterinarian-examining-a-dog-teeth-6235115/", "creator": "Tima Miroshnichenko", "license": "Pexels License", "license_url": "https://www.pexels.com/license/", "changes": "Уменьшено и преобразовано в WebP", "alt": "Осмотр зубов собаки ветеринарным врачом"}, "microchip": {"source": "https://www.flickr.com/photos/87296837@N00/17400108206", "creator": "Tony Webster", "license": "CC BY 2.0", "license_url": "https://creativecommons.org/licenses/by/2.0/", "alt": "Сканер и микрочип для идентификации животного"}};
 function direction(p){
@@ -286,35 +303,68 @@ function bindPrices(){
 const articles=data.articles||[];
 const currentArticle=articles.find(a=>a.slug===page);
 function articleListing(){
- return head('Наши статьи','Обзоры ветеринарных исследований для владельцев собак и кошек. В каждом материале есть ссылки на источники.')+
-  '<section class="wrap journal-index content" aria-label="Материалы">'+articles.map(a=>
-  '<a class="card journal-card" href="'+esc(href(a.slug))+'">'+img(a.image,'','journal-cover')+
-  '<div class="caption"><h2>'+esc(a.title)+'</h2><p>'+esc(a.dek)+'</p><span class="journal-read">Читать статью →</span></div></a>').join('')+'</section>';
+ title('Наши статьи');
+ return `<section class="wrap paper-index"><div class="paper-mast"><h1>Наши статьи</h1><p>Обзоры ветеринарных исследований для владельцев собак и кошек</p></div>
+ <div class="paper-stories">${articles.map((a,i)=>`<a class="paper-story" href="${esc(href(a.slug))}">${img(a.image,'','',i===0)}<div><h2>${esc(a.title)}</h2><p>${esc(a.dek)}</p><span class="paper-read">Читать статью</span></div></a>`).join('')}</div></section>`;
 }
 function articlePage(a){
  title(a.title);
  const meta=document.createElement('meta');meta.name='description';meta.content=a.dek;document.head.append(meta);
  const metadata=document.createElement('script');metadata.type='application/ld+json';
- metadata.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Article',headline:a.title,description:a.dek,inLanguage:'ru',citation:a.sources.map(x=>x.url)});
+ metadata.textContent=JSON.stringify({'@context':'https://schema.org','@type':'Article',headline:a.title,description:a.dek,inLanguage:'ru',citation:a.sources.map(s=>s.url)});
  document.head.append(metadata);
- const credit=a.credit?'<figcaption>'+esc(a.credit.label)+' · <a href="'+esc(a.credit.url)+'">'+esc(a.credit.author)+'</a> · <a href="'+esc(a.credit.licenseUrl)+'">'+esc(a.credit.license)+'</a></figcaption>':'';
- const section=svc(a.service);
- const partId=i=>'article-part-'+(i+1);
- return '<div class="wrap">'+crumb(a.title,['articles','Наши статьи'])+'</div>'+
-  '<article class="wrap journal-page"><header class="journal-head"><div><small>Демонстрационный материал</small><h1>'+esc(a.title)+'</h1><p class="lead">'+esc(a.dek)+'</p></div><figure>'+img(a.image,a.alt,'journal-cover',true)+credit+'</figure></header>'+
-  '<div class="reading-layout"><aside class="reading-index" aria-label="Содержание статьи"><p>В этой статье</p>'+a.sections.map((part,i)=>'<button type="button" data-part="'+partId(i)+'">'+esc(part.heading)+'</button>').join('')+'</aside><div class="journal-prose">'+a.sections.map((part,i)=>'<section id="'+partId(i)+'" tabindex="-1"><h2>'+esc(part.heading)+'</h2>'+part.paragraphs.map(text=>'<p>'+esc(text).replace(/\[(\d+)\]/g,(mark,n)=>a.sources[n-1]?'<a class="cite" href="'+esc(a.sources[n-1].url)+'" aria-label="Источник '+n+'">'+mark+'</a>':mark)+'</p>').join('')+'</section>').join('')+
-  '<section class="journal-sources"><h2>Источники</h2><ol>'+a.sources.map(s=>'<li><a href="'+esc(s.url)+'">'+esc(s.title)+'</a></li>').join('')+'</ol></section>'+
-  '<div class="actions">'+link('articles','Все статьи','btn')+(section?link(section[0],section[1],'btn'):'')+'</div></div></div></article>';
+ const credit=a.credit?`<figcaption>${esc(a.credit.label)} · <a href="${esc(a.credit.url)}">${esc(a.credit.author)}</a> · <a href="${esc(a.credit.licenseUrl)}">${esc(a.credit.license)}</a></figcaption>`:'';
+ const marked=t=>esc(t).replace(/\[(\d+)\]/g,(mark,n)=>a.sources[n-1]?`<a class="cite" aria-label="Источник ${n}" href="${esc(a.sources[n-1].url)}">${mark}</a>`:mark);
+ const other=articles[(articles.indexOf(a)+1)%articles.length];
+ const direction=svc(a.service);
+ return `<article class="wrap edition"><div class="edition-strip">${link('articles','Все статьи')}<span>Демонстрационный материал</span></div>
+ <div class="edition-spread"><div class="edition-cover"><h1>${esc(a.title)}</h1><p>${esc(a.dek)}</p><figure>${img(a.image,a.alt,'',true)}${credit}</figure></div>
+ <div class="edition-leaf"><div class="edition-controls"><label for="leaf-index">Содержание</label><select id="leaf-index">${[...a.sections.map(s=>s.heading),'Источники'].map((t,i)=>`<option value="${i+1}">${esc(t)}</option>`).join('')}</select></div>
+ <div class="leaf-body">${a.sections.map(part=>`<section class="print-leaf"><h2 tabindex="-1">${esc(part.heading)}</h2>${part.paragraphs.map(t=>'<p>'+marked(t)+'</p>').join('')}</section>`).join('')}
+ <section class="print-leaf"><h2 tabindex="-1">Источники</h2><ol>${a.sources.map(s=>`<li><a href="${esc(s.url)}">${esc(s.title)}</a></li>`).join('')}</ol>
+ <div class="end-links">${direction?link(direction[0],direction[1]):''}${other!==a?link(other.slug,'Следующая статья — '+other.title):''}</div></section></div>
+ <nav class="folio" aria-label="Перелистывание статьи"><button type="button" data-step="-1">Назад</button><span role="status"></span><button type="button" data-step="1">Далее</button></nav></div></div></article>`;
+}
+function bindEdition(a){
+ const reader=root.querySelector('.edition-leaf'),leaves=Array.from(reader.querySelectorAll('.print-leaf'));
+ const select=reader.querySelector('select'),back=reader.querySelector('[data-step="-1"]'),next=reader.querySelector('[data-step="1"]');
+ let current=0,start;
+ const fromURL=()=>Number(new URLSearchParams(location.search).get('list'))||1;
+ function turn(n,action){
+  const number=Math.max(1,Math.min(leaves.length,Number.isInteger(n)?n:1));
+  if(action&&number===current)return;
+  leaves.forEach((el,i)=>{el.hidden=i!==number-1});
+  current=number;select.value=String(number);
+  back.disabled=number===1;next.disabled=number===leaves.length;
+  reader.querySelector('[role="status"]').textContent='Страница '+number+' из '+leaves.length;
+  if(action){
+   const url=new URL(location.href);url.searchParams.set('list',number);history.pushState(null,'',url);
+   leaves[number-1].querySelector('h2').focus({preventScroll:true});
+   if(reader.getBoundingClientRect().top<0)reader.scrollIntoView({block:'start',behavior:'instant'});
+  }
+ }
+ select.onchange=()=>turn(Number(select.value),true);
+ back.onclick=()=>turn(current-1,true);next.onclick=()=>turn(current+1,true);
+ document.addEventListener('keydown',e=>{
+  if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||e.target.closest('input,select,textarea,[contenteditable]'))return;
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();turn(current+(e.key==='ArrowRight'?1:-1),true)}
+ });
+ const body=reader.querySelector('.leaf-body');
+ body.addEventListener('touchstart',e=>{start=e.touches.length===1?[e.touches[0].clientX,e.touches[0].clientY]:null},{passive:true});
+ body.addEventListener('touchcancel',()=>{start=null},{passive:true});
+ body.addEventListener('touchend',e=>{
+  if(!start||!e.changedTouches.length)return;
+  const dx=e.changedTouches[0].clientX-start[0],dy=e.changedTouches[0].clientY-start[1];start=null;
+  if(Math.abs(dx)>65&&Math.abs(dx)>2*Math.abs(dy)&&!window.getSelection()?.toString())turn(current+(dx<0?1:-1),true);
+ },{passive:true});
+ window.addEventListener('popstate',()=>turn(fromURL(),false));turn(fromURL(),false);
 }
 const currentService=svc(page), person=doctors.find(d=>d.slug===page);
 if(page==='index'){root.innerHTML=home();startCoverFilm()}
 else if(page==='articles')root.innerHTML=articleListing();
 else if(currentArticle){
  root.innerHTML=articlePage(currentArticle);
- root.querySelector('.reading-index').onclick=e=>{
-  const target=document.getElementById(e.target.dataset.part);
-  if(target){target.focus({preventScroll:true});target.scrollIntoView({block:'start'})}
- };
+ bindEdition(currentArticle);
 }
 else if(page==='services')root.innerHTML=head('Услуги центра','От профилактического приёма до эндоскопической операции. Выберите направление, чтобы узнать, как проходит визит и какие процедуры доступны.')+'<div class="wrap content"><div class="catalog-callout"><div><h2>Стоимость каждой услуги</h2><p>Консультации, процедуры, исследования и операции.</p></div>'+link('prices','Открыть услуги и цены','btn primary')+'</div><div class="grid service-directory">'+services.map(sCard).join('')+'</div></div>';
 else if(page==='team')root.innerHTML=teamPage();
