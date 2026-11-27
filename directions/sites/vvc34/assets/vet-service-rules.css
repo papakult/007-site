@@ -1,0 +1,119 @@
+.vet-rules {
+  padding-bottom: clamp(32px, 5vw, 76px);
+}
+.vet-rules .bread {
+  flex-wrap: wrap;
+  gap: 0 .5rem;
+}
+.vet-rules h1 {
+  max-width: 18ch;
+  margin: clamp(30px, 5vw, 76px) 0 20px;
+  font-size: clamp(2.65rem, 5.4vw, 5rem);
+  line-height: 1.05;
+}
+.vet-rules .rules-lead {
+  max-width: 57ch;
+  margin-bottom: clamp(32px, 5vw, 68px);
+  color: var(--muted);
+  font-size: clamp(1.12rem, 1.55vw, 1.4rem);
+}
+.rules-section {
+  display: grid;
+  grid-template-columns: minmax(180px, .65fr) minmax(0, 1.35fr);
+  gap: 5%;
+  padding: clamp(24px, 3.4vw, 48px) 0;
+  border-top: 1px solid var(--line);
+}
+.rules-section h2, .sample-sheet h2 {
+  font-size: clamp(1.75rem, 2.6vw, 2.7rem);
+}
+.rules-section > div { max-width: 68ch; }
+.rules-section p + p { margin-top: .85em; }
+.vet-rules :where(.rules-section, .sample-back) a,
+.vet-rules .sample-back {
+  color: var(--rust-dark);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+.vet-rules a:hover { text-decoration-thickness: 2px; }
+.rules-document {
+  display: inline-flex;
+  align-items: center;
+  gap: .65em;
+  min-height: 44px;
+  margin-top: .7em;
+  font-weight: 700;
+}
+.rules-note, .sample-sheet small {
+  color: var(--muted);
+  font-size: .9rem;
+}
+.rules-sources ul { padding-left: 1.15em; margin: 1em 0 0; }
+.rules-sources li + li { margin-top: .5em; }
+.vet-sample .rules-lead { margin-bottom: 1em; }
+.sample-notice {
+  max-width: 72ch;
+  padding: 14px 20px;
+  border-left: 3px solid var(--rust);
+  background: var(--sand);
+}
+.sample-print, .sample-back { margin: 18px 0 24px; }
+.sample-sheet { max-width: 920px; }
+.sample-sheet section {
+  border-top: 1px solid var(--line);
+  padding: clamp(20px, 3vw, 40px) 0;
+}
+.sample-sheet h2 { margin-bottom: 18px; }
+.sample-sheet dl { margin: 0; }
+.sample-sheet dl > div {
+  display: grid;
+  grid-template-columns: minmax(140px, 1fr) 1.15fr;
+  align-items: end;
+  gap: 6%;
+  margin-top: 1.15em;
+}
+.sample-sheet dd {
+  margin: 0;
+  min-height: 1.7em;
+  border-bottom: 1px solid var(--muted);
+}
+.sample-sheet small { display: block; }
+.sample-sheet table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  text-align: left;
+}
+.sample-sheet caption { text-align: left; margin-bottom: .6em; font-weight: 700; }
+.sample-sheet :is(th, td) { border: 1px solid var(--line); padding: .6em; }
+.sample-sheet th:first-child { width: 46%; }
+.sample-sheet td { height: 2.3rem; }
+@media (max-width: 680px) {
+  .rules-section { grid-template-columns: 1fr; gap: 16px; }
+  .sample-sheet dl > div { grid-template-columns: 1fr; gap: 0; }
+  .sample-sheet :is(th, td) { padding: .4em; }
+}
+@media screen and (max-width: 400px) {
+  .sample-sheet th { font-size: .875rem; hyphens: auto; overflow-wrap: anywhere; }
+  .sample-sheet th:first-child { width: 36%; }
+}
+@media print {
+  @page { size: A4; margin: 14mm 16mm; }
+  body { color: #141414; background: white; font-size: 10pt; line-height: 1.25; }
+  body > :not(main), .vet-rules .bread, .sample-print, .sample-back { display: none !important; }
+  .clinic-interior main, .vet-rules { padding: 0; }
+  .vet-rules.wrap, .sample-sheet { width: auto; max-width: none; margin: 0; }
+  .vet-rules h1 { font-size: 22pt; margin: 0 0 1mm; }
+  .vet-rules .rules-lead { margin: 0 0 3mm; font-size: 12pt; }
+  .sample-notice { background: none; padding: 2mm 3mm; margin: 0 0 3mm; max-width: none; border-color: #555; }
+  .sample-sheet section { padding: 3mm 0; border-color: #777; break-inside: avoid; }
+  .sample-sheet h2 { font-size: 15pt; margin: 0 0 2mm; }
+  .sample-sheet dl > div { grid-template-columns: 1fr 1.25fr; gap: 5mm; margin-top: 2mm; }
+  .sample-sheet dd { min-height: 5mm; border-color: #555; }
+  .sample-sheet small { color: #444; font-size: 8pt; }
+  .sample-sheet table { margin: 3mm 0; }
+  .sample-sheet caption { margin-bottom: 1mm; }
+  .sample-sheet :is(th, td) { border-color: #777; padding: 1.2mm; }
+  .sample-sheet td { height: 7mm; }
+}

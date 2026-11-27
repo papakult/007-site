@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#963f2b"><title>Контакты · ВВЦ Волгоград</title><link rel="stylesheet" href="assets/style.css?v=b60606290d"><script defer src="assets/clinic.js?v=0b69a742b6"></script><script defer src="assets/app.js?v=75bc56a714"></script><link rel="stylesheet" href="assets/contact-location.css?v=19a8ec036d"></head><body>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><meta http-equiv="x-dns-prefetch-control" content="off"><meta name="referrer" content="no-referrer"><meta name="theme-color" content="#963f2b"><title>Контакты · ВВЦ Волгоград</title><link rel="stylesheet" href="assets/style.css?v=b60606290d"><script defer src="assets/clinic.js?v=0b69a742b6"></script><script defer src="assets/app.js?v=707263042d"></script><link rel="stylesheet" href="assets/contact-location.css?v=19a8ec036d"><link rel="stylesheet" href="assets/legal-footer.css?v=b2cd3ec856"><link rel="stylesheet" href="assets/external-services.css?v=5247d3bf33"><script defer src="assets/external-services.js?v=59042902ae"></script></head><body>
 <main data-section-title="Контакты">
   <section class="wrap visit-contact">
     <h1>Контакты</h1>
@@ -22,7 +22,15 @@
     </div>
     <section class="contact-location" aria-label="Карта и вход в клинику">
       <div class="contact-location__map">
-        <iframe src="https://yandex.ru/map-widget/v1/?oid=1066278690&amp;ol=biz&amp;z=17" title="Волгоградский ветеринарный центр на Яндекс Картах" width="600" height="400" loading="eager" allowfullscreen></iframe>
+        <div class="vvc-map-local" data-vvc-when-blocked>
+          <div class="vvc-landmark" role="img" aria-label="Схема ориентира. Клиника на Донецкой улице находится напротив стадиона Динамо.">
+            <span class="vvc-landmark__clinic" aria-hidden="true"><i></i>Ветцентр</span>
+            <span class="vvc-landmark__street" aria-hidden="true">Донецкая улица</span>
+            <span class="vvc-landmark__stadium" aria-hidden="true"><i></i>Стадион «Динамо»</span>
+          </div>
+          <div class="vvc-map-caption"><p>Интерактивную карту предоставляет Яндекс.</p><button type="button" class="vvc-ext-link" hidden data-vvc-external-settings>Настроить загрузку карты</button></div>
+        </div>
+        <template data-vvc-external-map><iframe src="https://yandex.ru/map-widget/v1/?oid=1066278690&amp;ol=biz&amp;z=17" title="Волгоградский ветеринарный центр на Яндекс Картах" width="600" height="400" referrerpolicy="no-referrer" allowfullscreen></iframe></template>
       </div>
       <figure class="contact-location__entrance">
         <img src="assets/media/vvc-entrance-donetskaya.webp" alt="Вход под оранжевой вывеской ветеринарного центра с белым крестом" width="1024" height="768">
@@ -30,4 +38,4 @@
       </figure>
     </section>
   </section>
-</main></body></html>
+</main><footer class="site-footer"><div class="site-legal-links" role="navigation" aria-label="Документы и настройки"><a href="privacy.html">Политика конфиденциальности</a><a href="organization.html">Сведения о клинике</a><a href="rules.html">Правила оказания услуг</a><button type="button" hidden data-vvc-external-settings>Настройки cookie</button></div></footer></body></html>

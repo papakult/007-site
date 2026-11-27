@@ -382,5 +382,8 @@ else root.innerHTML=head('Страница не найдена')+link('index','�
 if (!homePage && page !== 'contacts') {
  const address = page === 'about' ? '' : 'Волгоград, ул. Донецкая, 16А<br>';
  const numbers = root.querySelector('a[href^="tel:"]') ? '' : '<div class="inline">'+phoneLinks()+'</div>';
- document.body.insertAdjacentHTML('beforeend','<footer><div class="wrap"><div>'+address+'<small>Ежедневно с 10:00 до 19:00</small></div>'+numbers+'</div></footer>');
+ const details = '<div class="wrap"><div>'+address+'<small>Ежедневно с 10:00 до 19:00</small></div>'+numbers+'</div>';
+ const footer = document.querySelector('footer.site-footer');
+ if (footer) footer.insertAdjacentHTML('afterbegin', details);
+ else document.body.insertAdjacentHTML('beforeend','<footer>'+details+'</footer>');
 }

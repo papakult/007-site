@@ -1,0 +1,16 @@
+.legal-document {padding-bottom:clamp(3rem,7vw,6rem)}
+.legal-document .legal-heading,.legal-document .legal-body {max-width:53rem}
+.legal-document .legal-heading {padding:clamp(1.4rem,4vw,3.3rem) 0 1.5rem}
+.legal-document h1 {font:400 clamp(2.5rem,5.5vw,4.85rem)/1.04 var(--serif,Georgia,serif);letter-spacing:-.036em;margin:0;overflow-wrap:break-word}
+.legal-document .legal-lead {font-size:clamp(1.05rem,1.65vw,1.32rem);line-height:1.47;max-width:60ch;margin:1rem 0 0}
+.legal-body section {border-top:1px solid #d7c6b9;padding:clamp(1.15rem,2.5vw,1.7rem) 0;scroll-margin-top:7rem}
+.legal-body h2 {font:400 clamp(1.5rem,2.8vw,2rem)/1.12 var(--serif,Georgia,serif);letter-spacing:-.018em;margin:0 0 .8rem}
+.legal-body :is(p,dt,dd) {font-size:1rem;line-height:1.55;margin:0;overflow-wrap:anywhere}
+.legal-body p {max-width:74ch}
+.legal-body p+p,.legal-body dl+p {margin-top:.7rem}
+.legal-body a {text-decoration:underline;text-underline-offset:.18em;color:#7d3525}
+.legal-body a:focus-visible {outline:2px solid #7d3525;outline-offset:3px}
+.legal-body dl {margin:0;max-width:48rem}
+.legal-body dl>div {display:grid;grid-template-columns:minmax(9rem,29%) minmax(0,1fr);gap:1.3rem;padding:.47rem 0}
+.legal-body dt {color:#66554d}
+@media(max-width:560px){.legal-body dl>div{grid-template-columns:1fr;gap:.08rem}.legal-body dt{font-size:.87rem}.legal-document .legal-heading{padding-bottom:1.3rem}}
